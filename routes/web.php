@@ -1,6 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Language\LanguageController;
+use App\Http\Controllers\HomeController;
+
+use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLogin;
+use App\Http\Controllers\Backend\Admin\HomeController as AdminHome;
+use App\Http\Controllers\Backend\Admin\AdminController as Admin;
+use App\Http\Controllers\Backend\Admin\CompanyController as AdminCompany;
+
+use App\Http\Controllers\Backend\Company\Auth\LoginController as CompanyLogin;
+use App\Http\Controllers\Backend\Company\HomeController as CompanyHome;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +24,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Language Routes
+Route::get('language/{lang}', [LanguageController::class, 'language'])->middleware('language');
+
 Route::get('/', function () {
     $page = 'Dashboard';
-    return view('backend.admin.dashboard', compact('page'));
+    return view('backend.backup.dashboard', compact('page'));
 });
 Route::get('/test', function () {
     $page = 'Test 2';
@@ -36,4 +50,48 @@ Route::get('/profile', function () {
 Route::get('/edit-profile', function () {
     $page = 'Edit Profile';
     return view('backend.admin.profile.edit', compact('page'));
+});
+Route::get('/help', function () {
+    $page = 'Help';
+    return view('backend.admin.help', compact('page'));
+});
+Route::get('/metodo', function () {
+    $page = 'Me Todo';
+    return view('backend.admin.metodo', compact('page'));
+});
+Route::get('/meeting-mode', function () {
+    $page = 'Meeting Mode';
+    return view('backend.admin.meeting-mode', compact('page'));
+});
+
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
+// Admin Routes
+Route::get('admin/login', [AdminLogin::class, 'showLoginForm']);
+
+Route::post('admin/login', [AdminLogin::class, 'login'])->name('admin.login');
+
+Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('/dashboard', [AdminHome::class, 'index'])->name('dashboard');
+    Route::post('/setting', [AdminHome::class, 'setting'])->name('setting');
+
+
+    Route::get('/company/get', [AdminCompany::class, 'get'])->name('company.get');
+    Route::resource('company', AdminCompany::class);
+});
+
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('/admin/get', [Admin::class, 'get'])->name('admin.get');
+    Route::resource('/admin', Admin::class);
+});
+
+
+// Company Routes
+Route::get('company/login', [CompanyLogin::class, 'showLoginForm']);
+Route::post('company/login', [CompanyLogin::class, 'login'])->name('company.login');
+Route::group(['namespace' => 'company', 'middleware' => 'company', 'prefix' => 'company'], function () {
+    Route::get('/', [CompanyHome::class, 'index'])->name('company');
 });

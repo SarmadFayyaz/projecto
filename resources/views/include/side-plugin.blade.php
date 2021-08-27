@@ -14,7 +14,7 @@
                         <span class="badge filter badge-green" data-color="green"></span>
                         <span class="badge filter badge-warning" data-color="orange"></span>
                         <span class="badge filter badge-danger" data-color="danger"></span>
-                        <span class="badge filter badge-rose active" data-color="rose"></span>
+                        <span class="badge filter badge-rose" data-color="rose"></span>
                     </div>
                     <div class="clearfix"></div>
                 </a>
@@ -23,7 +23,7 @@
             <li class="adjustments-line">
                 <a href="javascript:void(0)" class="switch-trigger background-color">
                     <div class="ml-auto mr-auto">
-                        <span class="badge filter badge-black active" data-background-color="black"></span>
+                        <span class="badge filter badge-black" data-background-color="black"></span>
                         <span class="badge filter badge-white" data-background-color="white"></span>
                         <span class="badge filter badge-red" data-background-color="red"></span>
                     </div>

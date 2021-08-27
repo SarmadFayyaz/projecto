@@ -135,31 +135,16 @@
                         <a class="dropdown-item" href="#">Profile</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Log out</a>
+{{--                        <a class="dropdown-item" href="#">Log out</a>--}}
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">Sign out</a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </div>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
-<!-- <link href="{{ asset('assets/gauge_chart/jquery-gauge.css') }}" type="text/css" rel="stylesheet"> -->
-<!-- <script type="text/javascript" src="{{ asset('assets/gauge_chart/jquery-gauge.min.js') }}"> -->
-
-<script>
-    // var gauge = new Gauge($('.gauge_ID'), {
-    //     value: '10'
-    // });
-    function btnsearchs() {
-        var attr = $('#search').attr('hidden');
-        if (typeof attr == 'undefined') {
-            $('#search').attr("hidden", "true");
-        } else {
-            $('#search').removeAttr("hidden");
-
-        }
-
-    }
-
-
-</script>

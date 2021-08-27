@@ -1,7 +1,8 @@
+<script type="text/javascript">
+    var APP_URL = {!! json_encode(url('/')) !!}
+</script>
 
 <!--   Core JS Files   -->
-
-
 <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
 <script src="{{ asset('assets/js/core/bootstrap-material-design.min.js') }}"></script>
@@ -51,9 +52,9 @@
 {{--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"--}}
 {{--        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">--}}
 {{--</script>--}}
-{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"--}}
-{{--        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">--}}
-{{--</script>--}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
         integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
@@ -103,6 +104,7 @@
 <script>
     $(document).ready(function () {
         $().ready(function () {
+
             $sidebar = $('.sidebar');
 
             $sidebar_img_container = $sidebar.find('.sidebar-background');
@@ -141,6 +143,7 @@
 
                 var new_color = $(this).data('color');
 
+
                 if ($sidebar.length != 0) {
                     $sidebar.attr('data-color', new_color);
                 }
@@ -152,6 +155,7 @@
                 if ($sidebar_responsive.length != 0) {
                     $sidebar_responsive.attr('data-color', new_color);
                 }
+                userSetting();
             });
 
             $('.fixed-plugin .background-color .badge').click(function () {
@@ -163,6 +167,7 @@
                 if ($sidebar.length != 0) {
                     $sidebar.attr('data-background-color', new_color);
                 }
+                userSetting();
             });
 
             $('.fixed-plugin .img-holder').click(function () {
@@ -290,6 +295,7 @@
 
                         md.misc.sidebar_mini_active = true;
                     }, 300);
+                    userSetting();
                 }
 
                 // we simulate the window Resize so the charts will get updated in realtime.
@@ -303,6 +309,28 @@
                 }, 1000);
 
             });
+
+            function userSetting() {
+                let background = $('.active-color').find('.active').data('color');
+                let sidebar_background = $('.background-color').find('.active').data('background-color');
+                let sidebar_size = 0;
+                if ($('.switch-sidebar-mini input').is(':checked'))
+                    sidebar_size = 1;
+                $.ajax({
+                    url: APP_URL + "/admin/setting",
+                    type: 'post',
+                    data: {
+                        background: background,
+                        sidebar_background: sidebar_background,
+                        sidebar_size: sidebar_size,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (result) {
+                    },
+                    error: function (result) {
+                    }
+                });
+            }
         });
     });
 </script>
@@ -338,37 +366,6 @@
 
         var table = $('#datatables').DataTable();
 
-        // Edit record
-
-        table.on('click', '.edit', function () {
-            $tr = $(this).closest('tr');
-
-            if ($($tr).hasClass('child')) {
-                $tr = $tr.prev('.parent');
-            }
-
-            var data = table.row($tr).data();
-            alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
-        });
-
-        // Delete a record
-
-        table.on('click', '.remove', function (e) {
-            $tr = $(this).closest('tr');
-
-            if ($($tr).hasClass('child')) {
-                $tr = $tr.prev('.parent');
-            }
-
-            table.row($tr).remove().draw();
-            e.preventDefault();
-        });
-
-        //Like record
-
-        table.on('click', '.like', function () {
-            alert('You clicked on Like button');
-        });
     });
 </script>
 
@@ -380,4 +377,15 @@
     // var ps = new PerfectScrollbar('.scroll-bar');
     // var ps1 = new PerfectScrollbar('.campign-list-scroll-bar');
     // var ps2 = new PerfectScrollbar('.list2');
+</script>
+
+<script>
+    function btnsearchs() {
+        var attr = $('#search').attr('hidden');
+        if (typeof attr == 'undefined') {
+            $('#search').attr("hidden", "true");
+        } else {
+            $('#search').removeAttr("hidden");
+        }
+    }
 </script>
