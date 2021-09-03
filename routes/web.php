@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\Company\Auth\LoginController as CompanyLogin;
 use App\Http\Controllers\Backend\Company\HomeController as CompanyHome;
 use App\Http\Controllers\Backend\Company\UserController as CompanyUser;
 use App\Http\Controllers\Backend\Company\ProjectController as CompanyProject;
+use App\Http\Controllers\Backend\Company\VideoController as CompanyVideo;
 
 
 /*
@@ -71,6 +72,7 @@ Route::get('/meeting-mode', function () {
 Auth::routes(['register' => false, 'verify' => false]);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::post('userCall', [\App\Http\Controllers\VideoRoomsController::class, 'joinCall']);
 
 
 // Admin Routes
@@ -109,4 +111,8 @@ Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company
 
     Route::get('/project/get', [CompanyProject::class, 'get'])->name('project.get');
     Route::resource('project', CompanyProject::class);
+
+//    Route::get('/video/get', [CompanyVideo::class, 'get'])->name('video.get');
+    Route::resource('video', CompanyVideo::class);
+
 });

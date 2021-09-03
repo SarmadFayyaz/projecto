@@ -1,0 +1,184 @@
+<?php
+
+namespace App\Http\Controllers\Backend\Company;
+
+use App\Http\Controllers\Controller;
+
+use App\Models\Company;
+use App\Models\ProjectUser;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
+use App\Models\Video;
+use DataTables;
+use Auth;
+
+class VideoController extends Controller {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index() {
+        $page = 'videos';
+        $companies = Company::all();
+        return view('backend.company.video.index', compact('page', 'companies'));
+    }
+//
+//    public function get(Request $request) {
+//        if ($request->ajax()) {
+//            $data = Video::with('videoLeader', 'videoUser')->latest()->get();
+//            return Datatables::of($data)
+//                ->addIndexColumn()
+//                ->addColumn('boss_leader', function ($row) {
+//                    return $row->videoLeader->name;
+//                })
+//                ->addColumn('team_members', function ($row) {
+//                    $team_members = '';
+//                    foreach ($row->videoUser as $videoUser) {
+//                        $team_members .= '<span class="badge badge-info mr-2">' . $videoUser->user->name . '</span>';
+//                    }
+//                    return $team_members;
+//                })
+//                ->addColumn('action', function ($row) {
+//                    $actionBtn = '<a href="' . route('company.video.edit',
+//                            $row->id) . '" class="edit btn btn-success btn-sm"><i class="material-icons">edit</i></a>';
+//                    $actionBtn .= '<a href="javascript:void(0)" class="delete remove btn btn-danger btn-sm" data-id="' . $row->id . '"><i class="material-icons">close</i></a>';
+//                    return $actionBtn;
+//                })
+//                ->rawColumns(['action', 'boss_leader', 'team_members'])
+//                ->make(true);
+//        }
+//    }
+//
+//    /**
+//     * Show the form for creating a new resource.
+//     *
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function create() {
+//        $page = 'videos';
+//        $users = User::where('company_id', Auth::guard('company')->user()->id)->get();
+//        return view('backend.company.video.create', compact('page', 'users'));
+//    }
+//
+//    /**
+//     * Store a newly created resource in storage.
+//     *
+//     * @param \Illuminate\Http\Request $request
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function store(Request $request) {
+//        $this->validate($request, [
+//            'name' => ['required', 'string', 'max:255'],
+//            'strategic_goal' => ['required', 'string', 'max:255'],
+//            'purpose' => ['required', 'string', 'max:255'],
+//            'video_goal' => ['required', 'string', 'max:255'],
+//            'video_leader' => 'required',
+//            'team_members' => 'required',
+//            'start_date' => 'required',
+//            'end_date' => 'required',
+//            'color' => 'required',
+//        ]);
+//        try {
+//            DB::beginTransaction();
+//            $data = $request->except('_token', 'team_members');
+//            $data['company_id'] = Auth::guard('company')->user()->id;
+//            $video_id = Video::create($data)->id;
+//            foreach ($request->team_members as $team_member) {
+//                $video_user = new VideoUser();
+//                $video_user->video_id = $video_id;
+//                $video_user->user_id = $team_member;
+//                $video_user->save();
+//            }
+//            DB::commit();
+//            return back()->with('success', 'Video added successfully.');
+//        } catch (\Exception $e) {
+//            DB::rollBack();
+//            return back()->with('error', 'Something went wrong.');
+//        }
+//    }
+//
+//    /**
+//     * Display the specified resource.
+//     *
+//     * @param \App\Models\Video $video
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function show(Video $video) {
+//        //
+//    }
+//
+//    /**
+//     * Show the form for editing the specified resource.
+//     *
+//     * @param \App\Models\Video $video
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function edit(Video $video) {
+//        $page = 'videos';
+//        $users = User::where('company_id', Auth::guard('company')->user()->id)->get();
+//        return view('backend.company.video.edit', compact('page', 'video', 'users'));
+//    }
+//
+//    /**
+//     * Update the specified resource in storage.
+//     *
+//     * @param \Illuminate\Http\Request $request
+//     * @param \App\Models\Video $video
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function update(Request $request, $id) {
+//        $this->validate($request, [
+//            'name' => ['required', 'string', 'max:255'],
+//            'strategic_goal' => ['required', 'string', 'max:255'],
+//            'purpose' => ['required', 'string', 'max:255'],
+//            'video_goal' => ['required', 'string', 'max:255'],
+//            'video_leader' => 'required',
+//            'team_members' => 'required',
+//            'start_date' => 'required',
+//            'end_date' => 'required',
+//            'color' => 'required',
+//        ]);
+//        try {
+//            DB::beginTransaction();
+//            $video = Video::find($id);
+//            $data = $request->except('_token', 'team_members');
+//            $video->update($data);
+//            VideoUser::where('video_id', $id)->delete();
+//            foreach ($request->team_members as $team_member) {
+//                $video_user = new VideoUser();
+//                $video_user->video_id = $id;
+//                $video_user->user_id = $team_member;
+//                $video_user->save();
+//            }
+//            DB::commit();
+//            return back()->with('success', 'Video updated successfully.');
+//        } catch (\Exception $e) {
+//            DB::rollBack();
+//            return back()->with('error', 'Something went wrong.');
+//        }
+//    }
+//
+//    /**
+//     * Remove the specified resource from storage.
+//     *
+//     * @param \App\Models\Video $video
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function destroy(Video $video) {
+//        try {
+//            DB::beginTransaction();
+//            VideoUser::where('video_id', $video->id)->delete();
+//            $video->delete();
+//            DB::commit();
+//            return back()->with('success', 'Video Deleted successfully.');
+//        } catch (\Exception $e) {
+//            DB::rollBack();
+//            return back()->with('error', 'Something went wrong.');
+//        }
+//    }
+}

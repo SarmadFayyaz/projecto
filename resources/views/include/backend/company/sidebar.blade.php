@@ -72,6 +72,12 @@
                     <p> {{__('header.project')}} </p>
                 </a>
             </li>
+            <li class="nav-item  <?php echo($page == "videos" ? "active" : "")?> ">
+                <a class="nav-link" href="{{ route('company.video.index') }}">
+                    <i class="fas fa-video"></i>
+                    <p> {{__('header.video')}} </p>
+                </a>
+            </li>
 {{--            <li class="nav-item  <?php echo($page == "Admins" ? "active" : "")?> ">--}}
 {{--                <a class="nav-link" href="{{ route('admin.index') }}">--}}
 {{--                    <i class="fas fa-user-cog"></i>--}}
