@@ -1,4 +1,4 @@
-
+<?php (isset($page) ?:$page = 0) ?>
 <div class="sidebar" data-color="purple" data-background-color="white"
      data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
     <!--

@@ -93,20 +93,20 @@
             var table = $('.yajra_datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                order: [[0, "desc"]],
+                order: [],
 
                 destroy: true,
 
                 ajax: "{{ route('admin.company.get') }}",
                 columns: [
-                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false},
                     {data: 'name', name: 'name'},
                     {data: 'email', name: 'email'},
                     {data: 'admin_id', name: 'admin_id'},
                     {
                         data: 'action',
                         name: 'action',
-                        orderable: true,
+                        orderable: false,
                         searchable: true
                     },
                 ]

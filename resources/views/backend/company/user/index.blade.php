@@ -1,6 +1,6 @@
-@extends('layouts.admin')
+@extends('layouts.company')
 
-@section('title', __('header.admins'))
+@section('title', __('header.users'))
 
 @section('style')
 
@@ -13,19 +13,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header card-header-success card-header-icon">
+                        <div class="card-header card-header-info card-header-icon">
                             <div class="row">
                                 <div class="col">
                                     <div class="card-icon">
-                                        <i class="fas fa-user-cog"></i>
+                                        <i class="fas fa-user"></i>
                                     </div>
-                                    <h4 class="card-title">{{__('header.admins')}}</h4>
+                                    <h4 class="card-title">{{__('header.users')}}</h4>
                                 </div>
                                 <div class="col text-right">
-                                    <a class="btn btn-round btn-success btn-sm card-title text-white"
-                                       href="{{ route('admin.create') }}">
+                                    <a class="btn btn-round btn-info btn-sm card-title text-white"
+                                       href="{{ route('company.user.create') }}">
                                         <i class="material-icons">add_box</i>
-                                        {{__('header.add_admins')}}
+                                        {{__('header.add_user')}}
                                     </a>
                                 </div>
                             </div>
@@ -52,6 +52,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>{{__('header.name')}}</th>
+                                        <th>{{__('header.role')}}</th>
                                         <th>{{__('header.email')}}</th>
                                         <th>{{__('header.action')}}</th>
                                     </tr>
@@ -60,6 +61,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>{{__('header.name')}}</th>
+                                        <th>{{__('header.role')}}</th>
                                         <th>{{__('header.email')}}</th>
                                         <th>{{__('header.action')}}</th>
                                     </tr>
@@ -95,10 +97,11 @@
 
                 destroy: true,
 
-                ajax: "{{ route('admin.get') }}",
+                ajax: "{{ route('company.user.get') }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false},
                     {data: 'name', name: 'name'},
+                    {data: 'role', name: 'role'},
                     {data: 'email', name: 'email'},
                     {
                         data: 'action',
@@ -121,7 +124,7 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.value) {
-                        $('#delete_form').attr('action', APP_URL + '/admin/' + id);
+                        $('#delete_form').attr('action', APP_URL + '/company/user/' + id);
                         $('#delete_form').submit();
                     }
                 })

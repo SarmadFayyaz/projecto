@@ -72,6 +72,18 @@
                     <p> {{__('header.admins')}} </p>
                 </a>
             </li>
+            <li class="nav-item  <?php echo($page == "Roles" ? "active" : "")?> ">
+                <a class="nav-link" href="{{ route('admin.role.index') }}">
+                    <i class="fas fa-user-tag"></i>
+                    <p> {{__('header.roles')}} </p>
+                </a>
+            </li>
+            <li class="nav-item  <?php echo($page == "Permissions" ? "active" : "")?> ">
+                <a class="nav-link" href="{{ route('admin.permission.index') }}">
+                    <i class="fas fa-user-shield"></i>
+                    <p> {{__('header.permissions')}} </p>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="sidebar-background"></div>

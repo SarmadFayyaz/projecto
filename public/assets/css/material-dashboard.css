@@ -12129,7 +12129,7 @@ fieldset[disabled] .is-focused .switch label:focus {
 
 .form-control,
 .is-focused .form-control {
-  background-image: 
+  background-image:
   linear-gradient(to top, #36baaf 2px, rgba(156, 39, 176, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px)}
 
 .form-control:invalid {
@@ -28344,7 +28344,7 @@ select.selectpicker {
 }
 
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-  max-width: 220px;
+  /*max-width: 220px;*/
 }
 
 .bootstrap-select .dropdown-toggle:focus {

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('header.admins'))
+@section('title', __('header.roles'))
 
 @section('style')
 
@@ -13,19 +13,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header card-header-success card-header-icon">
+                        <div class="card-header card-header-info card-header-icon">
                             <div class="row">
                                 <div class="col">
                                     <div class="card-icon">
-                                        <i class="fas fa-user-cog"></i>
+                                        <i class="fas fa-user-tag"></i>
                                     </div>
-                                    <h4 class="card-title">{{__('header.admins')}}</h4>
+                                    <h4 class="card-title">{{__('header.roles')}}</h4>
                                 </div>
                                 <div class="col text-right">
-                                    <a class="btn btn-round btn-success btn-sm card-title text-white"
-                                       href="{{ route('admin.create') }}">
+                                    <a class="btn btn-round btn-info btn-sm card-title text-white"
+                                       href="{{ route('admin.role.create') }}">
                                         <i class="material-icons">add_box</i>
-                                        {{__('header.add_admins')}}
+                                        {{__('header.add_role')}}
                                     </a>
                                 </div>
                             </div>
@@ -52,7 +52,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>{{__('header.name')}}</th>
-                                        <th>{{__('header.email')}}</th>
+                                        <th>{{__('header.description')}}</th>
+                                        <th>{{__('header.permissions')}}</th>
                                         <th>{{__('header.action')}}</th>
                                     </tr>
                                     </thead>
@@ -60,7 +61,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>{{__('header.name')}}</th>
-                                        <th>{{__('header.email')}}</th>
+                                        <th>{{__('header.description')}}</th>
+                                        <th>{{__('header.permissions')}}</th>
                                         <th>{{__('header.action')}}</th>
                                     </tr>
                                     </tfoot>
@@ -95,11 +97,12 @@
 
                 destroy: true,
 
-                ajax: "{{ route('admin.get') }}",
+                ajax: "{{ route('admin.role.get') }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false},
                     {data: 'name', name: 'name'},
-                    {data: 'email', name: 'email'},
+                    {data: 'description', name: 'description'},
+                    {data: 'permissions', name: 'permissions',},
                     {
                         data: 'action',
                         name: 'action',
@@ -121,7 +124,7 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.value) {
-                        $('#delete_form').attr('action', APP_URL + '/admin/' + id);
+                        $('#delete_form').attr('action', APP_URL + '/admin/role/' + id);
                         $('#delete_form').submit();
                     }
                 })

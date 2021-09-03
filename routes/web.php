@@ -6,11 +6,14 @@ use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLogin;
 use App\Http\Controllers\Backend\Admin\HomeController as AdminHome;
+use App\Http\Controllers\Backend\Admin\RoleController as AdminRole;
+use App\Http\Controllers\Backend\Admin\PermissionController as AdminPermission;
 use App\Http\Controllers\Backend\Admin\AdminController as Admin;
 use App\Http\Controllers\Backend\Admin\CompanyController as AdminCompany;
 
 use App\Http\Controllers\Backend\Company\Auth\LoginController as CompanyLogin;
 use App\Http\Controllers\Backend\Company\HomeController as CompanyHome;
+use App\Http\Controllers\Backend\Company\UserController as CompanyUser;
 
 
 /*
@@ -64,7 +67,7 @@ Route::get('/meeting-mode', function () {
     return view('backend.admin.meeting-mode', compact('page'));
 });
 
-Auth::routes();
+Auth::routes(['register' => false, 'verify' => false]);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -78,6 +81,10 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::get('/dashboard', [AdminHome::class, 'index'])->name('dashboard');
     Route::post('/setting', [AdminHome::class, 'setting'])->name('setting');
 
+    Route::get('/role/get', [AdminRole::class, 'get'])->name('role.get');
+    Route::resource('role', AdminRole::class);
+    Route::get('/permission/get', [AdminPermission::class, 'get'])->name('permission.get');
+    Route::resource('permission', AdminPermission::class);
 
     Route::get('/company/get', [AdminCompany::class, 'get'])->name('company.get');
     Route::resource('company', AdminCompany::class);
@@ -92,6 +99,10 @@ Route::group(['middleware' => 'admin'], function () {
 // Company Routes
 Route::get('company/login', [CompanyLogin::class, 'showLoginForm']);
 Route::post('company/login', [CompanyLogin::class, 'login'])->name('company.login');
-Route::group(['namespace' => 'company', 'middleware' => 'company', 'prefix' => 'company'], function () {
-    Route::get('/', [CompanyHome::class, 'index'])->name('company');
+Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company.'], function () {
+    Route::get('/dashboard', [CompanyHome::class, 'index'])->name('dashboard');
+    Route::post('/setting', [CompanyHome::class, 'setting'])->name('setting');
+
+    Route::get('/user/get', [CompanyUser::class, 'get'])->name('user.get');
+    Route::resource('user', CompanyUser::class);
 });

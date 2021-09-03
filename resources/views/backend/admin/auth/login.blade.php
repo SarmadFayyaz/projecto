@@ -11,33 +11,32 @@
                         <form method="POST" action="{{ route('admin.login') }}">
                             @csrf
 
-                            <div class="form-group row justify-content-center">
+                            <div class="row justify-content-center">
                                 <div class="col-md-6">
-                                    <label for="email">{{ __('E-Mail Address') }}</label>
-                                    <input id="email" type="email"
-                                           class="form-control @error('email') is-invalid @enderror" name="email"
-                                           value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    <div class="form-group bmd-form-group @error('email') has-danger @enderror">
+                                        <label for="email" class="bmd-label-floating">
+                                            {{ __('E-Mail Address') }} *
+                                        </label>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                               autocomplete="email" autofocus value="{{ old('email') }}">
+                                        @error('email')
+                                        <label class="error">{{ $message }}</label>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-group row justify-content-center">
+                            <div class="row justify-content-center">
                                 <div class="col-md-6">
-                                    <label for="password">{{ __('Password') }}</label>
-                                    <input id="password" type="password"
-                                           class="form-control @error('password') is-invalid @enderror" name="password"
-                                           required autocomplete="current-password">
-
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    <div class="form-group bmd-form-group @error('password') has-danger @enderror">
+                                        <label for="password" class="bmd-label-floating">
+                                            {{ __('Password') }} *
+                                        </label>
+                                        <input type="password" class="form-control" id="password" name="password"
+                                               value="{{ old('password') }}">
+                                        @error('password')
+                                        <label class="error">{{ $message }}</label>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
 
@@ -71,6 +70,7 @@
                                     @endif
                                 </div>
                             </div>
+
                         </form>
                     </div>
                 </div>

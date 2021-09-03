@@ -26,7 +26,7 @@
 </div>
 @include('include.side-plugin')
 
-@include('include.script')
+@include('include.backend.company.script')
 
 @yield('script')
 
