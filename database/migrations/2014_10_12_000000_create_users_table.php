@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('background')->nullable();
             $table->string('sidebar_background')->nullable();
             $table->string('sidebar_size')->nullable();
+            $table->string('language')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

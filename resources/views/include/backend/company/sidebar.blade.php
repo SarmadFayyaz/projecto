@@ -66,6 +66,12 @@
                     <p> {{__('header.users')}} </p>
                 </a>
             </li>
+            <li class="nav-item  <?php echo($page == "projects" ? "active" : "")?> ">
+                <a class="nav-link" href="{{ route('company.project.index') }}">
+                    <i class="fas fa-briefcase"></i>
+                    <p> {{__('header.project')}} </p>
+                </a>
+            </li>
 {{--            <li class="nav-item  <?php echo($page == "Admins" ? "active" : "")?> ">--}}
 {{--                <a class="nav-link" href="{{ route('admin.index') }}">--}}
 {{--                    <i class="fas fa-user-cog"></i>--}}
