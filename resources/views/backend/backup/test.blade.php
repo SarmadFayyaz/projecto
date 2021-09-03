@@ -5,7 +5,13 @@
 @section('style')
 
     <style>
+.logged-in {
+  color: green;
+}
 
+.logged-out {
+  color: red;
+}
         #myCarousel {
         img {
             height: 50%;
@@ -101,14 +107,14 @@
             #xlcustom .modal-xl {
                 max-width: 1050px !important;
                 left: 130px;
-                top:170px
+                top:190px
             }
         }
         @media (min-width: 1200px){
             #myModal6  .modal-xl {
                 max-width: 1050px !important;
                 left: 130px;
-                top:170px
+                top:190px
             }
         }
         @media (min-width: 1200px){
@@ -136,7 +142,7 @@
         .chat-popup {
             display: none;
             position: fixed;
-            bottom: 0;
+            bottom: 50px;
             right: 15px;
             border: 3px solid #f1f1f1;
             z-index: 9;
@@ -187,6 +193,10 @@
         .form-container .btn:hover, .open-button:hover {
             opacity: 1;
         }
+
+
+
+        
     </style>
 @endsection
 
@@ -336,7 +346,7 @@
                                                         <ul class="nav nav-pills nav-pills-success" role="tablist">
                                                             <li class="nav-item" style="line-height:0px">
                                                                 <a href="javascript:void(0)" class="text-dark" title="Add New Task" style=" margin-right: 20px;margin-top: 5px;" data-toggle="modal" data-target="#addNewTaskModal">
-                                                                    <i class="fa fa-plus" style="padding:0px !important;margin-top: 6px;font-size:12px !important"></i>
+                                                                    <i class="fa fa-plus" style="padding:0px !important;margin-top: 2px;font-size:15px !important"></i>
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item" style="line-height:0px">
@@ -352,7 +362,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="col-3 text-right">
-                                                        <a class="nav-link text-dark btn" style="padding:0px !important;background: #36baaf;color: white !important;box-shadow: none;" data-toggle="modal" data-target=".bd-example-modal-xl" role="tablist">
+                                                        <a class="text-dark btn btn-primary" style="padding: 2px 10px !important;background: #36baaf;color: white !important;box-shadow: none;" data-toggle="modal" data-target=".bd-example-modal-xl" role="tablist">
                                                             Completed Tasks
                                                         </a>
                                                     </div>
@@ -387,9 +397,9 @@
                                                                                         <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
                                                                                             <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
                                                                                             <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                                                                         </div>
 
@@ -421,9 +431,9 @@
                                                                                         <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
                                                                                             <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
                                                                                             <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                                                                         </div>
 
@@ -455,9 +465,9 @@
                                                                                         <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
                                                                                             <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
                                                                                             <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                                                                         </div>
 
@@ -516,9 +526,9 @@
                                                                                         <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
                                                                                             <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
                                                                                             <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                                                                         </div>
 
@@ -550,9 +560,9 @@
                                                                                         <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
                                                                                             <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
                                                                                             <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                                                                         </div>
 
@@ -584,9 +594,9 @@
                                                                                         <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
                                                                                             <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
                                                                                             <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                                                                         </div>
 
@@ -646,9 +656,9 @@
                                                                                         <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
                                                                                             <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
                                                                                             <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                                                                         </div>
 
@@ -680,9 +690,9 @@
                                                                                         <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
                                                                                             <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
                                                                                             <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                                                                         </div>
 
@@ -714,9 +724,9 @@
                                                                                         <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
                                                                                             <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-out">●</span></span>
+                                                                                            <span class="bg-light rounded mr-1 p-1"><img width="15" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /> <span class="logged-in">●</span></span>
                                                                                             <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                                                                         </div>
 
@@ -1201,7 +1211,7 @@
                 <!-- chat box -->
 
                 <div class="chat-popup" id="myForm" style="border-radius:10px">
-                    <form action="/action_page.php" class="form-container" style="height:58vh;border-radius:5px">
+                    <form action="/#" class="form-container" style="height:58vh;border-radius:5px">
                         <div class="row">
                             <div class="col-8 text-right">
                                 <h5><b>Chat Of The Project</b> </h5>
@@ -1211,16 +1221,24 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <p style="border-radius: 5px; background: #eeeeee; padding-left: 5px; line-height: 20px;font-size: 12px;">Lorem lorem lorem lorem lorem lorem lorem lorem lorem<p>
+                        <div class="row">
+                                <div class="col-2 px-1">
+                                <img  style="border-radius:50%;width:100%" src="{{ asset('assets/img/faces/avatar.jpg') }}" />
+                                </div>
+                                <div class="col-10" style="background: #eeeeee;border-radius: 10px; ">
+                                <p class="mb-0 pb-0"><span style="font-size: 14px;"><b>Test Name</b></span> <span style="float:right;font-size: 14px;"><b>12:45</b></span> </p>
+                                <p class="mb-0 pb-0 mt-0 pt-0" style="line-height: 20px;margin-top:5px;font-size: 12px;">Lorem lorem lorem lorem lorem lorem lorem lorem lorem<p>
+                                  </div>
+                            </div>
                         </div>
 
-                        <div class="box-footer" style="position: fixed;top: 90vh;width:290px;">
+                        <div class="box-footer" style="position: fixed;top: 85vh;width:290px;">
                             <form action="#" method="post">
                                 <div class="input-group" style="border: 1px solid #bbb2b2; border-radius: 10px;padding:3px;background: #eeeeee;">
                                     <input type="text" name="message" placeholder="Type Message ..." class="form-control" style="background-image:none;">
                                     <span class="input-group-btn mt-2">
-                                                <a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a>
-                                            </span>
+                                     <a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a>
+                                  </span>
                                 </div>
                             </form>
                         </div>
@@ -1241,16 +1259,24 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <p style="border-radius: 5px; background: #eeeeee; padding-left: 5px; line-height: 20px;font-size: 12px;">Lorem lorem lorem lorem lorem lorem lorem lorem lorem<p>
+                            <div class="row">
+                            <div class="col-2 px-1">
+                                <img  style="border-radius:50%;width:100%" src="{{ asset('assets/img/faces/avatar.jpg') }}" />
+                                </div>
+                                <div class="col-10" style="background: #eeeeee;border-radius: 10px; ">
+                                <p class="mb-0 pb-0"><span style="font-size: 14px;"><b>Test Name</b></span> <span style="float:right;font-size: 14px;"><b>12:45</b></span> </p>
+                                <p class="mb-0 pb-0 mt-0 pt-0" style="line-height: 20px;margin-top:5px;font-size: 12px;">Lorem lorem lorem lorem lorem lorem lorem lorem lorem<p>
+                                  </div>
+                            </div>
                         </div>
 
-                        <div class="box-footer" style="position: fixed;top: 90vh;width:290px;">
+                        <div class="box-footer" style="position: fixed;top: 85vh;width:290px;">
                             <form action="#" method="post">
                                 <div class="input-group" style="border: 1px solid #bbb2b2; border-radius: 10px;padding:3px;background: #eeeeee;">
                                     <input type="text" name="message" placeholder="Type Message ..." class="form-control" style="background-image:none;">
                                     <span class="input-group-btn mt-2">
-                                                <a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a>
-                                            </span>
+                                         <a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a>
+                                    </span>
                                 </div>
                             </form>
                         </div>
@@ -1730,24 +1756,26 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleEmail" class="bmd-label-floating">
+                                    <label for="exampleEmail" class="bmd-label-floating">
                                                 Start
                                                 Date
                                             </label>
-                                            <input type="text" class="form-control datepicker"
-                                                   value="10/06/2018">
+                                        <div class="form-group">
+                                            
+                                            <input type="date" class="form-control datepicker"
+                                                   value="">
 
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleEmail" class="bmd-label-floating">
+                                    <label for="exampleEmail" class="bmd-label-floating">
                                                 End
                                                 Date
                                             </label>
-                                            <input type="text" class="form-control datepicker"
-                                                   value="10/06/2018">
+                                        <div class="form-group">
+                                            
+                                            <input type="date" class="form-control datepicker"
+                                                   value="">
 
                                         </div>
                                     </div>
@@ -1853,11 +1881,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#myModal6">
-                                        <span class="bg-light rounded mr-1 p-1"><img width="30" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                        <span class="bg-light rounded mr-1 p-1"><img width="25" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /><span class="logged-in">●</span></span>
 
-                                        <span class="bg-light rounded mr-1 p-1"><img width="30" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                        <span class="bg-light rounded mr-1 p-1"><img width="30" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
-                                        <span class="bg-light rounded mr-1 p-1"><img width="30" src="{{ asset('assets/img/faces/avatar.jpg') }}" /></span>
+                                        <span class="bg-light rounded mr-1 p-1"><img width="25" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /><span class="logged-out">●</span></span>
+                                        <span class="bg-light rounded mr-1 p-1"><img width="25" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /><span class="logged-in">●</span></span>
+                                        <span class="bg-light rounded mr-1 p-1"><img width="25" src="{{ asset('assets/img/faces/avatar.jpg') }}" style="border-radius:50%" /><span class="logged-out">●</span></span>
                                         <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
                                     </div>
                                 </div>
@@ -1962,7 +1990,7 @@
 
             <div class="modal fade bd-example-modal-xl" id="xlcustom" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
-                    <div class="modal-content scroll-bar" style="max-height: 58vh;">
+                    <div class="modal-content scroll-bar" style="max-height: 55vh;">
                         <div class="card mt-0 mb-0 ">
                             <div class="card-body ">
                                 <div class="row">
@@ -2171,14 +2199,28 @@
     </script>
     <script>
         function openForm() {
-            document.getElementById("myForm").style.display = "block";
+            $('#myForm1').hide();
+            if($('#myForm').is(':visible'))
+            {
+                $('#myForm').hide();
+            }else
+            {
+                $('#myForm').show();
+            }
         }
 
         function closeForm() {
             document.getElementById("myForm").style.display = "none";
         }
         function openForm1() {
-            document.getElementById("myForm1").style.display = "block";
+            $('#myForm').hide();
+            if($('#myForm1').is(':visible'))
+            {
+                $('#myForm1').hide();
+            }else
+            {
+                $('#myForm1').show();
+            }
         }
 
         function closeForm1() {

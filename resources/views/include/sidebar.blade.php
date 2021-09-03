@@ -1,3 +1,12 @@
+<style>
+    .sidebar-footer {
+    height: 50px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    list-style-type: none;
+}
+</style>
 <?php (isset($page) ?:$page = 0) ?>
 <div class="sidebar" data-color="purple" data-background-color="white"
      data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
@@ -7,10 +16,10 @@
         Tip 2: you can also add an image using data-image tag
     -->
     <div class="logo"><a href="javascript:void(0)" class="simple-text logo-mini">
-            PO
+        MÖ
         </a>
         <a href="javascript:void(0)" class="simple-text logo-normal " id="minimizeSidebar">
-            Project O
+        Method Ö   
         </a>
     </div>
     <div class="sidebar-wrapper">
@@ -33,12 +42,12 @@
                                 <span class="sidebar-normal"> My Profile </span>
                             </a>
                         </li>
-                        <li class="nav-item <?php echo($page == "Edit Profile" ? "active" : "")?>">
+                        <!-- <li class="nav-item php echo($page == "Edit Profile" ? "active" : "")?>">
                             <a class="nav-link" href="{{ url('edit-profile') }}">
                                 <span class="sidebar-mini"> EP </span>
                                 <span class="sidebar-normal"> Edit Profile </span>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <span class="sidebar-mini"> S </span>
@@ -86,6 +95,29 @@
                     </ul>
                 </div>
             </li>
+            <div class="sidebar-footer">
+                    <li class="nav-item   ">
+                        
+                    <a class="nav-link <?php echo(($page == "Task Requests" || $page == "Projects") ? "" : "collapsed")?> " data-toggle="collapse" href="#tablesExamples1" aria-expanded="<?php echo(($page == "Task Requests" || $page == "Projects") ? "true" : "false")?>">
+                    <i class="material-icons">live_help</i>
+                    <p> SUPPORT
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse <?php echo(($page == "Task Requests" || $page == "Projects") ? "show" : "")?>" id="tablesExamples1" style="">
+                    <ul class="nav">
+                        <li class="nav-item <?php echo(($page == "Task Requests") ? "active" : "")?>">
+                            <a class="nav-link" >
+                                <i class="material-icons">group_work</i>
+                                <p> User Voice </p>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </div>
+                </li>
+
+                </div>
         <!--  <li class="nav-item <?php echo($page == "Tasks Requests" || $page == "Projects" ? "active" : "")?> ">
                 <a class="nav-link" data-toggle="collapse" href="#pagesExamples">
                     <i class="material-icons">apps</i>
@@ -114,7 +146,7 @@
 
 
 
-            <li class="nav-item  <?php echo($page == "Help" ? "active" : "")?> ">
+            <li class="nav-item  ?php echo($page == "Help" ? "active" : "")?> ">
                 <a class="nav-link" href="help.php">
                     <i class="fas fa-question-circle"></i>
                     <p> Help </p>
@@ -369,4 +401,9 @@
         </ul>
     </div>
     <div class="sidebar-background"></div>
+    
 </div>
+
+
+
+

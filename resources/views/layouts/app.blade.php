@@ -4,7 +4,7 @@
     @include('include.head')
     @yield('style')
 </head>
-<body class="">
+<body class="sidebar-mini">
 <div class="wrapper ">
     @include('include.sidebar')
     <div class="main-panel">

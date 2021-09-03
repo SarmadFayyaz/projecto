@@ -520,7 +520,7 @@ md = {
 
     $('#minimizeSidebar').click(function () {
       var $btn = $(this);
-
+      
       if (md.misc.sidebar_mini_active == true) {
         $('body').removeClass('sidebar-mini');
         md.misc.sidebar_mini_active = false;

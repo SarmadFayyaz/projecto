@@ -8,7 +8,7 @@
                     <i class="fas fa-arrow-left design_bullet-list-67 visible-on-sidebar-mini"></i>
                 </button>
             </div>
-            <a class="navbar-brand small-text" href="javascript:;">
+            <a class="navbar-brand " href="javascript:;">
                 <?php if ($page === 'Dashboard'): ?>
                 Welcome Francisco
                 <?php elseif ($page === 'Test 2'): ?>
@@ -147,4 +147,5 @@
             </ul>
         </div>
     </div>
+    
 </nav>

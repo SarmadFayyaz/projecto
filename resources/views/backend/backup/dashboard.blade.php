@@ -40,6 +40,18 @@
             position: relative;
             line-height: 24px;
         }
+      .accordion-body .list-group  .list-group-item
+        {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        button.fc-button {
+    padding: 0.20500rem 0.5rem !important;
+    font-size: 0.3rem;
+    line-height: 1.0;
+    border-radius: 0.4rem;
+}
     </style>
 @endsection
 
@@ -61,11 +73,13 @@
 
 
                             <div class="row">
-                                <div class="co-12">
+                                <div class="col-6">
                                     <h4 class="m-0 p-0 font-weight-bold ml-1 mb-1">Active Project</h4>
                                 </div>
-                                <div class="col-md-6">
-
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary btn-sm btn-round py-0" id="collapsall">Collapse All</button>
+                                </div>
+                                <div class="col-md-6 pr-0">
                                     <div class="accordion" id="accordionPanelsStayOpenExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -87,7 +101,7 @@
 
                                             </h2>
                                             <div id="panelsStayOpen-collapseOne"
-                                                 class="accordion-collapse collapse show"
+                                                 class="colla_ps accordion-collapse collapse show"
                                                  aria-labelledby="panelsStayOpen-headingOne">
                                                 <div class="accordion-body">
 
@@ -110,7 +124,7 @@
                                                     </div>
 
                                                     <div class="row ">
-                                                        <div class="col-md-6 mb-2">
+                                                        <div class="col-md-6 mb-2 pr-0">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -132,13 +146,14 @@
                                                                         <div class="accordion-body">
                                                                             <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -147,7 +162,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 mb-2">
+                                                        <div class="col-md-6 mb-2 pl-1">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -167,15 +182,16 @@
                                                                          class="accordion-collapse collapse "
                                                                          aria-labelledby="panelsStayOpen-heading2">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -184,7 +200,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pr-0">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -204,15 +220,16 @@
                                                                          class="accordion-collapse collapse "
                                                                          aria-labelledby="panelsStayOpen-heading3">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -221,7 +238,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pl-1">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -264,7 +281,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3 pl-1">
                                     <div class="accordion" id="accordionPanelsStayOpenExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
@@ -286,7 +303,7 @@
                                                 </button>
                                             </h2>
                                             <div id="panelsStayOpen-collapseTwo"
-                                                 class="accordion-collapse collapse show"
+                                                 class="colla_ps accordion-collapse collapse show"
                                                  aria-labelledby="panelsStayOpen-headingTwo">
                                                 <div class="accordion-body">
                                                     <div
@@ -306,7 +323,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row ">
-                                                        <div class="col-md-6 mb-2">
+                                                        <div class="col-md-6 mb-2 pr-0">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -326,15 +343,16 @@
                                                                          class="accordion-collapse collapse show"
                                                                          aria-labelledby="panelsStayOpen-heading2-1">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -343,7 +361,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pl-1">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -363,15 +381,16 @@
                                                                          class="accordion-collapse collapse "
                                                                          aria-labelledby="panelsStayOpen-heading2-2">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -380,7 +399,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pr-0">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -400,15 +419,16 @@
                                                                          class="accordion-collapse collapse "
                                                                          aria-labelledby="panelsStayOpen-heading2-3">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -417,7 +437,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pl-1">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -462,7 +482,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 pr-0">
                                     <div class="accordion" id="accordionPanelsStayOpenExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingThree">
@@ -483,7 +503,7 @@
                                                 </button>
                                             </h2>
                                             <div id="panelsStayOpen-collapseThree"
-                                                 class="accordion-collapse collapse show"
+                                                 class="colla_ps accordion-collapse collapse show"
                                                  aria-labelledby="panelsStayOpen-headingThree">
                                                 <div class="accordion-body">
                                                     <div
@@ -503,7 +523,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row ">
-                                                        <div class="col-md-6 mb-2">
+                                                        <div class="col-md-6 mb-2 pr-0">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -523,15 +543,16 @@
                                                                          class="accordion-collapse collapse show"
                                                                          aria-labelledby="panelsStayOpen-heading3-1">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -540,7 +561,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pl-1">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -560,15 +581,16 @@
                                                                          class="accordion-collapse collapse "
                                                                          aria-labelledby="panelsStayOpen-heading3-2">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -577,7 +599,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pr-0">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -597,15 +619,16 @@
                                                                          class="accordion-collapse collapse "
                                                                          aria-labelledby="panelsStayOpen-heading3-3">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -614,7 +637,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pl-1">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -660,7 +683,7 @@
                                 </div>
 
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 pl-1">
                                     <div class="accordion" id="accordionPanelsStayOpenExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingFour">
@@ -681,7 +704,7 @@
                                                 </button>
                                             </h2>
                                             <div id="panelsStayOpen-collapseFour"
-                                                 class="accordion-collapse collapse show"
+                                                 class="colla_ps accordion-collapse collapse show"
                                                  aria-labelledby="panelsStayOpen-headingFour">
                                                 <div class="accordion-body">
                                                     <div
@@ -701,7 +724,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row ">
-                                                        <div class="col-md-6 mb-2">
+                                                        <div class="col-md-6 mb-2 pr-0">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -721,15 +744,16 @@
                                                                          class="accordion-collapse collapse show"
                                                                          aria-labelledby="panelsStayOpen-heading4-1">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -738,7 +762,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pl-1">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -758,15 +782,16 @@
                                                                          class="accordion-collapse collapse "
                                                                          aria-labelledby="panelsStayOpen-heading4-2">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -775,7 +800,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pr-0">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -795,15 +820,16 @@
                                                                          class="accordion-collapse collapse "
                                                                          aria-labelledby="panelsStayOpen-heading4-3">
                                                                         <div class="accordion-body">
-                                                                            <ul class="list-group">
+                                                                        <ul class="list-group">
                                                                                 <li class="list-group-item">
-                                                                                    a
+                                                                                   1. lorem lorem lorem lorem lorem lorem
+                                                                                </li>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    b
+                                                                                   2. lorem lorem lorem
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    c
+                                                                                   3. lorem lorem lorem
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -812,7 +838,7 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 pl-1">
                                                             <div class="accordion"
                                                                  id="accordionPanelsStayOpenExample">
                                                                 <div class="accordion-item">
@@ -1042,5 +1068,12 @@
         var gauge = new Gauge($('.gauge_ID_3'), {
             value: '10'
         });
+    </script>
+      <script>
+        $('#collapsall').on('click',function(){
+            $('.colla_ps').removeClass("show");
+
+        });
+       
     </script>
 @endsection
