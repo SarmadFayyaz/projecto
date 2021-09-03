@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="form-group @error('name') has-danger @enderror">
+                                        <div class="form-group @error('description') has-danger @enderror">
                                             <label for="description"
                                                    class="bmd-label-floating">{{__('header.description')}}</label>
                                             <textarea class="form-control" name="description" id="description" cols="30"

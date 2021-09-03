@@ -57,7 +57,9 @@
                                                 <option disabled>{{ __('header.select_multiple_permissions') }}</option>
                                                 @foreach($permissions as $permission)
                                                     <option value="{{ $permission->id }}"
-                                                        {{ (in_array($permission->id, old('permission', [])) || isset($role) && $role->permissions->contains($permission->id)) ? 'selected' : '' }}>{{ $permission->name }}</option>
+                                                        {{ (in_array($permission->id, old('permission', [])) || isset($role) && $role->permissions->contains($permission->id)) ? 'selected' : '' }}>
+                                                        {{ $permission->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             @error('permission')

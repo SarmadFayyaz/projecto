@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\Admin\CompanyController as AdminCompany;
 use App\Http\Controllers\Backend\Company\Auth\LoginController as CompanyLogin;
 use App\Http\Controllers\Backend\Company\HomeController as CompanyHome;
 use App\Http\Controllers\Backend\Company\UserController as CompanyUser;
+use App\Http\Controllers\Backend\Company\ProjectController as CompanyProject;
 
 
 /*
@@ -105,4 +106,7 @@ Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company
 
     Route::get('/user/get', [CompanyUser::class, 'get'])->name('user.get');
     Route::resource('user', CompanyUser::class);
+
+    Route::get('/project/get', [CompanyProject::class, 'get'])->name('project.get');
+    Route::resource('project', CompanyProject::class);
 });
