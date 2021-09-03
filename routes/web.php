@@ -36,35 +36,35 @@ Route::get('/', function () {
 });
 Route::get('/test', function () {
     $page = 'Test 2';
-    return view('backend.admin.test', compact('page'));
+    return view('backend.backup.test', compact('page'));
 });
 Route::get('/task-requests', function () {
     $page = 'Task Requests';
-    return view('backend.admin.task-requests', compact('page'));
+    return view('backend.backup.task-requests', compact('page'));
 });
 Route::get('/projects', function () {
     $page = 'Projects';
-    return view('backend.admin.projects', compact('page'));
+    return view('backend.backup.projects', compact('page'));
 });
 Route::get('/profile', function () {
     $page = 'Profile';
-    return view('backend.admin.profile.index', compact('page'));
+    return view('backend.backup.profile.index', compact('page'));
 });
 Route::get('/edit-profile', function () {
     $page = 'Edit Profile';
-    return view('backend.admin.profile.edit', compact('page'));
+    return view('backend.backup.profile.edit', compact('page'));
 });
 Route::get('/help', function () {
     $page = 'Help';
-    return view('backend.admin.help', compact('page'));
+    return view('backend.backup.help', compact('page'));
 });
 Route::get('/metodo', function () {
     $page = 'Me Todo';
-    return view('backend.admin.metodo', compact('page'));
+    return view('backend.backup.metodo', compact('page'));
 });
 Route::get('/meeting-mode', function () {
     $page = 'Meeting Mode';
-    return view('backend.admin.meeting-mode', compact('page'));
+    return view('backend.backup.meeting-mode', compact('page'));
 });
 
 Auth::routes(['register' => false, 'verify' => false]);
