@@ -23,7 +23,8 @@ class ProjectController extends Controller {
      */
     public function index() {
         $page = 'projects';
-        return view('backend.company.project.index', compact('page'));
+        $users = User::where('company_id', Auth::guard('company')->user()->id)->get();
+        return view('backend.company.project.index', compact('page', 'users'));
     }
 
     public function get(Request $request) {
@@ -32,22 +33,32 @@ class ProjectController extends Controller {
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('boss_leader', function ($row) {
-                    return $row->projectLeader->name;
+                    return $row->projectLeader->first_name . ' ' . $row->projectLeader->last_name;
                 })
                 ->addColumn('team_members', function ($row) {
                     $team_members = '';
                     foreach ($row->projectUser as $projectUser) {
-                        $team_members .= '<span class="badge badge-info mr-2">' . $projectUser->user->name . '</span>';
+                        if ($projectUser->user->hasRole('User'))
+                            $team_members .= '<span class="badge badge-info mr-2">' . $projectUser->user->first_name . ' '
+                                . $projectUser->user->last_name . '</span>';
                     }
                     return $team_members;
                 })
+                ->addColumn('sponsors', function ($row) {
+                    $sponsors = '';
+                    foreach ($row->projectUser as $projectUser) {
+                        if ($projectUser->user->hasRole('Sponsor'))
+                            $sponsors .= '<span class="badge badge-info mr-2">' . $projectUser->user->first_name . ' '
+                                . $projectUser->user->last_name . '</span>';
+                    }
+                    return $sponsors;
+                })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="' . route('company.project.edit',
-                            $row->id) . '" class="edit btn btn-success btn-sm"><i class="material-icons">edit</i></a>';
+                    $actionBtn = '<a href="javascript:;" class="edit btn btn-success btn-sm" data-id="' . $row->id . '"><i class="material-icons">edit</i></a>';
                     $actionBtn .= '<a href="javascript:void(0)" class="delete remove btn btn-danger btn-sm" data-id="' . $row->id . '"><i class="material-icons">close</i></a>';
                     return $actionBtn;
                 })
-                ->rawColumns(['action', 'boss_leader', 'team_members'])
+                ->rawColumns(['action', 'boss_leader', 'team_members', 'sponsors'])
                 ->make(true);
         }
     }
@@ -77,6 +88,7 @@ class ProjectController extends Controller {
             'project_goal' => ['required', 'string', 'max:255'],
             'project_leader' => 'required',
             'team_members' => 'required',
+            'sponsors' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'color' => 'required',
@@ -90,6 +102,12 @@ class ProjectController extends Controller {
                 $project_user = new ProjectUser();
                 $project_user->project_id = $project_id;
                 $project_user->user_id = $team_member;
+                $project_user->save();
+            }
+            foreach ($request->sponsors as $sponsor) {
+                $project_user = new ProjectUser();
+                $project_user->project_id = $project_id;
+                $project_user->user_id = $sponsor;
                 $project_user->save();
             }
             DB::commit();
@@ -117,9 +135,11 @@ class ProjectController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(Project $project) {
-        $page = 'projects';
-        $users = User::where('company_id', Auth::guard('company')->user()->id)->get();
-        return view('backend.company.project.edit', compact('page', 'project', 'users'));
+        $project = Project::with('projectUser')->where('id', $project->id)->first();
+        return response($project);
+        //        $page = 'projects';
+        //        $users = User::where('company_id', Auth::guard('company')->user()->id)->get();
+        //        return view('backend.company.project.edit', compact('page', 'project', 'users'));
     }
 
     /**
@@ -137,6 +157,7 @@ class ProjectController extends Controller {
             'project_goal' => ['required', 'string', 'max:255'],
             'project_leader' => 'required',
             'team_members' => 'required',
+            'sponsors' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'color' => 'required',
@@ -151,6 +172,12 @@ class ProjectController extends Controller {
                 $project_user = new ProjectUser();
                 $project_user->project_id = $id;
                 $project_user->user_id = $team_member;
+                $project_user->save();
+            }
+            foreach ($request->sponsors as $sponsor) {
+                $project_user = new ProjectUser();
+                $project_user->project_id = $id;
+                $project_user->user_id = $sponsor;
                 $project_user->save();
             }
             DB::commit();

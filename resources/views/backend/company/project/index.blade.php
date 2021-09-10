@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="col text-right">
                                     <a class="btn btn-round btn-info btn-sm card-title text-white"
-                                       href="{{ route('company.project.create') }}">
+                                       href="javascript:;" data-toggle="modal" data-target="#add_project_modal">
                                         <i class="material-icons">add_box</i>
                                         {{__('header.add_project')}}
                                     </a>
@@ -54,6 +54,7 @@
                                         <th>{{__('header.name')}}</th>
                                         <th>{{__('header.boss_leader')}}</th>
                                         <th>{{__('header.team_members')}}</th>
+                                        <th>{{__('header.sponsors')}}</th>
                                         <th>{{__('header.start_date')}}</th>
                                         <th>{{__('header.end_date')}}</th>
                                         <th>{{__('header.action')}}</th>
@@ -65,6 +66,7 @@
                                         <th>{{__('header.name')}}</th>
                                         <th>{{__('header.boss_leader')}}</th>
                                         <th>{{__('header.team_members')}}</th>
+                                        <th>{{__('header.sponsors')}}</th>
                                         <th>{{__('header.start_date')}}</th>
                                         <th>{{__('header.end_date')}}</th>
                                         <th>{{__('header.action')}}</th>
@@ -87,13 +89,514 @@
         </div>
     </div>
 
+    {{-- Add Project Modal --}}
+    <div class="modal fade" id="add_project_modal" tabindex="-1" role="">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="card card-signup card-plain">
+                    <div class="modal-header card-header card-header-primary p-2 w-75 ml-auto mr-auto">
+                        <h4 class="text-center w-100 mb-1 mt-1">
+                            {{__('header.add_project')}}
+                        </h4>
+                        <a type="button" class="text-white" data-dismiss="modal" aria-hidden="true">
+                            <i class="material-icons">clear</i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <form method="post" action="{{ route('company.project.store') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('name') has-danger @enderror">
+                                    <label for="name" class="bmd-label-floating">{{__('header.name')}}</label>
+                                    <input type="text" class="form-control" name="name" required
+                                           value="{{ old('name') }}">
+                                    @error('name')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('strategic_goal') has-danger @enderror">
+                                    <label for="strategic_goal"
+                                           class="bmd-label-floating">{{__('header.strategic_goal')}}</label>
+                                    <input type="text" class="form-control" name="strategic_goal" required
+                                           value="{{ old('strategic_goal') }}">
+                                    @error('strategic_goal')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('purpose') has-danger @enderror">
+                                    <label for="purpose"
+                                           class="bmd-label-floating">{{__('header.purpose')}}</label>
+                                    <input type="text" class="form-control" name="purpose" required
+                                           value="{{ old('purpose') }}">
+                                    @error('purpose')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('project_goal') has-danger @enderror">
+                                    <label for="project_goal"
+                                           class="bmd-label-floating">{{__('header.project_goal')}}</label>
+                                    <input type="text" class="form-control" name="project_goal" required
+                                           value="{{ old('project_goal') }}">
+                                    @error('project_goal')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 mt-2">
+                                <div class="form-group @error('project_leader') has-danger @enderror">
+                                    <select class="selectpicker" name="project_leader" required
+                                            data-style="select-with-transition" data-size="4" data-width="100%"
+                                            title="{{ __('header.select_boss_leader') }}">
+                                        <option disabled> {{ __('header.select_boss_leader') }} </option>
+                                        @foreach($users as $user)
+                                            @if($user->hasRole('Boss'))
+                                                <option
+                                                    value="{{ $user->id }}" {{ ($user->id == old('project_leader')) ? 'selected' : '' }}>
+                                                    {{ $user->first_name . ' ' . $user->last_name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('project_leader')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 mt-2">
+                                <div class="form-group @error('team_members') has-danger @enderror">
+                                    <select class="selectpicker" name="team_members[]" multiple
+                                            data-style="select-with-transition" data-size="4" required
+                                            data-width="100%" title="{{ __('header.select_team_members') }}">
+                                        <option disabled> {{ __('header.select_team_members') }} </option>
+                                        @foreach($users as $user)
+                                            @if($user->hasRole('User'))
+                                                <option
+                                                    value="{{ $user->id }}" {{ (in_array($user->id, old('team_members', []))) ? 'selected' : '' }}>
+                                                    {{ $user->first_name . ' ' . $user->last_name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('team_members')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 mt-2">
+                                <div class="form-group @error('sponsors') has-danger @enderror">
+                                    <select class="selectpicker" name="sponsors[]" multiple required
+                                            data-style="select-with-transition" data-size="4"
+                                            data-width="100%" title="{{ __('header.select_sponsors') }}">
+                                        <option disabled> {{ __('header.select_sponsors') }} </option>
+                                        @foreach($users as $user)
+                                            @if($user->hasRole('Sponsor'))
+                                                <option
+                                                    value="{{ $user->id }}" {{ (in_array($user->id, old('sponsors', []))) ? 'selected' : '' }}>
+                                                    {{ $user->first_name . ' ' . $user->last_name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('sponsors')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('start_date') has-danger @enderror">
+                                    <label for="start_date" class="bmd-label-floating">
+                                        {{__('header.start_date')}}
+                                    </label>
+                                    <input type="text" class="form-control date_picker" name="start_date" required
+                                           value="{{ old('start_date') }}">
+                                    @error('start_date')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('end_date') has-danger @enderror">
+                                    <label for="end_date" class="bmd-label-floating">
+                                        {{__('header.end_date')}}
+                                    </label>
+                                    <input type="text" class="form-control date_picker" name="end_date" required
+                                           value="{{ old('end_date') }}">
+                                    @error('end_date')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            {{--                            <div class="col-sm-12 col-md-4 mt-2">--}}
+                            {{--                                <div class="form-group @error('color') has-danger @enderror">--}}
+                            {{--                                    <select class="selectpicker" name="color" id="color"--}}
+                            {{--                                            data-style="select-with-transition" data-size="4"--}}
+                            {{--                                            data-width="100%" title="{{ __('header.select_color') }}">--}}
+                            {{--                                        <option disabled> {{ __('header.select_color') }} </option>--}}
+                            {{--                                        <option value="red" {{ ('red' == old('color')) ? 'selected' : '' }}>--}}
+                            {{--                                            {{ __('header.red') }}--}}
+                            {{--                                        </option>--}}
+                            {{--                                        <option value="yellow" {{ ('yellow' == old('color')) ? 'selected' : '' }}>--}}
+                            {{--                                            {{ __('header.yellow') }}--}}
+                            {{--                                        </option>--}}
+                            {{--                                        <option value="blue" {{ ('blue' == old('color')) ? 'selected' : '' }}>--}}
+                            {{--                                            {{ __('header.blue') }}--}}
+                            {{--                                        </option>--}}
+                            {{--                                        <option value="green" {{ ('green' == old('color')) ? 'selected' : '' }}>--}}
+                            {{--                                            {{ __('header.green') }}--}}
+                            {{--                                        </option>--}}
+                            {{--                                        <option value="orange" {{ ('orange' == old('color')) ? 'selected' : '' }}>--}}
+                            {{--                                            {{ __('header.orange') }}--}}
+                            {{--                                        </option>--}}
+                            {{--                                    </select>--}}
+                            {{--                                    @error('color')--}}
+                            {{--                                    <label class="error">--}}
+                            {{--                                        {{ $message }}--}}
+                            {{--                                    </label>--}}
+                            {{--                                    @enderror--}}
+                            {{--                                </div>--}}
+                            {{--                            </div>--}}
+                            <div class="col-12 p-0">
+                                <div class="row form-group">
+                                    <div class="col-12">
+                                        <label for="color"
+                                               class="bmd-label-floating">{{__('header.select_color')}}</label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-info rounded w-100">
+                                            {{ __('header.blue') }}
+                                            <input type="radio" name="color" id="blue" value="blue" checked>
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-secondary rounded w-100 active">
+                                            {{ __('header.gray') }}
+                                            <input type="radio" name="color" id="gray" value="gray">
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-success rounded w-100">
+                                            {{ __('header.green') }}
+                                            <input type="radio" name="color" id="green" value="green">
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-warning rounded w-100">
+                                            {{ __('header.yellow') }}
+                                            <input type="radio" name="color" id="yellow" value="yellow">
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-danger rounded w-100">
+                                            {{ __('header.red') }}
+                                            <input type="radio" name="color" id="red" value="red">
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-dark rounded w-100 active">
+                                            {{ __('header.black') }}
+                                            <input type="radio" name="color" id="black" value="black">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div class="form-group @error('description') has-danger @enderror">
+                                    <label for="description"
+                                           class="bmd-label-floating">{{__('header.description')}}</label>
+                                    <textarea class="form-control" name="description" cols="30"
+                                              rows="3">{{ old('description') }}</textarea>
+                                    @error('description')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="submit"
+                                class="btn btn-fill btn-info ml-auto">{{__('header.add')}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    {{-- Edit Project Modal --}}
+    <div class="modal fade" id="edit_project_modal" tabindex="-1" role="">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="card card-signup card-plain">
+                    <div class="modal-header card-header card-header-primary p-2 w-75 ml-auto mr-auto">
+                        <h4 class="text-center w-100 mb-1 mt-1">
+                            {{__('header.edit_project')}}
+                        </h4>
+                        <a type="button" class="text-white" data-dismiss="modal" aria-hidden="true">
+                            <i class="material-icons">clear</i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <form method="post" action="#" enctype="multipart/form-data" id="update_project_form">
+                    @csrf
+                    @method('put')
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('name') has-danger @enderror">
+                                    <label for="name" class="bmd-label-floating">{{__('header.name')}}</label>
+                                    <input type="text" class="form-control" name="name" id="name" required
+                                           value="{{ old('name') }}">
+                                    @error('name')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('strategic_goal') has-danger @enderror">
+                                    <label for="strategic_goal"
+                                           class="bmd-label-floating">{{__('header.strategic_goal')}}</label>
+                                    <input type="text" class="form-control" name="strategic_goal" id="strategic_goal"
+                                           required
+                                           value="{{ old('strategic_goal') }}">
+                                    @error('strategic_goal')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('purpose') has-danger @enderror">
+                                    <label for="purpose"
+                                           class="bmd-label-floating">{{__('header.purpose')}}</label>
+                                    <input type="text" class="form-control" name="purpose" id="purpose" required
+                                           value="{{ old('purpose') }}">
+                                    @error('purpose')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('project_goal') has-danger @enderror">
+                                    <label for="project_goal"
+                                           class="bmd-label-floating">{{__('header.project_goal')}}</label>
+                                    <input type="text" class="form-control" name="project_goal" id="project_goal"
+                                           required
+                                           value="{{ old('project_goal') }}">
+                                    @error('project_goal')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 mt-2">
+                                <div class="form-group @error('project_leader') has-danger @enderror">
+                                    <select class="selectpicker" name="project_leader" id="project_leader" required
+                                            data-style="select-with-transition" data-size="4" data-width="100%"
+                                            title="{{ __('header.select_boss_leader') }}">
+                                        <option disabled> {{ __('header.select_boss_leader') }} </option>
+                                        @foreach($users as $user)
+                                            @if($user->hasRole('Boss'))
+                                                <option
+                                                    value="{{ $user->id }}" {{ ($user->id == old('project_leader')) ? 'selected' : '' }}>
+                                                    {{ $user->first_name . ' ' . $user->last_name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('project_leader')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 mt-2">
+                                <div class="form-group @error('team_members') has-danger @enderror">
+                                    <select class="selectpicker" name="team_members[]" id="team_members"
+                                            multiple data-style="select-with-transition" data-size="4" required
+                                            data-width="100%" title="{{ __('header.select_team_members') }}">
+                                        <option disabled> {{ __('header.select_team_members') }} </option>
+                                        @foreach($users as $user)
+                                            @if($user->hasRole('User'))
+                                                <option
+                                                    value="{{ $user->id }}" {{ (in_array($user->id, old('team_members', []))) ? 'selected' : '' }}>
+                                                    {{ $user->first_name . ' ' . $user->last_name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('team_members')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 mt-2">
+                                <div class="form-group @error('sponsors') has-danger @enderror">
+                                    <select class="selectpicker" name="sponsors[]" id="sponsors" multiple required
+                                            data-style="select-with-transition" data-size="4"
+                                            data-width="100%" title="{{ __('header.select_sponsors') }}">
+                                        <option disabled> {{ __('header.select_sponsors') }} </option>
+                                        @foreach($users as $user)
+                                            @if($user->hasRole('Sponsor'))
+                                                <option
+                                                    value="{{ $user->id }}" {{ (in_array($user->id, old('sponsors', []))) ? 'selected' : '' }}>
+                                                    {{ $user->first_name . ' ' . $user->last_name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('sponsors')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('start_date') has-danger @enderror">
+                                    <label for="start_date" class="bmd-label-floating">
+                                        {{__('header.start_date')}}
+                                    </label>
+                                    <input type="text" class="form-control date_picker" name="start_date"
+                                           id="start_date" required
+                                           value="{{ old('start_date') }}">
+                                    @error('start_date')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 mt-2">
+                                <div class="form-group @error('end_date') has-danger @enderror">
+                                    <label for="end_date" class="bmd-label-floating">
+                                        {{__('header.end_date')}}
+                                    </label>
+                                    <input type="text" class="form-control date_picker" name="end_date" id="end_date"
+                                           required
+                                           value="{{ old('end_date') }}">
+                                    @error('end_date')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 p-0">
+                                <div class="row form-group color-div">
+                                    <div class="col-12">
+                                        <label for="color" class="bmd-label-floating">
+                                            {{__('header.select_color')}}
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-info rounded w-100">
+                                            {{ __('header.blue') }}
+                                            <input type="radio" name="color" id="blue" value="blue">
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-secondary rounded w-100 active">
+                                            {{ __('header.gray') }}
+                                            <input type="radio" name="color" id="gray" value="gray">
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-success rounded w-100">
+                                            {{ __('header.green') }}
+                                            <input type="radio" name="color" id="green" value="green">
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-warning rounded w-100">
+                                            {{ __('header.yellow') }}
+                                            <input type="radio" name="color" id="yellow" value="yellow">
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-danger rounded w-100">
+                                            {{ __('header.red') }}
+                                            <input type="radio" name="color" id="red" value="red">
+                                        </label>
+                                    </div>
+                                    <div class="col center">
+                                        <label class="btn btn-sm btn-dark rounded w-100 active">
+                                            {{ __('header.black') }}
+                                            <input type="radio" name="color" id="black" value="black">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div class="form-group @error('description') has-danger @enderror">
+                                    <label for="description"
+                                           class="bmd-label-floating">{{__('header.description')}}</label>
+                                    <textarea class="form-control" name="description" id="description" cols="30"
+                                              rows="3">{{ old('description') }}</textarea>
+                                    @error('description')
+                                    <label class="error">
+                                        {{ $message }}
+                                    </label>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="submit"
+                                class="btn btn-fill btn-info ml-auto">{{__('header.update')}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
     <script type="text/javascript">
-
-
         $(document).ready(function () {
+            let _token = $('meta[name="csrf-token"]').attr('content');
             var table = $('.yajra_datatable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -107,6 +610,7 @@
                     {data: 'name', name: 'name'},
                     {data: 'boss_leader', name: 'boss_leader'},
                     {data: 'team_members', name: 'team_members'},
+                    {data: 'sponsors', name: 'sponsors'},
                     {data: 'start_date', name: 'start_date'},
                     {data: 'end_date', name: 'end_date'},
                     {
@@ -134,6 +638,57 @@
                         $('#delete_form').submit();
                     }
                 })
+            });
+
+            $('.date_picker').click(function () {
+                $(this).closest('.form-group').addClass('is-filled');
+            });
+            $('.date_picker').datetimepicker({
+                format: 'YYYY-MM-DD',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
+
+            $(document).on('click', '.edit', function () {
+                let id = $(this).data('id');
+                $.ajax({
+                    url: APP_URL + '/company/project/' + id + '/edit',
+                    type: 'get',
+                    data: {
+                        id: id,
+                        _token: _token
+                    },
+                    success: function (result) {
+                        $('#name').val(result.name).closest('.form-group').addClass('is-filled');
+                        $('#strategic_goal').val(result.strategic_goal).closest('.form-group').addClass('is-filled');
+                        $('#purpose').val(result.purpose).closest('.form-group').addClass('is-filled');
+                        $('#project_goal').val(result.project_goal).closest('.form-group').addClass('is-filled');
+                        $('#project_leader').val(result.project_leader).selectpicker('refresh');
+                        for (let i = 0; i < result.project_user.length; i++) {
+                            $('#team_members option[value=' + result.project_user[i].user_id + ']').attr('selected', true);
+                            $('#sponsors option[value=' + result.project_user[i].user_id + ']').attr('selected', true);
+                        }
+                        $('#team_members').selectpicker('refresh');
+                        $('#sponsors').selectpicker('refresh');
+                        $('#start_date').val(result.start_date).closest('.form-group').addClass('is-filled');
+                        $('#end_date').val(result.end_date).closest('.form-group').addClass('is-filled');
+                        $('.color-div #' + result.color).prop('checked', true);
+                        $('#description').val(result.description).closest('.form-group').addClass('is-filled');
+                        $('#update_project_form').attr('action', 'project/' + result.id);
+                        $('#edit_project_modal').modal('show');
+                    },
+                    error: function (result) {
+                    }
+                });
             });
         });
     </script>

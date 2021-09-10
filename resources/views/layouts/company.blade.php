@@ -4,7 +4,7 @@
     @include('include.head')
     @yield('style')
 </head>
-<body class="">
+<body class="{{(Auth::guard('company')->user()->sidebar_size == 1) ? 'sidebar-mini' : ''}}">
 <div class="wrapper ">
     @include('include.backend.company.sidebar')
     <div class="main-panel">

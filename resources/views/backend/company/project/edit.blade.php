@@ -120,7 +120,7 @@
                                                         <option
                                                             value="{{ $user->id }}"
                                                             @foreach($project->projectUser as $projectUser)
-                                                            @if($projectUser->user_id == $user->id || in_array($user->id, old('permission', [])))
+                                                            @if($projectUser->user_id == $user->id || in_array($user->id, old('team_members', [])))
                                                             selectd
                                                             @endif
                                                             @endforeach >

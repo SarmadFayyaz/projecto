@@ -17,6 +17,11 @@ use App\Http\Controllers\Backend\Company\UserController as CompanyUser;
 use App\Http\Controllers\Backend\Company\ProjectController as CompanyProject;
 use App\Http\Controllers\Backend\Company\VideoController as CompanyVideo;
 
+use App\Http\Controllers\Backend\User\HomeController as UserHome;
+use App\Http\Controllers\Backend\User\ProjectController as UserProject;
+use App\Http\Controllers\Backend\User\TaskController as UserTask;
+use App\Http\Controllers\Backend\User\TaskNoteController as UserTaskNote;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +37,10 @@ use App\Http\Controllers\Backend\Company\VideoController as CompanyVideo;
 // Language Routes
 Route::get('language/{lang}', [LanguageController::class, 'language'])->middleware('language');
 
-Route::get('/', function () {
-    $page = 'Dashboard';
-    return view('backend.backup.dashboard', compact('page'));
-});
+//Route::get('/', function () {
+//    $page = 'Dashboard';
+//    return view('backend.backup.dashboard', compact('page'));
+//});
 Route::get('/test', function () {
     $page = 'Test 2';
     return view('backend.backup.test', compact('page'));
@@ -71,7 +76,6 @@ Route::get('/meeting-mode', function () {
 
 Auth::routes(['register' => false, 'verify' => false]);
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::post('userCall', [\App\Http\Controllers\VideoRoomsController::class, 'joinCall']);
 
 
@@ -115,4 +119,11 @@ Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company
 //    Route::get('/video/get', [CompanyVideo::class, 'get'])->name('video.get');
     Route::resource('video', CompanyVideo::class);
 
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', [UserHome::class, 'index'])->name('dashboard');
+    Route::get('/project/{id}', [UserProject::class, 'index'])->name('project');
+
+    Route::resource('task', UserTask::class);
+    Route::resource('task-note', UserTaskNote::class);
 });

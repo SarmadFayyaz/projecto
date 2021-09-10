@@ -36,6 +36,9 @@ class UserController extends Controller {
                     }
                     return $roles;
                 })
+                ->addColumn('name', function ($row) {
+                    return $row->first_name . ' ' . $row->last_name;
+                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<a href="' . route('company.user.edit',
                             $row->id) . '" class="edit btn btn-success btn-sm"><i class="material-icons">edit</i></a>';
@@ -66,7 +69,8 @@ class UserController extends Controller {
      */
     public function store(Request $request) {
         $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'role' => 'required',
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -125,7 +129,8 @@ class UserController extends Controller {
      */
     public function update(Request $request, $id) {
         $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:companies,email,' . $id . ',id'],
             'role' => 'required',
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],

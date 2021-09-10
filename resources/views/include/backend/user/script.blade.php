@@ -38,8 +38,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
 <!-- Library for adding dinamically elements -->
 <script src="{{ asset('assets/js/plugins/arrive.min.js') }}"></script>
-<!--  Google Maps Plugin    -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+{{--<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+{{--<!--  Google Maps Plugin    -->--}}--}}
 <!-- Chartist JS -->
 <script src="{{ asset('assets/js/plugins/chartist.min.js') }}"></script>
 <!--  Notifications Plugin    -->
@@ -86,6 +86,7 @@
 
     // Activate Popovers
     $('[data-toggle="popover"]').popover();
+
     $('[data-toggle="popover-click"]').popover({
         html: true,
         trigger: 'click',
@@ -322,7 +323,7 @@
                 if ($('.switch-sidebar-mini input').is(':checked'))
                     sidebar_size = 1;
                 $.ajax({
-                    url: APP_URL + "/company/setting",
+                    url: APP_URL + "/setting",
                     type: 'post',
                     data: {
                         background: background,
@@ -347,6 +348,10 @@
         md.initVectorMap();
 
     });
+    // $(function () {
+    //     $('[data-toggle="tooltip"]').tooltip()
+    // })
+
 </script>
 
 <script>

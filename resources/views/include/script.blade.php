@@ -81,6 +81,11 @@
 </script>
 
 <script>
+    //  Activate the tooltips
+    $('[rel="tooltip"]').tooltip();
+
+    // Activate Popovers
+    $('[data-toggle="popover"]').popover();
     $('[data-toggle="popover-click"]').popover({
         html: true,
         trigger: 'click',

@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend\User;
 
+use App\Http\Controllers\Controller;
+
+use App\Models\ProjectUser;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +28,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $page = 'Dashboard';
+//        $user_projects = ProjectUser::with('project.projectUser.user')
+//            ->where('user_id', Auth::user()->id)->get();
+        return view('backend.user.dashboard', compact('page'));
     }
 }

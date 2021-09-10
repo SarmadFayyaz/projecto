@@ -33,19 +33,31 @@
                                     </div>
                                 @endif
                                 <div class="row">
-                                    <div class="col-sm-12 col-md-4">
-                                        <div class="form-group @error('name') has-danger @enderror">
-                                            <label for="name" class="bmd-label-floating">{{__('header.name')}}</label>
-                                            <input type="text" class="form-control" name="name"
-                                                   value="{{ old('name') }}">
-                                            @error('name')
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group @error('first_name') has-danger @enderror">
+                                            <label for="first_name" class="bmd-label-floating">{{__('header.first_name')}}</label>
+                                            <input type="text" class="form-control" name="first_name"
+                                                   value="{{ old('first_name') }}">
+                                            @error('first_name')
                                             <label class="error">
                                                 {{ $message }}
                                             </label>
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-4">
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="form-group @error('last_name') has-danger @enderror">
+                                            <label for="last_name" class="bmd-label-floating">{{__('header.last_name')}}</label>
+                                            <input type="text" class="form-control" name="last_name"
+                                                   value="{{ old('last_name') }}">
+                                            @error('last_name')
+                                            <label class="error">
+                                                {{ $message }}
+                                            </label>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
                                         <div class="form-group @error('email') has-danger @enderror">
                                             <label for="email" class="bmd-label-floating">{{__('header.email')}}</label>
                                             <input type="email" class="form-control" name="email"
@@ -57,7 +69,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-4">
+                                    <div class="col-sm-12 col-md-3">
                                         <div class="form-group @error('role') has-danger @enderror">
                                             <select class="selectpicker" name="role" id="role"
                                                     data-style="select-with-transition" data-size="4" data-width="100%"

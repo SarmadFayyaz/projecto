@@ -1,13 +1,13 @@
 <style>
     .sidebar-footer {
-    height: 50px;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    list-style-type: none;
-}
+        min-height: 50px;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        list-style-type: none;
+    }
 </style>
-<?php (isset($page) ?:$page = 0) ?>
+<?php (isset($page) ?: $page = 0) ?>
 <div class="sidebar" data-color="purple" data-background-color="white"
      data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
     <!--
@@ -16,10 +16,10 @@
         Tip 2: you can also add an image using data-image tag
     -->
     <div class="logo"><a href="javascript:void(0)" class="simple-text logo-mini">
-        MÖ
+            MÖ
         </a>
         <a href="javascript:void(0)" class="simple-text logo-normal " id="minimizeSidebar">
-        Method Ö   
+            Method Ö
         </a>
     </div>
     <div class="sidebar-wrapper">
@@ -28,13 +28,16 @@
                 <img src="{{ asset('assets/img/faces/avatar.jpg') }}"/>
             </div>
             <div class="user-info">
-                <a data-toggle="collapse" href="#collapseExample" class="username  <?php echo(($page == "Profile" || $page == "Edit Profile") ? "" : "collapsed")?>" aria-expanded=" <?php echo(($page == "Profile" || $page == "Edit Profile") ? "true" : "false")?>">
+                <a data-toggle="collapse" href="#collapseExample"
+                   class="username  <?php echo(($page == "Profile" || $page == "Edit Profile") ? "" : "collapsed")?>"
+                   aria-expanded=" <?php echo(($page == "Profile" || $page == "Edit Profile") ? "true" : "false")?>">
                     <span>
                         Tania Andrew
                         <b class="caret"></b>
                     </span>
                 </a>
-                <div class="collapse  <?php echo(($page == "Profile" || $page == "Edit Profile") ? "show" : "")?>" id="collapseExample">
+                <div class="collapse  <?php echo(($page == "Profile" || $page == "Edit Profile") ? "show" : "")?>"
+                     id="collapseExample">
                     <ul class="nav">
                         <li class="nav-item <?php echo($page == "Profile" ? "active" : "")?>">
                             <a class="nav-link" href="{{ url('profile') }}">
@@ -42,7 +45,7 @@
                                 <span class="sidebar-normal"> My Profile </span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item php echo($page == "Edit Profile" ? "active" : "")?>">
+                    <!-- <li class="nav-item php echo($page == "Edit Profile" ? "active" : "")?>">
                             <a class="nav-link" href="{{ url('edit-profile') }}">
                                 <span class="sidebar-mini"> EP </span>
                                 <span class="sidebar-normal"> Edit Profile </span>
@@ -72,13 +75,16 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php echo(($page == "Task Requests" || $page == "Projects") ? "" : "collapsed")?> " data-toggle="collapse" href="#tablesExamples" aria-expanded="<?php echo(($page == "Task Requests" || $page == "Projects") ? "true" : "false")?>">
+                <a class="nav-link <?php echo(($page == "Task Requests" || $page == "Projects") ? "" : "collapsed")?> "
+                   data-toggle="collapse" href="#tablesExamples"
+                   aria-expanded="<?php echo(($page == "Task Requests" || $page == "Projects") ? "true" : "false")?>">
                     <i class="material-icons">settings</i>
                     <p> Opciones
                         <b class="caret"></b>
                     </p>
                 </a>
-                <div class="collapse <?php echo(($page == "Task Requests" || $page == "Projects") ? "show" : "")?>" id="tablesExamples" style="">
+                <div class="collapse <?php echo(($page == "Task Requests" || $page == "Projects") ? "show" : "")?>"
+                     id="tablesExamples" style="">
                     <ul class="nav">
                         <li class="nav-item <?php echo(($page == "Task Requests") ? "active" : "")?>">
                             <a class="nav-link" href="{{ url('task-requests') }}">
@@ -96,28 +102,31 @@
                 </div>
             </li>
             <div class="sidebar-footer">
-                    <li class="nav-item   ">
-                        
-                    <a class="nav-link <?php echo(($page == "Task Requests" || $page == "Projects") ? "" : "collapsed")?> " data-toggle="collapse" href="#tablesExamples1" aria-expanded="<?php echo(($page == "Task Requests" || $page == "Projects") ? "true" : "false")?>">
-                    <i class="material-icons">live_help</i>
-                    <p> SUPPORT
-                        <b class="caret"></b>
-                    </p>
-                </a>
-                <div class="collapse <?php echo(($page == "Task Requests" || $page == "Projects") ? "show" : "")?>" id="tablesExamples1" style="">
-                    <ul class="nav">
-                        <li class="nav-item <?php echo(($page == "Task Requests") ? "active" : "")?>">
-                            <a class="nav-link" >
-                                <i class="material-icons">group_work</i>
-                                <p> User Voice </p>
-                            </a>
-                        </li>
-                       
-                    </ul>
-                </div>
+                <li class="nav-item   ">
+
+                    <a class="nav-link <?php echo(($page == "Task Requests" || $page == "Projects") ? "" : "collapsed")?> "
+                       data-toggle="collapse" href="#tablesExamples1"
+                       aria-expanded="<?php echo(($page == "Task Requests" || $page == "Projects") ? "true" : "false")?>">
+                        <i class="material-icons">live_help</i>
+                        <p> SUPPORT
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse <?php echo(($page == "Task Requests" || $page == "Projects") ? "show" : "")?>"
+                         id="tablesExamples1" style="">
+                        <ul class="nav">
+                            <li class="nav-item <?php echo(($page == "Task Requests") ? "active" : "")?>">
+                                <a class="nav-link">
+                                    <i class="material-icons">group_work</i>
+                                    <p> User Voice </p>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
                 </li>
 
-                </div>
+            </div>
         <!--  <li class="nav-item <?php echo($page == "Tasks Requests" || $page == "Projects" ? "active" : "")?> ">
                 <a class="nav-link" data-toggle="collapse" href="#pagesExamples">
                     <i class="material-icons">apps</i>
@@ -401,7 +410,7 @@
         </ul>
     </div>
     <div class="sidebar-background"></div>
-    
+
 </div>
 
 
