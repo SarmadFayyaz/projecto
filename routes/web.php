@@ -37,10 +37,11 @@ use App\Http\Controllers\Backend\User\TaskNoteController as UserTaskNote;
 // Language Routes
 Route::get('language/{lang}', [LanguageController::class, 'language'])->middleware('language');
 
-//Route::get('/', function () {
-//    $page = 'Dashboard';
-//    return view('backend.backup.dashboard', compact('page'));
-//});
+Route::get('/', function () {
+    $page = 'Dashboard';
+    return view('backend.backup.dashboard', compact('page'));
+});
+
 Route::get('/test', function () {
     $page = 'Test 2';
     return view('backend.backup.test', compact('page'));
@@ -121,7 +122,7 @@ Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company
 
 });
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', [UserHome::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [UserHome::class, 'index'])->name('dashboard');
     Route::get('/project/{id}', [UserProject::class, 'index'])->name('project');
 
     Route::resource('task', UserTask::class);
