@@ -15,12 +15,14 @@ use App\Http\Controllers\Backend\Company\Auth\LoginController as CompanyLogin;
 use App\Http\Controllers\Backend\Company\HomeController as CompanyHome;
 use App\Http\Controllers\Backend\Company\UserController as CompanyUser;
 use App\Http\Controllers\Backend\Company\ProjectController as CompanyProject;
-use App\Http\Controllers\Backend\Company\VideoController as CompanyVideo;
 
 use App\Http\Controllers\Backend\User\HomeController as UserHome;
 use App\Http\Controllers\Backend\User\ProjectController as UserProject;
 use App\Http\Controllers\Backend\User\TaskController as UserTask;
+use App\Http\Controllers\Backend\User\TaskActionController as UserTaskAction;
 use App\Http\Controllers\Backend\User\TaskNoteController as UserTaskNote;
+use App\Http\Controllers\Backend\User\TaskRequestsController as UserTaskRequests;
+use App\Http\Controllers\Backend\User\VideoController as UserVideo;
 
 
 /*
@@ -77,9 +79,6 @@ Route::get('/meeting-mode', function () {
 
 Auth::routes(['register' => false, 'verify' => false]);
 
-Route::post('userCall', [\App\Http\Controllers\VideoRoomsController::class, 'joinCall']);
-
-
 // Admin Routes
 Route::get('admin/login', [AdminLogin::class, 'showLoginForm']);
 
@@ -116,15 +115,30 @@ Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company
 
     Route::get('/project/get', [CompanyProject::class, 'get'])->name('project.get');
     Route::resource('project', CompanyProject::class);
-
-//    Route::get('/video/get', [CompanyVideo::class, 'get'])->name('video.get');
-    Route::resource('video', CompanyVideo::class);
-
 });
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [UserHome::class, 'index'])->name('dashboard');
     Route::get('/project/{id}', [UserProject::class, 'index'])->name('project');
 
+    Route::get('/projects', [UserProject::class, 'projects'])->name('projects');
+    Route::get('/projects/get', [UserProject::class, 'get'])->name('projects.get');
+    Route::get('/project/{id}/edit', [UserProject::class, 'edit'])->name('project.edit');
+    Route::post('/project/{id}', [UserProject::class, 'update'])->name('project.update');
+
+    Route::get('task/requests', [UserTaskRequests::class, 'index'])->name('task.requests');
+    Route::get('task/requests/get', [UserTaskRequests::class, 'get'])->name('task.requests.get');
+    Route::get('task/requests/{id}/edit', [UserTaskRequests::class, 'edit'])->name('task.requests.edit');
+    Route::get('task/requests/{id}/show', [UserTaskRequests::class, 'show'])->name('task.requests.show');
+    Route::post('task/requests/update', [UserTaskRequests::class, 'update'])->name('task.requests.update');
+    Route::get('task/requests/{id}/delete', [UserTaskRequests::class, 'delete'])->name('task.requests.delete');
+
+    Route::get('task/completed/{id}', [UserTask::class, 'completed'])->name('task.completed');
     Route::resource('task', UserTask::class);
+    Route::resource('task-action', UserTaskAction::class);
     Route::resource('task-note', UserTaskNote::class);
+
+    Route::post('join-call', [UserVideo::class, 'joinCall']);
+    Route::get('screen-share', [UserVideo::class, 'screenShare']);
+    Route::post('screen-shared', [UserVideo::class, 'screenShared']);
 });

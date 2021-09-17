@@ -82,6 +82,20 @@
                     </li>
                 @endforeach
             @endif
+            @if(Auth::user()->hasRole('Boss'))
+                <li class="nav-item  <?php echo($page == "Projects" ? "active" : "")?> ">
+                    <a class="nav-link" href="{{ route('projects') }}">
+                        <i class="fas fa-briefcase"></i>
+                        <p> {{__('header.projects')}} </p>
+                    </a>
+                </li>
+            <li class="nav-item  <?php echo($page == "Task Requests" ? "active" : "")?> ">
+                <a class="nav-link" href="{{ route('task.requests') }}">
+                    <i class="material-icons">task</i>
+                    <p> {{__('header.task_requests')}} </p>
+                </a>
+            </li>
+            @endif
             <div class="sidebar-footer">
                 <li class="nav-item   ">
 
@@ -93,10 +107,10 @@
                             <b class="caret"></b>
                         </p>
                     </a>
-                    <div class="collapse <?php echo(($page == "Task Requests" || $page == "Projects") ? "show" : "")?>"
+                    <div class="collapse"
                          id="tablesExamples1" style="">
                         <ul class="nav">
-                            <li class="nav-item <?php echo(($page == "Task Requests") ? "active" : "")?>">
+                            <li class="nav-item">
                                 <a class="nav-link">
                                     <i class="material-icons">group_work</i>
                                     <p> User Voice </p>

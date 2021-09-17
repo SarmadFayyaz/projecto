@@ -50,7 +50,7 @@
                             <div class="form-group @error('start_date') has-danger @enderror">
                                 <label for="start_date" class="bmd-label-floating">
                                     {{__('header.start_date')}}
-                                </label> <input type="text" class="form-control date_picker" name="start_date" id="start_date" required value="{{ old('start_date') }}">
+                                </label> <input type="text" class="form-control date_picker start_date" name="start_date" id="start_date" required value="{{ old('start_date') }}">
                                 @error('start_date')
                                 <label class="error">
                                     {{ $message }}
@@ -62,7 +62,7 @@
                             <div class="form-group @error('end_date') has-danger @enderror">
                                 <label for="end_date" class="bmd-label-floating">
                                     {{__('header.end_date')}}
-                                </label> <input type="text" class="form-control date_picker" name="end_date" id="end_date" required value="{{ old('end_date') }}">
+                                </label> <input type="text" class="form-control date_picker end_date" name="end_date" id="end_date" required value="{{ old('end_date') }}">
                                 @error('end_date')
                                 <label class="error">
                                     {{ $message }}

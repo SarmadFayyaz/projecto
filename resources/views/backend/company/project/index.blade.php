@@ -31,16 +31,6 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @if (session('success'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
-                            @if (session('error'))
-                                <div class="alert alert-danger" role="alert">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
                             <div class="toolbar">
                                 <!--        Here you can write extra buttons/actions for the toolbar              -->
                             </div>
@@ -673,6 +663,8 @@
                         $('#purpose').val(result.purpose).closest('.form-group').addClass('is-filled');
                         $('#project_goal').val(result.project_goal).closest('.form-group').addClass('is-filled');
                         $('#project_leader').val(result.project_leader).selectpicker('refresh');
+                        $('#team_members option').attr('selected', false);
+                        $('#sponsors option').attr('selected', false);
                         for (let i = 0; i < result.project_user.length; i++) {
                             $('#team_members option[value=' + result.project_user[i].user_id + ']').attr('selected', true);
                             $('#sponsors option[value=' + result.project_user[i].user_id + ']').attr('selected', true);
@@ -683,7 +675,7 @@
                         $('#end_date').val(result.end_date).closest('.form-group').addClass('is-filled');
                         $('.color-div #' + result.color).prop('checked', true);
                         $('#description').val(result.description).closest('.form-group').addClass('is-filled');
-                        $('#update_project_form').attr('action', 'project/' + result.id);
+                        $('#update_project_form').attr('action', APP_URL + '/company/project/' + result.id);
                         $('#edit_project_modal').modal('show');
                     },
                     error: function (result) {

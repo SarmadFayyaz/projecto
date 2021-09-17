@@ -84,17 +84,6 @@
                             <span class="w-100">
                                 {{ $action->name }}
                             </span>
-                            @if($task->status == 'approved' || $task->status == 'completed')
-                                @if($action->status == 'completed')
-                                    <span class="btn btn-success btn-sm m-0">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                @elseif($action->status == 'pending')
-                                    <span class="pull-right">
-                                        <a href="{{ route('task-action.edit', $action->id) }}" class="btn btn-sm btn-primary m-0 done_task"> {{ __('header.done') }} </a>
-                                    </span>
-                                @endif
-                            @endif
                         </p>
                     @endforeach
                 </div>
@@ -144,15 +133,6 @@
                 </div>
             </div>
         </div>
-        @if($task->project->project_leader == Auth::user()->id)
-            <div class="col-12 text-right">
-                @if($task->status == 'pending')
-                    <a href="{{ route('task.edit', $task->id) }}" class="btn btn-primary"> {{ __('header.approve') }} </a>
-                @elseif($task->progress == 100 && $task->status == 'approved')
-                    <a href="{{ route('task.completed', $task->id) }}" class="btn btn-primary"> {{ __('header.completed') }} </a>
-                @endif
-            </div>
-        @endif
     </div>
 
 </div>

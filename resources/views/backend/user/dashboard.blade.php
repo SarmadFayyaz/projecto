@@ -295,16 +295,16 @@
                         <div class="card-body pt-0 mt-0">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <select class="selectpicker" data-style="select-with-transition" title="Select Project" data-size="7">
-                                        <option disabled> Select Project</option>
+                                    <select class="selectpicker project_note_finder" data-style="select-with-transition" title="{{ __('header.select_project') }}" data-size="4" data-container="body">
+                                        <option disabled> {{ __('header.select_project') }} </option>
                                         @foreach($user_projects as $project)
                                             <option value="{{ $project->id }}">{{ $project->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <select class="selectpicker" data-style="select-with-transition" title=" Select Task" data-size="7">
-                                        <option disabled> Select Task</option>
+                                    <select class="selectpicker task_note_finder" data-style="select-with-transition" title="{{ __('header.select_task') }}" data-size="4"  data-container="body">
+                                        <option disabled> {{ __('header.select_task') }} </option>
                                         @foreach($user_projects as $project)
                                             @foreach($project->task as $task)
                                                 <option value="{{ $task->id }}">{{ $task->name }}</option>
@@ -313,9 +313,25 @@
                                     </select>
                                 </div>
                                 <div class="col-12 mt-2">
-                                    <textarea placeholder="Enter Here" class="form-control" style="max-width: 100% !important;border: 1px solid #c1c1c1;  padding: 8px;    min-height: 165px !important;"></textarea>
-                                </div>
 
+                                    @foreach($user_projects as $project)
+                                        @foreach($project->task as $task)
+                                            @foreach($task->taskNote as $note)
+                                                <div class="row m-0 border border-dark rounded mb-2 notes_finder project_note_{{$project->id}} task_note_{{$task->id}}">
+                                                    <div class="col-12 text-primary pl-2 pr-2">
+                                                        {{ $project->name .' / '. $task->name }}
+                                                    </div>
+                                                    <div class="col-12 pl-2 pr-2">
+                                                        {{ $note->notes }}
+                                                    </div>
+                                                    <div class="col-12 text-right pl-2 pr-2">
+                                                        {{ $note->user->first_name . ' ' .  $note->user->last_name }}
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endforeach
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -331,6 +347,16 @@
 @section('script')
     <script>
         $(document).ready(function () {
+            $(document).on('change', 'select.project_note_finder', function () {
+                $('.notes_finder').attr('hidden', true);
+                $('.project_note_' + $(this).val()).removeAttr('hidden');
+            });
+
+            $(document).on('change', 'select.task_note_finder', function () {
+                $('.notes_finder').attr('hidden', true);
+                $('.task_note_' + $(this).val()).removeAttr('hidden');
+            });
+
             $('#collapsall').on('click', function () {
                 if ($('.colla_ps').hasClass('show')) {
                     $(this).text('EXPAND ALL');
@@ -340,6 +366,7 @@
                     $('.colla_ps').addClass("show");
                 }
             });
+
             @foreach($user_projects as $project)
             let gauge = new Gauge($('.gauge{{ $project->id  }}'), {
                 value: '{{$project->task->where('progress',100)->count()*10}}'

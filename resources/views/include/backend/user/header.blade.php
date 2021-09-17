@@ -78,7 +78,11 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
                         <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#">Settings</a>
+                        @if(Session('locale')=="en")
+                            <a class="dropdown-item" href="{{url('language/de')}}">Spanish</a>
+                        @else
+                            <a class="dropdown-item" href="{{url('language/en')}}">English</a>
+                        @endif
                         <div class="dropdown-divider"></div>
                         {{--                        <a class="dropdown-item" href="#">Log out</a>--}}
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

@@ -47,6 +47,8 @@
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('assets/js/material-dashboard.js?v=2.2.2') }}" type="text/javascript"></script>
 
+<script src="{{ asset('assets/js/toastr.min.js') }}" type="text/javascript"></script>
+
 <script type="text/javascript" src="{{ asset('assets/gauge_chart/jquery-gauge.min.js') }}"></script>
 
 {{--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"--}}
@@ -393,4 +395,29 @@
             $('#search').removeAttr("hidden");
         }
     }
+</script>
+
+<script>
+    toastr.options =
+        {
+            "closeButton": true,
+            "progressBar": true
+        }
+    @if (session('success'))
+    toastr.success("{{ session('success') }}");
+    @endif
+    @if (session('error'))
+    toastr.error("{{ session('error') }}");
+    @endif
+    @if (session('info'))
+    toastr.info("{{ session('info') }}");
+    @endif
+    @if (session('warning'))
+    toastr.warning("{{ session('warning') }}");
+    @endif
+    @if ($errors->any())
+    @foreach ($errors->all() as $error)
+    toastr.error("{{ $error }}");
+    @endforeach
+    @endif
 </script>

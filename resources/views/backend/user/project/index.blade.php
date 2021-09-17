@@ -4,6 +4,9 @@
 
 @section('style')
     <style>
+        .share_screen {
+            width: 100px;
+        }
         .bootstrap-datetimepicker-widget.dropdown-menu {
             width: auto;
         }
@@ -126,9 +129,8 @@
         }
 
         @media (min-width: 1200px) {
-            #xlcustom .modal-xl {
+            #completedTaskModal .modal-xl {
                 max-width: 1050px !important;
-                left: 130px;
                 top: 190px
             }
         }
@@ -136,13 +138,13 @@
         @media (min-width: 1200px) {
             #taskDetailsModal .modal-xl {
                 max-width: 1050px !important;
-                left: 130px;
+                /*left: 130px;*/
                 top: 190px
             }
         }
 
         @media (min-width: 1200px) {
-            #myModal2 .modal-xl {
+            #documentModal .modal-xl {
                 max-width: 1000px !important;
                 /* left: 130px; */
             }
@@ -218,10 +220,166 @@
             opacity: 1;
         }
 
+
+        .MultiCarousel {
+            float: left;
+            overflow: hidden;
+            padding: 0 20px;
+            width: 100%;
+            position: relative;
+        }
+
+        .MultiCarousel .MultiCarousel-inner {
+            transition: 1s ease all;
+            float: left;
+        }
+
+        .MultiCarousel .MultiCarousel-inner .item {
+            float: left;
+            text-align: center;
+        }
+
+        .MultiCarousel .MultiCarousel-inner .item > div {
+            text-align: center;
+            padding: 5px;
+            margin: 1px;
+            background: #000000;
+            color: #ffffff;
+            height: auto;
+            min-height: 170px;
+        }
+
+        .MultiCarousel .leftLst, .MultiCarousel .rightLst {
+            position: absolute;
+            border-radius: 50%;
+            top: calc(50% - 38px);
+            padding: 33px 20px 12px;
+        }
+
+        .MultiCarousel .leftLst {
+            left: 0;
+        }
+
+        .MultiCarousel .rightLst {
+            right: 0;
+        }
+
+        .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over {
+            pointer-events: none;
+            background: #cccccc;
+        }
+
+        .meeting_mode .item {
+            text-align: center;
+            padding: 5px;
+            margin: 1px;
+            background: #000000;
+            color: #ffffff;
+            height: auto;
+            min-height: 250px;
+        }
     </style>
 @endsection
 
-@include('backend.user.project.task.add')@include('backend.user.project.extras.video-control')@include('backend.user.project.extras.add-task-notes')
+@include('backend.user.project.task.add')@include('backend.user.project.task.completed')@include('backend.user.project.extras.video-control')@include('backend.user.project.extras.add-task-notes')@include('backend.user.project.document.index')
+
+@section('right-panel')
+    <div class="card mt-3 mb-0 table-responsive">
+        <div class="card-body mt-0 pb-1 pt-0 pl-2 pr-2">
+            <div class="accordion" id="accordionPanelsStayOpenExample1">
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header text-center  mt-0" id="panelsStayOpen-headingFive">
+                        <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-primary btn-block mt-2" data-bs-target="#panelsStayOpen-collapsemethod" aria-expanded="true" aria-controls="panelsStayOpen-collapsemethod">
+                            Método Ö
+                        </button>
+                    </h2>
+
+                    <div id="panelsStayOpen-collapsemethod" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingmethod">
+                        <div class="accordion-body border">
+                            <div class="p-2 text-left ">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-9">
+                                        <p class="mb-1">
+                                            <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal"> Initial Meeting</a>
+                                        </p>
+                                        <p class="mb-1">
+                                            <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal"> Work Rules</a>
+                                        </p>
+                                        <p class="mb-1">
+                                            <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal"> Description of Meetings</a>
+                                        </p>
+                                        <p class="mb-1">
+                                            <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal">Facilitator</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header text-center " id="panelsStayOpen-headingFive">
+                        <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-primary btn-block text-center  mt-0" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseFive">
+                            Project Notes
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingFive">
+                        <div class="accordion-body border">
+                            <div class="p-2 text-left" style="border-top: 1px solid #f0f0f0;">
+                                <p class="mb-1 ">
+                                    <select class="selectpicker col-10 task_note_finder" data-size="7" data-style="select-with-transition" title="{{ __('header.select_task') }}">
+                                        @foreach($project->task as $task)
+                                            <option value="{{ $task->id }}"> {{ $task->name }} </option>
+                                        @endforeach
+                                    </select>
+                                    <a href="javascript:vod(0);" class="text-dark pull-right mt-2" data-toggle="modal" data-target="#taskNotesModal"><i class="fa fa-plus"></i></a>
+                                </p>
+                                @foreach($project->task as $task)
+                                    @foreach($task->taskNote as $note)
+                                        <div class="card p-0 m-0 mb-2 task_note task_note_{{$task->id}}">
+                                            <div class="card-body p-0 m-0 pl-3 pr-1">
+                                                <span class="mb-0 pb-0">{{ $note->notes }}</span>
+                                                <br>
+                                                <span class="mb-0 pb-0 pull-right"><small> {{ $note->created_at }} </small></span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endforeach
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="accordion" id="accordionPanelsStayOpenExample2">
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header text-center " id="panelsStayOpen-headingdoc">
+                        <button href="javascript:void(0)" class="btn btn-primary btn-block text-center mt-0" data-toggle="modal" data-target="#documentModal">
+                            Documents
+                        </button>
+                    </h2>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 position-absolute" style="bottom: 0">
+        <div class="row">
+            <div class="col-12 text-center mt-2">
+                <button class="btn btn-primary p-2 w-25" onclick="openForm()"> Chat</button>
+                <button class="btn btn-primary p-2 w-25" onclick="openForm1()"> Binance</button>
+
+            </div>
+        </div>
+    </div>
+@endsection
 
 @section('content')
 
@@ -234,133 +392,35 @@
                         <div class="row">
                             <div class="col-12 ">
                                 <div class="card scroll-bar mb-0" style="height:26vh;">
-                                    <!-- <div class="card-header card-header-success card-header-icon">
-                                        <div class="card-icon">
-                                            <i class="material-icons"></i>
-                                        </div>
-                                        <h4 class="card-title"></h4>
-                                    </div> -->
                                     <div class="card-body ">
 
-                                        <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="false">
-                                            <div class="carousel-inner">
-                                                <!-- <div class="carousel-item active">
-                                                  <img class="d-block" src="https://s14.postimg.cc/bnwpgsqnl/pixel1.png" alt="First slide">
-                                                </div> -->
-                                                <div class="carousel-item">
-                                                    <img class="d-block" src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="Second slide">
-                                                    <p class="mb-0 pb-0 text-center">Lorem</p>
-
+                                        <div class="MultiCarousel" data-items="1,3,5,6" data-slide="5" id="MultiCarousel" data-interval="1000">
+                                            <div class="MultiCarousel-inner">
+                                                <div class="item">
+                                                    <div id="" class="vide_mirror div{{$project->project_leader}}" data-user-name="{{$project->projectLeader->first_name . ' ' . $project->projectLeader->last_name}}"></div>
+                                                    <a href="javascript:void(0)" style="color: black;">
+                                                        {{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}
+                                                    </a>
                                                 </div>
-                                                <div class="carousel-item">
-                                                    <img class="d-block" src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="Third slide">
-                                                    <p class="mb-0 pb-0 text-center">Lorem</p>
-
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img class="d-block" src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="Fourth slide">
-                                                    <p class="mb-0 pb-0 text-center">Lorem</p>
-
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img class="d-block" src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="Fifth slide">
-                                                    <p class="mb-0 pb-0 text-center">Lorem</p>
-
-                                                </div>
+                                                @foreach($project->projectUser as $user)
+                                                    <div class="item">
+                                                        <div id="" class="vide_mirror div{{$user->user->id}}" data-user-name="{{ $user->user->first_name . ' ' . $user->user->last_name }}"></div>
+                                                        <a href="javascript:void(0)" style="color: black;">
+                                                            {{ $user->user->first_name . ' ' . $user->user->last_name }}
+                                                        </a>
+                                                    </div>
+                                                @endforeach
                                             </div>
+                                            <button class="btn btn-primary leftLst" id="new-blue-bg">
+                                                <span class="material-icons">arrow_back</span>
+                                            </button>
+                                            <button class="btn btn-primary rightLst" id="new-blue-bg">
+                                                <span class="material-icons">arrow_forward</span>
+                                            </button>
                                         </div>
 
-                                        <!-- Main-Slider-Element ends -->
-                                        <!-- Thumb-Slider-Element starts -->
-                                        <div id="thumbSlider" class="carousel slide" data-interval="false">
-                                            <div class="carousel-inner">
-                                                <div class="carousel-item active">
-                                                    <div class="row">
-                                                        <div data-target="#myCarousel" data-slide-to="0" class="thumb col-sm-2 active">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="1" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="2" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="0" class="thumb col-sm-2 active">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="1" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="2" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <div class="row">
-                                                        <div data-target="#myCarousel" data-slide-to="3" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="4" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="5" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="3" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="4" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-                                                        </div>
-                                                        <div data-target="#myCarousel" data-slide-to="5" class="thumb col-sm-2">
-                                                            <img src="{{ asset('assets/img/black.png') }}" width="150" height="125" alt="XZ">
-                                                            <p class="mb-0 pb-0 text-center">Lorem</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <a class="carousel-control-prev" href="#thumbSlider" role="button" data-slide="prev">
-                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a> <a class="carousel-control-next" href="#thumbSlider" role="button" data-slide="next">
-                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="col-12">
-                                @if (session('success'))
-                                    <div class="alert alert-success mt-2" role="alert">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-                                @if (session('error'))
-                                    <div class="alert alert-danger mt-2" role="alert">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
                             </div>
 
                             <div class="col-md-9">
@@ -381,20 +441,20 @@
                                                     <div class="col-9">
                                                         <ul class="nav nav-pills nav-pills-success" role="tablist">
                                                             <li class="nav-item" style="line-height:0px">
-                                                                <a href="javascript:void(0)" class="text-dark" title="Add New Task" style=" margin-right: 20px;margin-top: 5px;" data-toggle="modal" data-target="#addNewTaskModal"> <i
-                                                                        class="fa fa-plus" style="padding:0px !important;margin-top: 2px;font-size:15px !important"></i> </a>
+                                                                <a href="javascript:void(0)" class="btn btn-primary btn-sm text-white" rel="tooltip" title="{{ __('header.add_new_task') }}" style=" margin-right: 20px;margin-top: 5px;"
+                                                                   data-toggle="modal" data-target="#addNewTaskModal"><i class="fa fa-plus mr-2" style="font-size:12px !important"></i> {{ __('header.add_task') }}
+                                                                </a>
                                                             </li>
-                                                            <li class="nav-item" style="line-height:0px">
-                                                                <a class="nav-link active" style="padding: 5px !important; border-radius: 5px !important;" data-toggle="tab" href="#link22" role="tablist"> Projects </a>
-                                                            </li>
-                                                            <li class="nav-item" style="line-height:0px">
-                                                                <a class="nav-link" style="padding: 5px !important; border-radius: 5px !important;" data-toggle="tab" href="#link22" role="tablist"> My Tasks </a>
-                                                            </li>
+                                                            {{--                                                            <li class="nav-item" style="line-height:0px">--}}
+                                                            {{--                                                                <a class="nav-link active" style="padding: 5px !important; border-radius: 5px !important;" data-toggle="tab" href="#link22" role="tablist"> Projects </a>--}}
+                                                            {{--                                                            </li>--}}
+                                                            {{--                                                            <li class="nav-item" style="line-height:0px">--}}
+                                                            {{--                                                                <a class="nav-link" style="padding: 5px !important; border-radius: 5px !important;" data-toggle="tab" href="#link22" role="tablist"> My Tasks </a>--}}
+                                                            {{--                                                            </li>--}}
                                                         </ul>
                                                     </div>
                                                     <div class="col-3 text-right">
-                                                        <a class="text-dark btn btn-primary" style="padding: 2px 10px !important;background: #36baaf;color: white !important;box-shadow: none;" data-toggle="modal"
-                                                           data-target=".bd-example-modal-xl" role="tablist"> Completed Tasks </a>
+                                                        <a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#completedTaskModal" role="tablist"> {{ __('header.completed_tasks') }} </a>
                                                     </div>
 
                                                 </div>
@@ -421,8 +481,10 @@
                                                                                                 <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                                 <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
                                                                                                     <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                                                                        <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>{{ $task->name  }}</b></span>
+                                                                                                        <span class="bg-light rounded mr-1 p-1 h6css mr-auto" title="lorem"><b>{{ $task->name  }}</b></span>
+                                                                                                        @php $counter = 0; @endphp
                                                                                                         @if(Auth::user()->id != $task->addedBy->id)
+                                                                                                            @php $counter++; @endphp
                                                                                                             <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
                                                                                                                   title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
                                                                                                                 @if($task->addedBy->image == null)
@@ -438,30 +500,35 @@
                                                                                                         @endif
                                                                                                         @foreach($task->taskUser as $user)
                                                                                                             @if(Auth::user()->id != $user->user->id)
-                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                                      title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                                                    @if($user->user->image == null)
-                                                                                                                        <span
-                                                                                                                            class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
-                                                                                                                    @else
-                                                                                                                        <img width="25" height="25" class="rounded-circle"
-                                                                                                                             src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                                    @endif
-                                                                                                                    <span class="logged-in">●</span>
-                                                                                                                </span>
+                                                                                                                @php $counter++; @endphp
+                                                                                                                @if($counter <= 3)
+                                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
+                                                                                                                          title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
+                                                                                                                        @if($user->user->image == null)
+                                                                                                                            <span
+                                                                                                                                class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                                                                                                        @else
+                                                                                                                            <img width="25" height="25" class="rounded-circle"
+                                                                                                                                 src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                        @endif
+                                                                                                                        <span class="logged-in">●</span>
+                                                                                                                    </span>
+                                                                                                                @endif
                                                                                                             @endif
                                                                                                         @endforeach
-                                                                                                        <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
+                                                                                                        @if($counter > 3)
+                                                                                                            <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
+                                                                                                        @endif
                                                                                                     </div>
                                                                                                 </a>
 
-                                                                                                <div class="card p-0 pt-1 m-0 rounded-0">
+                                                                                                <div class="card p-0 pt-1 m-0 rounded-0" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
                                                                                                     <div class="progress mb-1">
-                                                                                                        <div title="{{ (int)$task->progress }}%" class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
+                                                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
                                                                                                              aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                                                                     </div>
-
                                                                                                 </div>
+
                                                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                                                     <span>Actions</span>
                                                                                                     <span>
@@ -502,54 +569,68 @@
                                                                             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                                                                                 <div class="accordion-body scroll-bar" style="height:400px;">
                                                                                     @foreach($project->task as $task)
-                                                                                        @if($task->progress > 0 && $task->status == 'approved')
+                                                                                        @if($task->progress > 0 && $task->progress < 100 && $task->status == 'approved')
                                                                                             <div class="bg-color p-2 rounded {{($task->status == 'pending') ? 'bg-pending' : ''}}">
                                                                                                 <!-- <h6 class="h6css" >Lorem</h6> -->
-                                                                                                <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#taskDetailsModal">
-                                                                                                    <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>{{ $task->name  }}</b></span>
-                                                                                                    @if(Auth::user()->id != $task->addedBy->id)
-                                                                                                        <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                              title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
-                                                                                                            @if($task->addedBy->image == null)
-                                                                                                                <span
-                                                                                                                    class="p-1 rounded-circle bg-info"> {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}} </span>
-                                                                                                            @else
-                                                                                                                <img width="25" height="25" class="rounded-circle"
-                                                                                                                     src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                            @endif
-                                                                                                            <span class="logged-in">●</span>
-                                                                                                        </span>
-                                                                                                    @endif
-                                                                                                    @foreach($task->taskUser as $user)
-                                                                                                        @if(Auth::user()->id != $user->user->id)
+                                                                                                <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
+                                                                                                    <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
+                                                                                                        <span class="bg-light rounded mr-1 p-1 h6css mr-auto" title="lorem"><b>{{ $task->name  }}</b></span>
+                                                                                                        @php $counter = 0; @endphp
+                                                                                                        @if(Auth::user()->id != $task->addedBy->id)
+                                                                                                            @php $counter++; @endphp
                                                                                                             <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                                  title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                                                @if($user->user->image == null)
-                                                                                                                    <span
-                                                                                                                        class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                                                                                                  title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
+                                                                                                                @if($task->addedBy->image == null)
+                                                                                                                    <span class="p-1 rounded-circle bg-info">
+                                                                                                                        {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
+                                                                                                                    </span>
                                                                                                                 @else
                                                                                                                     <img width="25" height="25" class="rounded-circle"
-                                                                                                                         src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                         src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                                                                                 @endif
                                                                                                                 <span class="logged-in">●</span>
                                                                                                             </span>
                                                                                                         @endif
-                                                                                                    @endforeach
-                                                                                                    <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-                                                                                                </div>
+                                                                                                        @foreach($task->taskUser as $user)
+                                                                                                            @if(Auth::user()->id != $user->user->id)
+                                                                                                                @php $counter++; @endphp
+                                                                                                                @if($counter <= 3)
+                                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
+                                                                                                                          title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
+                                                                                                                        @if($user->user->image == null)
+                                                                                                                            <span
+                                                                                                                                class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                                                                                                        @else
+                                                                                                                            <img width="25" height="25" class="rounded-circle"
+                                                                                                                                 src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                        @endif
+                                                                                                                        <span class="logged-in">●</span>
+                                                                                                                    </span>
+                                                                                                                @endif
+                                                                                                            @endif
+                                                                                                        @endforeach
+                                                                                                        @if($counter > 3)
+                                                                                                            <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
+                                                                                                        @endif
+                                                                                                    </div>
+                                                                                                </a>
 
-                                                                                                <div class="card p-0 pt-1 m-0 rounded-0">
+                                                                                                <div class="card p-0 pt-1 m-0 rounded-0" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
                                                                                                     <div class="progress mb-1">
-                                                                                                        <div title="{{ (int)$task->progress }}%" class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
+                                                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
                                                                                                              aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                                                                     </div>
-
                                                                                                 </div>
+
                                                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                                                     <span>Actions</span>
-                                                                                                    <span>@if($task->taskAction!=null && $task->taskAction->count()>0) {{$task->taskAction->where('status','completed')->count()}}
-                                                                                                        / {{$task->taskAction->count()}} @else
-                                                                                                            0/0  @endif</span>
+                                                                                                    <span>
+                                                                                                        @if($task->taskAction!=null && $task->taskAction->count()>0)
+                                                                                                            {{$task->taskAction->where('status','completed')->count()}}
+                                                                                                            / {{$task->taskAction->count()}}
+                                                                                                        @else 0/0
+                                                                                                        @endif
+                                                                                                    </span>
                                                                                                     <span><i class="fas fa-clock"></i>
                                                                                                         @php
                                                                                                             $startTime = Carbon\Carbon::parse($task->start_date);
@@ -581,54 +662,68 @@
                                                                             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                                                                                 <div class="accordion-body scroll-bar" style="height:400px;">
                                                                                     @foreach($project->task as $task)
-                                                                                        @if($task->progress == 100 || $task->status == 'completed')
+                                                                                        @if($task->progress == 100 && $task->status == 'approved')
                                                                                             <div class="bg-color p-2 rounded {{($task->status == 'pending') ? 'bg-pending' : ''}}">
                                                                                                 <!-- <h6 class="h6css" >Lorem</h6> -->
-                                                                                                <div class="d-flex align-items-center justify-content-start flex-wrap mb-1" data-toggle="modal" data-target="#taskDetailsModal">
-                                                                                                    <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>{{ $task->name  }}</b></span>
-                                                                                                    @if(Auth::user()->id != $task->addedBy->id)
-                                                                                                        <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                              title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
-                                                                                                            @if($task->addedBy->image == null)
-                                                                                                                <span
-                                                                                                                    class="p-1 rounded-circle bg-info"> {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}} </span>
-                                                                                                            @else
-                                                                                                                <img width="25" height="25" class="rounded-circle"
-                                                                                                                     src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                            @endif
-                                                                                                            <span class="logged-in">●</span>
-                                                                                                        </span>
-                                                                                                    @endif
-                                                                                                    @foreach($task->taskUser as $user)
-                                                                                                        @if(Auth::user()->id != $user->user->id)
+                                                                                                <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
+                                                                                                    <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
+                                                                                                        <span class="bg-light rounded mr-1 p-1 h6css mr-auto" title="lorem"><b>{{ $task->name  }}</b></span>
+                                                                                                        @php $counter = 0; @endphp
+                                                                                                        @if(Auth::user()->id != $task->addedBy->id)
+                                                                                                            @php $counter++; @endphp
                                                                                                             <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                                  title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                                                @if($user->user->image == null)
-                                                                                                                    <span
-                                                                                                                        class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                                                                                                  title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
+                                                                                                                @if($task->addedBy->image == null)
+                                                                                                                    <span class="p-1 rounded-circle bg-info">
+                                                                                                                        {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
+                                                                                                                    </span>
                                                                                                                 @else
                                                                                                                     <img width="25" height="25" class="rounded-circle"
-                                                                                                                         src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                         src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                                                                                 @endif
                                                                                                                 <span class="logged-in">●</span>
                                                                                                             </span>
                                                                                                         @endif
-                                                                                                    @endforeach
-                                                                                                    <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-                                                                                                </div>
+                                                                                                        @foreach($task->taskUser as $user)
+                                                                                                            @if(Auth::user()->id != $user->user->id)
+                                                                                                                @php $counter++; @endphp
+                                                                                                                @if($counter <= 3)
+                                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
+                                                                                                                          title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
+                                                                                                                        @if($user->user->image == null)
+                                                                                                                            <span
+                                                                                                                                class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                                                                                                        @else
+                                                                                                                            <img width="25" height="25" class="rounded-circle"
+                                                                                                                                 src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                        @endif
+                                                                                                                        <span class="logged-in">●</span>
+                                                                                                                    </span>
+                                                                                                                @endif
+                                                                                                            @endif
+                                                                                                        @endforeach
+                                                                                                        @if($counter > 3)
+                                                                                                            <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
+                                                                                                        @endif
+                                                                                                    </div>
+                                                                                                </a>
 
-                                                                                                <div class="card p-0 pt-1 m-0 rounded-0">
+                                                                                                <div class="card p-0 pt-1 m-0 rounded-0" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
                                                                                                     <div class="progress mb-1">
-                                                                                                        <div title="{{ (int)$task->progress }}%" class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
+                                                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
                                                                                                              aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                                                                     </div>
-
                                                                                                 </div>
+
                                                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                                                     <span>Actions</span>
-                                                                                                    <span>@if($task->taskAction!=null && $task->taskAction->count()>0) {{$task->taskAction->where('status','completed')->count()}}
-                                                                                                        / {{$task->taskAction->count()}} @else
-                                                                                                            0/0  @endif</span>
+                                                                                                    <span>
+                                                                                                        @if($task->taskAction!=null && $task->taskAction->count()>0)
+                                                                                                            {{$task->taskAction->where('status','completed')->count()}}
+                                                                                                            / {{$task->taskAction->count()}}
+                                                                                                        @else 0/0
+                                                                                                        @endif
+                                                                                                    </span>
                                                                                                     <span><i class="fas fa-clock"></i>
                                                                                                         @php
                                                                                                             $startTime = Carbon\Carbon::parse($task->start_date);
@@ -665,140 +760,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 p-1 ">
-                                <div class="card mt-3 mb-0">
-                                    <!-- <div class="col-md-3 ">
-                                                <button class="btn btn-secondary " type="button">
-                                                    Simultaneous Room
-                                                </button>
-                                            </div> -->
-                                    <div class="card-body mt-0 pb-1 pt-0 pl-2 pr-2">
-                                        <div class="accordion" id="accordionPanelsStayOpenExample1">
-                                            <div class="accordion-item border-0">
-                                                <h2 class="accordion-header text-center  mt-0" id="panelsStayOpen-headingFive">
-                                                    <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-primary btn-block mt-2" data-bs-target="#panelsStayOpen-collapsemethod" aria-expanded="true"
-                                                            aria-controls="panelsStayOpen-collapsemethod">
-                                                        Método Ö
-                                                    </button>
-                                                </h2>
-
-                                                <div id="panelsStayOpen-collapsemethod" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingmethod">
-                                                    <div class="accordion-body border">
-                                                        <div class="p-2 text-left ">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-md-9">
-                                                                    <p class="mb-1">
-                                                                        <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal"> Initial Meeting </a>
-                                                                    </p>
-                                                                    <p class="mb-1">
-                                                                        <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal"> Work Rules </a>
-                                                                    </p>
-                                                                    <p class="mb-1">
-                                                                        <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal"> Description of Meetings </a>
-                                                                    </p>
-                                                                    <p class="mb-1">
-                                                                        <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal">Facilitator</a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion" id="accordionPanelsStayOpenExample">
-                                            <div class="accordion-item border-0">
-                                                <h2 class="accordion-header text-center " id="panelsStayOpen-headingFive">
-                                                    <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-primary btn-block text-center  mt-0" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive"
-                                                            aria-expanded="true" aria-controls="panelsStayOpen-collapseFive">
-                                                        Project Notes
-                                                    </button>
-                                                </h2>
-                                                <div id="panelsStayOpen-collapseFive" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingFive">
-                                                    <div class="accordion-body border">
-                                                        <div class="p-2 text-left" style="border-top: 1px solid #f0f0f0;">
-                                                            <p class="mb-1 ">
-                                                                <select class="selectpicker col-10 task_note_finder" data-size="7" data-style="select-with-transition" title="{{ __('header.select_task') }}">
-                                                                    @foreach($project->task as $task)
-                                                                        <option value="{{ $task->id }}"> {{ $task->name }} </option>
-                                                                    @endforeach
-                                                                </select>
-                                                                <a href="javascript:vod(0);" class="text-dark pull-right mt-2" data-toggle="modal" data-target="#taskNotesModal"> <i class="fa fa-plus"></i> </a>
-                                                            </p>
-                                                            @foreach($project->task as $task)
-                                                                @foreach($task->taskNote as $note)
-                                                                    <div class="card p-0 m-0 mb-2 task_note task_note_{{$task->id}}">
-                                                                        <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                            <span class="mb-0 pb-0">{{ $note->notes }}</span>
-                                                                            <br>
-                                                                            <span class="mb-0 pb-0 pull-right"><small> {{ $note->created_at }} </small></span>
-                                                                        </div>
-                                                                    </div>
-                                                                @endforeach
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="accordion" id="accordionPanelsStayOpenExample2">
-                                            <div class="accordion-item border-0">
-                                                <h2 class="accordion-header text-center " id="panelsStayOpen-headingdoc">
-                                                    <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-primary btn-block text-center mt-0" data-bs-target="#panelsStayOpen-collapsedoc" aria-expanded="true"
-                                                            aria-controls="panelsStayOpen-collapsedoc">
-                                                        Documents
-                                                    </button>
-                                                </h2>
-                                                <div id="panelsStayOpen-collapsedoc" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingdoc">
-                                                    <div class="accordion-body border">
-                                                        <div class="p-2 text-left" style="border-top: 1px solid #f0f0f0;">
-                                                            <p class="mb-1 text-right">
-                                                                <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal2"> <i class="fa fa-plus"></i> </a>
-                                                            </p>
-                                                            <div class="card p-0 m-0">
-                                                                <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                    <span class="mb-0 pb-0">lorem lorem lorem</span>
-                                                                    <br>
-                                                                    <span class="mb-0 pb-0"><small>12 12 2012 </small></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card p-0 m-0 mt-1">
-                                                                <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                    <span class="mb-0 pb-0">lorem lorem lorem</span>
-                                                                    <br>
-                                                                    <span class="mb-0 pb-0"><small>12 12 2012 </small></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card p-0 m-0 mt-1">
-                                                                <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                    <span class="mb-0 pb-0">lorem lorem lorem</span>
-                                                                    <br>
-                                                                    <span class="mb-0 pb-0"><small>12 12 2012 </small></span>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <div class="col-12 " style="position:fixed;top: 85vh;">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <button class="btn btn-primary  btn-block mt-0 p-2" onclick="openForm()" style="width: 100px; top: 48px;">Chat
-                                            </button>
-                                            <button class="btn btn-primary btn-block mt-0 p-2" onclick="openForm1()" style="width: 100px; left: 135px;top: 10px;">Binnacle
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                @yield('right-panel')
                             </div>
                         </div>
                     </div>
@@ -815,221 +777,32 @@
                                              </div> -->
                                     <div class="card-body ">
 
-                                        <div class="row">
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
+                                        <div class="row meeting_mode">
+                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1 pr-1 text-center">
                                                 <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
+                                                    <div id="" class="vide_mirror meeting_video div{{$project->project_leader}}" data-user-name="{{$project->projectLeader->first_name . ' ' . $project->projectLeader->last_name}}"></div>
                                                 </div>
+                                                <a href="javascript:void(0)" style="color: black;">
+                                                    {{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}
+                                                </a>
                                             </div>
-
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
-                                                <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
+                                            @foreach($project->projectUser as $user)
+                                                <div class="col-md-4 col-sm-6 p-0 m-0 pl-1 pr-1 text-center">
+                                                    <div class="item">
+                                                        <div id="" class="vide_mirror div{{$user->user->id}}" data-user-name="{{ $user->user->first_name . ' ' . $user->user->last_name }}"></div>
+                                                    </div>
+                                                    <a href="javascript:void(0)" style="color: black;">
+                                                        {{ $user->user->first_name . ' ' . $user->user->last_name }}
+                                                    </a>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
-                                                <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
-                                                <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
-                                                <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
-                                                <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
-                                                <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
-                                                <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
-                                                <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1">
-                                                <div class="item">
-                                                    <img src="{{ asset('assets/img/black.png') }}" style="width:100%" alt="">
-                                                    <p class="text-center mb-0">lorem</p>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="col-md-3  mt-1">
-                                <div class="card mt-4 mb-0">
-                                    <!-- <div class="col-md-3 ">
-                                                <button class="btn btn-secondary " type="button">
-                                                    Simultaneous Room
-                                                </button>
-                                            </div> -->
-                                    <div class="card-body mt-0 pb-1 pt-0 pl-2 pr-2">
-                                        <div class="accordion" id="accordionPanelsStayOpenExample1">
-                                            <div class="accordion-item border-0">
-                                                <h2 class="accordion-header text-center  mt-0" id="panelsStayOpen-headingFive">
-                                                    <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-primary btn-block mt-2" data-bs-target="#panelsStayOpen-collapsemethod" aria-expanded="true"
-                                                            aria-controls="panelsStayOpen-collapsemethod">
-                                                        Método Ö
-                                                    </button>
-                                                </h2>
-
-                                                <div id="panelsStayOpen-collapsemethod" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingmethod">
-                                                    <div class="accordion-body border">
-                                                        <div class="p-2 text-left ">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-md-9">
-                                                                    <p class="mb-1">
-                                                                        <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal"> Initial Meeting </a>
-                                                                    </p>
-                                                                    <p class="mb-1">
-                                                                        <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal"> Work Rules </a>
-                                                                    </p>
-                                                                    <p class="mb-1">
-                                                                        <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal"> Description of Meetings </a>
-                                                                    </p>
-                                                                    <p class="mb-1">
-                                                                        <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal">Facilitator</a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion" id="accordionPanelsStayOpenExample">
-                                            <div class="accordion-item border-0">
-                                                <h2 class="accordion-header text-center " id="panelsStayOpen-headingFive">
-                                                    <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-primary btn-block text-center  mt-0" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive"
-                                                            aria-expanded="true" aria-controls="panelsStayOpen-collapseFive">
-                                                        Project Notes
-                                                    </button>
-                                                </h2>
-                                                <div id="panelsStayOpen-collapseFive" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingFive">
-                                                    <div class="accordion-body border">
-                                                        <div class="p-2 text-left" style="border-top: 1px solid #f0f0f0;">
-                                                            <p class="mb-1 ">
-                                                                <select class="selectpicker col-10" data-size="7" data-style="select-with-transition" title="Select task">
-                                                                    <option value="task2"> Task1</option>
-                                                                    <option value="task1"> Task2</option>
-
-                                                                </select>
-                                                                <a href="javascript:vod(0);" class="text-dark pull-right mt-2" data-toggle="modal" data-target="#taskNotesModal"> <i class="fa fa-plus"></i> </a>
-                                                            </p>
-                                                            <div class="card p-0 m-0">
-                                                                <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                    <span class="mb-0 pb-0">lorem lorem lorem</span>
-                                                                    <br>
-                                                                    <span class="mb-0 pb-0"><small>12 12 2012 </small></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card p-0 m-0 mt-1">
-                                                                <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                    <span class="mb-0 pb-0">lorem lorem lorem</span>
-                                                                    <br>
-                                                                    <span class="mb-0 pb-0"><small>12 12 2012 </small></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card p-0 m-0 mt-1">
-                                                                <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                    <span class="mb-0 pb-0">lorem lorem lorem</span>
-                                                                    <br>
-                                                                    <span class="mb-0 pb-0"><small>12 12 2012 </small></span>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="accordion" id="accordionPanelsStayOpenExample2">
-                                            <div class="accordion-item border-0">
-                                                <h2 class="accordion-header text-center " id="panelsStayOpen-headingdoc">
-                                                    <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-primary btn-block text-center mt-0" data-bs-target="#panelsStayOpen-collapsedoc" aria-expanded="true"
-                                                            aria-controls="panelsStayOpen-collapsedoc">
-                                                        Documents
-                                                    </button>
-                                                </h2>
-                                                <div id="panelsStayOpen-collapsedoc" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingdoc">
-                                                    <div class="accordion-body border">
-                                                        <div class="p-2 text-left" style="border-top: 1px solid #f0f0f0;">
-                                                            <p class="mb-1 text-right">
-                                                                <a href="javascript:vod(0);" class="text-dark" data-toggle="modal" data-target="#myModal2"> <i class="fa fa-plus"></i> </a>
-                                                            </p>
-                                                            <div class="card p-0 m-0">
-                                                                <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                    <span class="mb-0 pb-0">lorem lorem lorem</span>
-                                                                    <br>
-                                                                    <span class="mb-0 pb-0"><small>12 12 2012 </small></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card p-0 m-0 mt-1">
-                                                                <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                    <span class="mb-0 pb-0">lorem lorem lorem</span>
-                                                                    <br>
-                                                                    <span class="mb-0 pb-0"><small>12 12 2012 </small></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card p-0 m-0 mt-1">
-                                                                <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                                    <span class="mb-0 pb-0">lorem lorem lorem</span>
-                                                                    <br>
-                                                                    <span class="mb-0 pb-0"><small>12 12 2012 </small></span>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-12 " style="position:fixed;top: 85vh;">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <button class="btn btn-primary  btn-block mt-0 p-2" onclick="openForm()" style="width: 100px; top: 48px;">Chat
-                                            </button>
-                                            <button class="btn btn-primary btn-block mt-0 p-2" onclick="openForm1()" style="width: 100px; left: 135px;top: 10px;">Binnacle
-                                            </button>
-
-                                        </div>
-                                    </div>
-                                </div>
+                                @yield('right-panel')
                             </div>
                         </div>
                     </div>
@@ -1067,7 +840,9 @@
                         <form action="#" method="post">
                             <div class="input-group" style="border: 1px solid #bbb2b2; border-radius: 10px;padding:3px;background: #eeeeee;">
                                 <input type="text" name="message" placeholder="Type Message ..." class="form-control" style="background-image:none;">
-                                <span class="input-group-btn mt-2"><a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a></span>
+                                <span class="input-group-btn mt-2">
+                                    <a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a>
+                                </span>
                             </div>
                         </form>
                     </div>
@@ -1105,7 +880,9 @@
                         <form action="#" method="post">
                             <div class="input-group" style="border: 1px solid #bbb2b2; border-radius: 10px;padding:3px;background: #eeeeee;">
                                 <input type="text" name="message" placeholder="Type Message ..." class="form-control" style="background-image:none;">
-                                <span class="input-group-btn mt-2"><a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a></span>
+                                <span class="input-group-btn mt-2">
+                                    <a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a>
+                                </span>
                             </div>
                         </form>
                     </div>
@@ -1123,11 +900,11 @@
                                         <div class="col-10">
                                             <h4 class="modal-title">
                                                 <span>Lorem Lorem Lorem</span>
-                                                <a href="{{ url('metodo') }}" class="close text-white pull-right" style="top:0" aria-hidden="true"> <i class="fa fa-edit"></i> </a>
+                                                <a href="{{ url('metodo') }}" class="close text-white pull-right" style="top:0" aria-hidden="true"><i class="fa fa-edit"></i></a>
                                             </h4>
                                         </div>
                                         <div class="col-2  text-right">
-                                            <a type="button" class="close text-white pull-right" style="top:0" data-dismiss="modal" aria-hidden="true"> <i class="material-icons">clear</i> </a>
+                                            <a type="button" class="close text-white pull-right" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
 
                                         </div>
 
@@ -1155,14 +932,18 @@
                                                     <div class="col-md-12">
                                                         <h4>Select Lorem</h4>
                                                         <div class="form-check">
-                                                            <label class="form-check-label"> <input class="form-check-input" type="checkbox" value=""> Lorem
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox" value="">
+                                                                Lorem
                                                                 <span class="form-check-sign">
                                                                     <span class="check"></span>
                                                                 </span>
                                                             </label>
                                                         </div>
                                                         <div class="form-check">
-                                                            <label class="form-check-label"> <input class="form-check-input" type="checkbox" value=""> Lorem
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox" value="">
+                                                                Lorem
                                                                 <span class="form-check-sign">
                                                                     <span class="check"></span>
                                                                 </span>
@@ -1226,424 +1007,11 @@
                 </div>
             </div>
             <!--  End Modal -->
-            <!-- Meetings Description Rules Modal -->
-            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content m-0 p-0">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Lorem Lorem Lorem</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                <i class="material-icons">clear</i>
-                            </button>
-                        </div>
-                        <div class="modal-body mb-0 pb-0 ">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="card scroll-bar mb-0 pb-0" style="height:65vh">
-                                        <div class="text-center card-header">
-                                            <button class="btn btn-info">Upload Files</button>
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="nav nav-pills nav-pills-rose nav-pills-icons flex-column" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" data-toggle="tab" href="#link110" role="tablist"> <i class="material-icons">dns</i> All Documents </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab" href="#link111" role="tablist"> <i class="material-icons">govel</i> Important </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link " data-toggle="tab" href="#link112" role="tablist"> <i class="material-icons">schedule</i> Recent </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab" href="#link113" role="tablist"> <i class="material-icons">label</i> Binance </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link " data-toggle="tab" href="#link114" role="tablist"> <i class="material-icons">feedback</i> Chat </a>
-                                                </li>
-                                            </ul>
-                                            <!-- <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <i class="fas mr-2   fa-folder">
-                                                            </i> All Documents
-                                                        </td>
-                                                        <td>45</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <i class="fas mr-2   fa-star">
-                                                            </i>Important
-                                                        </td>
-                                                        <td>02</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <i class="fas mr-2   fa-download">
-                                                            </i>Recent
-                                                        </td>
-                                                        <td>02</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <i class="fas mr-2   fa-download">
-                                                            </i>Documents Received
-                                                        </td>
-                                                        <td>02</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <i class="fas mr-2   fa-share">
-                                                            </i>Documents Sent
-                                                        </td>
-                                                        <td>02</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Documents </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table> -->
-                                            <!-- <p class="mb-0 mt-10">
-                                                <i class="fas fa-database mr-2">
-                                                    </i>19.5GB used of 25GB</p> -->
-                                            <!-- <div class="progress">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                                                    </div>
-                                                </div> -->
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="col-md-9">
-                                    <div class="card scroll-bar mb-0 pb-0" style="height:63vh">
-                                        <div class="card-header">
-                                            <nav aria-label="breadcrumb">
-                                                <ol class="breadcrumb">
-                                                    <li class="breadcrumb-item"><a href="#">lorem</a></li>
-                                                    <li class="breadcrumb-item"><a href="#">lorem</a></li>
-                                                    <li class="breadcrumb-item active" aria-current="page">lorem</li>
-                                                </ol>
-                                            </nav>
-                                            <div class="row ">
-
-                                                <div class="col-sm-6">
-                                                    <select class="selectpicker" data-size="7" data-style="select-with-transition" title="Add">
-                                                        <option value="Name"> Name</option>
-                                                        <option value="Size"> Size</option>
-
-                                                    </select>
-
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <form class="form-horizontal full-right">
-                                                        <div class="form-group">
-                                                            <input placeholder="Search..." type="text" class="form-control ">
-                                                        </div>
-                                                    </form>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body mt-0 pt-0">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="shadow card">
-                                                        <div class="text-center card-body">
-                                                            <i class="fas fa-file-pdf text-danger fa-3x"> </i>
-                                                        </div>
-                                                        <div class="card-footer">
-                                                            <hr>
-                                                            <div class="d-flex align-items-center justify-content-between w-100">
-                                                                <p class="mb-0">Document Name</p>
-                                                                <div class="dropdown ">
-                                                                    <button class=" bg-transparent text-dark hover-0 btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                                        <i class="fas fa-ellipsis-v"> </i>
-                                                                        <div class="ripple-container"></div>
-                                                                    </button>
-                                                                    <div class="dropdown-menu " aria-labelledby="dropdownMenuButton" x-placement="top-start" style="position: absolute; top: -228px; left: 1px; will-change: top, left;"
-                                                                         x-out-of-boundaries="">
-                                                                        <h6 class="dropdown-item">View Details</h6>
-                                                                        <a class="dropdown-item" href="#">Download</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="shadow card">
-                                                        <div class="text-center card-body">
-                                                            <i class="fas fa-file-pdf text-danger fa-3x"> </i>
-                                                        </div>
-                                                        <div class="card-footer">
-                                                            <hr>
-                                                            <div class="d-flex align-items-center justify-content-between w-100">
-                                                                <p class="mb-0">Document Name</p>
-                                                                <div class="dropdown ">
-                                                                    <button class=" bg-transparent text-dark hover-0 btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                                        <i class="fas fa-ellipsis-v"> </i>
-                                                                        <div class="ripple-container"></div>
-                                                                    </button>
-                                                                    <div class="dropdown-menu " aria-labelledby="dropdownMenuButton" x-placement="top-start" style="position: absolute; top: -228px; left: 1px; will-change: top, left;"
-                                                                         x-out-of-boundaries="">
-                                                                        <h6 class="dropdown-item">View Details</h6>
-                                                                        <a class="dropdown-item" href="#">Download</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="shadow card">
-                                                        <div class="text-center card-body">
-                                                            <i class="fas fa-file-pdf text-danger fa-3x"> </i>
-                                                        </div>
-                                                        <div class="card-footer">
-                                                            <hr>
-                                                            <div class="d-flex align-items-center justify-content-between w-100">
-                                                                <p class="mb-0">Document Name</p>
-                                                                <div class="dropdown ">
-                                                                    <button class=" bg-transparent text-dark hover-0 btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                                        <i class="fas fa-ellipsis-v"> </i>
-                                                                        <div class="ripple-container"></div>
-                                                                    </button>
-                                                                    <div class="dropdown-menu " aria-labelledby="dropdownMenuButton" x-placement="top-start" style="position: absolute; top: -228px; left: 1px; will-change: top, left;"
-                                                                         x-out-of-boundaries="">
-                                                                        <h6 class="dropdown-item">View Details</h6>
-                                                                        <a class="dropdown-item" href="#">Download</a>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="shadow card">
-                                                        <div class="text-center card-body">
-                                                            <i class="fas fa-file-pdf text-danger fa-3x"> </i>
-                                                        </div>
-                                                        <div class="card-footer">
-                                                            <hr>
-                                                            <div class="d-flex align-items-center justify-content-between w-100">
-                                                                <p class="mb-0">Document Name</p>
-                                                                <div class="dropdown ">
-                                                                    <button class=" bg-transparent text-dark hover-0 btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                                        <i class="fas fa-ellipsis-v"> </i>
-                                                                        <div class="ripple-container"></div>
-                                                                    </button>
-                                                                    <div class="dropdown-menu " aria-labelledby="dropdownMenuButton" x-placement="top-start" style="position: absolute; top: -228px; left: 1px; will-change: top, left;"
-                                                                         x-out-of-boundaries="">
-                                                                        <h6 class="dropdown-item">View Details</h6>
-                                                                        <a class="dropdown-item" href="#">Download</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ps__rail-x" style="width: 765px; left: 0px; bottom: 0px;">
-                                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 698px;">
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer mb-0 pb-0">
-                            <!-- <button type="button" class="btn btn-link">Nice Button</button> -->
-                            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--  End Modal -->
-            <!-- task Details Modal -->
+            <!-- Task Details Modal -->
             <div class="modal fade" id="taskDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content"></div>
-                </div>
-            </div>
-            <!--  End Modal -->
-
-            <!--  Completd Task Modal -->
-            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Extra large modal</button> -->
-
-            <div class="modal fade bd-example-modal-xl" id="xlcustom" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content scroll-bar" style="max-height: 55vh;">
-                        <div class="card mt-0 mb-0 ">
-                            <div class="card-body ">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h4 class="text-center"><b>Completed Tasks</b></h4>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="bg-color p-2 rounded">
-                                            <!-- <h6 class="h6css" >Lorem</h6> -->
-                                            <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-
-                                                <span class="bg-light rounded mr-1 p-1">A</span>
-                                                <span class="bg-light rounded mr-1 p-1">B</span>
-                                                <span class="bg-light rounded mr-1 p-1">C</span>
-                                                <span class="bg-light rounded mr-1 p-1">D</span>
-                                                <span class="bg-light rounded mr-1 p-1">E</span>
-                                                <span class="bg-light rounded mr-1 p-1">F</span>
-                                                <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-
-                                            </div>
-                                            <div class="col-12">
-                                                <p> Lorem Lorem Lorem Lorem</p>
-                                            </div>
-                                            <div class="col-12">
-
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <span>Actions</span>
-                                                    <span>0/1</span>
-                                                    <span><i class="fas fa-clock"></i>1 Semana left</span>
-                                                    <p></p>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="bg-color p-2 rounded">
-                                            <!-- <h6 class="h6css" >Lorem</h6> -->
-                                            <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-
-                                                <span class="bg-light rounded mr-1 p-1">A</span>
-                                                <span class="bg-light rounded mr-1 p-1">B</span>
-                                                <span class="bg-light rounded mr-1 p-1">C</span>
-                                                <span class="bg-light rounded mr-1 p-1">D</span>
-                                                <span class="bg-light rounded mr-1 p-1">E</span>
-                                                <span class="bg-light rounded mr-1 p-1">F</span>
-                                                <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-
-                                            </div>
-                                            <div class="col-12">
-                                                <p> Lorem Lorem Lorem Lorem</p>
-                                            </div>
-                                            <div class="col-12">
-
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <span>Actions</span>
-                                                    <span>0/1</span>
-                                                    <span><i class="fas fa-clock"></i>1 Semana left</span>
-                                                    <p></p>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="bg-color p-2 rounded">
-                                            <!-- <h6 class="h6css" >Lorem</h6> -->
-                                            <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-
-                                                <span class="bg-light rounded mr-1 p-1">A</span>
-                                                <span class="bg-light rounded mr-1 p-1">B</span>
-                                                <span class="bg-light rounded mr-1 p-1">C</span>
-                                                <span class="bg-light rounded mr-1 p-1">D</span>
-                                                <span class="bg-light rounded mr-1 p-1">E</span>
-                                                <span class="bg-light rounded mr-1 p-1">F</span>
-                                                <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-
-                                            </div>
-                                            <div class="col-12">
-                                                <p> Lorem Lorem Lorem Lorem</p>
-                                            </div>
-                                            <div class="col-12">
-
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <span>Actions</span>
-                                                    <span>0/1</span>
-                                                    <span><i class="fas fa-clock"></i>1 Semana left</span>
-                                                    <p></p>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="bg-color p-2 rounded">
-                                            <!-- <h6 class="h6css" >Lorem</h6> -->
-                                            <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-
-                                                <span class="bg-light rounded mr-1 p-1">A</span>
-                                                <span class="bg-light rounded mr-1 p-1">B</span>
-                                                <span class="bg-light rounded mr-1 p-1">C</span>
-                                                <span class="bg-light rounded mr-1 p-1">D</span>
-                                                <span class="bg-light rounded mr-1 p-1">E</span>
-                                                <span class="bg-light rounded mr-1 p-1">F</span>
-                                                <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-
-                                            </div>
-                                            <div class="col-12">
-                                                <p> Lorem Lorem Lorem Lorem</p>
-                                            </div>
-                                            <div class="col-12">
-
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <span>Actions</span>
-                                                    <span>0/1</span>
-                                                    <span><i class="fas fa-clock"></i>1 Semana left</span>
-                                                    <p></p>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="bg-color p-2 rounded">
-                                            <!-- <h6 class="h6css" >Lorem</h6> -->
-                                            <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                <span class="bg-light rounded mr-1 p-1 h6css" title="lorem"><b>Lorem</b></span>
-
-                                                <span class="bg-light rounded mr-1 p-1">A</span>
-                                                <span class="bg-light rounded mr-1 p-1">B</span>
-                                                <span class="bg-light rounded mr-1 p-1">C</span>
-                                                <span class="bg-light rounded mr-1 p-1">D</span>
-                                                <span class="bg-light rounded mr-1 p-1">E</span>
-                                                <span class="bg-light rounded mr-1 p-1">F</span>
-                                                <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-
-                                            </div>
-                                            <div class="col-12">
-                                                <p> Lorem Lorem Lorem Lorem</p>
-                                            </div>
-                                            <div class="col-12">
-
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <span>Actions</span>
-                                                    <span>0/1</span>
-                                                    <span><i class="fas fa-clock"></i>1 Semana left</span>
-                                                    <p></p>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <!--  End Modal -->
@@ -1654,18 +1022,41 @@
 @endsection
 
 @section('script')
+    <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
     <script>
         $(document).ready(function () {
+
+            $(document).on('click', '.done_task', function (event) {
+                event.preventDefault();
+                swal({
+                    title: 'Are you sure?',
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonClass: 'btn btn-success ml-1',
+                    cancelButtonClass: 'btn btn-danger mr-1',
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        window.location.href = $(this).attr('href');
+                    }
+                });
+            });
+
             $(document).on('change', 'select.task_note_finder', function () {
                 $('.task_note').attr('hidden', true);
                 $('.task_note_' + $(this).val()).removeAttr('hidden');
             });
+
             $(document).on('click', '.task_details', function () {
                 event.preventDefault();
-                $('#taskDetailsModal').find('.modal-content').load($(this).attr('href')).find('[rel="tooltip"]').tooltip();
-                $('#taskDetailsModal').find('[rel="tooltip"]').tooltip();
-                $('#taskDetailsModal').find('[data-toggle="popover"]').popover();
+                $('#taskDetailsModal').find('.modal-content').load($(this).attr('href'));
             });
+
             $(document).on('click', '.add_action', function () {
                 let count = $('#actions .added_action').length;
                 if (count < 5) {
@@ -1683,6 +1074,7 @@
                     actionCounter();
                 }
             });
+
             $(document).on('click', '.remove_action', function () {
                 $(this).closest('.added_action').remove();
                 actionCounter();
@@ -1701,6 +1093,14 @@
 
             });
 
+            $('.start_date').on('dp.change', function (e) {
+                $('.end_date').data('DateTimePicker').minDate($('#start_date').val());
+                $(this).data("DateTimePicker").hide();
+            });
+            $('.end_date').on('dp.change', function (e) {
+                $('.start_date').data('DateTimePicker').maxDate($('#end_date').val());
+                $(this).data("DateTimePicker").hide();
+            });
             $('.date_picker').click(function () {
                 $(this).closest('.form-group').addClass('is-filled');
             });
@@ -1718,6 +1118,7 @@
                     close: 'fa fa-remove'
                 }
             });
+
             $('.ulitm').removeAttr("hidden");
             $('#ulitm').css("display", "block");
             $('#general').css("display", "block");
@@ -1747,6 +1148,369 @@
             function closeForm1() {
                 document.getElementById("myForm1").style.display = "none";
             }
+
+            // MultiCarousel JS Start
+            var itemsMainDiv = ('.MultiCarousel');
+            var itemsDiv = ('.MultiCarousel-inner');
+            var itemWidth = "";
+
+            $('.leftLst, .rightLst').click(function () {
+                var condition = $(this).hasClass("leftLst");
+                if (condition)
+                    click(0, this);
+                else
+                    click(1, this)
+            });
+
+            ResCarouselSize();
+
+            $(window).resize(function () {
+                ResCarouselSize();
+            });
+
+            //this function define the size of the items
+            function ResCarouselSize() {
+                var incno = 0;
+                var dataItems = ("data-items");
+                var itemClass = ('.item');
+                var id = 0;
+                var btnParentSb = '';
+                var itemsSplit = '';
+                var sampwidth = $(itemsMainDiv).width();
+                var bodyWidth = $('body').width();
+                $(itemsDiv).each(function () {
+                    id = id + 1;
+                    var itemNumbers = $(this).find(itemClass).length;
+                    btnParentSb = $(this).parent().attr(dataItems);
+                    itemsSplit = btnParentSb.split(',');
+                    $(this).parent().attr("id", "MultiCarousel" + id);
+                    if (bodyWidth >= 1200) {
+                        incno = itemsSplit[3];
+                        itemWidth = sampwidth / incno;
+                        $(this).parent().attr("data-slide", 4);
+                        $(this).parent().a
+                    } else if (bodyWidth >= 992) {
+                        incno = itemsSplit[2];
+                        itemWidth = sampwidth / incno;
+                        $(this).parent().attr("data-slide", 3);
+                    } else if (bodyWidth >= 768) {
+                        incno = itemsSplit[1];
+                        itemWidth = sampwidth / incno;
+                        $(this).parent().attr("data-slide", 2);
+                    } else {
+                        incno = itemsSplit[0];
+                        itemWidth = sampwidth / incno;
+                        $(this).parent().attr("data-slide", 1);
+                    }
+                    $(this).css({'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers});
+                    $(this).find(itemClass).each(function () {
+                        $(this).outerWidth(itemWidth);
+                        $(this).find('.vide_mirror').css('min-height', ($(this).closest('.card').height() - 50) + 'px');
+                    });
+
+                    $(".leftLst").addClass("over");
+                    $(".rightLst").removeClass("over");
+
+                });
+            }
+
+            //this function used to move the items
+            function ResCarousel(e, el, s) {
+                var leftBtn = ('.leftLst');
+                var rightBtn = ('.rightLst');
+                var translateXval = '';
+                var divStyle = $(el + ' ' + itemsDiv).css('transform');
+                var values = divStyle.match(/-?[\d\.]+/g);
+                var xds = Math.abs(values[4]);
+                if (e == 0) {
+                    translateXval = parseInt(xds) - parseInt(itemWidth * s);
+                    $(el + ' ' + rightBtn).removeClass("over");
+
+                    if (translateXval <= itemWidth / 2) {
+                        translateXval = 0;
+                        $(el + ' ' + leftBtn).addClass("over");
+                    }
+                } else if (e == 1) {
+                    var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+                    translateXval = parseInt(xds) + parseInt(itemWidth * s);
+                    $(el + ' ' + leftBtn).removeClass("over");
+
+                    if (translateXval >= itemsCondition - itemWidth / 2) {
+                        translateXval = itemsCondition;
+                        $(el + ' ' + rightBtn).addClass("over");
+                    }
+                }
+                $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+            }
+
+            //It is used to get some elements from btn
+            function click(ell, ee) {
+                var Parent = "#" + $(ee).parent().attr("id");
+                var slide = $(Parent).attr("data-slide");
+                ResCarousel(ell, Parent, slide);
+            }
+
+            // MultiCarousel JS End
         });
+
+        // Video Call JS Start
+        var room;
+        $(document).on('click', 'a.call_to_user', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: APP_URL + "/join-call",
+                type: "POST",
+                data: {roomName: '{{'_meeting'.$project->id}}', "_token": "{{ csrf_token() }}"},
+                success: function (result) {
+                    Twilio.Video.createLocalTracks({
+                        audio: true,
+                        video: {width: 640, zoom: true}
+                    }).then(function (localTracks) {
+                        return Twilio.Video.connect(result.accessToken, {
+                            name: result.roomName,
+                            tracks: localTracks,
+                        });
+                    }).then(function (room) {
+                        window.room = room
+
+                        //local participants
+                        participantConnected(room.localParticipant);
+                        //connectected participants
+                        room.participants.forEach(participant => {
+                            participantConnected(participant)
+                        });
+                        room.on('participantConnected', function (participant) {
+                            console.log("Joining: ");
+                            participantConnected(participant);
+                        });
+
+                        room.on('participantDisconnected', function (participant) {
+                            console.log("Disconnected: ");
+                            participantDisconnected(participant);
+                        });
+                    });
+                },
+                error: function () {
+                    toastr.error('in error');
+                }
+            });
+        });
+
+        function participantConnected(participant) {
+            console.log('Participant "%s" connected', participant.identity);
+            $('a.call_to_user').each(function () {
+                $(this).text('Leave Call').removeClass('call_to_user').addClass('leave_call');
+            });
+
+            if ({{ Auth::user()->id }} != participant.identity)
+                toastr.info($('.div' + participant.identity).data('user-name') + ' has joined session');
+            // else
+            //     toastr.info('You joined session');
+            const div = document.getElementsByClassName('div' + participant.identity);
+            participant.tracks.forEach(function (track) {
+                for (let i = 0; i < div.length; i++) {
+                    div[i].innerHTML = "<div style='clear:both'></div>";
+                    trackAdded(div[i], track)
+                }
+            });
+
+            participant.on('trackAdded', function (track) {
+                for (let i = 0; i < div.length; i++) {
+                    trackAdded(div[i], track)
+                }
+            });
+            participant.on('trackRemoved', trackRemoved);
+        }
+
+        function trackAdded(div, track) {
+            console.log('trake_added');
+            div.append(track.attach());
+            var video = div.getElementsByTagName("video")[0];
+            if (video) {
+                // if (div.classList.contains('meeting_video')) {
+                video.setAttribute("style", "max-width: 90%");
+                // } else {
+                //     video.setAttribute("style", "max-width: " + ($(video).parent().parent().width() - 40) + "px;");
+                // }
+            }
+            var video1 = div.getElementsByTagName("video")[1];
+            console.log(video + '===============' + video1);
+            if (video1) {
+                video1.setAttribute("data-type", "screen_share");
+                let share_screen = ($('video').data('type', 'share_screen'));
+                share_screen.addClass('share_screen');
+            }
+        }
+
+        $(document).on('click', 'a.leave_call', function () {
+            room.on('disconnected', room => {
+                participantDisconnected(room.localParticipant);
+            });
+            room.disconnect();
+            $('.vide_mirror').html('');
+            $('a.leave_call').each(function () {
+                $(this).text('Join Call').removeClass('leave_call').addClass('call_to_user');
+            });
+        });
+
+        function participantDisconnected(participant) {
+            console.log('Participant "%s" disconnected', participant.identity);
+            participant.tracks.forEach(trackRemoved);
+            if ({{ Auth::user()->id }} != participant.identity)
+                toastr.info($('.div' + participant.identity).data('user-name') + ' has left session');
+            // else
+            //     toastr.info('You left session');
+        }
+
+        function trackRemoved(track) {
+            track.detach().forEach(function (element) {
+                element.remove()
+            });
+        }
+
+
+        // mute & unmute mic
+        function muteMic() {
+            room.localParticipant.audioTracks.forEach((publication) => {
+                if (publication.isEnabled) {
+                    publication.disable();
+                    $('.btnMic').html('<i class="fas fa-microphone-slash"></i>')
+                    $('.btnMic').attr('title', 'Unmute Mic');
+                } else {
+                    publication.enable();
+                    $('.btnMic').html('<i class="fas fa-microphone"></i>')
+                    $('.btnMic').attr('title', 'Mute Mic');
+                }
+
+            });
+
+
+        }
+
+        function muteVideo() {
+            if (typeof room === 'undefined') {
+                $.ajax({
+                    url: APP_URL + "/join-call",
+                    type: "POST",
+                    data: {roomName: '{{'_meeting'.$project->id}}', "_token": "{{ csrf_token() }}"},
+                    success: function (result) {
+                        Twilio.Video.createLocalTracks({
+                            audio: true,
+                            video: {width: 240, zoom: true}
+                        }).then(function (localTracks) {
+                            return Twilio.Video.connect(result.accessToken, {
+                                name: result.roomName,
+                                tracks: localTracks
+                            });
+                        }).then(function (room) {
+                            console.log('Successfully joined a Room: ', room.name);
+                            window.room = room
+                            //local participants
+                            participantConnected(room.localParticipant);
+
+                            //connectected participants
+                            room.participants.forEach(participant => {
+                                participantConnected(participant)
+                            });
+                            room.on('participantConnected', function (participant) {
+                                console.log("Joining: ");
+                                participantConnected(participant);
+                            });
+
+                            room.on('participantDisconnected', function (participant) {
+                                console.log("Disconnected: ");
+                                participantDisconnected(participant);
+                            });
+                        });
+                    },
+                    error: function () {
+                        toastr.error('in error');
+                    }
+                });
+            } else {
+                room.localParticipant.videoTracks.forEach(publication => {
+                    console.log(publication);
+                    if (publication.isEnabled) {
+                        publication.disable();
+                        $('.btnCam').html('<i class="fas fa-video-slash"></i>')
+                        $('.btnCam').attr('title', 'Turn On Camera');
+                    } else {
+                        publication.enable();
+                        $('.btnCam').html('<i class="fas fa-video"></i>')
+                        $('.btnCam').attr('title', 'Turn Off Camera');
+                    }
+
+                });
+            }
+
+        }
+
+        function ChangeVolume() {
+            $('audio,video').each(function () {
+                $(this).volume = 0.0;
+            });
+            $(this).pause();
+        }
+
+        // screen share
+        var screenTrack;
+
+        function shareScreen() {
+            event.preventDefault();
+            if (!screenTrack) {
+                navigator.mediaDevices.getDisplayMedia().then(stream => {
+                    screenTrack = new Twilio.Video.LocalVideoTrack(stream.getTracks()[0]);
+                    room.localParticipant.publishTrack(screenTrack);
+                    screenTrack.mediaStreamTrack.onended = () => {
+                        shareScreen()
+                    };
+                    console.log(screenTrack);
+
+                    $('.btnScreen').html('<i class="fas fa-slash text-white"></i>')
+                    $('.btnScreen').attr('title', 'Stop Screen');
+                    $.ajax({
+                        url: APP_URL + '/screen-shared',
+                        type: 'post',
+                        data: {
+                            "_token": " {{ csrf_token()  }} ",
+                            'projectID': "{{$project->id}}",
+                            'status': true
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                        },
+                        error: function () {
+                            toastr.error('in error..')
+                        }
+                    })
+                }).catch(() => {
+                    toastr.warning('Could not share the screen.');
+                });
+            } else {
+                room.localParticipant.unpublishTrack(screenTrack);
+                screenTrack.stop();
+                screenTrack = null
+                $('.btnScreen').html('<i class="fab fa-slideshare"></i>')
+                $('.btnScreen').attr('title', 'Share Screen');
+                $.ajax({
+                    url: APP_URL + '/screen-shared',
+                    type: 'post',
+                    data: {
+                        "_token": " {{ csrf_token()  }} ",
+                        'projectID': "{{$project->id}}",
+                        'status': false
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                    },
+                    error: function () {
+                        toastr.error('in error..')
+                    }
+                })
+            }
+        };
+
+        // Video Call JS End
+
     </script>
 @endsection
