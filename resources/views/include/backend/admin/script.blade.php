@@ -61,6 +61,9 @@
 </script>
 
 <script>
+    $('body').tooltip({
+        selector: '.appended_tooltip'
+    });
     //  Activate the tooltips
     $('[rel="tooltip"]').tooltip();
 

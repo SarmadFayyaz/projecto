@@ -43,3 +43,32 @@ if (!function_exists('getProjectBackground')) {
             return $color;
     }
 }
+if (!function_exists('getTime')) {
+    function getTime($date_time) {
+        // create a $dt object with the America/Denver timezone
+        $dt = new DateTime($date_time, new DateTimeZone('UTC'));
+
+        // change the timezone of the object without changing it's time
+        $dt->setTimezone(new DateTimeZone('Asia/Karachi'));
+
+        // format the datetime
+        return $dt->format('h:i a');
+    }
+}
+if (!function_exists('getIcon')) {
+    function getIcon($type) {
+        $icon = '';
+        switch ($type) {
+            case 'docx':
+                $icon = '<i class="far fa-file-word" style="font-size: 50px;"></i>';
+                break;
+            case 'pdf' :
+                $icon = '<i class="far fa-file-pdf" style="font-size: 50px;"></i>';
+                break;
+            default :
+                $icon = '<i class="far fa-file" style="font-size: 50px;"></i>';
+                break;
+        }
+        return $icon;
+    }
+}

@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
-{
+class Project extends Model {
     use HasFactory;
+
     protected $fillable = [
         'company_id',
         'name',
@@ -21,14 +21,19 @@ class Project extends Model
         'description',
     ];
 
-    public function projectLeader(){
+    public function projectLeader() {
         return $this->hasOne(User::class, 'id', 'project_leader');
     }
 
-    public function projectUser(){
+    public function projectUser() {
         return $this->hasMany(ProjectUser::class);
     }
-    public function task(){
+
+    public function task() {
         return $this->hasMany(Task::class);
+    }
+
+    public function groupConversation() {
+        return $this->hasMany(GroupConversation::class);
     }
 }

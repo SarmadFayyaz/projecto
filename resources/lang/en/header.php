@@ -213,6 +213,17 @@ return [
     'binnacle' => 'BINANCLE',
     'group_chat' => 'Group Chat',
     'write_something_interesting' => 'write something intersting',
+    'documents' => 'DOCUMENTS',
+    'upload_files' => 'UPLOAD FILES',
+    'all_documents' => 'ALL DOCUMENTS',
+    'important' => 'IMPORTANT',
+    'recent' => 'Recent',
+    'chat' => 'CHAT',
+    'binance' => 'BINANCE',
+    'view_details' => 'VIEW DETAILS',
+    'mark_important' => 'MARK IMPORTANT',
+    'unmark_important' => 'UNMARK IMPORTANT',
+    'download' => 'DOWNLOAD',
 
 
     // *ADD NEW TASK*

@@ -28,8 +28,15 @@ class ProjectController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index($id) {
-        $project = Project::with('projectLeader', 'projectUser.user', 'task.taskUser.user', 'task.addedBy', 'task.taskAction', 'task.taskNote')
-            ->whereId($id)->first();
+        $project = Project::with(
+            'projectLeader',
+            'projectUser.user',
+            'task.taskUser.user',
+            'task.addedBy',
+            'task.taskAction',
+            'task.taskNote',
+            'groupConversation.user'
+        )->whereId($id)->first();
         $page = $project->id;
         return view('backend.user.project.index', compact('page', 'project'));
     }

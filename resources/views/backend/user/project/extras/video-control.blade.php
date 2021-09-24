@@ -5,9 +5,9 @@
             <button class="btn btn-primary btn-sm btn-round mr-md-4">Platform Information</button>
         </div>
         <div class="navbar-nav-btns">
-            <button class="btn btn-primary btn-sm mr-md-1 btnMic" rel="tooltip" title="Mute Mic" onclick="muteMic()"><i class="fas fa-microphone text-white"></i></button>
-            <button class="btn btn-primary btn-sm mr-md-1 btnCam" rel="tooltip" title="Turn Off Camera" onclick="muteVideo()"><i class="fas fa-video text-white"></i></button>
-            <button class="btn btn-primary btn-sm mr-md-1 btnScreen" rel="tooltip" title="Share Screen" onclick="shareScreen()"><i class="fab fa-slideshare text-white"></i></button>
+            <button class="btn btn-primary btn-sm mr-md-1 btnMic" rel="tooltip" title="Mute mic" onclick="muteMic()"><i class="fas fa-microphone text-white"></i></button>
+            <button class="btn btn-primary btn-sm mr-md-1 btnCam" rel="tooltip" title="Turn off camera" onclick="muteVideo()"><i class="fas fa-video text-white"></i></button>
+            <button class="btn btn-primary btn-sm mr-md-1 btnScreen" rel="tooltip" title="Share screen" onclick="shareScreen()"><i class="fab fa-slideshare text-white"></i></button>
             <button class="btn btn-primary btn-sm mr-md-1" onclick="ChangeVolume()"><i class="fas fa-volume-up text-white"></i>
             </button>
             <a href="javascript:void(0)" class="btn btn-primary btn-sm call_to_user">
@@ -22,9 +22,9 @@
     </div>
 
     <div class="navbar-nav-btns d-none d-sm-block d-md-none d-lg-none d-xl-none">
-        <button class="btn btn-primary btn-sm mr-md-1 btnMic" rel="tooltip" title="Mute Mic" onclick="muteMic()"><i class="fas fa-microphone text-white"></i></button>
-        <button class="btn btn-primary btn-sm mr-md-1 btnCam" rel="tooltip" title="Turn Off Camera" onclick="muteVideo()"><i class="fas fa-video text-white"></i></button>
-        <button class="btn btn-primary btn-sm mr-md-1 btnScreen" rel="tooltip" title="Share Screen" onclick="shareScreen()"><i class="fab fa-slideshare text-white"></i></button>
+        <button class="btn btn-primary btn-sm mr-md-1 btnMic" rel="tooltip" title="Mute mic" onclick="muteMic()"><i class="fas fa-microphone text-white"></i></button>
+        <button class="btn btn-primary btn-sm mr-md-1 btnCam" rel="tooltip" title="Turn off camera" onclick="muteVideo()"><i class="fas fa-video text-white"></i></button>
+        <button class="btn btn-primary btn-sm mr-md-1 btnScreen" rel="tooltip" title="Share screen" onclick="shareScreen()"><i class="fab fa-slideshare text-white"></i></button>
         <button class="btn btn-primary btn-sm mr-md-1"><i class="fas fa-volume-up text-white"></i>
         </button>
         <a href="javascript:void(0)" class="btn btn-primary btn-sm call_to_user">

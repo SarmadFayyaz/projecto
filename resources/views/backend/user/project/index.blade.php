@@ -3,10 +3,14 @@
 @section('title', $project->name)
 
 @section('style')
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/cupertino/jquery-ui.css"/>
     <style>
         .share_screen {
             width: 100px;
+            position: relative;
+            margin-top: -100px;
         }
+
         .bootstrap-datetimepicker-widget.dropdown-menu {
             width: auto;
         }
@@ -105,6 +109,13 @@
             width: 95px;
         }
 
+        .doc_name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
         .accordion-button::after {
             display: none;
         }
@@ -129,6 +140,10 @@
         }
 
         @media (min-width: 1200px) {
+            #shareScreenModal .modal-xl {
+                max-width: 1050px !important;
+            }
+
             #completedTaskModal .modal-xl {
                 max-width: 1050px !important;
                 top: 190px
@@ -281,7 +296,7 @@
     </style>
 @endsection
 
-@include('backend.user.project.task.add')@include('backend.user.project.task.completed')@include('backend.user.project.extras.video-control')@include('backend.user.project.extras.add-task-notes')@include('backend.user.project.document.index')
+@include('backend.user.project.task.add')@include('backend.user.project.task.completed')@include('backend.user.project.extras.video-control')@include('backend.user.project.extras.add-task-notes')@include('backend.user.project.document.index')@include('backend.user.project.extras.share-screen')@include('backend.user.project.chat.index')
 
 @section('right-panel')
     <div class="card mt-3 mb-0 table-responsive">
@@ -359,9 +374,9 @@
             <div class="accordion" id="accordionPanelsStayOpenExample2">
                 <div class="accordion-item border-0">
                     <h2 class="accordion-header text-center " id="panelsStayOpen-headingdoc">
-                        <button href="javascript:void(0)" class="btn btn-primary btn-block text-center mt-0" data-toggle="modal" data-target="#documentModal">
-                            Documents
-                        </button>
+                        <a href="{{ route('get-document', ['all' , $project->id]) }}" class="btn btn-primary btn-block text-center mt-0 get_documents" data-toggle="modal" data-target="#documentModal">
+                            {{ __('header.documents') }}
+                        </a>
                     </h2>
                 </div>
             </div>
@@ -373,9 +388,8 @@
     <div class="col-12 position-absolute" style="bottom: 0">
         <div class="row">
             <div class="col-12 text-center mt-2">
-                <button class="btn btn-primary p-2 w-25" onclick="openForm()"> Chat</button>
-                <button class="btn btn-primary p-2 w-25" onclick="openForm1()"> Binance</button>
-
+                <button class="btn btn-primary p-2 w-25" onclick="openChat()">{{ __('header.chat') }}</button>
+                <button class="btn btn-primary p-2 w-25" onclick="openBinance()">{{ __('header.binnacle') }}</button>
             </div>
         </div>
     </div>
@@ -809,86 +823,6 @@
                 </div>
             </div>
 
-            <!-- chat box -->
-            <div class="chat-popup" id="myForm" style="border-radius:10px">
-                <form action="/#" class="form-container" style="height:58vh;border-radius:5px">
-                    <div class="row">
-                        <div class="col-8 text-right">
-                            <h5><b>Chat Of The Project</b></h5>
-                        </div>
-                        <div class="col-4 text-right">
-                            <a href="javascript:void(0)" class="text-dark" onclick="closeForm()"><i class="fa fa-times"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-2 px-1">
-                                <img style="border-radius:50%;width:100%" src="{{ asset('assets/img/faces/avatar.jpg') }}"/>
-                            </div>
-                            <div class="col-10" style="background: #eeeeee;border-radius: 10px; ">
-                                <p class="mb-0 pb-0">
-                                    <span style="font-size: 14px;"><b>Test Name</b></span>
-                                    <span style="float:right;font-size: 14px;"><b>12:45</b></span>
-                                </p>
-                                <p class="mb-0 pb-0 mt-0 pt-0" style="line-height: 20px;margin-top:5px;font-size: 12px;">Lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                                <p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="box-footer" style="position: fixed;top: 85vh;width:290px;">
-                        <form action="#" method="post">
-                            <div class="input-group" style="border: 1px solid #bbb2b2; border-radius: 10px;padding:3px;background: #eeeeee;">
-                                <input type="text" name="message" placeholder="Type Message ..." class="form-control" style="background-image:none;">
-                                <span class="input-group-btn mt-2">
-                                    <a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
-                </form>
-            </div>
-
-            <!-- binnecle box -->
-            <div class="chat-popup" id="myForm1" style="border-radius:10px">
-                <form action="/action_page.php" class="form-container" style="height:58vh;border-radius:5px">
-                    <div class="row">
-                        <div class="col-8 text-right">
-                            <h5><b>Binnacle Of The Project</b></h5>
-                        </div>
-                        <div class="col-4 text-right">
-                            <a href="javascript:void(0)" class="text-dark" onclick="closeForm1()"><i class="fa fa-times"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-2 px-1">
-                                <img style="border-radius:50%;width:100%" src="{{ asset('assets/img/faces/avatar.jpg') }}"/>
-                            </div>
-                            <div class="col-10" style="background: #eeeeee;border-radius: 10px; ">
-                                <p class="mb-0 pb-0">
-                                    <span style="font-size: 14px;"><b>Test Name</b></span>
-                                    <span style="float:right;font-size: 14px;"><b>12:45</b></span>
-                                </p>
-                                <p class="mb-0 pb-0 mt-0 pt-0" style="line-height: 20px;margin-top:5px;font-size: 12px;">Lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                                <p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="box-footer" style="position: fixed;top: 85vh;width:290px;">
-                        <form action="#" method="post">
-                            <div class="input-group" style="border: 1px solid #bbb2b2; border-radius: 10px;padding:3px;background: #eeeeee;">
-                                <input type="text" name="message" placeholder="Type Message ..." class="form-control" style="background-image:none;">
-                                <span class="input-group-btn mt-2">
-                                    <a href="javascript:void(0)" class="text-dark"><i class="fa fa-send"></i></a>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
-                </form>
-            </div>
-
             <!-- Meetings Modal -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -1022,7 +956,9 @@
 @endsection
 
 @section('script')
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -1092,6 +1028,9 @@
                 $(this).siblings().removeClass("active");
 
             });
+            $('.ulitm').removeAttr("hidden");
+            $('#ulitm').css("display", "block");
+            $('#general').css("display", "block");
 
             $('.start_date').on('dp.change', function (e) {
                 $('.end_date').data('DateTimePicker').minDate($('#start_date').val());
@@ -1118,37 +1057,10 @@
                     close: 'fa fa-remove'
                 }
             });
-
-            $('.ulitm').removeAttr("hidden");
-            $('#ulitm').css("display", "block");
-            $('#general').css("display", "block");
-
-            function openForm() {
-                $('#myForm1').hide();
-                if ($('#myForm').is(':visible')) {
-                    $('#myForm').hide();
-                } else {
-                    $('#myForm').show();
-                }
-            }
-
-            function closeForm() {
-                document.getElementById("myForm").style.display = "none";
-            }
-
-            function openForm1() {
-                $('#myForm').hide();
-                if ($('#myForm1').is(':visible')) {
-                    $('#myForm1').hide();
-                } else {
-                    $('#myForm1').show();
-                }
-            }
-
-            function closeForm1() {
-                document.getElementById("myForm1").style.display = "none";
-            }
-
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
             // MultiCarousel JS Start
             var itemsMainDiv = ('.MultiCarousel');
             var itemsDiv = ('.MultiCarousel-inner');
@@ -1251,8 +1163,9 @@
             }
 
             // MultiCarousel JS End
-        });
-
+        })
+    </script>
+    <script>
         // Video Call JS Start
         var room;
         $(document).on('click', 'a.call_to_user', function (event) {
@@ -1334,11 +1247,9 @@
                 // }
             }
             var video1 = div.getElementsByTagName("video")[1];
-            console.log(video + '===============' + video1);
             if (video1) {
-                video1.setAttribute("data-type", "screen_share");
-                let share_screen = ($('video').data('type', 'share_screen'));
-                share_screen.addClass('share_screen');
+                console.log(video1);
+                video1.classList.add("share_screen", "cursor-pointer");
             }
         }
 
@@ -1368,18 +1279,15 @@
             });
         }
 
-
         // mute & unmute mic
         function muteMic() {
             room.localParticipant.audioTracks.forEach((publication) => {
                 if (publication.isEnabled) {
                     publication.disable();
-                    $('.btnMic').html('<i class="fas fa-microphone-slash"></i>')
-                    $('.btnMic').attr('title', 'Unmute Mic');
+                    $('.btnMic').html('<i class="fas fa-microphone-slash"></i>').attr('title', 'Unmute mic').attr('data-original-title', 'Unmute mic');
                 } else {
                     publication.enable();
-                    $('.btnMic').html('<i class="fas fa-microphone"></i>')
-                    $('.btnMic').attr('title', 'Mute Mic');
+                    $('.btnMic').html('<i class="fas fa-microphone"></i>').attr('title', 'Mute mic').attr('data-original-title', 'Mute mic');
                 }
 
             });
@@ -1432,14 +1340,11 @@
                     console.log(publication);
                     if (publication.isEnabled) {
                         publication.disable();
-                        $('.btnCam').html('<i class="fas fa-video-slash"></i>')
-                        $('.btnCam').attr('title', 'Turn On Camera');
+                        $('.btnCam').html('<i class="fas fa-video-slash"></i>').attr('title', 'Turn on camera').attr('data-original-title', 'Turn on camera');
                     } else {
                         publication.enable();
-                        $('.btnCam').html('<i class="fas fa-video"></i>')
-                        $('.btnCam').attr('title', 'Turn Off Camera');
+                        $('.btnCam').html('<i class="fas fa-video"></i>').attr('title', 'Turn off camera').attr('data-original-title', 'Turn off camera');
                     }
-
                 });
             }
 
@@ -1464,10 +1369,7 @@
                     screenTrack.mediaStreamTrack.onended = () => {
                         shareScreen()
                     };
-                    console.log(screenTrack);
-
-                    $('.btnScreen').html('<i class="fas fa-slash text-white"></i>')
-                    $('.btnScreen').attr('title', 'Stop Screen');
+                    $('.btnScreen').html('<i class="fas fa-slash text-white"></i>').attr('title', 'Stop sharing screen').attr('data-original-title', 'Stop sharing screen');
                     $.ajax({
                         url: APP_URL + '/screen-shared',
                         type: 'post',
@@ -1490,8 +1392,7 @@
                 room.localParticipant.unpublishTrack(screenTrack);
                 screenTrack.stop();
                 screenTrack = null
-                $('.btnScreen').html('<i class="fab fa-slideshare"></i>')
-                $('.btnScreen').attr('title', 'Share Screen');
+                $('.btnScreen').html('<i class="fab fa-slideshare"></i>').attr('title', 'Share screen').attr('data-original-title', 'Share screen');
                 $.ajax({
                     url: APP_URL + '/screen-shared',
                     type: 'post',
@@ -1510,7 +1411,430 @@
             }
         };
 
+        let share_screen_div = null;
+        $(document).on('click', '.share_screen', function () {
+            share_screen_div = $(this).parent();
+            $('#shareScreenModal .modal-body').append($(this).removeClass('share_screen cursor-pointer').css({'width': '100%', 'margin-top': 0}));
+            $('#shareScreenModal').modal('show');
+            $('#shareScreenModal').find('.modal-content').resizable({
+                minWidth: 625,
+                minHeight: 175,
+                handles: 'n, e, s, w, ne, sw, se, nw',
+            });
+            $('#shareScreenModal').find('.modal-content').draggable({
+                handle: '.modal-header'
+            });
+        });
+        $('#shareScreenModal').on('hidden.bs.modal', function () {
+            share_screen_div.append($('#shareScreenModal video').addClass('share_screen cursor-pointer').removeAttr("style"));
+        });
         // Video Call JS End
+    </script>
+    <script>
+        //Chat JS Start
+        function openChat() {
+            $('#binancePopupModal').hide();
+            if ($('#chatPopupModal').is(':visible')) {
+                $('#chatPopupModal').hide();
+            } else {
+                $('#chatPopupModal').show();
+                let messageBody = document.querySelector('#chat_body');
+                messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+            }
+        }
 
+        function closeChat() {
+            document.getElementById("chatPopupModal").style.display = "none";
+        }
+
+        function openBinance() {
+            $('#chatPopupModal').hide();
+            if ($('#binancePopupModal').is(':visible')) {
+                $('#binancePopupModal').hide();
+            } else {
+                $('#binancePopupModal').show();
+                let messageBody = document.querySelector('#binance_body');
+                messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+            }
+        }
+
+        function closeBinance() {
+            document.getElementById("binancePopupModal").style.display = "none";
+        }
+
+        Pusher.logToConsole = true;
+
+        var pusher1 = new Pusher('452e3e06689718ba121f', {
+            cluster: 'ap2',
+            useTLS: true
+        });
+
+        // group message event
+        var channel1 = pusher1.subscribe('groups.{{ $project->id }}');
+        channel1.bind('GroupMessage', function (data) {
+            let content = '';
+            content += '<div class="row mb-2">';
+            if ({{Auth::user()->id}} == data.group_conversation.user_id) {
+                @if(Auth::user()->image == null)
+                    content += '<div class="col-2 mt-2 p-1 order-10">';
+                content += '<span class="p-2 rounded-circle bg-info">';
+                content += '{{ucfirst(isset(Auth::user()->first_name[0]) ? Auth::user()->first_name[0] : '') . ucfirst(isset(Auth::user()->last_name[0]) ? Auth::user()->last_name[0] : '')}}';
+                content += '</span>';
+                content += '</div>';
+                @else
+                    content += '<div class="col-2 p-1 order-10">';
+                content += '<img width="40" height="40" class="rounded-circle"';
+                content += 'src="' + APP_URL + '/storage{{ Auth::user()->image }}"/>';
+                content += '</div>';
+                @endif
+                    content += '<div class="col-10 order-2" style="background: #eeeeee;border-radius: 10px; ">';
+                content += '<p class="mb-0 pb-0">';
+                content += '<span style="font-size: 14px;"><b>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</b></span>';
+            } else {
+                if (data.group_conversation.user.image == null) {
+                    content += '<div class="col-2 mt-2 p-1">';
+                    content += '<span class="p-2 rounded-circle bg-info">';
+                    content += (data.group_conversation.user.first_name).charAt(0) + (data.group_conversation.user.last_name).charAt(0);
+                    content += '</span>';
+                    content += '</div>';
+                } else {
+                    content += '<div class="col-2 p-1">';
+                    content += '<img width="40" height="40" class="rounded-circle"';
+                    content += 'src="' + APP_URL + '/storage' + data.group_conversation.user.image + '"/>';
+                    content += '</div>';
+                }
+                content += '<div class="col-10" style="background: #eeeeee;border-radius: 10px; ">';
+                content += '<p class="mb-0 pb-0">';
+                content += '<span style="font-size: 14px;"><b>' + data.group_conversation.user.first_name + data.group_conversation.user.last_name + '</b></span>';
+            }
+            content += '<span class="text-lowercase" style="float:right;font-size: 14px;"><b>' + getTime(data.group_conversation.created_at) + '</b></span>';
+            content += '</p>';
+            content += '<p class="mb-0 pb-0 mt-0 pt-0" style="line-height: 20px;margin-top:5px;font-size: 12px;">';
+            if (data.group_conversation.message != null && data.group_conversation.message != '')
+                content += data.group_conversation.message;
+            if (data.group_conversation.document_id != null && data.group_conversation.document_id != '') {
+                let icon = '';
+                switch (data.group_conversation.document.type) {
+                    case 'docx':
+                        icon = '<i class="far fa-file-word" style="font-size: 50px;"></i>';
+                        break;
+                    case 'pdf' :
+                        icon = '<i class="far fa-file-pdf" style="font-size: 50px;"></i>';
+                        break;
+                    default :
+                        icon = '<i class="far fa-file" style="font-size: 50px;"></i>';
+                        break;
+                }
+
+                if (data.group_conversation.message != null && data.group_conversation.message != '')
+                    content += '<br>'
+                content += '<a href="' + APP_URL + '/storage' + data.group_conversation.document.file + '" class="btn btn-link bg-transparent text-dark p-1 mt-0 mb-0 0 ml-0 mr-0 w-auto appended_tooltip"';
+                content += ' target="_blank" rel="tooltip" title="' + data.group_conversation.document.name + '" data-original-title="' + data.group_conversation.document.name + '" >' + icon + '</a>'
+            }
+            content += '<p>';
+            content += '</div>';
+            content += '</div>';
+
+            if (data.group_conversation.message_type == 0) {
+                $("#chat_body").append(content);
+                var messageBody = document.querySelector('#chat_body');
+                messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+            } else if (data.group_conversation.message_type == 1) {
+                $("#binance_body").append(content);
+                var messageBody = document.querySelector('#binance_body');
+                messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+            }
+        });
+
+        // single message event
+        var channel2 = pusher1.subscribe('receiver.{{Auth::user()->id}}');
+        channel2.bind('IndividualMessage', function (data) {
+            let content = '';
+            content += '<div class="row mb-2">';
+            if ({{Auth::user()->id}} == data.individual_conversation.user_id) {
+                @if(Auth::user()->image == null)
+                    content += '<div class="col-2 mt-2 p-1 order-10">';
+                content += '<span class="p-2 rounded-circle bg-info">';
+                content += '{{ucfirst(isset(Auth::user()->first_name[0]) ? Auth::user()->first_name[0] : '') . ucfirst(isset(Auth::user()->last_name[0]) ? Auth::user()->last_name[0] : '')}}';
+                content += '</span>';
+                content += '</div>';
+                @else
+                    content += '<div class="col-2 p-1 order-10">';
+                content += '<img width="40" height="40" class="rounded-circle"';
+                content += 'src="' + APP_URL + '/storage{{ Auth::user()->image }}"/>';
+                content += '</div>';
+                @endif
+                    content += '<div class="col-10 order-2" style="background: #eeeeee;border-radius: 10px; ">';
+                content += '<p class="mb-0 pb-0">';
+                content += '<span style="font-size: 14px;"><b>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</b></span>';
+            } else {
+                if (data.individual_conversation.user.image == null) {
+                    content += '<div class="col-2 mt-2 p-1">';
+                    content += '<span class="p-2 rounded-circle bg-info">';
+                    content += (data.individual_conversation.user.first_name).charAt(0) + (data.individual_conversation.user.last_name).charAt(0);
+                    content += '</span>';
+                    content += '</div>';
+                } else {
+                    content += '<div class="col-2 p-1">';
+                    content += '<img width="40" height="40" class="rounded-circle"';
+                    content += 'src="' + APP_URL + '/storage' + data.individual_conversation.user.image + '"/>';
+                    content += '</div>';
+                }
+                content += '<div class="col-10" style="background: #eeeeee;border-radius: 10px; ">';
+                content += '<p class="mb-0 pb-0">';
+                content += '<span style="font-size: 14px;"><b>' + data.individual_conversation.user.first_name + data.individual_conversation.user.last_name + '</b></span>';
+            }
+            content += '<span class="text-lowercase" style="float:right;font-size: 14px;"><b>' + getTime(data.individual_conversation.created_at) + '</b></span>';
+            content += '</p>';
+            content += '<p class="mb-0 pb-0 mt-0 pt-0" style="line-height: 20px;margin-top:5px;font-size: 12px;">';
+            if (data.individual_conversation.message != null && data.individual_conversation.message != '')
+                content += data.individual_conversation.message;
+            if (data.individual_conversation.document_id != null && data.individual_conversation.document_id != '') {
+                let icon = '';
+                switch (data.individual_conversation.document.type) {
+                    case 'docx':
+                        icon = '<i class="far fa-file-word" style="font-size: 50px;"></i>';
+                        break;
+                    case 'pdf' :
+                        icon = '<i class="far fa-file-pdf" style="font-size: 50px;"></i>';
+                        break;
+                    default :
+                        icon = '<i class="far fa-file" style="font-size: 50px;"></i>';
+                        break;
+                }
+
+                if (data.individual_conversation.message != null && data.individual_conversation.message != '')
+                    content += '<br>'
+                content += '<a href="' + APP_URL + '/storage' + data.individual_conversation.document.file + '" class="btn btn-link bg-transparent text-dark p-1 mt-0 mb-0 0 ml-0 mr-0 w-auto appended_tooltip"';
+                content += ' target="_blank" rel="tooltip" title="' + data.individual_conversation.document.name + '" data-original-title="' + data.individual_conversation.document.name + '" >' + icon + '</a>'
+            }
+            content += '<p>';
+            content += '</div>';
+            content += '</div>';
+
+            $("#individual_chat_body").append(content);
+            var messageBody = document.querySelector('#individual_chat_body');
+            messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+        });
+        // screen shared event
+        var channel3 = pusher1.subscribe('screen-shared.{{Auth::user()->id}}');
+        channel3.bind('ScreenShared', function (data) {
+                if (data.status == "true") {
+                    $('#btnScreen').prop('disabled', true)
+                } else {
+                    $('#btnScreen').prop('disabled', false)
+                }
+
+                console.log(data)
+            }
+        )
+        $(function () {
+                $("#upload_link").on('click', function (e) {
+                    e.preventDefault();
+                    $("#upload:hidden").trigger('click');
+                });
+            }
+        );
+
+        $("#chat_form, #binance_form").submit(function (e) {
+            e.preventDefault();
+            let chat_type = $(this).find('.receiver_id').val();
+            let url = APP_URL + "/group-conversation";
+            if (chat_type != 0) {
+                url = APP_URL + "/individual-conversation";
+            }
+            $('#chat_btn').attr('disabled', true);
+            $('#binance_btn').attr('disabled', true);
+            $.ajax({
+                url: url,
+                type: "post",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function (result) {
+                    $('#chat_btn').prop('disabled', false);
+                    $("#chat_message").val("");
+                    $('#chat_file').val('').closest('label').attr('data-original-title', 'Attach file').attr('title', 'Attach file');
+
+                    $('#binance_btn').prop('disabled', false);
+                    $("#binance_message").val("");
+                    $('#binance_file').val('').closest('label').attr('data-original-title', 'Attach file').attr('title', 'Attach file');
+                },
+                error: function (result) {
+                    $('#chat_btn').prop('disabled', false);
+                    if (result.status == 422) { // when status code is 422, it's a validation issue
+                        $.each(result.responseJSON.errors, function (i, error) {
+                            toastr.error(error);
+                        });
+                    } else
+                        toastr.error(result.error);
+                    // toastr.error('in error');
+                }
+            });
+        });
+
+        $('#chat_file, #binance_file').on('change', function (e) {
+            var filename = e.target.files[0].name;
+            $(this).closest('label').attr('data-original-title', filename).attr('title', filename);
+        });
+
+        $(document).on('change', '#chat_type', function () {
+            let chat_type = $(this).val();
+            $('#chatPopupModal .receiver_id').val(chat_type);
+            if (chat_type != 0) {
+                $.ajax({
+                    url: APP_URL + "/individual-conversation/" + chat_type,
+                    type: "get",
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#individual_chat_body').empty();
+                        $.each(result, function (i, message) {
+                            let content = '';
+                            content += '<div class="row mb-2">';
+                            if ({{Auth::user()->id}} == message.user_id) {
+                                @if(Auth::user()->image == null)
+                                    content += '<div class="col-2 mt-2 p-1 order-10">';
+                                content += '<span class="p-2 rounded-circle bg-info">';
+                                content += '{{ucfirst(isset(Auth::user()->first_name[0]) ? Auth::user()->first_name[0] : '') . ucfirst(isset(Auth::user()->last_name[0]) ? Auth::user()->last_name[0] : '')}}';
+                                content += '</span>';
+                                content += '</div>';
+                                @else
+                                    content += '<div class="col-2 p-1 order-10">';
+                                content += '<img width="40" height="40" class="rounded-circle"';
+                                content += 'src="' + APP_URL + '/storage{{ Auth::user()->image }}"/>';
+                                content += '</div>';
+                                @endif
+                                    content += '<div class="col-10 order-2" style="background: #eeeeee;border-radius: 10px; ">';
+                                content += '<p class="mb-0 pb-0">';
+                                content += '<span style="font-size: 14px;"><b>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</b></span>';
+                            } else {
+                                if (message.user.image == null) {
+                                    content += '<div class="col-2 mt-2 p-1">';
+                                    content += '<span class="p-2 rounded-circle bg-info">';
+                                    content += (message.user.first_name).charAt(0) + (message.user.last_name).charAt(0);
+                                    content += '</span>';
+                                    content += '</div>';
+                                } else {
+                                    content += '<div class="col-2 p-1">';
+                                    content += '<img width="40" height="40" class="rounded-circle"';
+                                    content += 'src="' + APP_URL + '/storage' + message.user.image + '"/>';
+                                    content += '</div>';
+                                }
+                                content += '<div class="col-10" style="background: #eeeeee;border-radius: 10px; ">';
+                                content += '<p class="mb-0 pb-0">';
+                                content += '<span style="font-size: 14px;"><b>' + message.user.first_name + message.user.last_name + '</b></span>';
+                            }
+                            content += '<span class="text-lowercase" style="float:right;font-size: 14px;"><b>' + getTime(message.created_at) + '</b></span>';
+                            content += '</p>';
+                            content += '<p class="mb-0 pb-0 mt-0 pt-0" style="line-height: 20px;margin-top:5px;font-size: 12px;">';
+                            if (message.message != null && message.message != '')
+                                content += message.message;
+                            if (message.document_id != null && message.document_id != '') {
+                                let icon = '';
+                                switch (message.document.type) {
+                                    case 'docx':
+                                        icon = '<i class="far fa-file-word" style="font-size: 50px;"></i>';
+                                        break;
+                                    case 'pdf' :
+                                        icon = '<i class="far fa-file-pdf" style="font-size: 50px;"></i>';
+                                        break;
+                                    default :
+                                        icon = '<i class="far fa-file" style="font-size: 50px;"></i>';
+                                        break;
+                                }
+
+                                if (message.message != null && message.message != '')
+                                    content += '<br>'
+                                content += '<a href="' + APP_URL + '/storage' + message.document.file + '" class="btn btn-link bg-transparent text-dark p-1 mt-0 mb-0 0 ml-0 mr-0 w-auto appended_tooltip"';
+                                content += ' target="_blank" rel="tooltip" title="' + message.document.name + '" data-original-title="' + message.document.name + '" >' + icon + '</a>'
+                            }
+                            content += '<p>';
+                            content += '</div>';
+                            content += '</div>';
+
+                            $("#individual_chat_body").append(content);
+                            $('#individual_chat_body').css('display', 'block');
+                            $('#chat_body').css('display', 'none');
+                            var messageBody = document.querySelector('#individual_chat_body');
+                            messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                        });
+                    },
+                    error: function (result) {
+                        toastr.error(result.error);
+                    }
+                })
+            } else {
+                $('#individual_chat_body').css('display', 'none');
+                $('#chat_body').css('display', 'block');
+                var messageBody = document.querySelector('#chat_body');
+                messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+            }
+        });
+
+        function getTime(date_time) {
+            date_time = new Date(date_time);
+            return date_time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true})
+        }
+
+        // Chat Js End
+    </script>
+    <script>
+        // Document JS Start
+        $(document).on('click', '.get_documents', function () {
+            event.preventDefault();
+            $('#documentModal').find('.doc_div').load($(this).attr('href'));
+            $('.doc_div').animate({
+                scrollTop: $(".doc_div").offset().top
+            }, 2000);
+        });
+
+        $(document).on('click', '.important_document', function () {
+            event.preventDefault();
+            let id = $(this).data('id');
+            $.ajax({
+                url: APP_URL + '/important-document',
+                type: "post",
+                data: {'id': id, "_token": "{{ csrf_token() }}"},
+                success: function (result) {
+                    toastr.success(result.success);
+                    $('.get_documents').removeClass('active');
+                    $('.doc_imp_nav').addClass('active');
+                    $('#documentModal').find('.doc_div').load(APP_URL + '/get-document/3/' + {{ $project->id }});
+                },
+                error: function () {
+                    toastr.error('in error');
+                }
+            });
+        });
+
+        $(document).on('change', '#document_upload', function (e) {
+            alert(123);
+            event.preventDefault();
+            let upload_file = this;
+            let file = e.target.files;
+            let form_data = new FormData();
+            form_data.append('file', file[0]);
+            form_data.append('project_id', '{{ $project->id }}');
+            form_data.append('_token', '{{ csrf_token() }}');
+            $.ajax({
+                url: APP_URL + '/upload-document',
+                type: "post",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    toastr.success(result.success);
+                    $('.get_documents').removeClass('active');
+                    $('.doc_all_nav').addClass('active');
+                    $('#documentModal').find('.doc_div').load(APP_URL + '/get-document/all/' + {{ $project->id }});
+                },
+                error: function () {
+                    toastr.error('in error');
+                }
+            });
+        });
+        // Document JS End
     </script>
 @endsection

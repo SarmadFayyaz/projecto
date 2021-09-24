@@ -26,7 +26,7 @@ class UserController extends Controller {
 
     public function get(Request $request) {
         if ($request->ajax()) {
-            $data = User::latest()->get();
+            $data = User::where('company_id', Auth::guard('company')->user()->id)->latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('role', function ($row) {

@@ -61,6 +61,9 @@
 </script>
 
 <script>
+    $('body').tooltip({
+        selector: '.appended_tooltip'
+    });
     //  Activate the tooltips
     $('[rel="tooltip"]').tooltip();
 
@@ -403,4 +406,41 @@
     toastr.error("{{ $error }}");
     @endforeach
     @endif
+</script>
+
+<script>
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('452e3e06689718ba121f', {
+        cluster: 'ap2',
+        useTLS: true
+    });
+
+    var channel = pusher.subscribe('my-channel.{{Auth::user()->id}}');
+    channel.bind('GroupCreated', function (data) {
+        console.log(data)
+        toastr.info("You have been added to new project!");
+        var str = ' <a class="dropdown-item" href="/admin/project/' + data.group.project_id + '/' + data.notification.id + '" style="margin-bottom: 2px;background-color: lightblue;">' + data.notification.body + '</a>';
+        $('#myNotifications').append(str);
+        var notification_counter = parseInt($('.notification').text());
+        $('.notification').html(notification_counter + 1)
+        console.log(JSON.stringify(data.group));
+    });
+    channel.bind('TaskAdded', function (data) {
+        if (data.notification.type == "task added")
+            toastr.info("A new task added in " + data.task.get_project.name);
+        else if (data.notification.type == "task updated")
+            toastr.info("Task updated in " + data.task.get_project.name);
+        var str = ' <a class="dropdown-item" href="/admin/project/' + data.task.get_project.id + '/' + data.notification.id + '">' + data.notification.body + '</a>';
+        $('#myNotifications').append(str);
+        var notification_counter = parseInt($('.notification').text());
+        $('.notification').html(notification_counter + 1)
+    });
+    channel.bind('TaskActionSubmitted', function (data) {
+        toastr.info("An action has been marked as done in " + data.action.get_task.task_title + " task");
+        var str = ' <a class="dropdown-item" href="/admin/project/' + data.action.get_task.get_project.id + '/' + data.notification.id + '">' + data.notification.body + '</a>';
+        $('#myNotifications').append(str);
+        var notification_counter = parseInt($('.notification').text());
+        $('.notification').html(notification_counter + 1)
+    });
 </script>

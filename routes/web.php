@@ -23,6 +23,9 @@ use App\Http\Controllers\Backend\User\TaskActionController as UserTaskAction;
 use App\Http\Controllers\Backend\User\TaskNoteController as UserTaskNote;
 use App\Http\Controllers\Backend\User\TaskRequestsController as UserTaskRequests;
 use App\Http\Controllers\Backend\User\VideoController as UserVideo;
+use App\Http\Controllers\Backend\User\GroupConversationController as UserGroupConversation;
+use App\Http\Controllers\Backend\User\IndividualConversationController as UserIndividualConversation;
+use App\Http\Controllers\Backend\User\DocumentController as UserDocument;
 
 
 /*
@@ -38,11 +41,6 @@ use App\Http\Controllers\Backend\User\VideoController as UserVideo;
 
 // Language Routes
 Route::get('language/{lang}', [LanguageController::class, 'language'])->middleware('language');
-
-Route::get('/', function () {
-    $page = 'Dashboard';
-    return view('backend.backup.dashboard', compact('page'));
-});
 
 Route::get('/test', function () {
     $page = 'Test 2';
@@ -118,6 +116,9 @@ Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company
 });
 
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/', [UserHome::class, 'index']);
+
     Route::get('/dashboard', [UserHome::class, 'index'])->name('dashboard');
     Route::get('/project/{id}', [UserProject::class, 'index'])->name('project');
 
@@ -141,4 +142,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('join-call', [UserVideo::class, 'joinCall']);
     Route::get('screen-share', [UserVideo::class, 'screenShare']);
     Route::post('screen-shared', [UserVideo::class, 'screenShared']);
+
+    Route::resource('group-conversation', UserGroupConversation::class);
+    Route::resource('individual-conversation', UserIndividualConversation::class);
+    Route::get('get-document/{section}/{project_id}', [UserDocument::class, 'index'])->name('get-document');
+    Route::post('important-document', [UserDocument::class, 'important'])->name('important-document');
+    Route::post('upload-document', [UserDocument::class, 'upload'])->name('upload-document');
+//    Route::get('download-document/{id}', [UserDocument::class, 'download'])->name('download-document');
 });

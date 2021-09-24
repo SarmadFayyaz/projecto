@@ -973,3 +973,14 @@ Bounce
 .bg-pending {
     background-color: #f0f0f0;
 }
+.w-auto{
+    width: auto !important;
+}
+#chatPopupModal .filter-option {
+    padding: 5px;
+    font-size: 15px;
+    font-weight: 900;
+}
+#chatPopupModal .select-with-transition {
+    background-image: none !important;
+}
