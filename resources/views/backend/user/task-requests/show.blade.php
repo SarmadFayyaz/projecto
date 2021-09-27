@@ -16,7 +16,7 @@
                     <h4 class="modal-title text-center ">{{ $task->name }}</h4>
                 </div>
                 <div class="col-3 text-right">
-                    <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"> <i class="material-icons">clear</i> </a>
+                    <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
                 </div>
 
             </div>
@@ -45,27 +45,48 @@
         <div class="col-md-3">
             <div class="d-flex align-items-center justify-content-end flex-wrap mb-1">
                 @if(Auth::user()->id != $task->addedBy->id)
-                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
-                        @if($task->addedBy->image == null)
-                            <span class="p-1 rounded-circle bg-info">
-                                {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
-                            </span>
-                        @else
-                            <img width="25" height="25" class="rounded-circle" src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                        @endif
-                        <span class="logged-in">●</span>
-                    </span>
-                @endif
-                @foreach($task->taskUser as $user)
-                    @if(Auth::user()->id != $user->user->id)
-                        <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                            @if($user->user->image == null)
-                                <span class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                    @if($task->addedBy->deleted_at == null)
+                        <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
+                            @if($task->addedBy->image == null)
+                                <span class="p-1 rounded-circle bg-info">
+                                    {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
+                                </span>
                             @else
-                                <img width="25" height="25" class="rounded-circle" src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                <img width="25" height="25" class="rounded-circle"
+                                     src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                             @endif
                             <span class="logged-in">●</span>
                         </span>
+                    @else
+                        <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                            <span class="p-1 rounded-circle bg-info">
+                                <i class="fas fa-user-slash"></i>
+                            </span>
+                            <span class="logged-out">●</span>
+                        </span>
+                    @endif
+                @endif
+                @foreach($task->taskUser as $user)
+                    @if(Auth::user()->id != $user->user->id)
+                        @if($user->user->deleted_at == null)
+                            <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
+                                @if($user->user->image == null)
+                                    <span
+                                        class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                @else
+                                    <img width="25" height="25" class="rounded-circle"
+                                         src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                @endif
+                                <span class="logged-in">●</span>
+                            </span>
+                        @else
+                            <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                <span class="p-1 rounded-circle bg-info">
+                                    <i class="fas fa-user-slash"></i>
+                                </span>
+                                <span class="logged-out">●</span>
+                            </span>
+                        @endif
                     @endif
                 @endforeach
             </div>

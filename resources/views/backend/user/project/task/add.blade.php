@@ -32,7 +32,7 @@
                                 <select class="selectpicker" name="team_members[]" id="team_members" multiple data-style="select-with-transition" data-size="4" required data-width="100%" title="{{ __('header.choose_members') }}">
                                     <option disabled> {{ __('header.choose_members') }} </option>
                                     @foreach($project->projectUser as $projectUser)
-                                        @if($projectUser->user->hasRole('User') && $projectUser->user->id != Auth::user()->id)
+                                        @if($projectUser->user->hasRole('User') && $projectUser->user->id != Auth::user()->id && $projectUser->user->deleted_at == null)
                                             <option value="{{ $projectUser->user->id }}" {{ (in_array($projectUser->user->id, old('team_members', []))) ? 'selected' : '' }}>
                                                 {{ $projectUser->user->first_name . ' ' . $projectUser->user->last_name }}
                                             </option>

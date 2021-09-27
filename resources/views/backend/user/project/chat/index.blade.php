@@ -7,13 +7,21 @@
                     <option selected value="0"> {{ __('header.group_chat') }} </option>
                     @if(Auth::user()->id != $project->project_leader)
                         <option value="{{ $project->projectLeader->id }}">
-                            {{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}
+                            @if($project->projectLeader->deleted_at == null)
+                                {{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}
+                            @else
+                                {{ __('header.user_deleted') }}
+                            @endif
                         </option>
                     @endif
                     @foreach($project->projectUser as $project_user)
                         @if(Auth::user()->id != $project_user->user->id)
                             <option value="{{ $project_user->user->id }}">
-                                {{ $project_user->user->first_name . ' ' . $project_user->user->last_name }}
+                                @if($project_user->user->deleted_at == null)
+                                    {{ $project_user->user->first_name . ' ' . $project_user->user->last_name }}
+                                @else
+                                    {{ __('header.user_deleted') }}
+                                @endif
                             </option>
                         @endif
                     @endforeach
@@ -27,21 +35,37 @@
             @foreach($project->groupConversation as $conversation)
                 @if($conversation->message_type == 0)
                     <div class="row mb-2">
-                        @if($conversation->user->image == null)
-                            <div class="col-2 mt-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
-                                <span class="p-2 rounded-circle bg-info">
-                                    {{ucfirst(isset($conversation->user->first_name[0]) ? $conversation->user->first_name[0] : '') . ucfirst(isset($conversation->user->last_name[0]) ? $conversation->user->last_name[0] : '')}}
-                                </span>
-                            </div>
+                        @if($conversation->user->deleted_at == null)
+                            @if($conversation->user->image == null)
+                                <div class="col-2 mt-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
+                                    <span class="p-2 rounded-circle bg-info">
+                                        {{ucfirst(isset($conversation->user->first_name[0]) ? $conversation->user->first_name[0] : '') . ucfirst(isset($conversation->user->last_name[0]) ? $conversation->user->last_name[0] : '')}}
+                                    </span>
+                                </div>
+                            @else
+                                <div class="col-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
+                                    <img width="40" height="40" class="rounded-circle"
+                                         src="{{ Storage::disk('public')->exists($conversation->user->image) ? Storage::disk('public')->url($conversation->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                </div>
+                            @endif
                         @else
-                            <div class="col-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
-                                <img width="40" height="40" class="rounded-circle"
-                                     src="{{ Storage::disk('public')->exists($conversation->user->image) ? Storage::disk('public')->url($conversation->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                            <div class="col-2 mt-2 p-1">
+                                <span class="p-2 rounded-circle bg-info">
+                                    <i class="fas fa-user-slash"></i>
+                                </span>
                             </div>
                         @endif
                         <div class="col-10 {{ (Auth::user()->id == $conversation->user_id) ? 'order-2' : '' }}" style="background: #eeeeee;border-radius: 10px; ">
                             <p class="mb-0 pb-0">
-                                <span style="font-size: 14px;"><b>{{ ($conversation->user) ? $conversation->user->first_name . ' ' . $conversation->user->last_name : '' }}</b></span>
+                                <span style="font-size: 14px;">
+                                    <b>
+                                        @if($conversation->user && $conversation->user->deleted_at == null)
+                                            {{ $conversation->user->first_name . ' ' . $conversation->user->last_name }}
+                                        @else
+                                            {{ __('header.user_deleted') }}
+                                        @endif
+                                    </b>
+                                </span>
                                 <span class="text-lowercase" style="float:right;font-size: 14px;"><b>{{ getTime($conversation->created_at) }}</b></span>
                             </p>
                             <p class="mb-0 pb-0 mt-0 pt-0" style="line-height: 20px;margin-top:5px;font-size: 12px;">
@@ -61,8 +85,7 @@
                 @endif
             @endforeach
         </div>
-        <div class="col-12 table-responsive" id="individual_chat_body" style="max-height: 42vh; display: none;">
-        </div>
+        <div class="col-12 table-responsive" id="individual_chat_body" style="max-height: 42vh; display: none;"></div>
 
         <div class="box-footer" style="position: fixed;top: 85vh;width:290px;">
             <form id="chat_form" method="post" enctype="multipart/form-data">
@@ -105,21 +128,37 @@
             @foreach($project->groupConversation as $conversation)
                 @if($conversation->message_type == 1)
                     <div class="row mb-2">
-                        @if($conversation->user->image == null)
-                            <div class="col-2 mt-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
-                                <span class="p-2 rounded-circle bg-info">
-                                    {{ucfirst(isset($conversation->user->first_name[0]) ? $conversation->user->first_name[0] : '') . ucfirst(isset($conversation->user->last_name[0]) ? $conversation->user->last_name[0] : '')}}
-                                </span>
-                            </div>
+                        @if($conversation->user->deleted_at == null)
+                            @if($conversation->user->image == null)
+                                <div class="col-2 mt-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
+                                    <span class="p-2 rounded-circle bg-info">
+                                        {{ucfirst(isset($conversation->user->first_name[0]) ? $conversation->user->first_name[0] : '') . ucfirst(isset($conversation->user->last_name[0]) ? $conversation->user->last_name[0] : '')}}
+                                    </span>
+                                </div>
+                            @else
+                                <div class="col-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
+                                    <img width="40" height="40" class="rounded-circle"
+                                         src="{{ Storage::disk('public')->exists($conversation->user->image) ? Storage::disk('public')->url($conversation->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                </div>
+                            @endif
                         @else
-                            <div class="col-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
-                                <img width="40" height="40" class="rounded-circle"
-                                     src="{{ Storage::disk('public')->exists($conversation->user->image) ? Storage::disk('public')->url($conversation->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                            <div class="col-2 mt-2 p-1">
+                                <span class="p-2 rounded-circle bg-info">
+                                    <i class="fas fa-user-slash"></i>
+                                </span>
                             </div>
                         @endif
                         <div class="col-10 {{ (Auth::user()->id == $conversation->user_id) ? 'order-2' : '' }}" style="background: #eeeeee;border-radius: 10px; ">
                             <p class="mb-0 pb-0">
-                                <span style="font-size: 14px;"><b>{{ ($conversation->user) ? $conversation->user->first_name . ' ' . $conversation->user->last_name : '' }}</b></span>
+                                <span style="font-size: 14px;">
+                                    <b>
+                                        @if($conversation->user && $conversation->user->deleted_at == null)
+                                            {{ $conversation->user->first_name . ' ' . $conversation->user->last_name }}
+                                        @else
+                                            {{ __('header.user_deleted') }}
+                                        @endif
+                                    </b>
+                                </span>
                                 <span class="text-lowercase" style="float:right;font-size: 14px;"><b>{{ getTime($conversation->created_at) }}</b></span>
                             </p>
                             <p class="mb-0 pb-0 mt-0 pt-0" style="line-height: 20px;margin-top:5px;font-size: 12px;">

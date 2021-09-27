@@ -65,8 +65,9 @@ class ProjectController extends Controller {
                     $team_members = '';
                     foreach ($row->projectUser as $projectUser) {
                         if ($projectUser->user->hasRole('User'))
-                            $team_members .= '<span class="badge badge-info mr-2">' . $projectUser->user->first_name . ' '
-                                . $projectUser->user->last_name . '</span>';
+                            if ($projectUser->user->deleted_at == null)
+                                $team_members .= '<span class="badge badge-info mr-2">' . $projectUser->user->first_name . ' '
+                                    . $projectUser->user->last_name . '</span>';
                     }
                     return $team_members;
                 })

@@ -23,7 +23,7 @@ class Project extends Model {
     ];
 
     public function projectLeader() {
-        return $this->hasOne(User::class, 'id', 'project_leader');
+        return $this->hasOne(User::class, 'id', 'project_leader')->withTrashed();
     }
 
     public function projectUser() {

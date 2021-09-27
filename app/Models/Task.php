@@ -35,6 +35,6 @@ class Task extends Model {
     }
 
     public function addedBy() {
-        return $this->hasOne(User::class, 'id', 'added_by');
+        return $this->hasOne(User::class, 'id', 'added_by')->withTrashed();
     }
 }

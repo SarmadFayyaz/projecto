@@ -38,7 +38,10 @@ class TaskRequestsController extends Controller {
                     return $row->project->name;
                 })
                 ->addColumn('added_by', function ($row) {
-                    return $row->addedBy->first_name . ' ' . $row->addedBy->last_name;
+                    if ($row->addedBy->deleted_at == null)
+                        return $row->addedBy->first_name . ' ' . $row->addedBy->last_name;
+                    else
+                        return __('header.user_deleted');
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<a href="' . route('task.requests.show',
@@ -112,7 +115,8 @@ class TaskRequestsController extends Controller {
         //            return back()->with('error', 'Something went wrong.');
         //        }
     }
-    public function delete($id){
+
+    public function delete($id) {
         TaskUser::where('task_id', $id)->delete();
         TaskAction::where('task_id', $id)->delete();
         TaskNote::where('task_id', $id)->delete();

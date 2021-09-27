@@ -115,6 +115,7 @@ return [
     'active_users' => 'ACTIVE USERS',
     'add_user' => 'ADD USER',
     'edit_user' => 'EDIT USER',
+    'user_deleted' => 'USER DELETED',
     'id' => 'ID',
     'name' => 'NAME',
     'email' => 'EMAIL',

@@ -102,20 +102,34 @@
                                                         <div class="d-flex mb-3 justify-content-between align-items-center">
                                                             <div class="col-12">
                                                                 @if(Auth::user()->id != $project->projectLeader->id)
-                                                                    <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}">
-                                                                        {{ucfirst(isset($project->projectLeader->first_name[0]) ? $project->projectLeader->first_name[0] : '') . ucfirst(isset($project->projectLeader->last_name[0]) ? $project->projectLeader->last_name[0] : '')}}
-                                                                        <div class="ripple-container"></div>
-                                                                    </button>
-                                                                @endif
-                                                                @foreach($project->projectUser as $user)
-                                                                    @if(Auth::user()->id != $user->user->id)
-                                                                        <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                            {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}}
+                                                                    @if($project->projectLeader->deleted_at == null)
+                                                                        <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}">
+                                                                            {{ucfirst(isset($project->projectLeader->first_name[0]) ? $project->projectLeader->first_name[0] : '') . ucfirst(isset($project->projectLeader->last_name[0]) ? $project->projectLeader->last_name[0] : '')}}
+                                                                            <div class="ripple-container"></div>
+                                                                        </button>
+                                                                    @else
+                                                                        <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                            <i class="fas fa-user-slash"></i>
                                                                             <div class="ripple-container"></div>
                                                                         </button>
                                                                     @endif
+                                                                @endif
+                                                                @foreach($project->projectUser as $user)
+                                                                    @if(Auth::user()->id != $user->user->id)
+                                                                        @if($user->user->deleted_at == null)
+                                                                            <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
+                                                                                {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}}
+                                                                                <div class="ripple-container"></div>
+                                                                            </button>
+                                                                        @else
+                                                                            <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                                <i class="fas fa-user-slash"></i>
+                                                                                <div class="ripple-container"></div>
+                                                                            </button>
+                                                                        @endif
+                                                                    @endif
                                                                 @endforeach
-                                                                <a href="{{ route('project', $project->id) }}"> <i class="fas fa-info-circle ml-2 text-warning pull-right cursor-pointer" title="View Task Details"></i> </a>
+                                                                <a href="{{ route('project', $project->id) }}"><i class="fas fa-info-circle ml-2 text-warning pull-right cursor-pointer" title="View Task Details"></i></a>
                                                                 {{-- @if(Auth::user()->id != $project->projectLeader->id)
                                                                     <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
                                                                           title="{{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}">
@@ -303,7 +317,7 @@
                                     </select>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <select class="selectpicker task_note_finder" data-style="select-with-transition" title="{{ __('header.select_task') }}" data-size="4"  data-container="body">
+                                    <select class="selectpicker task_note_finder" data-style="select-with-transition" title="{{ __('header.select_task') }}" data-size="4" data-container="body">
                                         <option disabled> {{ __('header.select_task') }} </option>
                                         @foreach($user_projects as $project)
                                             @foreach($project->task as $task)
@@ -325,7 +339,11 @@
                                                         {{ $note->notes }}
                                                     </div>
                                                     <div class="col-12 text-right pl-2 pr-2">
-                                                        {{ $note->user->first_name . ' ' .  $note->user->last_name }}
+                                                        @if($note->user->deleted_at == null)
+                                                            {{ $note->user->first_name . ' ' .  $note->user->last_name }}
+                                                        @else
+                                                            {{ __('header.user_deleted') }}
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @endforeach

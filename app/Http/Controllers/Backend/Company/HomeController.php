@@ -29,7 +29,7 @@ class HomeController extends Controller {
         Session::put('locale', Auth::guard('company')->user()->language);
         App::setLocale(Auth::guard('company')->user()->language);
         $page = 'Dashboard';
-        return view('backend.company.dashboard', compact('page'));
+        return view('backend.company.index', compact('page'));
     }
 
     public function setting(Request $request) {

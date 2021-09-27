@@ -82,7 +82,7 @@ Route::get('admin/login', [AdminLogin::class, 'showLoginForm']);
 
 Route::post('admin/login', [AdminLogin::class, 'login'])->name('admin.login');
 
-Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/dashboard', [AdminHome::class, 'index'])->name('dashboard');
     Route::post('/setting', [AdminHome::class, 'setting'])->name('setting');
 
@@ -105,7 +105,7 @@ Route::group(['middleware' => 'admin'], function () {
 Route::get('company/login', [CompanyLogin::class, 'showLoginForm']);
 Route::post('company/login', [CompanyLogin::class, 'login'])->name('company.login');
 Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company.'], function () {
-    Route::get('/dashboard', [CompanyHome::class, 'index'])->name('dashboard');
+    Route::get('/', [CompanyHome::class, 'index'])->name('index');
     Route::post('/setting', [CompanyHome::class, 'setting'])->name('setting');
 
     Route::get('/user/get', [CompanyUser::class, 'get'])->name('user.get');
