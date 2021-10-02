@@ -1,7 +1,10 @@
 @extends('layouts.user')
 
-@section('title', 'Dashboard')
+@section('title',  __('header.welcome') . ' ' . auth()->user()->first_name . ' ' . auth()->user()->last_name)
 
+@php
+    $user_projects = getUserProjects();
+@endphp
 @section('style')
     <style>
         tr:first-child > td > .fc-day-grid-event {
@@ -56,10 +59,9 @@
     </style>
 @endsection
 
+@include('backend.user.dashboard.calendar.create')@include('backend.user.dashboard.calendar.edit')
+
 @section('content')
-    @php
-        $user_projects = getUserProjects();
-    @endphp
 
     <div class="content">
         <div class="container-fluid">
@@ -69,7 +71,7 @@
                         <div class="card-body m-0 pb-0 activeproject">
                             <div class="row">
                                 <div class="col-6">
-                                    <h4 class="m-0 p-0 font-weight-bold ml-1 mb-1">Active Project</h4>
+                                    <h4 class="m-0 p-0 font-weight-bold ml-1 mb-1">{{ __('header.active_projects') }}</h4>
                                 </div>
                                 <div class="col-6 text-right">
                                     <button class="btn btn-primary btn-sm btn-round py-0" id="collapsall">Collapse All</button>
@@ -297,7 +299,7 @@
                 <div class="col-md-4">
                     <div class="card card-calendar mb-0 scroll-bar" style="max-height: 45vh;">
                         <div class="card-body ">
-                            <div id="fullCalendar"></div>
+                            <div id="fullCalendarEvents"></div>
                         </div>
                     </div>
 
@@ -360,6 +362,24 @@
         </div>
     </div>
 
+    {{--<!-- Show Event Modal -->--}}
+    <div class="modal fade" id="showEventModal" tab index="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl mr-md-2">
+            <div class="modal-content">
+
+                <div class="card card-signup card-plain">
+                    <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
+                        <h4 class="modal-title">{{ __('header.event_details') }}</h4>
+                        <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
+                    </div>
+                </div>
+
+                <div class="modal-body card-body scroll-bar"></div>
+            </div>
+        </div>
+    </div>
+    {{--<!--  End Modal -->--}}
+
 @endsection
 
 @section('script')
@@ -390,6 +410,169 @@
                 value: '{{$project->task->where('progress',100)->count()*10}}'
             });
             @endforeach
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            $calendar = $('#fullCalendarEvents');
+
+            today = new Date();
+            y = today.getFullYear();
+            m = today.getMonth();
+            d = today.getDate();
+
+            $calendar.fullCalendar({
+                viewRender: function (view, element) {
+                    // We make sure that we activate the perfect scrollbar when the view isn't on Month
+                    if (view.name != 'month') {
+                        $(element).find('.fc-scroller').perfectScrollbar();
+                    }
+                },
+                header: {
+                    left: 'title',
+                    center: 'month,agendaWeek,agendaDay',
+                    right: 'prev,next,today'
+                },
+                defaultDate: today,
+                selectable: true,
+                selectHelper: true,
+                views: {
+                    month: { // name of view
+                        titleFormat: 'MMMM YYYY'
+                        // other view-specific options here
+                    },
+                    week: {
+                        titleFormat: " MMMM D YYYY"
+                    },
+                    day: {
+                        titleFormat: 'D MMM, YYYY'
+                    }
+                },
+
+                select: function (start, end) {
+                    $('#createEventForm').find('.start').val($.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss"));
+                    $('#createEventForm').find('.end').val($.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss"));
+                    $('#createEventModal').modal('show');
+                },
+                eventClick: function (event) {
+                    let id = event.id;
+                    $('#showEventModal').modal('show');
+                    $('#showEventModal').find('.modal-body').load(APP_URL + '/event/' + id);
+                },
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+
+
+                // color classes: [ event-blue | event-azure | event-green | event-orange | event-red ]
+                displayEventTime: true,
+                events: [
+                        @foreach($user_projects as $project)
+                        @foreach($project->event as $event)
+                    {
+                        id: {{ $event->id }},
+                        title: '{!! $event->title !!}',
+                        start: '{{ $event->start }}',
+                        end: '{{ $event->end }}',
+                        allDay: false,
+                    },
+                    @endforeach
+                    @endforeach
+                ]
+            });
+
+            $("#createEventForm").submit(function (e) {
+                e.preventDefault();
+                form_data = new FormData(this);
+                $.ajax({
+                    url: '{{ route('event.store') }}',
+                    type: "post",
+                    data: form_data,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        eventData = {
+                            id: result.event.id,
+                            title: result.event.title,
+                            start: result.event.start,
+                            end: result.event.end
+                        };
+                        $calendar.fullCalendar('renderEvent', eventData, true); // stick? = true
+                        toastr.success(result.success);
+                        $('#createEventModal').modal('hide');
+                    },
+                    error: function (result) {
+                        if (result.status == 422) { // when status code is 422, it's a validation issue
+                            $.each(result.responseJSON.errors, function (i, error) {
+                                toastr.error(error);
+                            });
+                        } else
+                            toastr.error(result.error);
+                        // toastr.error('in error');
+                    }
+                });
+            });
+
+            $(document).on('click', '.event_edit', function () {
+                event.preventDefault();
+                $('#showEventModal').modal('hide');
+                let url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    type: "get",
+                    success: function (result) {
+                        $('#editEventForm').find('.id').val(result.event.id);
+                        $('#editEventForm').find('.start').val(result.event.start);
+                        $('#editEventForm').find('.end').val(result.event.end);
+                        $('#editEventForm').find('.project_id').val(result.event.project_id).selectpicker('refresh');
+                        $('#editEventForm').find('.user_id').attr('selected', false);
+                        for (let i = 0; i < result.event.event_user.length; i++) {
+                            $('#editEventForm .user_id option[value=' + result.event.event_user[i].user_id + ']').attr('selected', true);
+                        }
+                        $('#editEventForm').find('.user_id').selectpicker('refresh');
+                        $('#editEventForm').find('.title').val(result.event.title).closest('.form-group').addClass('is-filled');
+                    },
+                    error: function (result) {
+                        toastr.error(result.error);
+                    }
+                });
+            });
+
+            $("#editEventForm").submit(function (e) {
+                e.preventDefault();
+                let id = $(this).find('.id').val();
+                form_data = new FormData(this);
+                $.ajax({
+                    url: APP_URL + '/event/' + id,
+                    type: "POST",
+                    data: form_data,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        // eventData = {
+                        //     id: result.event.id,
+                        //     title: result.event.title,
+                        //     start: result.event.start,
+                        //     end: result.event.end
+                        // };
+                        // $calendar.fullCalendar('renderEvent', eventData, true); // stick? = true
+                        toastr.success(result.success);
+                        $('#editEventModal').modal('hide');
+                    },
+                    error: function (result) {
+                        if (result.status == 422) { // when status code is 422, it's a validation issue
+                            $.each(result.responseJSON.errors, function (i, error) {
+                                toastr.error(error);
+                            });
+                        } else
+                            toastr.error(result.error);
+                        // toastr.error('in error');
+                    }
+                });
+            });
         });
     </script>
 @endsection

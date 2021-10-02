@@ -15,8 +15,8 @@ class CreateTaskNotesTable extends Migration
     {
         Schema::create('task_notes', function (Blueprint $table) {
             $table->id();
-            $table->integer('task_id');
-            $table->integer('user_id');
+            $table->bigInteger('task_id');
+            $table->bigInteger('user_id');
             $table->string('notes');
             $table->timestamps();
             $table->softDeletes();

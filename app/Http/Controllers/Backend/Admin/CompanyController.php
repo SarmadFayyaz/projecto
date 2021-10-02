@@ -78,7 +78,7 @@ class CompanyController extends Controller {
             $data['admin_id'] = Auth::guard('admin')->user()->id;
             Company::create($data);
             DB::commit();
-            return back()->with('success', 'Company added successfully.');
+            return redirect(route('admin.company.index'))->with('success', 'Company added successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');
@@ -134,7 +134,7 @@ class CompanyController extends Controller {
             $data['password'] = ($data['password']) ? Hash::make($data['password']) : $company->password;
             $company->update($data);
             DB::commit();
-            return back()->with('success', 'Company updated successfully.');
+            return redirect(route('admin.company.index'))->with('success', 'Company Updated successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');

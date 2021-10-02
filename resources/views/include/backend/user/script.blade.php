@@ -339,11 +339,6 @@
 
 <script>
     $(document).ready(function () {
-        md.initFullCalendar();
-    });
-</script>
-<script>
-    $(document).ready(function () {
         $('#datatables').DataTable({
             "pagingType": "full_numbers",
             "lengthMenu": [
@@ -421,27 +416,29 @@
     channel.bind('GroupCreated', function (data) {
         console.log(data)
         toastr.info("You have been added to new project!");
-        var str = ' <a class="dropdown-item" href="/admin/project/' + data.group.project_id + '/' + data.notification.id + '" style="margin-bottom: 2px;background-color: lightblue;">' + data.notification.body + '</a>';
-        $('#myNotifications').append(str);
-        var notification_counter = parseInt($('.notification').text());
-        $('.notification').html(notification_counter + 1)
+        var str = ' <a class="dropdown-item" href="#" style="margin-bottom: 2px;background-color: lightblue;">' + data.notification.body + '</a>';
+        $('#my_notifications').append(str);
+        var notification_counter = parseInt($('#notification_counter').text());
+        $('#notification_counter').html(notification_counter + 1)
         console.log(JSON.stringify(data.group));
     });
-    channel.bind('TaskAdded', function (data) {
+    channel.bind('TaskNotification', function (data) {
         if (data.notification.type == "task added")
-            toastr.info("A new task added in " + data.task.get_project.name);
+            toastr.info("A new task added in " + data.task.project.name);
+        else if (data.notification.type == "task approved")
+            toastr.info("Task added in " + data.task.project.name);
         else if (data.notification.type == "task updated")
-            toastr.info("Task updated in " + data.task.get_project.name);
-        var str = ' <a class="dropdown-item" href="/admin/project/' + data.task.get_project.id + '/' + data.notification.id + '">' + data.notification.body + '</a>';
-        $('#myNotifications').append(str);
-        var notification_counter = parseInt($('.notification').text());
-        $('.notification').html(notification_counter + 1)
+            toastr.info("Task updated in " + data.task.project.name);
+        var str = ' <a class="dropdown-item" href="#">' + data.notification.notification + '</a>';
+        $('#my_notifications').append(str);
+        var notification_counter = parseInt($('#notification_counter').text());
+        $('#notification_counter').html(notification_counter + 1)
     });
     channel.bind('TaskActionSubmitted', function (data) {
         toastr.info("An action has been marked as done in " + data.action.get_task.task_title + " task");
         var str = ' <a class="dropdown-item" href="/admin/project/' + data.action.get_task.get_project.id + '/' + data.notification.id + '">' + data.notification.body + '</a>';
-        $('#myNotifications').append(str);
-        var notification_counter = parseInt($('.notification').text());
-        $('.notification').html(notification_counter + 1)
+        $('#my_notifications').append(str);
+        var notification_counter = parseInt($('#notification_counter').text());
+        $('#notification_counter').html(notification_counter + 1)
     });
 </script>

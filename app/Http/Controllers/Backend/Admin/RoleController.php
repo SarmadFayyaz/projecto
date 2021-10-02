@@ -76,7 +76,7 @@ class RoleController extends Controller {
             $permissions = $request->input('permission') ? $request->input('permission') : [];
             $role->givePermissionTo($permissions);
             DB::commit();
-            return back()->with('success', 'Role added successfully.');
+            return redirect(route('admin.role.index'))->with('success', 'Role added successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');
@@ -125,7 +125,7 @@ class RoleController extends Controller {
             $permissions = $request->input('permission') ? $request->input('permission') : [];
             $role->syncPermissions($permissions);
             DB::commit();
-            return back()->with('success', 'Role updated successfully.');
+            return redirect(route('admin.role.index'))->with('success', 'Role updated successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');

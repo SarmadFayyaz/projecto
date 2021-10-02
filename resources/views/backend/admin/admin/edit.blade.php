@@ -19,28 +19,16 @@
                             </div>
                             <h4 class="card-title">{{__('header.edit_admin')}}</h4>
                         </div>
-                        <form method="post" action="{{ route('admin.update', $admin->id) }}"
-                              enctype="multipart/form-data">
+                        <form method="post" action="{{ route('admin.admins.update', $admin->id) }}" enctype="multipart/form-data">
                             @csrf
                             @method('put')
                             <div class="card-body ">
-                                @if (session('success'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-                                @if (session('error'))
-                                    <div class="alert alert-danger" role="alert">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
-                                    @yield('message')
+                                @yield('message')
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
                                         <div class="form-group @error('name') has-danger @enderror">
                                             <label for="name" class="bmd-label-floating">{{__('header.name')}}</label>
-                                            <input type="text" class="form-control" name="name"
-                                                   value="{{ (old('name')) ? old('name') : $admin->name }}">
+                                            <input type="text" class="form-control" name="name" value="{{ (old('name')) ? old('name') : $admin->name }}">
                                             @error('name')
                                             <label class="error">
                                                 {{ $message }}
@@ -51,8 +39,7 @@
                                     <div class="col-sm-12 col-md-6">
                                         <div class="form-group @error('email') has-danger @enderror">
                                             <label for="email" class="bmd-label-floating">{{__('header.email')}}</label>
-                                            <input type="email" class="form-control" name="email"
-                                                   value="{{ (old('email')) ? old('email') : $admin->email }}">
+                                            <input type="email" class="form-control" name="email" value="{{ (old('email')) ? old('email') : $admin->email }}">
                                             @error('email')
                                             <label class="error">
                                                 {{ $message }}
@@ -75,8 +62,7 @@
                                     </div>
                                     <div class="col-sm-12 col-md-6">
                                         <div class="form-group">
-                                            <label for="password_confirmation"
-                                                   class="bmd-label-floating">{{__('header.confirm_password')}}</label>
+                                            <label for="password_confirmation" class="bmd-label-floating">{{__('header.confirm_password')}}</label>
                                             <input type="password" class="form-control" name="password_confirmation">
                                         </div>
                                     </div>
@@ -87,10 +73,10 @@
                                             </div>
                                             <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
                                             <div>
-                                              <span class="btn btn-round btn-success btn-file">
-                                                <span class="fileinput-exists" style="display: block">{{__('header.change')}}</span>
-                                                <input type="file" name="image" accept="image/*"/>
-                                              </span>
+                                                <span class="btn btn-round btn-success btn-file">
+                                                    <span class="fileinput-exists" style="display: block">{{__('header.change')}}</span>
+                                                    <input type="file" name="image" accept="image/*"/>
+                                                </span>
                                             </div>
                                             @error('image')
                                             <label class="error">
@@ -102,8 +88,7 @@
                                 </div>
                             </div>
                             <div class="card-footer ">
-                                <button type="submit"
-                                        class="btn btn-fill btn-success ml-auto">{{__('header.update')}}</button>
+                                <button type="submit" class="btn btn-fill btn-success ml-auto">{{__('header.update')}}</button>
                             </div>
                         </form>
                     </div>

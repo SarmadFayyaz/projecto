@@ -8,7 +8,7 @@ use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLogin;
 use App\Http\Controllers\Backend\Admin\HomeController as AdminHome;
 use App\Http\Controllers\Backend\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Backend\Admin\PermissionController as AdminPermission;
-use App\Http\Controllers\Backend\Admin\AdminController as Admin;
+use App\Http\Controllers\Backend\Admin\AdminController as AdminAdmins;
 use App\Http\Controllers\Backend\Admin\CompanyController as AdminCompany;
 
 use App\Http\Controllers\Backend\Company\Auth\LoginController as CompanyLogin;
@@ -26,7 +26,7 @@ use App\Http\Controllers\Backend\User\VideoController as UserVideo;
 use App\Http\Controllers\Backend\User\GroupConversationController as UserGroupConversation;
 use App\Http\Controllers\Backend\User\IndividualConversationController as UserIndividualConversation;
 use App\Http\Controllers\Backend\User\DocumentController as UserDocument;
-
+use App\Http\Controllers\Backend\User\EventController as UserEvent;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,9 +38,6 @@ use App\Http\Controllers\Backend\User\DocumentController as UserDocument;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Language Routes
-Route::get('language/{lang}', [LanguageController::class, 'language'])->middleware('language');
 
 Route::get('/test', function () {
     $page = 'Test 2';
@@ -75,16 +72,21 @@ Route::get('/meeting-mode', function () {
     return view('backend.backup.meeting-mode', compact('page'));
 });
 
+// Auth
 Auth::routes(['register' => false, 'verify' => false]);
+
+// Language Routes
+Route::get('language/{lang}', [LanguageController::class, 'language'])->middleware('language');
 
 // Admin Routes
 Route::get('admin/login', [AdminLogin::class, 'showLoginForm']);
-
 Route::post('admin/login', [AdminLogin::class, 'login'])->name('admin.login');
-
-Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/dashboard', [AdminHome::class, 'index'])->name('dashboard');
+Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('/', [AdminHome::class, 'index'])->name('index');
     Route::post('/setting', [AdminHome::class, 'setting'])->name('setting');
+
+    Route::get('/admins/get', [AdminAdmins::class, 'get'])->name('admins.get');
+    Route::resource('/admins', AdminAdmins::class);
 
     Route::get('/role/get', [AdminRole::class, 'get'])->name('role.get');
     Route::resource('role', AdminRole::class);
@@ -94,12 +96,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'as' => 'admin.
     Route::get('/company/get', [AdminCompany::class, 'get'])->name('company.get');
     Route::resource('company', AdminCompany::class);
 });
-
-Route::group(['middleware' => 'admin'], function () {
-    Route::get('/admin/get', [Admin::class, 'get'])->name('admin.get');
-    Route::resource('/admin', Admin::class);
-});
-
 
 // Company Routes
 Route::get('company/login', [CompanyLogin::class, 'showLoginForm']);
@@ -115,13 +111,12 @@ Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company
     Route::resource('project', CompanyProject::class);
 });
 
+// User Routes
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/', [UserHome::class, 'index']);
+    Route::get('/', [UserHome::class, 'index'])->name('index');
 
-    Route::get('/dashboard', [UserHome::class, 'index'])->name('dashboard');
     Route::get('/project/{id}', [UserProject::class, 'index'])->name('project');
-
     Route::get('/projects', [UserProject::class, 'projects'])->name('projects');
     Route::get('/projects/get', [UserProject::class, 'get'])->name('projects.get');
     Route::get('/project/{id}/edit', [UserProject::class, 'edit'])->name('project.edit');
@@ -148,5 +143,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('get-document/{section}/{project_id}', [UserDocument::class, 'index'])->name('get-document');
     Route::post('important-document', [UserDocument::class, 'important'])->name('important-document');
     Route::post('upload-document', [UserDocument::class, 'upload'])->name('upload-document');
-//    Route::get('download-document/{id}', [UserDocument::class, 'download'])->name('download-document');
+    //    Route::get('download-document/{id}', [UserDocument::class, 'download'])->name('download-document');
+
+    Route::resource('event', UserEvent::class);
 });

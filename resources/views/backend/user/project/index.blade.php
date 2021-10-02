@@ -342,7 +342,7 @@
                             Project Notes
                         </button>
                     </h2>
-                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingFive">
+                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse table-responsive" aria-labelledby="panelsStayOpen-headingFive" style="max-height: 30vh;">
                         <div class="accordion-body border">
                             <div class="p-2 text-left" style="border-top: 1px solid #f0f0f0;">
                                 <p class="mb-1 ">

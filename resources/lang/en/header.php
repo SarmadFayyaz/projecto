@@ -1,5 +1,6 @@
 <?php
 return [
+    'welcome' => 'Welcome',
     //SIDE NAVIGATION
     'project_title' => 'Project O',
     //'admin 1122'	=>	'ADMIN 1122',
@@ -238,6 +239,13 @@ return [
     'actions_max' => 'Actions (max. 5)',
     'save' => 'Save',
 
-
+    // Event
+    'event' => 'EVENT',
+    'user' => 'USER',
+    'start' => 'START',
+    'end' => 'END',
+    'create_event' => 'CREATE EVENT',
+    'event_details' => 'EVENT DETAILS',
+    'event_edit' => 'EVENT EDIT',
 ]
 ?>

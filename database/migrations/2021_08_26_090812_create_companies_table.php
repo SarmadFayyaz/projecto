@@ -13,7 +13,7 @@ class CreateCompaniesTable extends Migration {
     public function up() {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->integer('admin_id');
+            $table->bigInteger('admin_id');
             $table->string('ref_no')->nullable();
             $table->string('name');
             $table->string('email')->unique();

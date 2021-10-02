@@ -22,16 +22,6 @@
                         <form method="post" action="{{ route('company.project.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body ">
-                                @if (session('success'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-                                @if (session('error'))
-                                    <div class="alert alert-danger" role="alert">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
                                 <div class="row">
                                     <div class="col-sm-12 col-md-4 mt-2">
                                         <div class="form-group @error('name') has-danger @enderror">

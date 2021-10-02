@@ -11,14 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use App;
 
 class HomeController extends Controller {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        //        $this->middleware('auth');
-    }
 
     /**
      * Show the application dashboard.
@@ -29,7 +21,7 @@ class HomeController extends Controller {
         Session::put('locale', Auth::guard('admin')->user()->language);
         App::setLocale(Auth::guard('admin')->user()->language);
         $page = 'Dashboard';
-        return view('backend.admin.dashboard', compact('page'));
+        return view('backend.admin.dashboard.index', compact('page'));
     }
 
     public function setting(Request $request) {

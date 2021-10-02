@@ -64,7 +64,7 @@ class PermissionController extends Controller {
             $data = $request->all();
             Permission::create($data);
             DB::commit();
-            return back()->with('success', 'Permission added successfully.');
+            return redirect(route('admin.permission.index'))->with('success', 'Permission added successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');
@@ -109,7 +109,7 @@ class PermissionController extends Controller {
             $data = $request->all();
             $permission->update($data);
             DB::commit();
-            return back()->with('success', 'Permission updated successfully.');
+            return redirect(route('admin.permission.index'))->with('success', 'Permission updated successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');

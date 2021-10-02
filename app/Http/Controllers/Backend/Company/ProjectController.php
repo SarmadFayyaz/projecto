@@ -29,7 +29,8 @@ class ProjectController extends Controller {
 
     public function get(Request $request) {
         if ($request->ajax()) {
-            $data = Project::with('projectLeader', 'projectUser')->where('company_id', Auth::guard('company')->user()->id)->latest()->get();
+            $data = Project::with('projectLeader', 'projectUser')
+                ->where('company_id', Auth::guard('company')->user()->id)->latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('boss_leader', function ($row) {

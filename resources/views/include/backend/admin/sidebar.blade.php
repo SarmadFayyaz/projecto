@@ -55,7 +55,7 @@
         </div>
         <ul class="nav">
             <li class="nav-item  <?php echo($page == "Dashboard" ? "active" : "")?> ">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                <a class="nav-link" href="{{ route('admin.index') }}">
                     <i class="material-icons">dashboard</i>
                     <p> {{__('header.dashboard')}} </p>
                 </a>
@@ -67,7 +67,7 @@
                 </a>
             </li>
             <li class="nav-item  <?php echo($page == "Admins" ? "active" : "")?> ">
-                <a class="nav-link" href="{{ route('admin.index') }}">
+                <a class="nav-link" href="{{ route('admin.admins.index') }}">
                     <i class="fas fa-user-cog"></i>
                     <p> {{__('header.admins')}} </p>
                 </a>

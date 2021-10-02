@@ -15,8 +15,8 @@ class CreateProjectUsersTable extends Migration
     {
         Schema::create('project_users', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('project_id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('project_id');
             $table->timestamps();
             $table->softDeletes();
         });

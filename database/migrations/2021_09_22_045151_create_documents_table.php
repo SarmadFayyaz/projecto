@@ -15,8 +15,8 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->integer('project_id');
-            $table->integer('user_id');
+            $table->bigInteger('project_id');
+            $table->bigInteger('user_id');
             $table->integer('section')->nullable();
             $table->string('name')->nullable();
             $table->string('type')->nullable();

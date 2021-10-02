@@ -91,7 +91,7 @@ class UserController extends Controller {
             $user = User::create($data);
             $user->assignRole($role);
             DB::commit();
-            return back()->with('success', 'User added successfully.');
+            return redirect(route('company.user.index'))->with('success', 'User added successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');
@@ -152,7 +152,7 @@ class UserController extends Controller {
             $role = $request->input('role') ? $request->input('role') : [];
             $user->syncRoles($role);
             DB::commit();
-            return back()->with('success', 'User updated successfully.');
+            return redirect(route('company.user.index'))->with('success', 'User updated successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');

@@ -2,11 +2,13 @@
 
 use App\Models\Project;
 use App\Models\ProjectUser;
+use App\Models\Notification;
+use App\Models\NotificationUser;
 use Illuminate\Support\Facades\Auth;
 
 if (!function_exists('getProjects')) {
     function getUserProjects() {
-        $data = Project::with('projectUser.user', 'task')->orderBy('created_at', 'asc');
+        $data = Project::with('projectUser.user', 'task', 'event.eventUser')->orderBy('created_at', 'asc');
         if (Auth::user()->hasRole('Boss'))
             $data->where('project_leader', Auth::user()->id);
         if (Auth::user()->hasRole('User'))
@@ -14,17 +16,19 @@ if (!function_exists('getProjects')) {
                 $query->whereUserId(Auth::user()->id);
             });
         $user_projects = $data->get();
-        //        $data = ProjectUser::orderBy('created_at', 'asc');
-        //        if (Auth::user()->hasRole('Boss'))
-        //            $data->with(['project' => function($query) {
-        //                $query->whereProjectLeader(Auth::user()->id);
-        //            }]);
-        //        if (Auth::user()->hasRole('User'))
-        //            $data->with('project')->where('user_id', Auth::user()->id);
-        //        $user_projects = $data->get();
         return $user_projects;
     }
 }
+
+if (!function_exists('getNotification')) {
+    function getNotifications() {
+        $notifications_user = NotificationUser::with('notification')
+            ->where('user_id', auth()->user()->id)
+            ->where('status', 0)->get();
+        return $notifications_user;
+    }
+}
+
 if (!function_exists('getProjectBackground')) {
     function getProjectBackground($color) {
         if ($color == 'green')

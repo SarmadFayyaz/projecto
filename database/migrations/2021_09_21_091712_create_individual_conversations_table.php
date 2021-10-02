@@ -15,11 +15,11 @@ class CreateIndividualConversationsTable extends Migration
     {
         Schema::create('individual_conversations', function (Blueprint $table) {
             $table->id();
-            $table->integer('project_id');
-            $table->integer('user_id');
-            $table->integer('receiver_id');
+            $table->bigInteger('project_id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('receiver_id');
             $table->text('message')->nullable();
-            $table->integer('document_id')->nullable();
+            $table->bigInteger('document_id')->nullable();
             $table->integer('status')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();

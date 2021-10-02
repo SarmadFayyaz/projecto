@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="col text-right">
                                     <a class="btn btn-round btn-success btn-sm card-title text-white"
-                                       href="{{ route('admin.create') }}">
+                                       href="{{ route('admin.admins.create') }}">
                                         <i class="material-icons">add_box</i>
                                         {{__('header.add_admins')}}
                                     </a>
@@ -31,16 +31,6 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @if (session('success'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
-                            @if (session('error'))
-                                <div class="alert alert-danger" role="alert">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
                             <div class="toolbar">
                                 <!--        Here you can write extra buttons/actions for the toolbar              -->
                             </div>
@@ -95,7 +85,7 @@
 
                 destroy: true,
 
-                ajax: "{{ route('admin.get') }}",
+                ajax: "{{ route('admin.admins.get') }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false},
                     {data: 'name', name: 'name'},

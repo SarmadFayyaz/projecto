@@ -19,19 +19,9 @@
                             </div>
                             <h4 class="card-title">{{__('header.add_admin')}}</h4>
                         </div>
-                        <form method="post" action="{{ route('admin.store') }}" enctype="multipart/form-data">
+                        <form method="post" action="{{ route('admin.admins.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body ">
-                                @if (session('success'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-                                @if (session('error'))
-                                    <div class="alert alert-danger" role="alert">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
                                         <div class="form-group @error('name') has-danger @enderror">

@@ -29,7 +29,7 @@ class AdminController extends Controller {
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="' . route('admin.edit', $row->id) . '" class="edit btn btn-success btn-sm"><i class="material-icons">edit</i></a>';
+                    $actionBtn = '<a href="' . route('admin.admins.edit', $row->id) . '" class="edit btn btn-success btn-sm"><i class="material-icons">edit</i></a>';
                     $actionBtn .= '<a href="javascript:void(0)" class="delete remove btn btn-danger btn-sm" data-id="' . $row->id . '"><i class="material-icons">close</i></a>';
                     return $actionBtn;
                 })
@@ -73,7 +73,7 @@ class AdminController extends Controller {
             $data['password'] = Hash::make($data['password']);
             Admin::create($data);
             DB::commit();
-            return back()->with('success', 'Admin added successfully.');
+            return redirect(route('admin.admins.index'))->with('success', 'Admin added successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');
@@ -129,7 +129,7 @@ class AdminController extends Controller {
             $data['password'] = ($data['password']) ? Hash::make($data['password']) : $admin->password;
             $admin->update($data);
             DB::commit();
-            return back()->with('success', 'Admin updated successfully.');
+            return redirect(route('admin.admins.index'))->with('success', 'Admin updated successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');

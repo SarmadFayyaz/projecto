@@ -37,4 +37,8 @@ class Project extends Model {
     public function groupConversation() {
         return $this->hasMany(GroupConversation::class);
     }
+
+    public function event() {
+        return $this->hasMany(Event::class);
+    }
 }

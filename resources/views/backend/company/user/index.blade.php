@@ -22,8 +22,7 @@
                                     <h4 class="card-title">{{__('header.users')}}</h4>
                                 </div>
                                 <div class="col text-right">
-                                    <a class="btn btn-round btn-info btn-sm card-title text-white"
-                                       href="{{ route('company.user.create') }}">
+                                    <a class="btn btn-round btn-info btn-sm card-title text-white" href="{{ route('company.user.create') }}">
                                         <i class="material-icons">add_box</i>
                                         {{__('header.add_user')}}
                                     </a>
@@ -31,40 +30,28 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @if (session('success'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
-                            @if (session('error'))
-                                <div class="alert alert-danger" role="alert">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
                             <div class="toolbar">
                                 <!--        Here you can write extra buttons/actions for the toolbar              -->
                             </div>
                             <div class="material-datatables">
-                                <table id="datatables"
-                                       class="table table-striped table-no-bordered table-hover yajra_datatable"
-                                       cellspacing="0" width="100%" style="width:100%">
+                                <table id="datatables" class="table table-striped table-no-bordered table-hover yajra_datatable" cellspacing="0" width="100%" style="width:100%">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{__('header.name')}}</th>
-                                        <th>{{__('header.role')}}</th>
-                                        <th>{{__('header.email')}}</th>
-                                        <th>{{__('header.action')}}</th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{__('header.name')}}</th>
+                                            <th>{{__('header.role')}}</th>
+                                            <th>{{__('header.email')}}</th>
+                                            <th>{{__('header.action')}}</th>
+                                        </tr>
                                     </thead>
                                     <tfoot>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{__('header.name')}}</th>
-                                        <th>{{__('header.role')}}</th>
-                                        <th>{{__('header.email')}}</th>
-                                        <th>{{__('header.action')}}</th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{__('header.name')}}</th>
+                                            <th>{{__('header.role')}}</th>
+                                            <th>{{__('header.email')}}</th>
+                                            <th>{{__('header.action')}}</th>
+                                        </tr>
                                     </tfoot>
                                 </table>
                                 <form action="#" method="post" id="delete_form">
@@ -87,7 +74,6 @@
 
 @section('script')
     <script type="text/javascript">
-
 
         $(document).ready(function () {
             var table = $('.yajra_datatable').DataTable({

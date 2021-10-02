@@ -64,7 +64,7 @@
         </div>
         <ul class="nav">
             <li class="nav-item  <?php echo($page == "Dashboard" ? "active" : "")?> ">
-                <a class="nav-link" href="{{ route('dashboard') }}">
+                <a class="nav-link" href="{{ route('index') }}">
                     <i class="material-icons">dashboard</i>
                     <p> {{__('header.dashboard')}} </p>
                 </a>
