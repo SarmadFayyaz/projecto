@@ -10,11 +10,13 @@ use App\Http\Controllers\Backend\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Backend\Admin\PermissionController as AdminPermission;
 use App\Http\Controllers\Backend\Admin\AdminController as AdminAdmins;
 use App\Http\Controllers\Backend\Admin\CompanyController as AdminCompany;
+use App\Http\Controllers\Backend\Admin\ProfileController as AdminProfile;
 
 use App\Http\Controllers\Backend\Company\Auth\LoginController as CompanyLogin;
 use App\Http\Controllers\Backend\Company\HomeController as CompanyHome;
 use App\Http\Controllers\Backend\Company\UserController as CompanyUser;
 use App\Http\Controllers\Backend\Company\ProjectController as CompanyProject;
+use App\Http\Controllers\Backend\Company\ProfileController as CompanyProfile;
 
 use App\Http\Controllers\Backend\User\HomeController as UserHome;
 use App\Http\Controllers\Backend\User\ProjectController as UserProject;
@@ -27,6 +29,8 @@ use App\Http\Controllers\Backend\User\GroupConversationController as UserGroupCo
 use App\Http\Controllers\Backend\User\IndividualConversationController as UserIndividualConversation;
 use App\Http\Controllers\Backend\User\DocumentController as UserDocument;
 use App\Http\Controllers\Backend\User\EventController as UserEvent;
+use App\Http\Controllers\Backend\User\NotificationController as UserNotification;
+use App\Http\Controllers\Backend\User\ProfileController as UserProfile;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +99,8 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
 
     Route::get('/company/get', [AdminCompany::class, 'get'])->name('company.get');
     Route::resource('company', AdminCompany::class);
+
+    Route::get('profile', [AdminProfile::class, 'index'])->name('profile.index');
 });
 
 // Company Routes
@@ -109,12 +115,15 @@ Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company
 
     Route::get('/project/get', [CompanyProject::class, 'get'])->name('project.get');
     Route::resource('project', CompanyProject::class);
+
+    Route::get('profile', [CompanyProfile::class, 'index'])->name('profile.index');
 });
 
 // User Routes
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', [UserHome::class, 'index'])->name('index');
+    Route::post('/setting', [UserHome::class, 'setting'])->name('setting');
 
     Route::get('/project/{id}', [UserProject::class, 'index'])->name('project');
     Route::get('/projects', [UserProject::class, 'projects'])->name('projects');
@@ -145,5 +154,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('upload-document', [UserDocument::class, 'upload'])->name('upload-document');
     //    Route::get('download-document/{id}', [UserDocument::class, 'download'])->name('download-document');
 
+    Route::post('event-update', [UserEvent::class, 'updateEvent'])->name('update-event');
     Route::resource('event', UserEvent::class);
+    Route::resource('notification', UserNotification::class);
+
+    Route::get('profile', [UserProfile::class, 'index'])->name('profile.index');
 });

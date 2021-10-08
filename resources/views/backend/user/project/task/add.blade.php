@@ -6,7 +6,7 @@
             <div class="card card-signup card-plain">
                 <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
                     <h4 class="modal-title">{{ __('header.add_new_task') }}</h4>
-                    <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"> <i class="material-icons">clear</i> </a>
+                    <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
                 </div>
             </div>
 
@@ -19,7 +19,8 @@
                             <div class="form-group @error('name') has-danger @enderror">
                                 <label for="exampleEmail" class="bmd-label-floating">
                                     {{ __('header.task_name') }}
-                                </label> <input type="text" class="form-control" name="name" required value="{{ old('name') }}">
+                                </label>
+                                <input type="text" class="form-control" name="name" required value="{{ old('name') }}">
                                 @error('name')
                                 <label class="error">
                                     {{ $message }}
@@ -50,7 +51,8 @@
                             <div class="form-group @error('start_date') has-danger @enderror">
                                 <label for="start_date" class="bmd-label-floating">
                                     {{__('header.start_date')}}
-                                </label> <input type="text" class="form-control date_picker start_date" name="start_date" id="start_date" required value="{{ old('start_date') }}">
+                                </label>
+                                <input type="text" class="form-control date_picker start_date" name="start_date" id="start_date" required value="{{ old('start_date') }}">
                                 @error('start_date')
                                 <label class="error">
                                     {{ $message }}
@@ -62,7 +64,8 @@
                             <div class="form-group @error('end_date') has-danger @enderror">
                                 <label for="end_date" class="bmd-label-floating">
                                     {{__('header.end_date')}}
-                                </label> <input type="text" class="form-control date_picker end_date" name="end_date" id="end_date" required value="{{ old('end_date') }}">
+                                </label>
+                                <input type="text" class="form-control date_picker end_date" name="end_date" id="end_date" required value="{{ old('end_date') }}">
                                 @error('end_date')
                                 <label class="error">
                                     {{ $message }}
@@ -84,8 +87,19 @@
                         </div>
                         <div class="col-md-12" id="actions">
                             <p for="actions" class="bmd-label-floating">
-                                <span>{{ __('header.actions_max') }}</span> <span class="pull-right"> <i class="fa fa-plus text-success cursor-pointer add_action"></i> </span>
+                                <span>{{ __('header.actions_max') }}</span>
+                                <span class="pull-right"><i class="fa fa-plus text-success cursor-pointer add_action"></i></span>
                             </p>
+
+                            <div class="input-group added_action mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text action_counter">1</span>
+                                </div>
+                                <input type="text" class="form-control" required name="action[]" placeholder="Add Action">
+                                <div class="input-group-append">
+{{--                                    <span class="input-group-text"><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>--}}
+                                </div>
+                            </div>
                             @error('action')
                             <label class="error">
                                 {{ $message }}

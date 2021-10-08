@@ -25,10 +25,10 @@ class HomeController extends Controller {
     }
 
     public function setting(Request $request) {
-        $admin = Company::find(Auth::guard('company')->user()->id);
-        $admin->background = $request->background;
-        $admin->sidebar_background = $request->sidebar_background;
-        $admin->sidebar_size = $request->sidebar_size;
-        $admin->save();
+        $company = Company::find(Auth::guard('company')->user()->id);
+        $company->background = $request->background;
+        $company->sidebar_background = $request->sidebar_background;
+        $company->sidebar_size = $request->sidebar_size;
+        $company->save();
     }
 }

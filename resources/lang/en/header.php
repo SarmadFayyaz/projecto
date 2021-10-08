@@ -85,6 +85,7 @@ return [
     'action' => 'ACTION',
 
     'add_note' => 'ADD NOTE',
+    'edit_note' => 'EDIT NOTE',
     '#' => '#',
     'project' => 'PROJECT',
     'add_project' => 'ADD PROJECT',

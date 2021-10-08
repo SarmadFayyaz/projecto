@@ -20,11 +20,11 @@ if (!function_exists('getProjects')) {
     }
 }
 
-if (!function_exists('getNotification')) {
+if (!function_exists('getNotifications')) {
     function getNotifications() {
         $notifications_user = NotificationUser::with('notification')
             ->where('user_id', auth()->user()->id)
-            ->where('status', 0)->get();
+            ->get();
         return $notifications_user;
     }
 }

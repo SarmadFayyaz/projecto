@@ -26,7 +26,7 @@
     <div class="sidebar-wrapper">
         <div class="user">
             <div class="photo">
-                <img src="{{ asset('assets/img/faces/avatar.jpg') }}"/>
+                <img src="{{ Storage::disk('public')->exists(auth()->user()->image) ? Storage::disk('public')->url(auth()->user()->image) : asset('assets/img/faces/avatar.jpg') }}"/>
             </div>
             <div class="user-info">
                 <a data-toggle="collapse" href="#collapseExample"
@@ -41,17 +41,17 @@
                      id="collapseExample">
                     <ul class="nav">
                         <li class="nav-item <?php echo($page == "Profile" ? "active" : "")?>">
-                            <a class="nav-link" href="{{ url('profile') }}">
-                                <span class="sidebar-mini"> MP </span>
+                            <a class="nav-link" href="{{ route('profile.index') }}">
+                                <span class="sidebar-mini"> P </span>
                                 <span class="sidebar-normal"> {{__('header.my_profile')}} </span>
                             </a>
                         </li>
-                        <li class="nav-item <?php echo($page == "Edit Profile" ? "active" : "")?>">
-                            <a class="nav-link" href="{{ url('edit-profile') }}">
-                                <span class="sidebar-mini"> EP </span>
-                                <span class="sidebar-normal"> {{__('header.edit_profile')}} </span>
-                            </a>
-                        </li>
+{{--                        <li class="nav-item <?php echo($page == "Edit Profile" ? "active" : "")?>">--}}
+{{--                            <a class="nav-link" href="{{ url('edit-profile') }}">--}}
+{{--                                <span class="sidebar-mini"> EP </span>--}}
+{{--                                <span class="sidebar-normal"> {{__('header.edit_profile')}} </span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <span class="sidebar-mini"> S </span>

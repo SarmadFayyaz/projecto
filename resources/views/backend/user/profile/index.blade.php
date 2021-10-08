@@ -1,4 +1,4 @@
-@extends('layouts.company')
+@extends('layouts.user')
 
 @section('title', 'Profile')
 
@@ -22,17 +22,24 @@
                             <form>
                                 <div class="row">
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Name</label>
-                                            <input type="text" class="form-control" value="{{ $company->name }}"
+                                            <label class="bmd-label-floating">First Name</label>
+                                            <input type="text" class="form-control" value="{{ $user->first_name }}"
                                                    readonly>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">First Name</label>
+                                            <input type="text" class="form-control" value="{{ $user->last_name }}"
+                                                   readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Email address</label>
-                                            <input type="email" class="form-control" value="{{ $company->email }}"
+                                            <input type="email" class="form-control" value="{{ $user->email }}"
                                                    readonly>
                                         </div>
                                     </div>
@@ -69,12 +76,12 @@
                     <div class="card card-profile">
                         <div class="card-avatar">
                             <a href="javascript:;">
-                                <img class="img" src="{{ Storage::disk('public')->exists($company->image) ? Storage::disk('public')->url($company->image) : asset('assets/img/faces/avatar.jpg') }}" width="50" height="50"/>
+                                <img class="img" src="{{ Storage::disk('public')->exists($user->image) ? Storage::disk('public')->url($user->image) : asset('assets/img/faces/avatar.jpg') }}" width="50" height="50"/>
                             </a>
                         </div>
                         <div class="card-body">
                             <h6 class="card-category text-gray"> Role </h6>
-                            <h4 class="card-title">Company</h4>
+                            <h4 class="card-title">{{ $user->getRoleNames()[0] }}</h4>
                         </div>
                     </div>
                 </div>

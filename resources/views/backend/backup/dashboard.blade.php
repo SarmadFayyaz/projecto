@@ -77,7 +77,7 @@
                                     <h4 class="m-0 p-0 font-weight-bold ml-1 mb-1">Active Project</h4>
                                 </div>
                                 <div class="col-6 text-right">
-                                    <button class="btn btn-primary btn-sm btn-round py-0" id="collapsall">Collapse All</button>
+                                    <button class="btn btn-primary btn-sm py-0" id="collapsall">Collapse All</button>
                                 </div>
                                 <div class="col-md-6 pr-0">
                                     <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -1074,6 +1074,6 @@
             $('.colla_ps').removeClass("show");
 
         });
-       
+
     </script>
 @endsection

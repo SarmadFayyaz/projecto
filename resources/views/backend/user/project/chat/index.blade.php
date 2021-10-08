@@ -1,6 +1,6 @@
 <!-- chat box -->
-<div class="chat-popup" id="chatPopupModal" style="border-radius:10px ; min-width: 310px">
-    <div class="form-container ml-auto mr-auto" style="height:58vh;border-radius:5px; min-width: 310px">
+<div class="chat-popup" id="chatPopupModal" style="border-radius:10px ; min-width: 22vw;max-width: 22vw;">
+    <div class="ml-auto mr-auto rounded p-2 bg-white">
         <div class="row">
             <div class="col-10 text-right">
                 <select class="selectpicker" id="chat_type" data-style="select-with-transition" data-size="4" data-width="100%" title="{{ __('header.group_chat') }}">
@@ -27,11 +27,11 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-2 text-right">
-                <a href="javascript:void(0)" class="text-dark" onclick="closeChat()"><i class="fa fa-times"></i></a>
+            <div class="col-2 text-center">
+                <a href="javascript:void(0)" class="text-dark" onclick="closeChat()"><i class="fa fa-times pt-2"></i></a>
             </div>
         </div>
-        <div class="col-12 table-responsive" id="chat_body" style="max-height: 42vh;">
+        <div class="col-12 table-responsive" id="chat_body" style="max-height: 35vh;min-height: 35vh;">
             @foreach($project->groupConversation as $conversation)
                 @if($conversation->message_type == 0)
                     <div class="row mb-2">
@@ -85,10 +85,10 @@
                 @endif
             @endforeach
         </div>
-        <div class="col-12 table-responsive" id="individual_chat_body" style="max-height: 42vh; display: none;"></div>
+        <div class="col-12 table-responsive" id="individual_chat_body" style="max-height: 35vh;min-height: 35vh; display: none;"></div>
 
-        <div class="box-footer" style="position: fixed;top: 85vh;width:290px;">
-            <form id="chat_form" method="post" enctype="multipart/form-data">
+        <div class="box-footer">
+            <form id="chat_form" class="mb-0" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" class="message_type" value="0" name="message_type">
                 <input type="hidden" class="project_id" value="{{$project->id}}" name="project_id">
@@ -114,17 +114,17 @@
 </div>
 
 <!-- binnecle box -->
-<div class="chat-popup" id="binancePopupModal" style="border-radius:10px">
-    <div class="form-container ml-auto mr-auto" style="height:58vh;border-radius:5px; min-width: 310px">
+<div class="chat-popup" id="binancePopupModal" style="border-radius:10px; min-width: 22vw;max-width: 22vw;">
+    <div class="ml-auto mr-auto rounded p-2 bg-white">
         <div class="row">
             <div class="col-10 text-left">
                 <h5><b>{{ __('header.binnacle') }}</b></h5>
             </div>
-            <div class="col-2 text-right">
-                <a href="javascript:void(0)" class="text-dark" onclick="closeBinance()"><i class="fa fa-times"></i></a>
+            <div class="col-2 text-center">
+                <a href="javascript:void(0)" class="text-dark" onclick="closeBinance()"><i class="fa fa-times pt-2"></i></a>
             </div>
         </div>
-        <div class="col-12 table-responsive" id="binance_body" style="max-height: 42vh;">
+        <div class="col-12 table-responsive" id="binance_body" style="max-height: 35vh;min-height: 35vh;">
             @foreach($project->groupConversation as $conversation)
                 @if($conversation->message_type == 1)
                     <div class="row mb-2">
@@ -179,8 +179,8 @@
             @endforeach
         </div>
 
-        <div class="box-footer" style="position: fixed;top: 85vh;width:290px;">
-            <form id="binance_form" method="post" enctype="multipart/form-data">
+        <div class="box-footer">
+            <form id="binance_form" class="mb-2" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" class="message_type" value="1" name="message_type">
                 <input type="hidden" class="project_id" value="{{$project->id}}" name="project_id">

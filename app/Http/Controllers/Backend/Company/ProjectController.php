@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Backend\Company;
 
+use App\Events\ProjectNotification;
 use App\Http\Controllers\Controller;
-
+use App\Models\Notification;
+use App\Models\NotificationUser;
 use App\Models\ProjectUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -99,19 +101,45 @@ class ProjectController extends Controller {
             DB::beginTransaction();
             $data = $request->except('_token', 'team_members');
             $data['company_id'] = Auth::guard('company')->user()->id;
-            $project_id = Project::create($data)->id;
+            $project = Project::create($data);
+
+            $notification_data['project_id'] = $project->id;
+            $notification_data['user_id'] = auth('company')->user()->id;
+            $notification_data['type'] = 'project added';
+            $notification_data['notification'] = 'You are added to new project "'.$project->name.'"';
+            $notification = Notification::create($notification_data);
+
+            $notification_user = new NotificationUser();
+            $notification_user->user_id = $project->project_leader;
+            $notification_user->notification_id = $notification->id;
+            $notification_user->save();
+
             foreach ($request->team_members as $team_member) {
                 $project_user = new ProjectUser();
-                $project_user->project_id = $project_id;
+                $project_user->project_id = $project->id;
                 $project_user->user_id = $team_member;
                 $project_user->save();
+
+                $notification_user = new NotificationUser();
+                $notification_user->user_id = $team_member;
+                $notification_user->notification_id = $notification->id;
+                $notification_user->save();
+
             }
             foreach ($request->sponsors as $sponsor) {
                 $project_user = new ProjectUser();
-                $project_user->project_id = $project_id;
+                $project_user->project_id = $project->id;
                 $project_user->user_id = $sponsor;
                 $project_user->save();
+
+                $notification_user = new NotificationUser();
+                $notification_user->user_id = $sponsor;
+                $notification_user->notification_id = $notification->id;
+                $notification_user->save();
             }
+
+            broadcast(new ProjectNotification($project, $notification))->toOthers();
+
             DB::commit();
             return back()->with('success', 'Project added successfully.');
         } catch (\Exception $e) {

@@ -89,11 +89,6 @@
     box-shadow: 0 14px 26px -12px rgba(76, 175, 80, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(76, 175, 80, 0.2);
 }
 
-.main-panel > .content {
-    margin-top: 10px;
-    padding: 30px 15px;
-}
-
 .small-text {
     font-size: 15px !important;
 }
@@ -102,7 +97,6 @@
     padding: 0.30625rem 0.5rem !important;
     font-size: 0.6rem;
     line-height: 1.5;
-    border-radius: 0.4rem;
 }
 
 
@@ -983,4 +977,7 @@ Bounce
 }
 #chatPopupModal .select-with-transition {
     background-image: none !important;
+}
+.msg_box {
+    background: #eeeeee;border-radius: 10px;
 }

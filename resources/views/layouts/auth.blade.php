@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    @include('include.head')
-</head>
-<body class="" style="min-height: 100vh; max-height: 1000px; display: grid; height: 100%; align-items: center;">
+    <head>
+        @include('include.auth.head')
+    </head>
+    <body class="">
 
-@yield('content')
+        @yield('content')
 
-@include('include.script')
+        @include('include.script')
+        @yield('script')
 
-
-</body>
+    </body>
 </html>

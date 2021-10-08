@@ -48,6 +48,6 @@
 <div class="row text-center">
     <div class="col">
         <a href="{{ route('event.edit', $event->id) }}" data-toggle="modal" data-target="#editEventModal" class="btn btn-primary event_edit">{{ __('header.edit') }}</a>
-        <a href="{{ route('event.destroy', $event->id) }}" class="btn btn-danger">{{ __('header.delete') }}</a>
+        <a href="{{ route('event.destroy', $event->id) }}" data-event="delete" class="btn btn-danger">{{ __('header.delete') }}</a>
     </div>
 </div>

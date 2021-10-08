@@ -2,7 +2,7 @@
 @push('desk-video-control')
     <div class="collapse navbar-collapse justify-content-end d-none d-md-block d-lg-block d-xl-block">
         <div class="navbar-btn">
-            <button class="btn btn-primary btn-sm btn-round mr-md-4">Platform Information</button>
+            <button class="btn btn-primary btn-sm mr-md-4">Platform Information</button>
         </div>
         <div class="navbar-nav-btns">
             <button class="btn btn-primary btn-sm mr-md-1 btnMic" rel="tooltip" title="Mute mic" onclick="muteMic()"><i class="fas fa-microphone text-white"></i></button>

@@ -92,16 +92,6 @@
         }
         }
 
-
-        .main-panel > .content {
-            padding-bottom: 0px !important;
-            margin-bottom: 0px !important
-        }
-
-        .fc-button-group button {
-            font-size: 11px !important;
-        }
-
         .h6css {
             white-space: nowrap;
             overflow: hidden;
@@ -129,7 +119,7 @@
             text-align: center;
             color: #555;
             transition: all .3s;
-            border-radius: 0px !important;
+            border-radius: 0.2rem !important;
             padding: 10px 15px;
         }
 
@@ -146,7 +136,7 @@
 
             #completedTaskModal .modal-xl {
                 max-width: 1050px !important;
-                top: 190px
+                top: 250px
             }
         }
 
@@ -154,7 +144,7 @@
             #taskDetailsModal .modal-xl {
                 max-width: 1050px !important;
                 /*left: 130px;*/
-                top: 190px
+                top: 250px
             }
         }
 
@@ -183,8 +173,8 @@
         .chat-popup {
             display: none;
             position: fixed;
-            bottom: 50px;
-            right: 15px;
+            bottom: 5vw;
+            right: 1.5vw;
             border: 3px solid #f1f1f1;
             z-index: 9;
         }
@@ -239,7 +229,7 @@
         .MultiCarousel {
             float: left;
             overflow: hidden;
-            padding: 0 20px;
+            padding: 0px 28px;
             width: 100%;
             position: relative;
         }
@@ -252,6 +242,7 @@
         .MultiCarousel .MultiCarousel-inner .item {
             float: left;
             text-align: center;
+            max-height: 21vh;
         }
 
         .MultiCarousel .MultiCarousel-inner .item > div {
@@ -267,8 +258,8 @@
         .MultiCarousel .leftLst, .MultiCarousel .rightLst {
             position: absolute;
             border-radius: 50%;
-            top: calc(50% - 38px);
-            padding: 33px 20px 12px;
+            top: calc(50% - 19px);
+            padding: 2px 5px;
         }
 
         .MultiCarousel .leftLst {
@@ -357,9 +348,11 @@
                                     @foreach($task->taskNote as $note)
                                         <div class="card p-0 m-0 mb-2 task_note task_note_{{$task->id}}">
                                             <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                <span class="mb-0 pb-0">{{ $note->notes }}</span>
-                                                <br>
-                                                <span class="mb-0 pb-0 pull-right"><small> {{ $note->created_at }} </small></span>
+                                                <a class="task_note_edit text-dark" data-toggle="modal" data-target="#editTaskNotesModal" href="{{ route('task-note.edit', $note->id)}}">
+                                                    <span class="mb-0 pb-0">{{ $note->notes }}</span>
+                                                    <br>
+                                                    <span class="mb-0 pb-0 pull-right"><small> {{ $note->created_at }} </small></span>
+                                                </a>
                                             </div>
                                         </div>
                                     @endforeach
@@ -398,616 +391,622 @@
 @section('content')
 
     <div class="content">
-        <div class="content">
-            <div class="container-fluid">
-                <div class="tab-content tab-space mt-4">
-                    <div class="tab-pane active show" id="link1">
-                        <div class="row">
-                            <div class="col-12 ">
-                                <div class="card scroll-bar mb-0" style="height:26vh;">
-                                    <div class="card-body ">
+        <div class="container-fluid">
+            <div class="tab-content tab-space mt-4">
+                <div class="tab-pane active show" id="link1">
+                    <div class="row">
+                        <div class="col-12 ">
+                            <div class="card scroll-bar mb-0" style="height:27vh;">
+                                <div class="card-body pt-4" style="max-height: 27vh">
 
-                                        <div class="MultiCarousel" data-items="1,3,5,6" data-slide="5" id="MultiCarousel" data-interval="1000">
-                                            <div class="MultiCarousel-inner">
-                                                <div class="item">
-                                                    <div id="" class="vide_mirror div{{$project->project_leader}}" data-user-name="{{$project->projectLeader->first_name . ' ' . $project->projectLeader->last_name}}"></div>
-                                                    <a href="javascript:void(0)" style="color: black;">
-                                                        {{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}
-                                                    </a>
-                                                </div>
-                                                @foreach($project->projectUser as $user)
-                                                    @if($user->user->deleted_at == null)
-                                                        <div class="item">
-                                                            <div id="" class="vide_mirror div{{$user->user->id}}" data-user-name="{{ $user->user->first_name . ' ' . $user->user->last_name }}"></div>
-                                                            <a href="javascript:void(0)" style="color: black;">
-                                                                {{ $user->user->first_name . ' ' . $user->user->last_name }}
-                                                            </a>
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                            <button class="btn btn-primary leftLst" id="new-blue-bg">
-                                                <span class="material-icons">arrow_back</span>
-                                            </button>
-                                            <button class="btn btn-primary rightLst" id="new-blue-bg">
-                                                <span class="material-icons">arrow_forward</span>
-                                            </button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-9">
-
-                                <div class="row">
-
-                                    <div class="col-12">
-
-                                        <div class="card scroll-bar mb-0 mt-3" style="height:55vh;">
-                                            <!-- <div class="card-header card-header-success card-header-icon">
-                                                <div class="card-icon">
-                                                    <i class="material-icons"></i>
-                                                </div>
-                                                <h4 class="card-title"></h4>
-                                            </div> -->
-                                            <div class="card-body  card-body mb-0 pb-0 ">
-                                                <div class="row">
-                                                    <div class="col-9">
-                                                        <ul class="nav nav-pills nav-pills-success" role="tablist">
-                                                            <li class="nav-item" style="line-height:0px">
-                                                                <a href="javascript:void(0)" class="btn btn-primary btn-sm text-white" rel="tooltip" title="{{ __('header.add_new_task') }}" style=" margin-right: 20px;margin-top: 5px;"
-                                                                   data-toggle="modal" data-target="#addNewTaskModal"><i class="fa fa-plus mr-2" style="font-size:12px !important"></i> {{ __('header.add_task') }}
-                                                                </a>
-                                                            </li>
-                                                            {{--                                                            <li class="nav-item" style="line-height:0px">--}}
-                                                            {{--                                                                <a class="nav-link active" style="padding: 5px !important; border-radius: 5px !important;" data-toggle="tab" href="#link22" role="tablist"> Projects </a>--}}
-                                                            {{--                                                            </li>--}}
-                                                            {{--                                                            <li class="nav-item" style="line-height:0px">--}}
-                                                            {{--                                                                <a class="nav-link" style="padding: 5px !important; border-radius: 5px !important;" data-toggle="tab" href="#link22" role="tablist"> My Tasks </a>--}}
-                                                            {{--                                                            </li>--}}
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-3 text-right">
-                                                        <a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#completedTaskModal" role="tablist"> {{ __('header.completed_tasks') }} </a>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                            <div class="card-body card-body mt-0 pt-0 ">
-                                                <div class="tab-content tab-space">
-                                                    <div class="tab-pane active" id="link22">
-                                                        <div class="row">
-                                                            <div class="col-md-4 p-1">
-                                                                <div class="card mt-3">
-                                                                    <div class="accordion" id="accordionPanelsStayOpenExample">
-                                                                        <div class="accordion-item">
-                                                                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                                                                    To Perform
-                                                                                </button>
-                                                                            </h2>
-                                                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                                                                <div class="accordion-body scroll-bar" style="height:400px;">
-                                                                                    @foreach($project->task as $task)
-                                                                                        @if($task->progress == 0 || $task->status == 'pending')
-                                                                                            <div class="bg-color p-2 rounded {{($task->status == 'pending') ? 'bg-pending' : ''}}">
-                                                                                                <!-- <h6 class="h6css" >Lorem</h6> -->
-                                                                                                <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
-                                                                                                    <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                                                                        <span class="bg-light rounded mr-1 p-1 h6css mr-auto" title="lorem"><b>{{ $task->name  }}</b></span>
-                                                                                                        @php $counter = 0; @endphp
-                                                                                                        @if(Auth::user()->id != $task->addedBy->id)
-                                                                                                            @php $counter++; @endphp
-                                                                                                            @if($task->addedBy->deleted_at == null)
-                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                                      title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
-                                                                                                                    @if($task->addedBy->image == null)
-                                                                                                                        <span class="p-1 rounded-circle bg-info">
-                                                                                                                            {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
-                                                                                                                        </span>
-                                                                                                                    @else
-                                                                                                                        <img width="25" height="25" class="rounded-circle"
-                                                                                                                             src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                                    @endif
-                                                                                                                    <span class="logged-in">●</span>
-                                                                                                                </span>
-                                                                                                            @else
-                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                                    <span class="p-1 rounded-circle bg-info">
-                                                                                                                        <i class="fas fa-user-slash"></i>
-                                                                                                                    </span>
-                                                                                                                    <span class="logged-out">●</span>
-                                                                                                                </span>
-                                                                                                            @endif
-                                                                                                        @endif
-                                                                                                        @foreach($task->taskUser as $user)
-                                                                                                            @if(Auth::user()->id != $user->user->id)
-                                                                                                                @php $counter++; @endphp
-                                                                                                                @if($user->user->deleted_at == null)
-                                                                                                                    @if($counter <= 3)
-                                                                                                                        <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                                              title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                                                            @if($user->user->image == null)
-                                                                                                                                <span
-                                                                                                                                    class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
-                                                                                                                            @else
-                                                                                                                                <img width="25" height="25" class="rounded-circle"
-                                                                                                                                     src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                                            @endif
-                                                                                                                            <span class="logged-in">●</span>
-                                                                                                                        </span>
-                                                                                                                    @endif
-                                                                                                                @else
-                                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                                        <span class="p-1 rounded-circle bg-info">
-                                                                                                                            <i class="fas fa-user-slash"></i>
-                                                                                                                        </span>
-                                                                                                                        <span class="logged-out">●</span>
-                                                                                                                    </span>
-                                                                                                                @endif
-                                                                                                            @endif
-                                                                                                        @endforeach
-                                                                                                        @if($counter > 3)
-                                                                                                            <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-                                                                                                        @endif
-                                                                                                    </div>
-                                                                                                </a>
-
-                                                                                                <div class="card p-0 pt-1 m-0 rounded-0" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
-                                                                                                    <div class="progress mb-1">
-                                                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
-                                                                                                             aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                                                    </div>
-                                                                                                </div>
-
-                                                                                                <div class="d-flex align-items-center justify-content-between">
-                                                                                                    <span>Actions</span>
-                                                                                                    <span>
-                                                                                                        @if($task->taskAction!=null && $task->taskAction->count()>0)
-                                                                                                            {{$task->taskAction->where('status','completed')->count()}}
-                                                                                                            / {{$task->taskAction->count()}}
-                                                                                                        @else 0/0
-                                                                                                        @endif
-                                                                                                    </span>
-                                                                                                    <span><i class="fas fa-clock"></i>
-                                                                                                        @php
-                                                                                                            $startTime = Carbon\Carbon::parse($task->start_date);
-                                                                                                            $endTime = Carbon\Carbon::parse($task->end_date);
-                                                                                                            echo   $endTime->diffForHumans($startTime,true).' left';
-                                                                                                        @endphp
-                                                                                                    </span>
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4 p-1">
-                                                                <div class="card  mt-3">
-                                                                    <div class="accordion" id="accordionPanelsStayOpenExample">
-                                                                        <div class="accordion-item">
-                                                                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                                                                    In Progress
-                                                                                </button>
-                                                                            </h2>
-                                                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                                                                <div class="accordion-body scroll-bar" style="height:400px;">
-                                                                                    @foreach($project->task as $task)
-                                                                                        @if($task->progress > 0 && $task->progress < 100 && $task->status == 'approved')
-                                                                                            <div class="bg-color p-2 rounded {{($task->status == 'pending') ? 'bg-pending' : ''}}">
-                                                                                                <!-- <h6 class="h6css" >Lorem</h6> -->
-                                                                                                <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
-                                                                                                    <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                                                                        <span class="bg-light rounded mr-1 p-1 h6css mr-auto" title="lorem"><b>{{ $task->name  }}</b></span>
-                                                                                                        @php $counter = 0; @endphp
-                                                                                                        @if(Auth::user()->id != $task->addedBy->id)
-                                                                                                            @php $counter++; @endphp
-                                                                                                            @if($task->addedBy->deleted_at == null)
-                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                                      title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
-                                                                                                                    @if($task->addedBy->image == null)
-                                                                                                                        <span class="p-1 rounded-circle bg-info">
-                                                                                                                            {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
-                                                                                                                        </span>
-                                                                                                                    @else
-                                                                                                                        <img width="25" height="25" class="rounded-circle"
-                                                                                                                             src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                                    @endif
-                                                                                                                    <span class="logged-in">●</span>
-                                                                                                                </span>
-                                                                                                            @else
-                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                                    <span class="p-1 rounded-circle bg-info">
-                                                                                                                        <i class="fas fa-user-slash"></i>
-                                                                                                                    </span>
-                                                                                                                    <span class="logged-out">●</span>
-                                                                                                                </span>
-                                                                                                            @endif
-                                                                                                        @endif
-                                                                                                        @foreach($task->taskUser as $user)
-                                                                                                            @if(Auth::user()->id != $user->user->id)
-                                                                                                                @php $counter++; @endphp
-                                                                                                                @if($user->user->deleted_at == null)
-                                                                                                                    @if($counter <= 3)
-                                                                                                                        <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                                              title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                                                            @if($user->user->image == null)
-                                                                                                                                <span
-                                                                                                                                    class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
-                                                                                                                            @else
-                                                                                                                                <img width="25" height="25" class="rounded-circle"
-                                                                                                                                     src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                                            @endif
-                                                                                                                            <span class="logged-in">●</span>
-                                                                                                                        </span>
-                                                                                                                    @endif
-                                                                                                                @else
-                                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                                        <span class="p-1 rounded-circle bg-info">
-                                                                                                                            <i class="fas fa-user-slash"></i>
-                                                                                                                        </span>
-                                                                                                                        <span class="logged-out">●</span>
-                                                                                                                    </span>
-                                                                                                                @endif
-                                                                                                            @endif
-                                                                                                        @endforeach
-                                                                                                        @if($counter > 3)
-                                                                                                            <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-                                                                                                        @endif
-                                                                                                    </div>
-                                                                                                </a>
-
-                                                                                                <div class="card p-0 pt-1 m-0 rounded-0" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
-                                                                                                    <div class="progress mb-1">
-                                                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
-                                                                                                             aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                                                    </div>
-                                                                                                </div>
-
-                                                                                                <div class="d-flex align-items-center justify-content-between">
-                                                                                                    <span>Actions</span>
-                                                                                                    <span>
-                                                                                                        @if($task->taskAction!=null && $task->taskAction->count()>0)
-                                                                                                            {{$task->taskAction->where('status','completed')->count()}}
-                                                                                                            / {{$task->taskAction->count()}}
-                                                                                                        @else 0/0
-                                                                                                        @endif
-                                                                                                    </span>
-                                                                                                    <span><i class="fas fa-clock"></i>
-                                                                                                        @php
-                                                                                                            $startTime = Carbon\Carbon::parse($task->start_date);
-                                                                                                            $endTime = Carbon\Carbon::parse($task->end_date);
-                                                                                                            echo   $endTime->diffForHumans($startTime,true).' left';
-                                                                                                        @endphp
-                                                                                                    </span>
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4 p-1">
-                                                                <div class="card  mt-3">
-                                                                    <div class="accordion" id="accordionPanelsStayOpenExample">
-                                                                        <div class="accordion-item">
-                                                                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                                                                    Revision
-                                                                                </button>
-                                                                            </h2>
-                                                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                                                                <div class="accordion-body scroll-bar" style="height:400px;">
-                                                                                    @foreach($project->task as $task)
-                                                                                        @if($task->progress == 100 && $task->status == 'approved')
-                                                                                            <div class="bg-color p-2 rounded {{($task->status == 'pending') ? 'bg-pending' : ''}}">
-                                                                                                <!-- <h6 class="h6css" >Lorem</h6> -->
-                                                                                                <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
-                                                                                                    <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                                                                        <span class="bg-light rounded mr-1 p-1 h6css mr-auto" title="lorem"><b>{{ $task->name  }}</b></span>
-                                                                                                        @php $counter = 0; @endphp
-                                                                                                        @if(Auth::user()->id != $task->addedBy->id)
-                                                                                                            @php $counter++; @endphp
-                                                                                                            @if($task->addedBy->deleted_at == null)
-                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                                      title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
-                                                                                                                    @if($task->addedBy->image == null)
-                                                                                                                        <span class="p-1 rounded-circle bg-info">
-                                                                                                                            {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
-                                                                                                                        </span>
-                                                                                                                    @else
-                                                                                                                        <img width="25" height="25" class="rounded-circle"
-                                                                                                                             src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                                    @endif
-                                                                                                                    <span class="logged-in">●</span>
-                                                                                                                </span>
-                                                                                                            @else
-                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                                    <span class="p-1 rounded-circle bg-info">
-                                                                                                                        <i class="fas fa-user-slash"></i>
-                                                                                                                    </span>
-                                                                                                                    <span class="logged-out">●</span>
-                                                                                                                </span>
-                                                                                                            @endif
-                                                                                                        @endif
-                                                                                                        @foreach($task->taskUser as $user)
-                                                                                                            @if(Auth::user()->id != $user->user->id)
-                                                                                                                @php $counter++; @endphp
-                                                                                                                @if($user->user->deleted_at == null)
-                                                                                                                    @if($counter <= 3)
-                                                                                                                        <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                                              title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                                                            @if($user->user->image == null)
-                                                                                                                                <span
-                                                                                                                                    class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
-                                                                                                                            @else
-                                                                                                                                <img width="25" height="25" class="rounded-circle"
-                                                                                                                                     src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                                            @endif
-                                                                                                                            <span class="logged-in">●</span>
-                                                                                                                        </span>
-                                                                                                                    @endif
-                                                                                                                @else
-                                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                                        <span class="p-1 rounded-circle bg-info">
-                                                                                                                            <i class="fas fa-user-slash"></i>
-                                                                                                                        </span>
-                                                                                                                        <span class="logged-out">●</span>
-                                                                                                                    </span>
-                                                                                                                @endif
-                                                                                                            @endif
-                                                                                                        @endforeach
-                                                                                                        @if($counter > 3)
-                                                                                                            <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-                                                                                                        @endif
-                                                                                                    </div>
-                                                                                                </a>
-
-                                                                                                <div class="card p-0 pt-1 m-0 rounded-0" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
-                                                                                                    <div class="progress mb-1">
-                                                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
-                                                                                                             aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                                                    </div>
-                                                                                                </div>
-
-                                                                                                <div class="d-flex align-items-center justify-content-between">
-                                                                                                    <span>Actions</span>
-                                                                                                    <span>
-                                                                                                        @if($task->taskAction!=null && $task->taskAction->count()>0)
-                                                                                                            {{$task->taskAction->where('status','completed')->count()}}
-                                                                                                            / {{$task->taskAction->count()}}
-                                                                                                        @else 0/0
-                                                                                                        @endif
-                                                                                                    </span>
-                                                                                                    <span><i class="fas fa-clock"></i>
-                                                                                                        @php
-                                                                                                            $startTime = Carbon\Carbon::parse($task->start_date);
-                                                                                                            $endTime = Carbon\Carbon::parse($task->end_date);
-                                                                                                            echo   $endTime->diffForHumans($startTime,true).' left';
-                                                                                                        @endphp
-                                                                                                    </span>
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="tab-pane" id="link22">
-                                                        Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. <br/> <br/>Dramatically maintain clicks-and-mortar
-                                                        solutions without functional solutions.
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 p-1 ">
-                                @yield('right-panel')
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane " id="link2">
-                        <div class="row mt-5">
-
-                            <div class="col-md-9 ">
-                                <div class="card scroll-bar mb-0" style="height:80vh;">
-                                    <!-- <div class="card-header card-header-success card-header-icon">
-                                    <div class="card-icon">
-                                        <i class="material-icons"></i>
-                                         </div>
-                                        <h4 class="card-title"></h4>
-                                             </div> -->
-                                    <div class="card-body ">
-
-                                        <div class="row meeting_mode">
-                                            <div class="col-md-4 col-sm-6 p-0 m-0 pl-1 pr-1 text-center">
-                                                <div class="item">
-                                                    <div id="" class="vide_mirror meeting_video div{{$project->project_leader}}" data-user-name="{{$project->projectLeader->first_name . ' ' . $project->projectLeader->last_name}}"></div>
-                                                </div>
-                                                <a href="javascript:void(0)" style="color: black;">
+                                    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="5" id="MultiCarousel" data-interval="1000">
+                                        <div class="MultiCarousel-inner">
+                                            <div class="item">
+                                                <div id="" class="vide_mirror div{{$project->project_leader}}" data-user-name="{{$project->projectLeader->first_name . ' ' . $project->projectLeader->last_name}}"></div>
+                                                <a href="javascript:void(0)" style="color: #ffffff; position: relative; bottom: 3vh;">
                                                     {{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}
                                                 </a>
                                             </div>
                                             @foreach($project->projectUser as $user)
                                                 @if($user->user->deleted_at == null)
-                                                    <div class="col-md-4 col-sm-6 p-0 m-0 pl-1 pr-1 text-center">
-                                                        <div class="item">
-                                                            <div id="" class="vide_mirror div{{$user->user->id}}" data-user-name="{{ $user->user->first_name . ' ' . $user->user->last_name }}"></div>
-                                                        </div>
-                                                        <a href="javascript:void(0)" style="color: black;">
+                                                    <div class="item">
+                                                        <div id="" class="vide_mirror div{{$user->user->id}}" data-user-name="{{ $user->user->first_name . ' ' . $user->user->last_name }}"></div>
+                                                        <a href="javascript:void(0)" style="color: #ffffff; position: relative; bottom: 3vh;">
                                                             {{ $user->user->first_name . ' ' . $user->user->last_name }}
                                                         </a>
                                                     </div>
                                                 @endif
                                             @endforeach
                                         </div>
+                                        <button class="btn btn-primary leftLst" id="new-blue-bg">
+                                            <span class="material-icons m-0">arrow_back</span>
+                                        </button>
+                                        <button class="btn btn-primary rightLst" id="new-blue-bg">
+                                            <span class="material-icons m-0">arrow_forward</span>
+                                        </button>
                                     </div>
-                                </div>
 
-                            </div>
-                            <div class="col-md-3  mt-1">
-                                @yield('right-panel')
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Meetings Modal -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="card card-signup card-plain">
-                            <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
+                        <div class="col-md-9">
+
+                            <div class="row">
+
                                 <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <h4 class="modal-title">
-                                                <span>Lorem Lorem Lorem</span>
-                                                <a href="{{ url('metodo') }}" class="close text-white pull-right" style="top:0" aria-hidden="true"><i class="fa fa-edit"></i></a>
-                                            </h4>
-                                        </div>
-                                        <div class="col-2  text-right">
-                                            <a type="button" class="close text-white pull-right" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
 
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="modal-body">
-                            <div id="accordion">
-                                <div class="card mb-0 mt-0 pb-0 pt-0">
-
-                                    <div class="card-body">
-                                        <div class="card-body">
-                                            <div id="free_text_body">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <h4>Heading lorem</h4>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" placeholder="Description">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <h4>Select Lorem</h4>
-                                                        <div class="form-check">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="checkbox" value="">
-                                                                Lorem
-                                                                <span class="form-check-sign">
-                                                                    <span class="check"></span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="checkbox" value="">
-                                                                Lorem
-                                                                <span class="form-check-sign">
-                                                                    <span class="check"></span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" placeholder="note">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <h4>Images</h4>
-                                                        <img class="pre-img" src="https://metodoo.com/public/storage/assets/images/project/pre_files/RPOinmykznl1ivKa2hzJ2WQ1rR94E204cFn6Zqqo.jpg" height="100"
-                                                             alt="diagrama-estrategia-social-media.jpeg">
-
-                                                    </div>
+                                    <div class="card scroll-bar mb-0 mt-3" style="height:55vh;">
+                                        <!-- <div class="card-header card-header-success card-header-icon">
+                                            <div class="card-icon">
+                                                <i class="material-icons"></i>
+                                            </div>
+                                            <h4 class="card-title"></h4>
+                                        </div> -->
+                                        <div class="card-body  card-body mb-0 pb-0 ">
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <ul class="nav nav-pills nav-pills-success" role="tablist">
+                                                        <li class="nav-item" style="line-height:0px">
+                                                            <a href="javascript:void(0)" class="btn btn-primary btn-sm text-white" rel="tooltip" title="{{ __('header.add_new_task') }}" style=" margin-right: 20px;margin-top: 5px;"
+                                                               data-toggle="modal" data-target="#addNewTaskModal"><i class="fa fa-plus mr-2" style="font-size:12px !important"></i> {{ __('header.add_task') }}
+                                                            </a>
+                                                        </li>
+                                                        {{--                                                            <li class="nav-item" style="line-height:0px">--}}
+                                                        {{--                                                                <a class="nav-link active" style="padding: 5px !important; border-radius: 5px !important;" data-toggle="tab" href="#link22" role="tablist"> Projects </a>--}}
+                                                        {{--                                                            </li>--}}
+                                                        {{--                                                            <li class="nav-item" style="line-height:0px">--}}
+                                                        {{--                                                                <a class="nav-link" style="padding: 5px !important; border-radius: 5px !important;" data-toggle="tab" href="#link22" role="tablist"> My Tasks </a>--}}
+                                                        {{--                                                            </li>--}}
+                                                    </ul>
                                                 </div>
+                                                <div class="col-3 text-right">
+                                                    <a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#completedTaskModal" role="tablist"> {{ __('header.completed_tasks') }} </a>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="card-body card-body mt-0 pt-0 ">
+                                            <div class="tab-content tab-space">
+                                                <div class="tab-pane active" id="link22">
+                                                    <div class="row">
+                                                        <div class="col-md-4 p-1">
+                                                            <div class="card mt-3 mb-0">
+                                                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                                                    <div class="accordion-item">
+                                                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                                                                To Perform
+                                                                            </button>
+                                                                        </h2>
+                                                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                                                            <div class="accordion-body scroll-bar" style="height:39vh;">
+                                                                                @foreach($project->task as $task)
+                                                                                    @if($task->progress == 0 || $task->status == 'pending')
+                                                                                        <div class="bg-color p-2 rounded {{($task->status == 'pending') ? 'bg-pending' : ''}}">
+                                                                                            <!-- <h6 class="h6css" >Lorem</h6> -->
+                                                                                            <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
+                                                                                                <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
+                                                                                                    <span class="bg-light rounded mr-1 p-1 h6css mr-auto text-dark" title="lorem"><b>{{ $task->name  }}</b></span>
+                                                                                                    @php $counter = 0; @endphp
+                                                                                                    @if(Auth::user()->id != $task->addedBy->id)
+                                                                                                        @php $counter++; @endphp
+                                                                                                        @if($task->addedBy->deleted_at == null)
+                                                                                                            <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
+                                                                                                                  title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
+                                                                                                                @if($task->addedBy->image == null)
+                                                                                                                    <span class="p-1 rounded-circle bg-info">
+                                                                                                                        {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
+                                                                                                                    </span>
+                                                                                                                @else
+                                                                                                                    <img width="25" height="25" class="rounded-circle"
+                                                                                                                         src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                @endif
+                                                                                                                <span class="logged-in">●</span>
+                                                                                                            </span>
+                                                                                                        @else
+                                                                                                            <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                                                                <span class="p-1 rounded-circle bg-info">
+                                                                                                                    <i class="fas fa-user-slash"></i>
+                                                                                                                </span>
+                                                                                                                <span class="logged-out">●</span>
+                                                                                                            </span>
+                                                                                                        @endif
+                                                                                                    @endif
+                                                                                                    @foreach($task->taskUser as $user)
+                                                                                                        @if(Auth::user()->id != $user->user->id)
+                                                                                                            @php $counter++; @endphp
+                                                                                                            @if($user->user->deleted_at == null)
+                                                                                                                @if($counter <= 3)
+                                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
+                                                                                                                          title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
+                                                                                                                        @if($user->user->image == null)
+                                                                                                                            <span
+                                                                                                                                class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                                                                                                        @else
+                                                                                                                            <img width="25" height="25" class="rounded-circle"
+                                                                                                                                 src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                        @endif
+                                                                                                                        <span class="logged-in">●</span>
+                                                                                                                    </span>
+                                                                                                                @endif
+                                                                                                            @else
+                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                                                                    <span class="p-1 rounded-circle bg-info">
+                                                                                                                        <i class="fas fa-user-slash"></i>
+                                                                                                                    </span>
+                                                                                                                    <span class="logged-out">●</span>
+                                                                                                                </span>
+                                                                                                            @endif
+                                                                                                        @endif
+                                                                                                    @endforeach
+                                                                                                    @if($counter > 3)
+                                                                                                        <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
+                                                                                                    @endif
+                                                                                                </div>
+                                                                                            </a>
+
+                                                                                            <div class="card p-0 pt-1 m-0 rounded-0" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
+                                                                                                <div class="progress mb-1">
+                                                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
+                                                                                                         aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                                                <span>Actions</span>
+                                                                                                <span>
+                                                                                                    @if($task->taskAction!=null && $task->taskAction->count()>0)
+                                                                                                        {{$task->taskAction->where('status','completed')->count()}}
+                                                                                                        / {{$task->taskAction->count()}}
+                                                                                                    @else 0/0
+                                                                                                    @endif
+                                                                                                </span>
+                                                                                                <span><i class="fas fa-clock"></i>
+                                                                                                    @php
+                                                                                                        $startTime = Carbon\Carbon::parse($task->start_date);
+                                                                                                        $endTime = Carbon\Carbon::parse($task->end_date);
+                                                                                                        echo   $endTime->diffForHumans($startTime,true).' left';
+                                                                                                    @endphp
+                                                                                                </span>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 p-1">
+                                                            <div class="card mt-3 mb-0 ">
+                                                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                                                    <div class="accordion-item">
+                                                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                                                                In Progress
+                                                                            </button>
+                                                                        </h2>
+                                                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                                                            <div class="accordion-body scroll-bar" style="height:39vh;">
+                                                                                @foreach($project->task as $task)
+                                                                                    @if($task->progress > 0 && $task->progress < 100 && $task->status == 'approved')
+                                                                                        <div class="bg-color p-2 rounded {{($task->status == 'pending') ? 'bg-pending' : ''}}">
+                                                                                            <!-- <h6 class="h6css" >Lorem</h6> -->
+                                                                                            <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
+                                                                                                <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
+                                                                                                    <span class="bg-light rounded mr-1 p-1 h6css mr-auto text-dark" title="lorem"><b>{{ $task->name  }}</b></span>
+                                                                                                    @php $counter = 0; @endphp
+                                                                                                    @if(Auth::user()->id != $task->addedBy->id)
+                                                                                                        @php $counter++; @endphp
+                                                                                                        @if($task->addedBy->deleted_at == null)
+                                                                                                            <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
+                                                                                                                  title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
+                                                                                                                @if($task->addedBy->image == null)
+                                                                                                                    <span class="p-1 rounded-circle bg-info">
+                                                                                                                        {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
+                                                                                                                    </span>
+                                                                                                                @else
+                                                                                                                    <img width="25" height="25" class="rounded-circle"
+                                                                                                                         src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                @endif
+                                                                                                                <span class="logged-in">●</span>
+                                                                                                            </span>
+                                                                                                        @else
+                                                                                                            <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                                                                <span class="p-1 rounded-circle bg-info">
+                                                                                                                    <i class="fas fa-user-slash"></i>
+                                                                                                                </span>
+                                                                                                                <span class="logged-out">●</span>
+                                                                                                            </span>
+                                                                                                        @endif
+                                                                                                    @endif
+                                                                                                    @foreach($task->taskUser as $user)
+                                                                                                        @if(Auth::user()->id != $user->user->id)
+                                                                                                            @php $counter++; @endphp
+                                                                                                            @if($user->user->deleted_at == null)
+                                                                                                                @if($counter <= 3)
+                                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
+                                                                                                                          title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
+                                                                                                                        @if($user->user->image == null)
+                                                                                                                            <span
+                                                                                                                                class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                                                                                                        @else
+                                                                                                                            <img width="25" height="25" class="rounded-circle"
+                                                                                                                                 src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                        @endif
+                                                                                                                        <span class="logged-in">●</span>
+                                                                                                                    </span>
+                                                                                                                @endif
+                                                                                                            @else
+                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                                                                    <span class="p-1 rounded-circle bg-info">
+                                                                                                                        <i class="fas fa-user-slash"></i>
+                                                                                                                    </span>
+                                                                                                                    <span class="logged-out">●</span>
+                                                                                                                </span>
+                                                                                                            @endif
+                                                                                                        @endif
+                                                                                                    @endforeach
+                                                                                                    @if($counter > 3)
+                                                                                                        <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
+                                                                                                    @endif
+                                                                                                </div>
+                                                                                            </a>
+
+                                                                                            <div class="card p-0 pt-1 m-0 rounded-0" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
+                                                                                                <div class="progress mb-1">
+                                                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
+                                                                                                         aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                                                <span>Actions</span>
+                                                                                                <span>
+                                                                                                    @if($task->taskAction!=null && $task->taskAction->count()>0)
+                                                                                                        {{$task->taskAction->where('status','completed')->count()}}
+                                                                                                        / {{$task->taskAction->count()}}
+                                                                                                    @else 0/0
+                                                                                                    @endif
+                                                                                                </span>
+                                                                                                <span><i class="fas fa-clock"></i>
+                                                                                                    @php
+                                                                                                        $startTime = Carbon\Carbon::parse($task->start_date);
+                                                                                                        $endTime = Carbon\Carbon::parse($task->end_date);
+                                                                                                        echo   $endTime->diffForHumans($startTime,true).' left';
+                                                                                                    @endphp
+                                                                                                </span>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 p-1">
+                                                            <div class="card mt-3 mb-0 ">
+                                                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                                                    <div class="accordion-item">
+                                                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                                                                Revision
+                                                                            </button>
+                                                                        </h2>
+                                                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                                                            <div class="accordion-body scroll-bar" style="height:39vh;">
+                                                                                @foreach($project->task as $task)
+                                                                                    @if($task->progress == 100 && $task->status == 'approved')
+                                                                                        <div class="bg-color p-2 rounded {{($task->status == 'pending') ? 'bg-pending' : ''}}">
+                                                                                            <!-- <h6 class="h6css" >Lorem</h6> -->
+                                                                                            <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
+                                                                                                <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
+                                                                                                    <span class="bg-light rounded mr-1 p-1 h6css mr-auto text-dark" title="lorem"><b>{{ $task->name  }}</b></span>
+                                                                                                    @php $counter = 0; @endphp
+                                                                                                    @if(Auth::user()->id != $task->addedBy->id)
+                                                                                                        @php $counter++; @endphp
+                                                                                                        @if($task->addedBy->deleted_at == null)
+                                                                                                            <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
+                                                                                                                  title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
+                                                                                                                @if($task->addedBy->image == null)
+                                                                                                                    <span class="p-1 rounded-circle bg-info">
+                                                                                                                        {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
+                                                                                                                    </span>
+                                                                                                                @else
+                                                                                                                    <img width="25" height="25" class="rounded-circle"
+                                                                                                                         src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                @endif
+                                                                                                                <span class="logged-in">●</span>
+                                                                                                            </span>
+                                                                                                        @else
+                                                                                                            <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                                                                <span class="p-1 rounded-circle bg-info">
+                                                                                                                    <i class="fas fa-user-slash"></i>
+                                                                                                                </span>
+                                                                                                                <span class="logged-out">●</span>
+                                                                                                            </span>
+                                                                                                        @endif
+                                                                                                    @endif
+                                                                                                    @foreach($task->taskUser as $user)
+                                                                                                        @if(Auth::user()->id != $user->user->id)
+                                                                                                            @php $counter++; @endphp
+                                                                                                            @if($user->user->deleted_at == null)
+                                                                                                                @if($counter <= 3)
+                                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
+                                                                                                                          title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
+                                                                                                                        @if($user->user->image == null)
+                                                                                                                            <span
+                                                                                                                                class="p-1 rounded-circle bg-info"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                                                                                                        @else
+                                                                                                                            <img width="25" height="25" class="rounded-circle"
+                                                                                                                                 src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
+                                                                                                                        @endif
+                                                                                                                        <span class="logged-in">●</span>
+                                                                                                                    </span>
+                                                                                                                @endif
+                                                                                                            @else
+                                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                                                                    <span class="p-1 rounded-circle bg-info">
+                                                                                                                        <i class="fas fa-user-slash"></i>
+                                                                                                                    </span>
+                                                                                                                    <span class="logged-out">●</span>
+                                                                                                                </span>
+                                                                                                            @endif
+                                                                                                        @endif
+                                                                                                    @endforeach
+                                                                                                    @if($counter > 3)
+                                                                                                        <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
+                                                                                                    @endif
+                                                                                                </div>
+                                                                                            </a>
+
+                                                                                            <div class="card p-0 pt-1 m-0 rounded-0" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
+                                                                                                <div class="progress mb-1">
+                                                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ (int)$task->progress }}%"
+                                                                                                         aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                                                <span>Actions</span>
+                                                                                                <span>
+                                                                                                    @if($task->taskAction!=null && $task->taskAction->count()>0)
+                                                                                                        {{$task->taskAction->where('status','completed')->count()}}
+                                                                                                        / {{$task->taskAction->count()}}
+                                                                                                    @else 0/0
+                                                                                                    @endif
+                                                                                                </span>
+                                                                                                <span><i class="fas fa-clock"></i>
+                                                                                                    @php
+                                                                                                        $startTime = Carbon\Carbon::parse($task->start_date);
+                                                                                                        $endTime = Carbon\Carbon::parse($task->end_date);
+                                                                                                        echo   $endTime->diffForHumans($startTime,true).' left';
+                                                                                                    @endphp
+                                                                                                </span>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="tab-pane" id="link22">
+                                                    Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. <br/> <br/>Dramatically maintain clicks-and-mortar
+                                                    solutions without functional solutions.
+                                                </div>
+
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                        <div class="modal-footer mb-0 mt-0 pb-0 pt-0">
-                            <!-- <button type="button" class="btn btn-link">Nice Button</button> -->
-                            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
-                                Close
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <!--  End Modal -->
-
-            <!-- Work Rules Modal -->
-            <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Method O (Work Rules)</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                <i class="material-icons">clear</i>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, atque. </p>
-
-                        </div>
-                        <div class="modal-footer">
-                            <!-- <button type="button" class="btn btn-link">Nice Button</button> -->
-                            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
-                                Close
-                            </button>
+                        <div class="col-md-3">
+                            @yield('right-panel')
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--  End Modal -->
+                <div class="tab-pane " id="link2">
+                    <div class="row mt-5">
 
-            <!-- Task Details Modal -->
-            <div class="modal fade" id="taskDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content"></div>
+                        <div class="col-md-9 mt-3">
+                            <div class="card scroll-bar mb-0 mt-3" style="height:80vh;">
+                                <!-- <div class="card-header card-header-success card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons"></i>
+                                     </div>
+                                    <h4 class="card-title"></h4>
+                                         </div> -->
+                                <div class="card-body ">
+
+                                    <div class="row meeting_mode">
+                                        <div class="col-md-4 col-sm-6 p-0 m-0 pl-1 pr-1 text-center">
+                                            <div class="item">
+                                                <div id="" class="vide_mirror meeting_video div{{$project->project_leader}}" data-user-name="{{$project->projectLeader->first_name . ' ' . $project->projectLeader->last_name}}"></div>
+                                            </div>
+                                            <a href="javascript:void(0)" style="color: #ffffff; position: relative; bottom: 3vh;">
+                                                {{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}
+                                            </a>
+                                        </div>
+                                        @foreach($project->projectUser as $user)
+                                            @if($user->user->deleted_at == null)
+                                                <div class="col-md-4 col-sm-6 p-0 m-0 pl-1 pr-1 text-center">
+                                                    <div class="item">
+                                                        <div id="" class="vide_mirror div{{$user->user->id}}" data-user-name="{{ $user->user->first_name . ' ' . $user->user->last_name }}"></div>
+                                                    </div>
+                                                    <a href="javascript:void(0)" style="color: #ffffff; position: relative; bottom: 3vh;">
+                                                        {{ $user->user->first_name . ' ' . $user->user->last_name }}
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3 mt-3">
+                            @yield('right-panel')
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!--  End Modal -->
-
         </div>
+
+        <!-- Meetings Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="card card-signup card-plain">
+                        <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h4 class="modal-title">
+                                            <span>Lorem Lorem Lorem</span>
+                                            <a href="{{ url('metodo') }}" class="close text-white pull-right" style="top:0" aria-hidden="true"><i class="fa fa-edit"></i></a>
+                                        </h4>
+                                    </div>
+                                    <div class="col-2  text-right">
+                                        <a type="button" class="close text-white pull-right" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+                        <div id="accordion">
+                            <div class="card mb-0 mt-0 pb-0 pt-0">
+
+                                <div class="card-body">
+                                    <div class="card-body">
+                                        <div id="free_text_body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h4>Heading lorem</h4>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Description">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <h4>Select Lorem</h4>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="checkbox" value="">
+                                                            Lorem
+                                                            <span class="form-check-sign">
+                                                                <span class="check"></span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="checkbox" value="">
+                                                            Lorem
+                                                            <span class="form-check-sign">
+                                                                <span class="check"></span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="note">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <h4>Images</h4>
+                                                    <img class="pre-img" src="https://metodoo.com/public/storage/assets/images/project/pre_files/RPOinmykznl1ivKa2hzJ2WQ1rR94E204cFn6Zqqo.jpg" height="100"
+                                                         alt="diagrama-estrategia-social-media.jpeg">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer mb-0 mt-0 pb-0 pt-0">
+                        <!-- <button type="button" class="btn btn-link">Nice Button</button> -->
+                        <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--  End Modal -->
+
+        <!-- Work Rules Modal -->
+        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Method O (Work Rules)</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            <i class="material-icons">clear</i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, atque. </p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-link">Nice Button</button> -->
+                        <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  End Modal -->
+
+        <!-- Task Details Modal -->
+        <div class="modal fade" id="taskDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+        <!--  End Modal -->
+
+        <!-- Edit Task Notes Modal -->
+        <div class="modal fade" id="editTaskNotesModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+        <!--  End Modal -->
+
     </div>
 
 @endsection
@@ -1047,6 +1046,45 @@
             $(document).on('click', '.task_details', function () {
                 event.preventDefault();
                 $('#taskDetailsModal').find('.modal-content').load($(this).attr('href'));
+            });
+
+            $(document).on('click', '.task_note_edit', function () {
+                event.preventDefault();
+                $('#editTaskNotesModal').find('.modal-content').load($(this).attr('href'), function() {
+                    $('#editTaskNotesModal').find('.selectpicker').selectpicker('refresh');
+                });
+            });
+
+            $(document).on('click', 'a[data-task-note=delete]', function (e) {
+                alert(123);
+                e.preventDefault();
+                let $this = $(this);
+                swal({
+                    title: 'Are you sure?',
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonClass: 'btn btn-success ml-1',
+                    cancelButtonClass: 'btn btn-danger mr-1',
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.post({
+                            data: {
+                                "_token": " {{ csrf_token()  }} ",
+                            },
+                            type: 'delete',
+                            url: $this.attr('href')
+                        }).done(function (data) {
+                            toastr.success(data.success);
+                            $('#editTaskNotesModal').modal('hide');
+                        });
+                    }
+                });
             });
 
             $(document).on('click', '.add_action', function () {

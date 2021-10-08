@@ -16,9 +16,9 @@
                             <div class="col-md-4">
                                 <div class="bg-color p-2 rounded {{($task->status == 'pending') ? 'bg-pending' : ''}}">
                                     <!-- <h6 class="h6css" >Lorem</h6> -->
-                                    <a class="task_details" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
+                                    <a class="task_details text-dark" data-toggle="modal" data-target="#taskDetailsModal" href="{{ route('task.show',$task->id) }}">
                                         <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                            <span class="bg-light rounded mr-1 p-1 h6css mr-auto" title="lorem"><b>{{ $task->name  }}</b></span>
+                                            <span class="bg-light rounded mr-1 p-1 h6css mr-auto text-dark" title="lorem"><b>{{ $task->name  }}</b></span>
                                             @php $counter = 0; @endphp
                                             @if(Auth::user()->id != $task->addedBy->id)
                                                 @php $counter++; @endphp
@@ -91,11 +91,12 @@
                                             @endif
                                         </span>
                                         <span><i class="fas fa-clock"></i>
-                                            @php
-                                                $startTime = Carbon\Carbon::parse($task->start_date);
-                                                $endTime = Carbon\Carbon::parse($task->end_date);
-                                                echo   $endTime->diffForHumans($startTime,true).' left';
-                                            @endphp
+                                            Completed
+{{--                                            @php--}}
+{{--                                                $startTime = Carbon\Carbon::parse($task->start_date);--}}
+{{--                                                $endTime = Carbon\Carbon::parse($task->end_date);--}}
+{{--                                                echo   $endTime->diffForHumans($startTime,true).' left';--}}
+{{--                                            @endphp--}}
                                         </span>
                                     </div>
 

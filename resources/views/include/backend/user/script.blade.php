@@ -403,6 +403,14 @@
     @endif
 </script>
 
+<script>
+    $(document).ready(function () {
+        $('a[data-dismiss=modal]').click(function () {
+            $(this).closest('.modal').modal('hide');
+        });
+    });
+</script>
+
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
     Pusher.logToConsole = true;
@@ -413,30 +421,30 @@
     });
 
     var channel = pusher.subscribe('my-channel.{{Auth::user()->id}}');
-    channel.bind('GroupCreated', function (data) {
-        console.log(data)
+    channel.bind('ProjectNotification', function (data) {
         toastr.info("You have been added to new project!");
-        var str = ' <a class="dropdown-item" href="#" style="margin-bottom: 2px;background-color: lightblue;">' + data.notification.body + '</a>';
+        var str = ' <a class="dropdown-item bg-light mb-1" href="#"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
         $('#my_notifications').append(str);
         var notification_counter = parseInt($('#notification_counter').text());
-        $('#notification_counter').html(notification_counter + 1)
-        console.log(JSON.stringify(data.group));
+        $('#notification_counter').html(notification_counter + 1);
     });
     channel.bind('TaskNotification', function (data) {
         if (data.notification.type == "task added")
             toastr.info("A new task added in " + data.task.project.name);
         else if (data.notification.type == "task approved")
-            toastr.info("Task added in " + data.task.project.name);
+            toastr.info("Task Approved in " + data.task.project.name);
         else if (data.notification.type == "task updated")
-            toastr.info("Task updated in " + data.task.project.name);
-        var str = ' <a class="dropdown-item" href="#">' + data.notification.notification + '</a>';
+            toastr.info("Task Updated in " + data.task.project.name);
+        else if (data.notification.type == "task completed")
+            toastr.info("Task Completed in " + data.task.project.name);
+        var str = ' <a class="dropdown-item bg-light mb-1" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
         $('#my_notifications').append(str);
         var notification_counter = parseInt($('#notification_counter').text());
         $('#notification_counter').html(notification_counter + 1)
     });
-    channel.bind('TaskActionSubmitted', function (data) {
-        toastr.info("An action has been marked as done in " + data.action.get_task.task_title + " task");
-        var str = ' <a class="dropdown-item" href="/admin/project/' + data.action.get_task.get_project.id + '/' + data.notification.id + '">' + data.notification.body + '</a>';
+    channel.bind('TaskActionNotification', function (data) {
+        toastr.info("An action has been marked as done in " + data.task_action.task.name + " task");
+        var str = ' <a class="dropdown-item bg-light mb-1" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.body + '</a>';
         $('#my_notifications').append(str);
         var notification_counter = parseInt($('#notification_counter').text());
         $('#notification_counter').html(notification_counter + 1)

@@ -51,7 +51,7 @@ class TaskController extends Controller {
             'end_date' => 'required',
             'action.*' => 'required',
         ]);
-//        try {
+        try {
             DB::beginTransaction();
             $data = $request->except('_token', 'team_members', 'action');
             $data['added_by'] = Auth::user()->id;
@@ -67,8 +67,15 @@ class TaskController extends Controller {
             $notification_data['project_id'] = $data['project_id'];
             $notification_data['user_id'] = auth()->user()->id;
             $notification_data['type'] = 'task added';
-            $notification_data['notification'] = 'A new task added in' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
+            $notification_data['notification'] = 'A new task added in ' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
             $notification = Notification::create($notification_data);
+
+            if (auth()->user()->hasRole('User')) {
+                $notification_user = new NotificationUser();
+                $notification_user->user_id = $task->project->project_leader;
+                $notification_user->notification_id = $notification->id;
+                $notification_user->save();
+            }
             foreach ($request->team_members as $member) {
                 $task_user = new TaskUser();
                 $task_user->task_id = $task->id;
@@ -83,10 +90,10 @@ class TaskController extends Controller {
             broadcast(new TaskNotification($task, $notification))->toOthers();
             DB::commit();
             return back()->with('success', 'Task added successfully.');
-//        } catch (\Exception $e) {
-//            DB::rollBack();
-//            return back()->with('error', 'Something went wrong.');
-//        }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Something went wrong.');
+        }
     }
 
     /**
@@ -117,7 +124,7 @@ class TaskController extends Controller {
                 $notification_data['project_id'] = $task->project_id;
                 $notification_data['user_id'] = auth()->user()->id;
                 $notification_data['type'] = 'task approved';
-                $notification_data['notification'] =  $task->name . ' approved by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name . ' in ' . $task->project->name;
+                $notification_data['notification'] = $task->name . ' approved by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name . ' in ' . $task->project->name;
                 $notification = Notification::create($notification_data);
 
                 $notification_user = new NotificationUser();
@@ -131,7 +138,9 @@ class TaskController extends Controller {
                     $notification_user->notification_id = $notification->id;
                     $notification_user->save();
                 }
+
                 broadcast(new TaskNotification($task, $notification))->toOthers();
+
                 DB::commit();
                 return back()->with('success', 'Task approved successfully.');
             } else {
@@ -151,6 +160,25 @@ class TaskController extends Controller {
                 DB::beginTransaction();
                 $task->status = 'completed';
                 $task->update();
+
+                $notification_data['project_id'] = $task->project_id;
+                $notification_data['user_id'] = auth()->user()->id;
+                $notification_data['type'] = 'task completed';
+                $notification_data['notification'] = $task->name . ' Completed by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name . ' in ' . $task->project->name;
+                $notification = Notification::create($notification_data);
+
+                $notification_user = new NotificationUser();
+                $notification_user->user_id = $task->added_by;
+                $notification_user->notification_id = $notification->id;
+                $notification_user->save();
+
+                foreach ($task->taskUser as $taskUser) {
+                    $notification_user = new NotificationUser();
+                    $notification_user->user_id = $taskUser->user_id;
+                    $notification_user->notification_id = $notification->id;
+                    $notification_user->save();
+                }
+                broadcast(new TaskNotification($task, $notification))->toOthers();
                 DB::commit();
                 return back()->with('success', 'Task completed successfully.');
             } else {

@@ -115,6 +115,25 @@ class EventController extends Controller {
         }
     }
 
+    public function updateEvent(Request $request) {
+        $this->validate($request, [
+            'id' => 'required',
+            'start' => 'required',
+            'end' => 'required',
+        ]);
+        try {
+            DB::beginTransaction();
+            $data = $request->except('_token');
+            $event = Event::find($data['id']);
+            $event->update($data);
+            DB::commit();
+            return response()->json(['success' => 'Event Updated successfully']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Something went wrong.']);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -122,6 +141,16 @@ class EventController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Event $event) {
-        //
+        try {
+            $id = $event->id;
+            DB::beginTransaction();
+            EventUser::where('event_id', $id)->delete();
+            $event->delete();
+            DB::commit();
+            return response()->json(['success' => 'Event deleted successfully', 'id' => $id]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Something went wrong.']);
+        }
     }
 }

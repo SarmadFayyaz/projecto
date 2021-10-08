@@ -71,7 +71,8 @@ class TaskNoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(TaskNote $task_note) {
-        //
+        $tasks = Task::where('project_id', $task_note->task->project_id)->get();
+        return view('backend.user.project.extras.edit-task-notes', compact('task_note', 'tasks'));
     }
 
     /**
@@ -82,7 +83,20 @@ class TaskNoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, TaskNote $task_note) {
-        //
+        $this->validate($request, [
+            'task_id' => 'required',
+            'notes' => ['required', 'string', 'max:255'],
+        ]);
+        try {
+            DB::beginTransaction();
+            $data = $request->except('_token');
+            $task_note->update($data);
+            DB::commit();
+            return back()->with('success', 'Note updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Something went wrong.');
+        }
     }
 
     /**
@@ -92,6 +106,16 @@ class TaskNoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(TaskNote $task_note) {
-        //
+        try {
+            $project_id = $task_note->task->project_id;
+            $task_note_id = $task_note->id;
+            DB::beginTransaction();
+            $task_note->delete();
+            DB::commit();
+            return response()->json(['success' => 'Task Note deleted successfully', 'project_id' => $project_id, 'task_note_id' => $task_note_id]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Something went wrong.']);
+        }
     }
 }

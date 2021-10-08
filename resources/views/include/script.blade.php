@@ -424,3 +424,11 @@
     @endforeach
     @endif
 </script>
+
+<script>
+    $(document).ready(function (){
+        $("a[data-dismiss=modal]").click(function (){
+            $(this).closest('.modal').modal('hide');
+        })
+    });
+</script>

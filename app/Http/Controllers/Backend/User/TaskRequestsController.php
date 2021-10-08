@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend\User;
 
+use App\Events\TaskNotification;
 use App\Http\Controllers\Controller;
 
+use App\Models\Notification;
+use App\Models\NotificationUser;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskAction;
@@ -86,34 +89,48 @@ class TaskRequestsController extends Controller {
             'end_date' => 'required',
             'action.*' => 'required',
         ]);
-        //        try {
-        DB::beginTransaction();
-        $data = $request->except('_token', 'team_members', 'action');
-        $task = Task::find($data['task_id']);
-        $task->update($data);
-        foreach ($request->team_members as $key => $member) {
-            $task_user['task_id'] = $data['task_id'];
-            $task_user['user_id'] = $member;
-            TaskUser::updateOrCreate($task_user);
+        try {
+            DB::beginTransaction();
+            $data = $request->except('_token', 'team_members', 'action');
+            $task = Task::find($data['task_id']);
+            $task->update($data);
+
+            $notification_data['project_id'] = $task->project_id;
+            $notification_data['user_id'] = auth()->user()->id;
+            $notification_data['type'] = 'task updated';
+            $notification_data['notification'] = $task->name . ' updated in ' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
+            $notification = Notification::create($notification_data);
+
+            foreach ($request->team_members as $key => $member) {
+                $task_user['task_id'] = $data['task_id'];
+                $task_user['user_id'] = $member;
+                TaskUser::updateOrCreate($task_user);
+
+                $notification_user = new NotificationUser();
+                $notification_user->user_id = $member;
+                $notification_user->notification_id = $notification->id;
+                $notification_user->save();
+            }
+            $task_user_stored = TaskUser::where('task_id', $data['task_id'])->get()->pluck('user_id')->toArray();
+            foreach ($task_user_stored as $row) {
+                if (!in_array($row, $request->team_members))
+                    TaskUser::where('task_id', $data['task_id'])->where('user_id', $row)->delete();
+            }
+            //            foreach ($request->action as $action) {
+            //                $task_user = new TaskAction();
+            //                $task_user->task_id = $task_id;
+            //                $task_user->name = $action;
+            //                $task_user->status = 'pending';
+            //                $task_user->save();
+            //            }
+
+            broadcast(new TaskNotification($task, $notification))->toOthers();
+            DB::commit();
+            return back()->with('success', 'Task Updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Something went wrong.');
         }
-        $task_user_stored = TaskUser::where('task_id', $data['task_id'])->get()->pluck('user_id')->toArray();
-        foreach ($task_user_stored as $row) {
-            if (!in_array($row, $request->team_members))
-                TaskUser::where('task_id', $data['task_id'])->where('user_id', $row)->delete();
-        }
-        //            foreach ($request->action as $action) {
-        //                $task_user = new TaskAction();
-        //                $task_user->task_id = $task_id;
-        //                $task_user->name = $action;
-        //                $task_user->status = 'pending';
-        //                $task_user->save();
-        //            }
-        DB::commit();
-        return back()->with('success', 'Task Updated successfully.');
-        //        } catch (\Exception $e) {
-        //            DB::rollBack();
-        //            return back()->with('error', 'Something went wrong.');
-        //        }
     }
 
     public function delete($id) {

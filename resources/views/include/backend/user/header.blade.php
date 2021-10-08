@@ -38,10 +38,10 @@
             <form class="navbar-form ml-3">
                 <div class="input-group no-border">
                     <input type="text" value="" id="search" hidden class="form-control form-control-sm" placeholder="Search...">
-                    <button type="button" id="btnsearch" style="min-width: 23px !important;width: 23px;margin-bottom: 3px; height: 23px !important;" onclick="btnsearchs()" class="btn btn-white btn-sm btn-round btn-just-icon">
-                        <i class="material-icons" style="line-height:25px !important;">search</i>
+{{--                    <button type="button" id="btnsearch" style="min-width: 23px !important;width: 23px;margin-bottom: 3px; height: 23px !important;" onclick="btnsearchs()" class="btn btn-white btn-sm btn-round btn-just-icon">--}}
+                        <i class="material-icons cursor-pointer ml-2" onclick="btnsearchs()" style="line-height:25px !important;">search</i>
                         <div class="ripple-container"></div>
-                    </button>
+{{--                    </button>--}}
                 </div>
             </form>
 
@@ -49,13 +49,19 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">notifications</i>
-                        <span class="notification" id="notification_counter">{{ $notifications_user->count() }}</span>
+                        <span class="notification" id="notification_counter">{{ $notifications_user->where('status', 0)->count() }}</span>
                         <p class="d-lg-none d-md-block">
-                            Some Actions </p>
+                            Some Actions
+                        </p>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" id="my_notifications">
                         @foreach($notifications_user as $notification_user)
-                            <a class="dropdown-item" href="#">{{ $notification_user->notification->notification }}</a>
+                            <a class="dropdown-item {{ ($notification_user->status == 0) ? 'bg-light mb-1' : '' }}" href="{{ route('notification.edit', $notification_user->notification_id) }}">
+                                @if($notification_user->status == 0)
+                                    <span class="mr-2">●</span>
+                                @endif
+                                {{ $notification_user->notification->notification }}
+                            </a>
                         @endforeach
                     </div>
                 </li>
@@ -63,7 +69,8 @@
                     <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">person</i>
                         <p class="d-lg-none d-md-block">
-                            Account </p>
+                            Account
+                        </p>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
                         <a class="dropdown-item" href="#">Profile</a>
