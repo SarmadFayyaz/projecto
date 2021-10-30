@@ -43,7 +43,7 @@ class ProjectController extends Controller {
                     foreach ($row->projectUser as $projectUser) {
                         if ($projectUser->user->hasRole('User'))
                             if ($projectUser->user->deleted_at == null)
-                                $team_members .= '<span class="badge badge-info mr-2">' . $projectUser->user->first_name . ' '
+                                $team_members .= '<span class="badge badge-' . ((Auth::guard('company')->user()->background) ? Auth::guard('company')->user()->background : 'primary') . ' mr-2">' . $projectUser->user->first_name . ' '
                                     . $projectUser->user->last_name . '</span>';
                     }
                     return $team_members;
@@ -52,7 +52,7 @@ class ProjectController extends Controller {
                     $sponsors = '';
                     foreach ($row->projectUser as $projectUser) {
                         if ($projectUser->user->hasRole('Sponsor'))
-                            $sponsors .= '<span class="badge badge-info mr-2">' . $projectUser->user->first_name . ' '
+                            $sponsors .= '<span class="badge badge-' . ((Auth::guard('company')->user()->background) ? Auth::guard('company')->user()->background : 'primary') . ' mr-2">' . $projectUser->user->first_name . ' '
                                 . $projectUser->user->last_name . '</span>';
                     }
                     return $sponsors;

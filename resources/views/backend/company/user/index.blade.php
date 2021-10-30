@@ -7,13 +7,12 @@
 @endsection
 
 @section('content')
-
     <div class="content mt-md-5">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header card-header-info card-header-icon">
+                        <div class="card-header card-header-{{ $theme }} card-header-icon">
                             <div class="row">
                                 <div class="col">
                                     <div class="card-icon">
@@ -22,7 +21,7 @@
                                     <h4 class="card-title">{{__('header.users')}}</h4>
                                 </div>
                                 <div class="col text-right">
-                                    <a class="btn btn-round btn-info btn-sm card-title text-white" href="{{ route('company.user.create') }}">
+                                    <a class="btn btn-{{ $theme }} btn-sm card-title text-white" href="{{ route('company.user.create') }}">
                                         <i class="material-icons">add_box</i>
                                         {{__('header.add_user')}}
                                     </a>

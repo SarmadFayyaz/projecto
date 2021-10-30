@@ -902,7 +902,7 @@
                                                 <div class="px-2">
                                                     <div class="dropdown">
                                                         <button
-                                                            class="dropdown-toggle btn btn-info btn-block btn-sm btn-round "
+                                                            class="dropdown-toggle btn btn-info btn-block btn-sm "
                                                             type="button" id="dropdownMenuButton"
                                                             data-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
@@ -926,7 +926,7 @@
                                                 <div class="px-2">
                                                     <div class="dropdown">
                                                         <button
-                                                            class="dropdown-toggle btn btn-info btn-block  btn-sm btn-round "
+                                                            class="dropdown-toggle btn btn-info btn-block  btn-sm "
                                                             type="button" id="dropdownMenuButton"
                                                             data-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
@@ -949,7 +949,7 @@
                                                 <div class="px-2">
                                                     <div class="dropdown">
                                                         <button
-                                                            class="dropdown-toggle btn btn-info  btn-block  btn-sm btn-round "
+                                                            class="dropdown-toggle btn btn-info  btn-block  btn-sm "
                                                             type="button" id="dropdownMenuButton"
                                                             data-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
@@ -969,7 +969,7 @@
                                                 <div class="px-2">
                                                     <div class="dropdown">
                                                         <button
-                                                            class="dropdown-toggle btn btn-info btn-block  btn-sm btn-round "
+                                                            class="dropdown-toggle btn btn-info btn-block  btn-sm "
                                                             type="button" id="dropdownMenuButton"
                                                             data-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">

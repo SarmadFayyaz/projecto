@@ -46,36 +46,37 @@ class TaskController extends Controller {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'project_id' => 'required',
-            'team_members' => 'required',
+//            'team_members' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'action.*' => 'required',
         ]);
         try {
-            DB::beginTransaction();
-            $data = $request->except('_token', 'team_members', 'action');
-            $data['added_by'] = Auth::user()->id;
-            $data['status'] = Auth::user()->hasRole('Boss') ? 'approved' : 'pending';
-            $task = Task::create($data);
-            foreach ($request->action as $action) {
-                $task_user = new TaskAction();
-                $task_user->task_id = $task->id;
-                $task_user->name = $action;
-                $task_user->status = 'pending';
-                $task_user->save();
-            }
-            $notification_data['project_id'] = $data['project_id'];
-            $notification_data['user_id'] = auth()->user()->id;
-            $notification_data['type'] = 'task added';
-            $notification_data['notification'] = 'A new task added in ' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
-            $notification = Notification::create($notification_data);
+        DB::beginTransaction();
+        $data = $request->except('_token', 'team_members', 'action');
+        $data['added_by'] = Auth::user()->id;
+        $data['status'] = Auth::user()->hasRole('Boss') ? 'approved' : 'pending';
+        $task = Task::create($data);
+        foreach ($request->action as $action) {
+            $task_user = new TaskAction();
+            $task_user->task_id = $task->id;
+            $task_user->name = $action;
+            $task_user->status = 'pending';
+            $task_user->save();
+        }
+        $notification_data['project_id'] = $data['project_id'];
+        $notification_data['user_id'] = auth()->user()->id;
+        $notification_data['type'] = 'task added';
+        $notification_data['notification'] = 'A new task added in ' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
+        $notification = Notification::create($notification_data);
 
-            if (auth()->user()->hasRole('User')) {
-                $notification_user = new NotificationUser();
-                $notification_user->user_id = $task->project->project_leader;
-                $notification_user->notification_id = $notification->id;
-                $notification_user->save();
-            }
+        if (auth()->user()->hasRole('User')) {
+            $notification_user = new NotificationUser();
+            $notification_user->user_id = $task->project->project_leader;
+            $notification_user->notification_id = $notification->id;
+            $notification_user->save();
+        }
+        if (isset($request->team_members)) {
             foreach ($request->team_members as $member) {
                 $task_user = new TaskUser();
                 $task_user->task_id = $task->id;
@@ -87,9 +88,10 @@ class TaskController extends Controller {
                 $notification_user->notification_id = $notification->id;
                 $notification_user->save();
             }
-            broadcast(new TaskNotification($task, $notification))->toOthers();
-            DB::commit();
-            return back()->with('success', 'Task added successfully.');
+        }
+        broadcast(new TaskNotification($task, $notification))->toOthers();
+        DB::commit();
+        return back()->with('success', 'Task added successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');

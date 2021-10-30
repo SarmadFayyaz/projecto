@@ -5,8 +5,8 @@
         <div class="modal-content">
 
             <div class="card card-signup card-plain">
-                <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
-                    <h4 class="modal-title">{{ __('header.event_edit') }}</h4>
+                <div class="modal-header card-header card-header-{{ $theme }} rounded" style="    width: 90%; left: 5%;">
+                    <h4 class="modal-title font-weight-bold">{{ __('header.event_edit') }}</h4>
                     <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <div class="col-12 text-center">
-                            <button type="submit" class="btn btn-primary">{{ __('header.update') }}</button>
+                            <button type="submit" class="btn btn-success">{{ __('header.update') }}</button>
                         </div>
                     </div>
                 </form>

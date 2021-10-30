@@ -427,8 +427,8 @@
 
 <script>
     $(document).ready(function (){
-        $("a[data-dismiss=modal]").click(function (){
+        $(document).on('click', 'a[data-dismiss=modal]', function (){
             $(this).closest('.modal').modal('hide');
-        })
+        });
     });
 </script>

@@ -4,8 +4,8 @@
         <div class="modal-content">
 
             <div class="card card-signup card-plain">
-                <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
-                    <h4 class="modal-title">{{ __('header.add_new_task') }}</h4>
+                <div class="modal-header card-header card-header-{{ $theme }} rounded" style="    width: 90%; left: 5%;">
+                    <h4 class="modal-title font-weight-bold">{{ __('header.add_new_task') }}</h4>
                     <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group @error('team_members') has-danger @enderror">
-                                <select class="selectpicker" name="team_members[]" id="team_members" multiple data-style="select-with-transition" data-size="4" required data-width="100%" title="{{ __('header.choose_members') }}">
+                                <select class="selectpicker" name="team_members[]" id="team_members" multiple data-style="select-with-transition" data-size="4" data-width="100%" title="{{ __('header.choose_members') }}">
                                     <option disabled> {{ __('header.choose_members') }} </option>
                                     @foreach($project->projectUser as $projectUser)
                                         @if($projectUser->user->hasRole('User') && $projectUser->user->id != Auth::user()->id && $projectUser->user->deleted_at == null)

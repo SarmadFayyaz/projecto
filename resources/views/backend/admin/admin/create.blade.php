@@ -74,12 +74,12 @@
                                             </div>
                                             <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
                                             <div>
-                                              <span class="btn btn-round btn-success btn-file">
+                                              <span class="btn btn-success btn-file">
                                                 <span class="fileinput-new">{{__('header.add_photo')}}</span>
                                                 <span class="fileinput-exists">{{__('header.change')}}</span>
                                                 <input type="file" name="image" accept="image/*"/>
                                               </span>
-                                                <a href="#pablo" class="btn btn-danger btn-round fileinput-exists"
+                                                <a href="#pablo" class="btn btn-danger fileinput-exists"
                                                    data-dismiss="fileinput"><i
                                                         class="fa fa-times"></i> {{__('header.remove')}}</a>
                                             </div>

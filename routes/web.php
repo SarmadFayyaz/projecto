@@ -11,12 +11,17 @@ use App\Http\Controllers\Backend\Admin\PermissionController as AdminPermission;
 use App\Http\Controllers\Backend\Admin\AdminController as AdminAdmins;
 use App\Http\Controllers\Backend\Admin\CompanyController as AdminCompany;
 use App\Http\Controllers\Backend\Admin\ProfileController as AdminProfile;
+use App\Http\Controllers\Backend\Admin\SupportController as AdminSupport;
+use App\Http\Controllers\Backend\Admin\VideoController as AdminVideo;
+use App\Http\Controllers\Backend\Admin\FaqController as AdminFaq;
+use App\Http\Controllers\Backend\Admin\FormController as AdminForm;
 
 use App\Http\Controllers\Backend\Company\Auth\LoginController as CompanyLogin;
 use App\Http\Controllers\Backend\Company\HomeController as CompanyHome;
 use App\Http\Controllers\Backend\Company\UserController as CompanyUser;
 use App\Http\Controllers\Backend\Company\ProjectController as CompanyProject;
 use App\Http\Controllers\Backend\Company\ProfileController as CompanyProfile;
+use App\Http\Controllers\Backend\Company\SupportController as CompanySupport;
 
 use App\Http\Controllers\Backend\User\HomeController as UserHome;
 use App\Http\Controllers\Backend\User\ProjectController as UserProject;
@@ -31,6 +36,8 @@ use App\Http\Controllers\Backend\User\DocumentController as UserDocument;
 use App\Http\Controllers\Backend\User\EventController as UserEvent;
 use App\Http\Controllers\Backend\User\NotificationController as UserNotification;
 use App\Http\Controllers\Backend\User\ProfileController as UserProfile;
+use App\Http\Controllers\Backend\User\SupportController as UserSupport;
+use App\Http\Controllers\Backend\User\FormController as UserForm;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,7 +92,7 @@ Route::get('language/{lang}', [LanguageController::class, 'language'])->middlewa
 // Admin Routes
 Route::get('admin/login', [AdminLogin::class, 'showLoginForm']);
 Route::post('admin/login', [AdminLogin::class, 'login'])->name('admin.login');
-Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['middleware' => ['admin', 'language'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/', [AdminHome::class, 'index'])->name('index');
     Route::post('/setting', [AdminHome::class, 'setting'])->name('setting');
 
@@ -101,12 +108,20 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::resource('company', AdminCompany::class);
 
     Route::get('profile', [AdminProfile::class, 'index'])->name('profile.index');
+    Route::post('profile', [AdminProfile::class, 'update'])->name('profile.update');
+
+    Route::get('support', [AdminSupport::class, 'index'])->name('support.index');
+    Route::resource('video', AdminVideo::class);
+    Route::resource('faq', AdminFaq::class);
+
+    Route::get('/form/get', [AdminForm::class, 'get'])->name('form.get');
+    Route::resource('form', AdminForm::class);
 });
 
 // Company Routes
 Route::get('company/login', [CompanyLogin::class, 'showLoginForm']);
 Route::post('company/login', [CompanyLogin::class, 'login'])->name('company.login');
-Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company.'], function () {
+Route::group(['middleware' => ['company', 'language'], 'prefix' => 'company', 'as' => 'company.'], function () {
     Route::get('/', [CompanyHome::class, 'index'])->name('index');
     Route::post('/setting', [CompanyHome::class, 'setting'])->name('setting');
 
@@ -117,10 +132,13 @@ Route::group(['middleware' => 'company', 'prefix' => 'company', 'as' => 'company
     Route::resource('project', CompanyProject::class);
 
     Route::get('profile', [CompanyProfile::class, 'index'])->name('profile.index');
+    Route::post('profile', [CompanyProfile::class, 'update'])->name('profile.update');
+
+    Route::get('support', [CompanySupport::class, 'index'])->name('support.index');
 });
 
 // User Routes
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'language', 'onlineStatus']], function () {
 
     Route::get('/', [UserHome::class, 'index'])->name('index');
     Route::post('/setting', [UserHome::class, 'setting'])->name('setting');
@@ -156,7 +174,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('event-update', [UserEvent::class, 'updateEvent'])->name('update-event');
     Route::resource('event', UserEvent::class);
+
     Route::resource('notification', UserNotification::class);
 
     Route::get('profile', [UserProfile::class, 'index'])->name('profile.index');
+    Route::post('profile', [UserProfile::class, 'update'])->name('profile.update');
+
+    Route::get('support', [UserSupport::class, 'index'])->name('support.index');
+
+    Route::resource('form', UserForm::class);
 });

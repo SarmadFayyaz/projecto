@@ -22,4 +22,5 @@
 <link href="{{ asset('assets/css/material-dashboard.css?v=2.2.2') }}" rel="stylesheet"/><!-- CSS Just for demo purpose, don't include it in your project -->
 <link href="{{ asset('assets/demo/demo.css') }}" rel="stylesheet"/>
 <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/cmGauge.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">

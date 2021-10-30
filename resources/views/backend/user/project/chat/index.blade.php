@@ -1,8 +1,8 @@
 <!-- chat box -->
-<div class="chat-popup" id="chatPopupModal" style="border-radius:10px ; min-width: 22vw;max-width: 22vw;">
+<div class="chat-popup" id="chatPopupModal" style="border-radius:10px ; min-width: 22.5vw;max-width: 22.5vw;">
     <div class="ml-auto mr-auto rounded p-2 bg-white">
         <div class="row">
-            <div class="col-10 text-right">
+            <div class="col-10 text-left">
                 <select class="selectpicker" id="chat_type" data-style="select-with-transition" data-size="4" data-width="100%" title="{{ __('header.group_chat') }}">
                     <option selected value="0"> {{ __('header.group_chat') }} </option>
                     @if(Auth::user()->id != $project->project_leader)
@@ -31,14 +31,14 @@
                 <a href="javascript:void(0)" class="text-dark" onclick="closeChat()"><i class="fa fa-times pt-2"></i></a>
             </div>
         </div>
-        <div class="col-12 table-responsive" id="chat_body" style="max-height: 35vh;min-height: 35vh;">
+        <div class="col-12 table-responsive" id="chat_body" style="max-height: 41vh;min-height: 41vh;">
             @foreach($project->groupConversation as $conversation)
                 @if($conversation->message_type == 0)
                     <div class="row mb-2">
                         @if($conversation->user->deleted_at == null)
                             @if($conversation->user->image == null)
                                 <div class="col-2 mt-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
-                                    <span class="p-2 rounded-circle bg-info">
+                                    <span class="p-2 rounded-circle bg-{{ $theme }} text-white">
                                         {{ucfirst(isset($conversation->user->first_name[0]) ? $conversation->user->first_name[0] : '') . ucfirst(isset($conversation->user->last_name[0]) ? $conversation->user->last_name[0] : '')}}
                                     </span>
                                 </div>
@@ -50,7 +50,7 @@
                             @endif
                         @else
                             <div class="col-2 mt-2 p-1">
-                                <span class="p-2 rounded-circle bg-info">
+                                <span class="p-2 rounded-circle bg-{{ $theme }} text-white">
                                     <i class="fas fa-user-slash"></i>
                                 </span>
                             </div>
@@ -114,7 +114,7 @@
 </div>
 
 <!-- binnecle box -->
-<div class="chat-popup" id="binancePopupModal" style="border-radius:10px; min-width: 22vw;max-width: 22vw;">
+<div class="chat-popup" id="binancePopupModal" style="border-radius:10px; min-width: 22.5vw;max-width: 22.5vw;">
     <div class="ml-auto mr-auto rounded p-2 bg-white">
         <div class="row">
             <div class="col-10 text-left">
@@ -124,14 +124,14 @@
                 <a href="javascript:void(0)" class="text-dark" onclick="closeBinance()"><i class="fa fa-times pt-2"></i></a>
             </div>
         </div>
-        <div class="col-12 table-responsive" id="binance_body" style="max-height: 35vh;min-height: 35vh;">
+        <div class="col-12 table-responsive" id="binance_body" style="max-height: 41vh;min-height: 41vh;">
             @foreach($project->groupConversation as $conversation)
                 @if($conversation->message_type == 1)
                     <div class="row mb-2">
                         @if($conversation->user->deleted_at == null)
                             @if($conversation->user->image == null)
                                 <div class="col-2 mt-2 p-1 {{ (Auth::user()->id == $conversation->user_id) ? 'order-10' : '' }}">
-                                    <span class="p-2 rounded-circle bg-info">
+                                    <span class="p-2 rounded-circle bg-{{ $theme }} text-white">
                                         {{ucfirst(isset($conversation->user->first_name[0]) ? $conversation->user->first_name[0] : '') . ucfirst(isset($conversation->user->last_name[0]) ? $conversation->user->last_name[0] : '')}}
                                     </span>
                                 </div>
@@ -143,7 +143,7 @@
                             @endif
                         @else
                             <div class="col-2 mt-2 p-1">
-                                <span class="p-2 rounded-circle bg-info">
+                                <span class="p-2 rounded-circle bg-{{ $theme }} text-white">
                                     <i class="fas fa-user-slash"></i>
                                 </span>
                             </div>

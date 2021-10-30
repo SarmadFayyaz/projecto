@@ -32,7 +32,7 @@ class UserController extends Controller {
                 ->addColumn('role', function ($row) {
                     $roles = '';
                     foreach ($row->roles->pluck('name') as $role) {
-                        $roles .= '<span class="badge badge-info mr-2">' . $role . '</span>';
+                        $roles .= '<span class="badge badge-' . ((Auth::guard('company')->user()->background) ? Auth::guard('company')->user()->background : 'primary') . ' mr-2">' . $role . '</span>';
                     }
                     return $roles;
                 })
@@ -131,7 +131,7 @@ class UserController extends Controller {
         $this->validate($request, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:companies,email,' . $id . ',id'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id . ',id'],
             'role' => 'required',
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'image' => ['sometimes', 'image', 'max:2048'],

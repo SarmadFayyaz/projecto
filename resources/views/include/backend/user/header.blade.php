@@ -56,7 +56,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" id="my_notifications">
                         @foreach($notifications_user as $notification_user)
-                            <a class="dropdown-item {{ ($notification_user->status == 0) ? 'bg-light mb-1' : '' }}" href="{{ route('notification.edit', $notification_user->notification_id) }}">
+                            <a class="dropdown-item {{ ($notification_user->status == 0) ? '' : 'bg-light mb-1' }}" href="{{ route('notification.edit', $notification_user->notification_id) }}">
                                 @if($notification_user->status == 0)
                                     <span class="mr-2">●</span>
                                 @endif
@@ -73,7 +73,7 @@
                         </p>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="{{ route('profile.index') }}"> {{ __('header.profile') }} </a>
                         @if(Session('locale')=="en")
                             <a class="dropdown-item" href="{{url('language/de')}}">Spanish</a>
                         @else

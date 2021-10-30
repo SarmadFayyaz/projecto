@@ -196,7 +196,7 @@
 
 
 
-        
+
     </style>
 @endsection
 
@@ -1292,11 +1292,11 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="card card-signup card-plain">
-                                <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
+                                <div class="modal-header card-header card-header-primary rounded" style="    width: 90%; left: 5%;">
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-10">
-                                                <h4 class="modal-title">
+                                                <h4 class="modal-title font-weight-bold">
                                                     <span>Lorem Lorem Lorem</span>
                                                     <a href="{{ url('metodo') }}" class="close text-white pull-right" style="top:0" aria-hidden="true">
                                                         <i class="fa fa-edit"></i>
@@ -1761,7 +1761,7 @@
                                                 Date
                                             </label>
                                         <div class="form-group">
-                                            
+
                                             <input type="date" class="form-control datepicker"
                                                    value="">
 
@@ -1773,7 +1773,7 @@
                                                 Date
                                             </label>
                                         <div class="form-group">
-                                            
+
                                             <input type="date" class="form-control datepicker"
                                                    value="">
 
@@ -1842,7 +1842,7 @@
                                     <div class="row">
                                         <div class="col-4">
                                             <p class="pb-0 mb-0">
-                                                <i class="fa fa-clock-o" aria-hidden="true" style="font-size: 20px;margin-top: -20px;"></i>&nbsp;
+                                                <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;
                                                 1 Woche left
                                             </p>
                                         </div>

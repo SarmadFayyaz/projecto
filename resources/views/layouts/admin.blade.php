@@ -4,7 +4,7 @@
     @include('include.head')
     @yield('style')
 </head>
-<body class="">
+<body class="text-capitalize {{(Auth::guard('admin')->user()->sidebar_size == 1) ? 'sidebar-mini' : ''}}">
 <div class="wrapper ">
     @include('include.backend.admin.sidebar')
     <div class="main-panel">
@@ -24,7 +24,7 @@
         @include('include.footer')
     </div>
 </div>
-@include('include.side-plugin')
+@include('include.backend.admin.side-plugin')
 
 @include('include.backend.admin.script')
 

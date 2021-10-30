@@ -1,5 +1,5 @@
 <div class="sidebar {{(Auth::guard('admin')->user()->sidebar_size == 1) ? 'ps' : ''}}"
-     data-color="{{ (Auth::guard('admin')->user()->background) ? Auth::guard('admin')->user()->background : 'purple' }}"
+     data-color="{{ (Auth::guard('admin')->user()->background) ? getSidebarColor(Auth::guard('admin')->user()->background) : 'purple' }}"
      data-background-color="{{ (Auth::guard('admin')->user()->sidebar_background) ? Auth::guard('admin')->user()->sidebar_background : 'white' }}"
      data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
     <!--
@@ -82,6 +82,24 @@
                 <a class="nav-link" href="{{ route('admin.permission.index') }}">
                     <i class="fas fa-user-shield"></i>
                     <p> {{__('header.permissions')}} </p>
+                </a>
+            </li>
+            <li class="nav-item  <?php echo($page == "Method O" ? "active" : "")?> ">
+                <a class="nav-link" href="{{ route('admin.form.index') }}">
+                    <i class="fas fa-layer-group"></i>
+                    <p> {{__('header.method_o')}} </p>
+                </a>
+            </li>
+            <li class="nav-item  <?php echo($page == "Language" ? "active" : "")?> ">
+                <a class="nav-link" href="{{ url('admin/translations/view/header') }}" target="_blank">
+                    <i class="fas fa-language"></i>
+                    <p> {{__('header.language')}} </p>
+                </a>
+            </li>
+            <li class="nav-item  <?php echo($page == "Support" ? "active" : "")?> ">
+                <a class="nav-link" href="{{ route('admin.support.index') }}">
+                    <i class="material-icons">live_help</i>
+                    <p> {{__('header.support')}} </p>
                 </a>
             </li>
         </ul>

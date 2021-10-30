@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header card-header-info card-header-icon">
+                        <div class="card-header card-header-{{ $theme }} card-header-icon">
                             <div class="row">
                                 <div class="col">
                                     <div class="card-icon">
@@ -98,14 +98,14 @@
         </div>
     </div>
 
-    {{-- Edit Project Modal --}}
+    {{-- Edit Task Modal --}}
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-md pb-0 mb-0">
             <div class="modal-content">
 
                 <div class="card card-signup card-plain">
-                    <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
-                        <h4 class="modal-title">{{ __('header.edit_task') }}</h4>
+                    <div class="modal-header card-header card-header-{{ $theme }} rounded" style="    width: 90%; left: 5%;">
+                        <h4 class="modal-title font-weight-bold">{{ __('header.edit_task') }}</h4>
                         <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"> <i class="material-icons">clear</i> </a>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group @error('team_members') has-danger @enderror">
-                                    <select class="selectpicker" name="team_members[]" id="team_members" multiple data-style="select-with-transition" data-size="4" required data-width="100%" title="{{ __('header.choose_members') }}">
+                                    <select class="selectpicker" name="team_members[]" id="team_members" multiple data-style="select-with-transition" data-size="4" data-width="100%" title="{{ __('header.choose_members') }}">
                                         <option disabled> {{ __('header.choose_members') }} </option>
                                         @foreach($users as $user)
                                             @if($user->hasRole('User') && $user->id != Auth::user()->id)
@@ -311,7 +311,8 @@
                             content += '</div>';
                             content += '<input type="text" class="form-control" required name="action[]" placeholder="Add Action" value="' + result.task_action[i].name + '">';
                             content += '<div class="input-group-append">';
-                            content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
+                            if(i != 0)
+                                content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
                             content += '</div>';
                             content += '</div>';
                         }

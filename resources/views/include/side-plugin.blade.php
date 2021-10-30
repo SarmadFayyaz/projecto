@@ -9,10 +9,10 @@
             <li class="adjustments-line">
                 <a href="javascript:void(0)" class="switch-trigger active-color">
                     <div class="badge-colors ml-auto mr-auto">
-                        <span class="badge filter badge-purple" data-color="purple"></span>
-                        <span class="badge filter badge-azure" data-color="azure"></span>
-                        <span class="badge filter badge-green" data-color="green"></span>
-                        <span class="badge filter badge-warning" data-color="orange"></span>
+                        <span class="badge filter badge-purple" data-color="primary"></span>
+                        <span class="badge filter badge-azure" data-color="info"></span>
+                        <span class="badge filter badge-green" data-color="success"></span>
+                        <span class="badge filter badge-warning" data-color="warning"></span>
                         <span class="badge filter badge-danger" data-color="danger"></span>
                         <span class="badge filter badge-rose" data-color="rose"></span>
                     </div>

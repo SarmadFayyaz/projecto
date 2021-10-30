@@ -8,7 +8,7 @@
     }
 </style>
 <div class="sidebar {{(Auth::user()->sidebar_size == 1) ? 'ps' : ''}}"
-     data-color="{{ (Auth::user()->background) ? Auth::user()->background : 'purple' }}"
+     data-color="{{ (Auth::user()->background) ? getSidebarColor(Auth::user()->background) : 'purple' }}"
      data-background-color="{{ (Auth::user()->sidebar_background) ? Auth::user()->sidebar_background : 'white' }}"
      data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
     <!--
@@ -99,19 +99,19 @@
             <div class="sidebar-footer">
                 <li class="nav-item   ">
 
-                    <a class="nav-link <?php echo(($page == "Task Requests" || $page == "Projects") ? "" : "collapsed")?> "
+                    <a class="nav-link <?php echo(($page == "Support") ? "" : "collapsed")?> "
                        data-toggle="collapse" href="#tablesExamples1"
-                       aria-expanded="<?php echo(($page == "Task Requests" || $page == "Projects") ? "true" : "false")?>">
+                       aria-expanded="<?php echo(($page == "Support") ? "true" : "false")?>">
                         <i class="material-icons">live_help</i>
-                        <p> SUPPORT
+                        <p> {{ __('header.support') }}
                             <b class="caret"></b>
                         </p>
                     </a>
-                    <div class="collapse"
+                    <div class="collapse <?php echo(($page == "Support") ? "show" : "")?>"
                          id="tablesExamples1" style="">
                         <ul class="nav">
-                            <li class="nav-item">
-                                <a class="nav-link">
+                            <li class="nav-item <?php echo(($page == "Support") ? "active" : "")?>">
+                                <a class="nav-link" href="{{ route('support.index') }}">
                                     <i class="material-icons">group_work</i>
                                     <p> User Voice </p>
                                 </a>

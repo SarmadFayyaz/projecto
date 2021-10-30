@@ -22,7 +22,7 @@
                                     <h4 class="card-title">{{__('header.admins')}}</h4>
                                 </div>
                                 <div class="col text-right">
-                                    <a class="btn btn-round btn-success btn-sm card-title text-white"
+                                    <a class="btn btn-success btn-sm card-title text-white"
                                        href="{{ route('admin.admins.create') }}">
                                         <i class="material-icons">add_box</i>
                                         {{__('header.add_admins')}}

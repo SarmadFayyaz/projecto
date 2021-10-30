@@ -13,7 +13,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <div class="card ">
-                        <div class="card-header card-header-info card-header-icon">
+                        <div class="card-header card-header-{{ $theme }} card-header-icon">
                             <div class="card-icon">
                                 <i class="fas fa-user"></i>
                             </div>
@@ -99,12 +99,12 @@
                                             </div>
                                             <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
                                             <div>
-                                                <span class="btn btn-round btn-info btn-file">
+                                                <span class="btn btn-success btn-file">
                                                     <span class="fileinput-new">{{__('header.add_photo')}}</span>
                                                     <span class="fileinput-exists">{{__('header.change')}}</span>
                                                     <input type="file" name="image" accept="image/*"/>
                                                 </span>
-                                                <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> {{__('header.remove')}}</a>
+                                                <a href="#pablo" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> {{__('header.remove')}}</a>
                                             </div>
                                             @error('image')
                                             <label class="error">
@@ -116,7 +116,7 @@
                                 </div>
                             </div>
                             <div class="card-footer ">
-                                <button type="submit" class="btn btn-fill btn-info ml-auto">{{__('header.add')}}</button>
+                                <button type="submit" class="btn btn-fill btn-success ml-auto">{{__('header.add')}}</button>
                             </div>
                         </form>
                     </div>

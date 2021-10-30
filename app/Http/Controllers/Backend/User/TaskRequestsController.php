@@ -84,7 +84,7 @@ class TaskRequestsController extends Controller {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'task_id' => 'required',
-            'team_members' => 'required',
+//            'team_members' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'action.*' => 'required',
@@ -101,19 +101,21 @@ class TaskRequestsController extends Controller {
             $notification_data['notification'] = $task->name . ' updated in ' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
             $notification = Notification::create($notification_data);
 
-            foreach ($request->team_members as $key => $member) {
-                $task_user['task_id'] = $data['task_id'];
-                $task_user['user_id'] = $member;
-                TaskUser::updateOrCreate($task_user);
+            if (isset($request->team_members)) {
+                foreach ($request->team_members as $key => $member) {
+                    $task_user['task_id'] = $data['task_id'];
+                    $task_user['user_id'] = $member;
+                    TaskUser::updateOrCreate($task_user);
 
-                $notification_user = new NotificationUser();
-                $notification_user->user_id = $member;
-                $notification_user->notification_id = $notification->id;
-                $notification_user->save();
+                    $notification_user = new NotificationUser();
+                    $notification_user->user_id = $member;
+                    $notification_user->notification_id = $notification->id;
+                    $notification_user->save();
+                }
             }
             $task_user_stored = TaskUser::where('task_id', $data['task_id'])->get()->pluck('user_id')->toArray();
             foreach ($task_user_stored as $row) {
-                if (!in_array($row, $request->team_members))
+                if (!in_array($row, (isset($request->team_members)) ? $request->team_members : []))
                     TaskUser::where('task_id', $data['task_id'])->where('user_id', $row)->delete();
             }
             //            foreach ($request->action as $action) {

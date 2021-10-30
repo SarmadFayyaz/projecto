@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header card-header-info card-header-icon">
+                        <div class="card-header card-header-{{ $theme }} card-header-icon">
                             <div class="row">
                                 <div class="col">
                                     <div class="card-icon">
@@ -22,7 +22,7 @@
                                     <h4 class="card-title">{{__('header.projects')}}</h4>
                                 </div>
                                 <div class="col text-right">
-                                    <a class="btn btn-round btn-info btn-sm card-title text-white"
+                                    <a class="btn btn-{{ $theme }} btn-sm card-title text-white"
                                        href="javascript:;" data-toggle="modal" data-target="#add_project_modal">
                                         <i class="material-icons">add_box</i>
                                         {{__('header.add_project')}}
@@ -84,8 +84,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="card card-signup card-plain">
-                    <div class="modal-header card-header card-header-primary p-2 w-75 ml-auto mr-auto">
-                        <h4 class="text-center w-100 mb-1 mt-1">
+                    <div class="modal-header card-header card-header-{{ $theme }} p-2 w-75 ml-auto mr-auto rounded">
+                        <h4 class="text-center w-100 mb-1 mt-1 font-weight-bold">
                             {{__('header.add_project')}}
                         </h4>
                         <a type="button" class="text-white" data-dismiss="modal" aria-hidden="true">
@@ -334,7 +334,7 @@
                     </div>
                     <div class="modal-footer ">
                         <button type="submit"
-                                class="btn btn-fill btn-info ml-auto">{{__('header.add')}}</button>
+                                class="btn btn-fill btn-success ml-auto">{{__('header.add')}}</button>
                     </div>
                 </form>
 
@@ -347,8 +347,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="card card-signup card-plain">
-                    <div class="modal-header card-header card-header-primary p-2 w-75 ml-auto mr-auto">
-                        <h4 class="text-center w-100 mb-1 mt-1">
+                    <div class="modal-header card-header card-header-{{ $theme }} p-2 w-75 ml-auto mr-auto rounded">
+                        <h4 class="text-center w-100 mb-1 mt-1 font-weight-bold">
                             {{__('header.edit_project')}}
                         </h4>
                         <a type="button" class="text-white" data-dismiss="modal" aria-hidden="true">
@@ -574,7 +574,7 @@
                     </div>
                     <div class="modal-footer ">
                         <button type="submit"
-                                class="btn btn-fill btn-info ml-auto">{{__('header.update')}}</button>
+                                class="btn btn-fill btn-success ml-auto">{{__('header.update')}}</button>
                     </div>
                 </form>
 

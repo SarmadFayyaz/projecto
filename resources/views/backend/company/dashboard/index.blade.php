@@ -1,6 +1,6 @@
 @extends('layouts.company')
 
-@section('title', 'Dashboard')
+@section('title', __('header.dashboard'))
 
 @section('style')
 @endsection

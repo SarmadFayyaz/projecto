@@ -145,7 +145,7 @@
                 </div>
             </div>
         </div>
-        <!-- <button type="button" class="btn btn-round btn-default dropdown-toggle btn-link" data-toggle="dropdown">
+        <!-- <button type="button" class="btn btn-default dropdown-toggle btn-link" data-toggle="dropdown">
 7 days
 </button> -->
 

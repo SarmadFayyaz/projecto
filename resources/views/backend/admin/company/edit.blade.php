@@ -77,7 +77,7 @@
                                             </div>
                                             <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
                                             <div>
-                                              <span class="btn btn-round btn-info btn-file">
+                                              <span class="btn btn-info btn-file">
                                                 <span class="fileinput-exists" style="display: block">{{__('header.change')}}</span>
                                                 <input type="file" name="image" accept="image/*"/>
                                               </span>

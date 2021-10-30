@@ -29,6 +29,7 @@
 <script src="{{ asset('assets/js/plugins/chartist.min.js') }}"></script><!--  Notifications Plugin    -->
 <script src="{{ asset('assets/js/plugins/bootstrap-notify.js') }}"></script><!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('assets/js/material-dashboard.js?v=2.2.2') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/cmGauge.js') }}" type="text/javascript"></script>
 
 <script src="{{ asset('assets/js/toastr.min.js') }}" type="text/javascript"></script>
 
@@ -315,6 +316,7 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function (result) {
+                        location.reload();
                     },
                     error: function (result) {
                     }
@@ -404,8 +406,8 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        $('a[data-dismiss=modal]').click(function () {
+    $(document).ready(function (){
+        $(document).on('click', 'a[data-dismiss=modal]', function (){
             $(this).closest('.modal').modal('hide');
         });
     });
@@ -423,7 +425,7 @@
     var channel = pusher.subscribe('my-channel.{{Auth::user()->id}}');
     channel.bind('ProjectNotification', function (data) {
         toastr.info("You have been added to new project!");
-        var str = ' <a class="dropdown-item bg-light mb-1" href="#"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
+        var str = ' <a class="dropdown-item" href="#"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
         $('#my_notifications').append(str);
         var notification_counter = parseInt($('#notification_counter').text());
         $('#notification_counter').html(notification_counter + 1);
@@ -437,14 +439,14 @@
             toastr.info("Task Updated in " + data.task.project.name);
         else if (data.notification.type == "task completed")
             toastr.info("Task Completed in " + data.task.project.name);
-        var str = ' <a class="dropdown-item bg-light mb-1" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
+        var str = ' <a class="dropdown-item" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
         $('#my_notifications').append(str);
         var notification_counter = parseInt($('#notification_counter').text());
         $('#notification_counter').html(notification_counter + 1)
     });
     channel.bind('TaskActionNotification', function (data) {
         toastr.info("An action has been marked as done in " + data.task_action.task.name + " task");
-        var str = ' <a class="dropdown-item bg-light mb-1" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.body + '</a>';
+        var str = ' <a class="dropdown-item" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.body + '</a>';
         $('#my_notifications').append(str);
         var notification_counter = parseInt($('#notification_counter').text());
         $('#notification_counter').html(notification_counter + 1)

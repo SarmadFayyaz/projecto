@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header card-header-info card-header-icon">
+                        <div class="card-header card-header-{{ $theme }} card-header-icon">
                             <div class="row">
                                 <div class="col">
                                     <div class="card-icon">
@@ -71,8 +71,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="card card-signup card-plain">
-                    <div class="modal-header card-header card-header-primary p-2 w-75 ml-auto mr-auto">
-                        <h4 class="text-center w-100 mb-1 mt-1">
+                    <div class="modal-header card-header card-header-{{ $theme }} p-2 w-75 ml-auto mr-auto rounded">
+                        <h4 class="text-center w-100 mb-1 mt-1 font-weight-bold">
                             {{__('header.edit_project')}}
                         </h4>
                         <a type="button" class="text-white" data-dismiss="modal" aria-hidden="true"> <i class="material-icons">clear</i> </a>
@@ -260,7 +260,7 @@
                         </div>
                     </div>
                     <div class="modal-footer ">
-                        <button type="submit" class="btn btn-fill btn-info ml-auto">{{__('header.update')}}</button>
+                        <button type="submit" class="btn btn-fill btn-succes ml-auto">{{__('header.update')}}</button>
                     </div>
                 </form>
 

@@ -314,6 +314,7 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function (result) {
+                        location.reload();
                     },
                     error: function (result) {
                     }
@@ -404,8 +405,8 @@
 
 <script>
     $(document).ready(function (){
-        $("a[data-dismiss=modal]").click(function (){
+        $(document).on('click', 'a[data-dismiss=modal]', function (){
             $(this).closest('.modal').modal('hide');
-        })
+        });
     });
 </script>

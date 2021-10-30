@@ -3,8 +3,8 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content m-0 p-0">
             <div class="card card-signup card-plain">
-                <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
-                    <h4 class="modal-title">{{ __('header.document_library') }}</h4>
+                <div class="modal-header card-header card-header-{{ $theme }} rounded" style="    width: 90%; left: 5%;">
+                    <h4 class="modal-title font-weight-bold">{{ __('header.documents_library') }}</h4>
                     <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"> <i class="material-icons">clear</i> </a>
                 </div>
             </div>
@@ -19,12 +19,12 @@
                     <div class="col-md-3">
                         <div class="card scroll-bar mb-0 pb-0" style="height:65vh">
                             <div class="text-center card-header">
-                                <label for="document_upload" class="m-0 btn btn-info"> {{ __('header.upload_files') }}
+                                <label for="document_upload" class="m-0 btn btn-{{ $theme }}"> {{ __('header.upload_files') }}
                                     <input type="file" id="document_upload" name="file" style="display:none">
                                 </label>
                             </div>
                             <div class="card-body">
-                                <ul class="nav nav-pills nav-pills-rose nav-pills-icons flex-column" role="tablist">
+                                <ul class="nav nav-pills nav-pills-{{ $theme }} nav-pills-icons flex-column" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active get_documents doc_all_nav" data-toggle="tab" href="{{ route('get-document', ['all' , $project->id]) }}" role="tablist"><i class="material-icons">dns</i>{{ __('header.all_documents') }}</a>
                                     </li>
@@ -35,7 +35,7 @@
                                         <a class="nav-link get_documents" data-toggle="tab" href="{{ route('get-document', [2 , $project->id]) }}" role="tablist"><i class="material-icons">schedule</i>{{ __('header.recent') }}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link get_documents" data-toggle="tab" href="{{ route('get-document', [1 , $project->id]) }}" role="tablist"><i class="material-icons">textsms</i>{{ __('header.binance') }}</a>
+                                        <a class="nav-link get_documents" data-toggle="tab" href="{{ route('get-document', [1 , $project->id]) }}" role="tablist"><i class="material-icons">textsms</i>{{ __('header.binnacle') }}</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link get_documents" data-toggle="tab" href="{{ route('get-document', [0 , $project->id]) }}" role="tablist"><i class="material-icons">chat</i>{{ __('header.chat') }}</a>

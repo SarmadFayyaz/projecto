@@ -14,6 +14,15 @@
         /*    border-radius: 9px;*/
         /*    margin-left: 12px;*/
         /*}*/
+        .rounded-top{
+            border-top-left-radius: 0.5rem !important;
+            border-top-right-radius: 0.5rem !important;
+        }
+        .accordion-button:not(.collapsed) {
+            color: #000000;
+            background-color: #eeeeee;
+            box-shadow: inset 0 -1px 0 rgb(0 0 0 / 8%);
+        }
 
         .accordion-button::after {
             display: none;
@@ -34,9 +43,9 @@
 
         .activeproject .btn.btn-fab, .btn.btn-just-icon {
             margin: 0px;
-            font-size: 16px;
-            height: 24px;
-            min-width: 20px;
+            font-size: 12px;
+            height: 3vh;
+            min-width: 2vw;
             width: fit-content;
             padding: 0 6px;
             overflow: hidden;
@@ -55,6 +64,7 @@
             font-size: 0.3rem;
             line-height: 1.0;
             border-radius: 0.2rem;
+            background-color: {{ '#' . getThemeColor($theme) }};
         }
     </style>
 @endsection
@@ -70,189 +80,207 @@
                     <div class="card scroll-bar mb-0" style="height:84vh;">
                         <div class="card-body m-0 pb-0 activeproject">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-6 pl-2 pr-2 mb-2 mb-md-3">
                                     <h4 class="m-0 p-0 font-weight-bold ml-1 mb-1">{{ __('header.active_projects') }}</h4>
                                 </div>
-                                <div class="col-6 text-right">
-                                    <button class="btn btn-primary btn-sm py-0" id="collapsall">Collapse All</button>
+                                <div class="col-6 text-right pl-2 pr-2 mb-2 mb-md-3">
+                                    <button class="btn btn-{{ $theme }} btn-sm py-0" id="collapsall">Collapse All</button>
                                 </div>
                                 @foreach($user_projects as $project)
-                                    <div class="col-md-6 pl-1 pr-1 mb-2">
-                                        <div class="accordion">
-                                            <div class="accordion-item">
+                                    <div class="col-md-6 pl-2 pr-2 mb-2">
+                                        <div class="accordion rounded">
+                                            <div class="accordion-item rounded card m-0 mb-4">
                                                 <h2 class="accordion-header">
-                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#project_{{ $project->id }}" aria-expanded="true">
+                                                    <button class="accordion-button rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#project_{{ $project->id }}" aria-expanded="true">
                                                         <div class="col-12">
                                                             <div class="row">
-                                                                <div class="col-6"><h6 class="mb-0">{{ $project->name }}</h6></div>
-                                                                <div class="col-6 text-right">
-                                                                    <span><i class="fas fa-clock mr-1"></i>
-                                                                        @php
-                                                                            $startTime = Carbon\Carbon::parse($project->start_date);
-                                                                            $endTime = Carbon\Carbon::parse($project->end_date);
-                                                                            echo $endTime->diffForHumans($startTime,true).' left';
-                                                                        @endphp
-                                                                    </span>
-                                                                </div>
+                                                                <div class="col-6 pl-2 pr-2"><h5 class="mb-0 font-weight-bold text-truncate">{{ $project->name }}</h5></div>
+{{--                                                                <div class="col-6 text-right pl-2 pr-2">--}}
+{{--                                                                    <span><i class="fas fa-clock mr-1"></i>--}}
+{{--                                                                        @php--}}
+{{--                                                                            $startTime = Carbon\Carbon::parse($project->start_date);--}}
+{{--                                                                            $endTime = Carbon\Carbon::parse($project->end_date);--}}
+{{--                                                                            echo $endTime->diffForHumans($startTime,true).' left';--}}
+{{--                                                                        @endphp--}}
+{{--                                                                    </span>--}}
+{{--                                                                </div>--}}
                                                             </div>
                                                         </div>
                                                     </button>
                                                 </h2>
 
-                                                <div id="project_{{ $project->id }}" class="collapse accordion-collapse collapse show">
+                                                <div id="project_{{ $project->id }}" class="collapse accordion-collapse collapse show colla_ps">
                                                     <div class="accordion-body">
-                                                        <div class="d-flex mb-3 mt-1 justify-content-between align-items-center">
-                                                            <div class="col-12">
-                                                                @if(Auth::user()->id != $project->projectLeader->id)
-                                                                    @if($project->projectLeader->deleted_at == null)
-                                                                        <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}">
-                                                                            {{ucfirst(isset($project->projectLeader->first_name[0]) ? $project->projectLeader->first_name[0] : '') . ucfirst(isset($project->projectLeader->last_name[0]) ? $project->projectLeader->last_name[0] : '')}}
-                                                                            <div class="ripple-container"></div>
-                                                                        </button>
-                                                                    @else
-                                                                        <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                            <i class="fas fa-user-slash"></i>
-                                                                            <div class="ripple-container"></div>
-                                                                        </button>
-                                                                    @endif
-                                                                @endif
-                                                                @foreach($project->projectUser as $user)
-                                                                    @if(Auth::user()->id != $user->user->id)
-                                                                        @if($user->user->deleted_at == null)
-                                                                            <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}}
+                                                        <div class="col-12">
+                                                            <div class="row mb-2 mt-2 justify-content-between align-items-center pb-1">
+                                                                <div class="col-12 pl-2 pr-2">
+                                                                    @if(Auth::user()->id != $project->projectLeader->id)
+                                                                        @if($project->projectLeader->deleted_at == null)
+                                                                            <button class="btn btn-{{ $theme }} btn-fab" id="new-blue-bg" rel="tooltip"
+                                                                                    title="{{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}">
+                                                                                {{ucfirst(isset($project->projectLeader->first_name[0]) ? $project->projectLeader->first_name[0] : '') . ucfirst(isset($project->projectLeader->last_name[0]) ? $project->projectLeader->last_name[0] : '')}}
                                                                                 <div class="ripple-container"></div>
                                                                             </button>
                                                                         @else
-                                                                            <button class="btn btn-primary btn-fab" id="new-blue-bg" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                            <button class="btn btn-{{ $theme }} btn-fab" id="new-blue-bg" rel="tooltip" title="{{ __('header.user_deleted') }}">
                                                                                 <i class="fas fa-user-slash"></i>
                                                                                 <div class="ripple-container"></div>
                                                                             </button>
                                                                         @endif
                                                                     @endif
-                                                                @endforeach
-                                                                <a href="{{ route('project', $project->id) }}"><i class="fas fa-info-circle ml-2 text-warning pull-right cursor-pointer" title="View Task Details"></i></a>
+                                                                    @foreach($project->projectUser as $user)
+                                                                        @if(Auth::user()->id != $user->user->id)
+                                                                            @if($user->user->deleted_at == null)
+                                                                                <button class="btn btn-{{ $theme }} btn-fab" id="new-blue-bg" rel="tooltip" title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
+                                                                                    {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}}
+                                                                                    <div class="ripple-container"></div>
+                                                                                </button>
+                                                                            @else
+                                                                                <button class="btn btn-{{ $theme }} btn-fab" id="new-blue-bg" rel="tooltip" title="{{ __('header.user_deleted') }}">
+                                                                                    <i class="fas fa-user-slash"></i>
+                                                                                    <div class="ripple-container"></div>
+                                                                                </button>
+                                                                            @endif
+                                                                        @endif
+                                                                    @endforeach
+                                                                    <a href="{{ route('project', $project->id) }}">
+                                                                        <i class="fas fa-info-circle ml-2 text-warning pull-right cursor-pointer" title="View Task Details" style="font-size: 1.624vw;"></i>
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row ">
-                                                            <div class="col-md-6 mb-2 pr-3 pl-3">
-                                                                <div class="accordion">
-                                                                    <div class="accordion-item">
-                                                                        <h6 class="accordion-header">
-                                                                            <button class="accordion-button no-arrow bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#project_urgent_{{ $project->id }}"
-                                                                                    aria-expanded="true">
-                                                                                Urgent Tasks
-                                                                            </button>
-                                                                        </h6>
-                                                                        <div id="project_urgent_{{ $project->id }}" class="accordion-collapse collapse show table-responsive" style="max-height: 10vh; min-height: 10vh">
-                                                                            <div class="accordion-body">
-                                                                                <ul class="list-group">
-                                                                                    @php $counter = 1; @endphp
-                                                                                    @if($project->task!=null && $project->task->count()>0)
-                                                                                        @foreach($project->task as $task)
-                                                                                            @if($task->added_by == Auth::user()->id)
-                                                                                                <a href="{{ route('project', $project->id) }}">
-                                                                                                    <li class="list-group-item">
-                                                                                                        {{ $counter . '. '. $task->name }}
-                                                                                                    </li>
-                                                                                                </a>
-                                                                                                @php $counter++; @endphp
-                                                                                            @endif
-                                                                                        @endforeach
-                                                                                    @endif
-                                                                                </ul>
+                                                        <div class="col-12">
+                                                            <div class="row ">
+                                                                <div class="col-md-6 mb-2 pr-2 pl-2">
+                                                                    <div class="accordion">
+                                                                        <div class="accordion-item rounded card m-0">
+                                                                            <h6 class="accordion-header">
+                                                                                <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#project_urgent_{{ $project->id }}"
+                                                                                        aria-expanded="true">
+                                                                                    Urgent Tasks
+                                                                                </button>
+                                                                            </h6>
+                                                                            <div id="project_urgent_{{ $project->id }}" class="accordion-collapse collapse show table-responsive" style="max-height: 10vh; min-height: 10vh">
+                                                                                <div class="accordion-body">
+                                                                                    <ul class="list-group pl-2 pr-2 pt-2">
+                                                                                        @php $counter = 1; @endphp
+                                                                                        @if($project->task!=null && $project->task->count()>0)
+                                                                                            @foreach($project->task as $task)
+                                                                                                @if($task->added_by == Auth::user()->id)
+                                                                                                    <a href="{{ route('project', $project->id) }}">
+                                                                                                        <li class="list-group-item mb-1">
+                                                                                                            {{ $counter . '. '. $task->name }}
+                                                                                                        </li>
+                                                                                                    </a>
+                                                                                                    @php $counter++; @endphp
+                                                                                                @endif
+                                                                                            @endforeach
+                                                                                        @endif
+                                                                                    </ul>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
 
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6 mb-2 pr-3 pl-3">
-                                                                <div class="accordion">
-                                                                    <div class="accordion-item">
-                                                                        <h6 class="accordion-header">
-                                                                            <button class="accordion-button no-arrow bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#project_cross_{{ $project->id }}"
-                                                                                    aria-expanded="true">
-                                                                                Cross Task
-                                                                            </button>
-                                                                        </h6>
-                                                                        <div id="project_cross_{{ $project->id }}" class="accordion-collapse collapse table-responsive" style="max-height: 10vh;">
-                                                                            <div class="accordion-body">
-                                                                                <ul class="list-group">
-                                                                                    @php $counter = 1; @endphp
-                                                                                    @if($project->task!=null && $project->task->count()>0)
-                                                                                        @foreach($project->task as $task)
-                                                                                            @if($task->added_by != Auth::user()->id)
-                                                                                                <a href="{{ route('project', $project->id) }}">
-                                                                                                    <li class="list-group-item">
-                                                                                                        {{ $counter . '. '. $task->name }}
-                                                                                                    </li>
-                                                                                                </a>
-                                                                                                @php $counter++; @endphp
-                                                                                            @endif
-                                                                                        @endforeach
-                                                                                    @endif
-                                                                                </ul>
+                                                                <div class="col-md-6 mb-2 pr-2 pl-2">
+                                                                    <div class="accordion">
+                                                                        <div class="accordion-item rounded card m-0">
+                                                                            <h6 class="accordion-header">
+                                                                                <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#project_cross_{{ $project->id }}"
+                                                                                        aria-expanded="true">
+                                                                                    Cross Task
+                                                                                </button>
+                                                                            </h6>
+                                                                            <div id="project_cross_{{ $project->id }}" class="accordion-collapse collapse table-responsive" style="max-height: 10vh;">
+                                                                                <div class="accordion-body">
+                                                                                    <ul class="list-group pl-2 pr-2 pt-2">
+                                                                                        @php $counter = 1; @endphp
+                                                                                        @if($project->task!=null && $project->task->count()>0)
+                                                                                            @foreach($project->task as $task)
+                                                                                                @if($task->added_by != Auth::user()->id)
+                                                                                                    <a href="{{ route('project', $project->id) }}">
+                                                                                                        <li class="list-group-item mb-1">
+                                                                                                            {{ $counter . '. '. $task->name }}
+                                                                                                        </li>
+                                                                                                    </a>
+                                                                                                    @php $counter++; @endphp
+                                                                                                @endif
+                                                                                            @endforeach
+                                                                                        @endif
+                                                                                    </ul>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
 
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6 mb-2 pr-3 pl-3">
-                                                                <div class="accordion">
-                                                                    <div class="accordion-item">
-                                                                        <h6 class="accordion-header">
-                                                                            <button class="accordion-button no-arrow bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#project_pending_{{ $project->id }}"
-                                                                                    aria-expanded="true">
-                                                                                Pending Tasks
-                                                                            </button>
-                                                                        </h6>
-                                                                        <div id="project_pending_{{ $project->id }}" class="accordion-collapse collapse table-responsive" style="max-height: 10vh;">
-                                                                            <div class="accordion-body">
-                                                                                <ul class="list-group">
-                                                                                    @php $counter = 1; @endphp
-                                                                                    @if($project->task!=null && $project->task->count()>0)
-                                                                                        @foreach($project->task as $task)
-                                                                                            @if($task->progress < 100)
-                                                                                                <a href="{{ route('project', $project->id) }}">
-                                                                                                    <li class="list-group-item">
-                                                                                                        {{ $counter . '. '. $task->name }}
-                                                                                                    </li>
-                                                                                                </a>
-                                                                                                @php $counter++; @endphp
-                                                                                            @endif
-                                                                                        @endforeach
-                                                                                    @endif
-                                                                                </ul>
+                                                                <div class="col-md-6 mb-2 pr-2 pl-2">
+                                                                    <div class="accordion">
+                                                                        <div class="accordion-item rounded card m-0">
+                                                                            <h6 class="accordion-header">
+                                                                                <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
+                                                                                        data-bs-target="#project_pending_{{ $project->id }}" aria-expanded="true">
+                                                                                    Pending Tasks
+                                                                                </button>
+                                                                            </h6>
+                                                                            <div id="project_pending_{{ $project->id }}" class="accordion-collapse collapse table-responsive" style="max-height: 10vh;">
+                                                                                <div class="accordion-body">
+                                                                                    <ul class="list-group pl-2 pr-2 pt-2">
+                                                                                        @php $counter = 1; @endphp
+                                                                                        @if($project->task!=null && $project->task->count()>0)
+                                                                                            @foreach($project->task as $task)
+                                                                                                @if($task->progress < 100)
+                                                                                                    <a href="{{ route('project', $project->id) }}">
+                                                                                                        <li class="list-group-item mb-1">
+                                                                                                            {{ $counter . '. '. $task->name }}
+                                                                                                        </li>
+                                                                                                    </a>
+                                                                                                    @php $counter++; @endphp
+                                                                                                @endif
+                                                                                            @endforeach
+                                                                                        @endif
+                                                                                    </ul>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
 
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6 mb-2 pr-3 pl-3">
-                                                                <div class="accordion">
-                                                                    <div class="accordion-item">
-                                                                        <h6 class="accordion-header">
-                                                                            <button class="accordion-button no-arrow bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#project_fulfillment_{{ $project->id }}"
-                                                                                    aria-expanded="true" style="max-height: 10vh;">
-                                                                                Fulfillment Tasks
-                                                                            </button>
-                                                                        </h6>
-                                                                        <div id="project_fulfillment_{{ $project->id }}" class="accordion-collapse collapse show" style="max-height: 10vh;">
-                                                                            <div class="accordion-body ">
-                                                                                <div class="row justify-content-center">
-                                                                                    <div class="col-md-5 mt-2">
-                                                                                        <div class="gauge{{$project->id}} collapse in show  demo1" rel="tooltip"
-                                                                                             title="{{$project->task->where('progress',100)->count()}} tasks completed"></div>
+                                                                <div class="col-md-6 mb-2 pr-2 pl-2">
+                                                                    <div class="accordion">
+                                                                        <div class="accordion-item rounded card m-0">
+                                                                            <h6 class="accordion-header">
+                                                                                <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
+                                                                                        data-bs-target="#project_fulfillment_{{ $project->id }}" aria-expanded="true" style="max-height: 10vh;">
+                                                                                    Fulfillment Tasks
+                                                                                </button>
+                                                                            </h6>
+                                                                            <div id="project_fulfillment_{{ $project->id }}" class="accordion-collapse collapse show" style="max-height: 10vh;">
+                                                                                <div class="accordion-body ">
+                                                                                    <div class="row justify-content-center">
+                                                                                        <div class="col-md-12 text-center">
+                                                                                            @php
+                                                                                                $completed_tasks = $project->task->where('progress',100)->count();
+                                                                                                $completed_tasks = (isset($completed_tasks) && $completed_tasks > 0) ? $completed_tasks : 0;
+                                                                                                $total_tasks = $project->task->count();
+                                                                                                $total_tasks = ((isset($total_tasks) && $total_tasks > 0) ? $total_tasks : 0);
+                                                                                                $percentage = ( $completed_tasks / (($total_tasks > 0) ? $total_tasks : 1) ) * 100;
+                                                                                            @endphp
+                                                                                            <div class="gauge gauge-small gauge-yellow mt-2" rel="tooltip" title="{{ $completed_tasks . '/' . $total_tasks }} tasks completed">
+                                                                                                <div class="gauge-arrow" data-percentage="{{ $percentage }}" style="transform: rotate(0deg);"></div>
+                                                                                            </div>
+
+                                                                                            {{--                                                                                        <div class="gauge{{$project->id}} collapse in show  demo1" rel="tooltip"--}}
+                                                                                            {{--                                                                                             title="{{$project->task->where('progress',100)->count()}} tasks completed"></div>--}}
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
 
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -275,10 +303,10 @@
                         </div>
                     </div>
 
-                    <div class="card mb-0 mt-2 scroll-bar" style="overflow: auto;max-height: 38vh;">
+                    <div class="card mb-0 mt-2 scroll-bar" style="overflow: auto;max-height: 38vh; min-height: 38vh;">
                         <div class="card-header mb-0 pb-0">
 
-                            <h4 class="card-title mb-0 pb-0">Notes Finder</h4>
+                            <h4 class="card-title mb-0 pb-0 font-weight-bold">Notes Finder</h4>
                         </div>
                         <div class="card-body pt-0 mt-0">
                             <div class="row">
@@ -305,7 +333,8 @@
                                     @foreach($user_projects as $project)
                                         @foreach($project->task as $task)
                                             @foreach($task->taskNote as $note)
-                                                <div class="row m-0 border border-dark rounded mb-2 notes_finder project_note_{{$project->id}} task_note_{{$task->id}}">
+                                                    <div class="card m-0 mb-3 mb-2">
+                                                <div class="row m-0 text-secondary notes_finder project_note_{{$project->id}} task_note_{{$task->id}}">
                                                     <div class="col-12 font-weight-bold pl-2 pr-2">
                                                         {{ $project->name .' / '. $task->name }}
                                                     </div>
@@ -318,6 +347,7 @@
                                                         @else
                                                             {{ __('header.user_deleted') }}
                                                         @endif
+                                                    </div>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -340,8 +370,8 @@
             <div class="modal-content">
 
                 <div class="card card-signup card-plain">
-                    <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
-                        <h4 class="modal-title">{{ __('header.event_details') }}</h4>
+                    <div class="modal-header card-header card-header-{{ $theme }} rounded" style="    width: 90%; left: 5%;">
+                        <h4 class="modal-title font-weight-bold">{{ __('header.event_details') }}</h4>
                         <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
                     </div>
                 </div>
@@ -376,12 +406,16 @@
                     $('.colla_ps').addClass("show");
                 }
             });
-            let gauge;
-            @foreach($user_projects as $project)
-                gauge = new Gauge($('.gauge{{ $project->id  }}'), {
-                value: '{{$project->task->where('progress',100)->count()*10}}'
-            });
-            @endforeach
+
+            $('.gauge .gauge-arrow').cmGauge();
+
+
+            {{--let gauge;--}}
+            {{--@foreach($user_projects as $project)--}}
+            {{--    gauge = new Gauge($('.gauge{{ $project->id  }}'), {--}}
+            {{--    value: '{{$project->task->where('progress',100)->count()*10}}'--}}
+            {{--});--}}
+            {{--@endforeach--}}
         });
     </script>
 
@@ -458,8 +492,9 @@
                         title: '{!! $event->title !!}',
                         start: '{{ $event->start }}',
                         end: '{{ $event->end }}',
+                        daysOfWeek: ['4'],
                         className: 'text-center',
-                            backgroundColor: '{{getProjectBackground($project->color)}}',
+                        backgroundColor: '{{getProjectBackground($project->color)}}',
                         allDay: false,
                     },
                     @endforeach
@@ -482,7 +517,8 @@
                             id: result.event.id,
                             title: result.event.title,
                             start: result.event.start,
-                            end: result.event.end
+                            end: result.event.end,
+                            className: 'text-center',
                         };
                         $calendar.fullCalendar('renderEvent', eventData, true); // stick? = true
                         toastr.success(result.success);

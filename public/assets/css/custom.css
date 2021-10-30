@@ -17,11 +17,11 @@
     font-size: 8px;
 }
 
-.dropdown-menu .dropdown-item:hover, .dropdown-menu .dropdown-item:focus, .dropdown-menu a:hover, .dropdown-menu a:focus, .dropdown-menu a:active {
-    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
-    background-color: #47a44b !important;
-    color: #FFFFFF !important;
-}
+/*.dropdown-menu .dropdown-item:hover, .dropdown-menu .dropdown-item:focus, .dropdown-menu a:hover, .dropdown-menu a:focus, .dropdown-menu a:active {*/
+/*    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);*/
+/*    background-color: #47a44b !important;*/
+/*    color: #FFFFFF !important;*/
+/*}*/
 
 .scroll-bar {
     /* height: 600px ; */
@@ -36,7 +36,7 @@
 
 .accordion-button.no-arrow {
 
-    padding: 2px !important;
+    padding: 5px !important;
 
 
 }
@@ -76,18 +76,18 @@
 
 .accordion-button {
 
-    font-size: 0.7rem !important;
+    font-size: 0.75rem !important;
 
 }
 
-.fc button, .fc button:hover, .fc button:focus, .fc button:active, .fc button.active, .fc button:active:focus, .fc button:active:hover, .fc button.active:focus, .fc button.active:hover, .open > .fc button.dropdown-toggle, .open > .fc button.dropdown-toggle:focus, .open > .fc button.dropdown-toggle:hover, .fc button.btn-primary, .fc button.btn-primary:hover, .fc button.btn-primary:focus, .fc button.btn-primary:active, .fc button.btn-primary.active, .fc button.btn-primary:active:focus, .fc button.btn-primary:active:hover, .fc button.btn-primary.active:focus, .fc button.btn-primary.active:hover, .open > .fc button.btn-primary.dropdown-toggle, .open > .fc button.btn-primary.dropdown-toggle:focus, .open > .fc button.btn-primary.dropdown-toggle:hover {
-    background-color: #36baaf;
-    color: #fff;
-}
+/*.fc button, .fc button:hover, .fc button:focus, .fc button:active, .fc button.active, .fc button:active:focus, .fc button:active:hover, .fc button.active:focus, .fc button.active:hover, .open > .fc button.dropdown-toggle, .open > .fc button.dropdown-toggle:focus, .open > .fc button.dropdown-toggle:hover, .fc button.btn-primary, .fc button.btn-primary:hover, .fc button.btn-primary:focus, .fc button.btn-primary:active, .fc button.btn-primary.active, .fc button.btn-primary:active:focus, .fc button.btn-primary:active:hover, .fc button.btn-primary.active:focus, .fc button.btn-primary.active:hover, .open > .fc button.btn-primary.dropdown-toggle, .open > .fc button.btn-primary.dropdown-toggle:focus, .open > .fc button.btn-primary.dropdown-toggle:hover {*/
+/*    background-color: #36baaf;*/
+/*    color: #fff;*/
+/*}*/
 
-.fc button, .fc button.btn-primary {
-    box-shadow: 0 14px 26px -12px rgba(76, 175, 80, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(76, 175, 80, 0.2);
-}
+/*.fc button, .fc button.btn-primary {*/
+/*    box-shadow: 0 14px 26px -12px rgba(76, 175, 80, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(76, 175, 80, 0.2);*/
+/*}*/
 
 .small-text {
     font-size: 15px !important;
@@ -961,23 +961,45 @@ Bounce
 .background-rose {
     background: #e91e63 !important;
 }
+
 .cursor-pointer {
-    cursor: pointer !important  ;
+    cursor: pointer !important;
 }
+
 .bg-pending {
     background-color: #f0f0f0;
 }
-.w-auto{
+
+.w-auto {
     width: auto !important;
 }
+
 #chatPopupModal .filter-option {
     padding: 5px;
     font-size: 15px;
     font-weight: 900;
 }
+
 #chatPopupModal .select-with-transition {
     background-image: none !important;
 }
+
 .msg_box {
-    background: #eeeeee;border-radius: 10px;
+    background: #eeeeee;
+    border-radius: 10px;
+}
+
+.progress {
+    height: 6px;
+}
+
+.task_header {
+    color: #000000;
+    background-color: #eeeeee;
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 8%);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.fs-12 {
+    font-size: 12px !important;
 }

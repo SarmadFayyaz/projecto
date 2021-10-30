@@ -18,8 +18,8 @@ class HomeController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        Session::put('locale', Auth::guard('admin')->user()->language);
-        App::setLocale(Auth::guard('admin')->user()->language);
+        Session::put('locale', (Auth::guard('admin')->user()->language) ? Auth::guard('admin')->user()->language : 'en');
+        App::setLocale((Auth::guard('admin')->user()->language) ? Auth::guard('admin')->user()->language : 'en');
         $page = 'Dashboard';
         return view('backend.admin.dashboard.index', compact('page'));
     }

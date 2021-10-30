@@ -12,10 +12,12 @@ class Company extends Authenticatable {
 
     protected $fillable = [
         'name',
+        'abbreviation',
         'admin_id',
         'email',
         'password',
         'image',
+        'logo',
     ];
 
     public function admin() {

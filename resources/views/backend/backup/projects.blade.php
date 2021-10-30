@@ -146,11 +146,11 @@
     <div class="modal-dialog modal-lg pb-0 mb-0">
         <div class="modal-content">
             <div class="card card-signup card-plain">
-                <div class="modal-header card-header card-header-primary" style="    width: 90%; left: 5%;">
+                <div class="modal-header card-header card-header-primary rounded" style="    width: 90%; left: 5%;">
                     <div class="col-12">
                         <div class="row">
                             <div class="col-8">
-                                <h4 class="modal-title">Add New Project</h4>
+                                <h4 class="modal-title font-weight-bold">Add New Project</h4>
                             </div>
                             <div class="col-4 text-right">
                                 <a type="button" class="close text-white" style="top:0" data-dismiss="modal" aria-hidden="true">
@@ -278,12 +278,12 @@
                         </div>
                     </div>
                 </div>
-            
+
         </div>
     </div>
 </div>
 
-            
+
 </div>
 @endsection
 

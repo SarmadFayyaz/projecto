@@ -112,6 +112,7 @@ class TaskNoteController extends Controller {
             DB::beginTransaction();
             $task_note->delete();
             DB::commit();
+//            return redirect()->route('project', $project_id);
             return response()->json(['success' => 'Task Note deleted successfully', 'project_id' => $project_id, 'task_note_id' => $task_note_id]);
         } catch (\Exception $e) {
             DB::rollBack();

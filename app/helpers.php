@@ -47,6 +47,38 @@ if (!function_exists('getProjectBackground')) {
             return $color;
     }
 }
+if (!function_exists('getSidebarColor')) {
+    function getSidebarColor($color) {
+        if ($color == 'primary')
+            return 'purple';
+        else if ($color == 'info')
+            return 'azure';
+        else if ($color == 'success')
+            return 'green';
+        else if ($color == 'warning')
+            return 'orange';
+        else
+            return $color;
+    }
+}
+if (!function_exists('getThemeColor')) {
+    function getThemeColor($color) {
+        if ($color == 'primary')
+            return '36baaf';
+        else if ($color == 'info')
+            return '00bcd4 ';
+        else if ($color == 'success')
+            return '4caf50';
+        else if ($color == 'warning')
+            return 'ff9800';
+        else if ($color == 'danger')
+            return 'f44336';
+        else if ($color == 'rose')
+            return 'e91e63';
+        else
+            return '36baaf';
+    }
+}
 if (!function_exists('getTime')) {
     function getTime($date_time) {
         // create a $dt object with the America/Denver timezone
@@ -74,5 +106,22 @@ if (!function_exists('getIcon')) {
                 break;
         }
         return $icon;
+    }
+}
+
+
+if (!function_exists('getFormType')) {
+    function getFormType($type) {
+        if ($type == 1) {
+            return 'Initial Meeting';
+        } elseif ($type == 2) {
+            return 'Work Rules';
+        } elseif ($type == 3) {
+            return 'Description of Meeting';
+        } elseif ($type == 4) {
+            return 'Facilitator';
+        } else {
+            return 'Type';
+        }
     }
 }

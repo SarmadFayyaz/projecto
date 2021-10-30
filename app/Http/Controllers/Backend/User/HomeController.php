@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use App;
 
 class HomeController extends Controller {
     /**
@@ -17,9 +19,9 @@ class HomeController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
+        Session::put('locale', (Auth::user()->language) ? Auth::user()->language : 'en');
+        App::setLocale((Auth::user()->language) ? Auth::user()->language : 'en');
         $page = 'Dashboard';
-        //        $user_projects = ProjectUser::with('project.projectUser.user')
-        //            ->where('user_id', Auth::user()->id)->get();
         return view('backend.user.dashboard.index', compact('page'));
     }
 
