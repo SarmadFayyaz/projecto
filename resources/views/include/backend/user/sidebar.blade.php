@@ -17,7 +17,7 @@
         Tip 2: you can also add an image using data-image tag
     -->
     <div class="logo"><a href="javascript:void(0)" class="simple-text logo-mini">
-            PO
+            MÖ
         </a>
         <a href="javascript:void(0)" class="simple-text logo-normal " id="minimizeSidebar">
             {{__('header.project_title')}}

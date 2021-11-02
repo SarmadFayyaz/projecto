@@ -106,7 +106,7 @@
                 <div class="card card-signup card-plain">
                     <div class="modal-header card-header card-header-{{ $theme }} rounded" style="    width: 90%; left: 5%;">
                         <h4 class="modal-title font-weight-bold">{{ __('header.edit_task') }}</h4>
-                        <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"> <i class="material-icons">clear</i> </a>
+                        <a type="button" class="text-white" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
                     </div>
                 </div>
 
@@ -119,7 +119,8 @@
                                 <div class="form-group @error('name') has-danger @enderror">
                                     <label for="exampleEmail" class="bmd-label-floating">
                                         {{ __('header.task_name') }}
-                                    </label> <input type="text" class="form-control" name="name" id="name" required value="{{ old('name') }}">
+                                    </label>
+                                    <input type="text" class="form-control" name="name" id="name" required value="{{ old('name') }}">
                                     @error('name')
                                     <label class="error">
                                         {{ $message }}
@@ -150,7 +151,8 @@
                                 <div class="form-group @error('start_date') has-danger @enderror">
                                     <label for="start_date" class="bmd-label-floating">
                                         {{__('header.start_date')}}
-                                    </label> <input type="text" class="form-control date_picker start_date" name="start_date" id="start_date" required value="{{ old('start_date') }}">
+                                    </label>
+                                    <input type="text" class="form-control date_picker start_date" name="start_date" id="start_date" required value="{{ old('start_date') }}">
                                     @error('start_date')
                                     <label class="error">
                                         {{ $message }}
@@ -162,7 +164,8 @@
                                 <div class="form-group @error('end_date') has-danger @enderror">
                                     <label for="end_date" class="bmd-label-floating">
                                         {{__('header.end_date')}}
-                                    </label> <input type="text" class="form-control date_picker end_date" name="end_date" id="end_date" required value="{{ old('end_date') }}">
+                                    </label>
+                                    <input type="text" class="form-control date_picker end_date" name="end_date" id="end_date" required value="{{ old('end_date') }}">
                                     @error('end_date')
                                     <label class="error">
                                         {{ $message }}
@@ -305,14 +308,23 @@
                         $('.added_action').remove();
                         let content = '';
                         for (let i = 0; i < result.task_action.length; i++) {
-                            content += '<div class="input-group added_action mb-3">';
+                            content += '<div class="added_action mb-3">';
+                            content += '<div class="input-group">';
                             content += '<div class="input-group-prepend">';
                             content += '<span class="input-group-text action_counter"></span>';
                             content += '</div>';
-                            content += '<input type="text" class="form-control" required name="action[]" placeholder="Add Action" value="' + result.task_action[i].name + '">';
-                            content += '<div class="input-group-append">';
-                            if(i != 0)
+                            content += '<input type="text" class="form-control text-capitalize" required name="action[]" placeholder="{{ __('header.add_action') }}" value="' + result.task_action[i].name + '">';
+                            if (i != 0) {
+                                content += '<div class="input-group-append">';
                                 content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
+                                content += '</div>';
+                            }
+                            content += '</div>';
+                            content += '<div class="input-group">';
+                            content += '<div class="input-group-prepend pr-2">';
+                            content += '<span class="input-group-text"></span>';
+                            content += '</div>';
+                            content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}" value="' + result.task_action[i].note + '">';
                             content += '</div>';
                             content += '</div>';
                         }
@@ -331,13 +343,21 @@
                 let count = $('#actions .added_action').length;
                 if (count < 5) {
                     let content = '';
-                    content += '<div class="input-group added_action mb-3">';
+                    content += '<div class="added_action mb-3">';
+                    content += '<div class="input-group">';
                     content += '<div class="input-group-prepend">';
                     content += '<span class="input-group-text action_counter"></span>';
                     content += '</div>';
-                    content += '<input type="text" class="form-control" required name="action[]" placeholder="Add Action">';
+                    content += '<input type="text" class="form-control text-capitalize" required name="action[]" placeholder="{{ __('header.add_action') }}">';
                     content += '<div class="input-group-append">';
                     content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
+                    content += '</div>';
+                    content += '</div>';
+                    content += '<div class="input-group">';
+                    content += '<div class="input-group-prepend pr-2">';
+                    content += '<span class="input-group-text"></span>';
+                    content += '</div>';
+                    content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';
                     content += '</div>';
                     content += '</div>';
                     $('#actions').append(content);
@@ -353,6 +373,29 @@
             function actionCounter() {
                 $('.added_action').each(function (i) {
                     $(this).closest('.added_action').find('.action_counter').text(i + 1);
+                });
+            }
+
+            var timer = null;
+            $(document).on('keyup', '.action_note', function () {
+                let id = $(this).data('id');
+                let note = $(this).val();
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    updateActionNote(id, note);
+                }, 1000); //Waits for 1 seconds after last keypress to execute the above lines of code
+            });
+
+            function updateActionNote(id, note) {
+                $.ajax({
+                    url: APP_URL + '/task-action/' + id,
+                    type: "PUT",
+                    data: {'note': note, "_token": "{{ csrf_token() }}"},
+                    success: function (result) {
+                    },
+                    error: function () {
+                        toastr.error('in error');
+                    }
                 });
             }
 

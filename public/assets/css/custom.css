@@ -1000,6 +1000,11 @@ Bounce
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
 }
+
 .fs-12 {
     font-size: 12px !important;
+}
+
+.text-transform-none {
+    text-transform: none !important;
 }

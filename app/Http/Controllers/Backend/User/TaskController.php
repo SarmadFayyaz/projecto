@@ -57,10 +57,11 @@ class TaskController extends Controller {
         $data['added_by'] = Auth::user()->id;
         $data['status'] = Auth::user()->hasRole('Boss') ? 'approved' : 'pending';
         $task = Task::create($data);
-        foreach ($request->action as $action) {
+        foreach ($request->action as $key => $action) {
             $task_user = new TaskAction();
             $task_user->task_id = $task->id;
             $task_user->name = $action;
+            $task_user->note = (isset($data['action_notes'][$key])) ? $data['action_notes'][$key] : null;
             $task_user->status = 'pending';
             $task_user->save();
         }

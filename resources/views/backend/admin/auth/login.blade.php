@@ -11,7 +11,7 @@
                         <form method="POST" action="{{ route('admin.login') }}">
                             @csrf
                             <div class="card card-login card-hidden">
-                                <div class="card-header card-header-rose text-center">
+                                <div class="card-header card-header-primary text-center">
                                     <h4 class="card-title">Login</h4>
                                     {{--                                    <div class="social-line">--}}
                                     {{--                                        <a href="#pablo" class="btn btn-just-icon btn-link btn-white">--}}
@@ -46,9 +46,9 @@
                                             </div>
                                             <input type="email" class="form-control" id="email" name="email" placeholder="Email..."
                                                    autocomplete="email" autofocus value="{{ old('email') }}">
-                                            @error('email')
-                                            <label class="error">{{ $message }}</label>
-                                            @enderror
+{{--                                            @error('email')--}}
+{{--                                            <label class="error">{{ $message }}</label>--}}
+{{--                                            @enderror--}}
                                         </div>
                                     </span>
                                     <span class="bmd-form-group">
@@ -60,14 +60,14 @@
                                             </div>
                                             <input type="password" class="form-control" id="password" name="password" placeholder="Password..."
                                                    value="{{ old('password') }}">
-                                            @error('password')
-                                            <label class="error">{{ $message }}</label>
-                                            @enderror
+{{--                                            @error('password')--}}
+{{--                                            <label class="error">{{ $message }}</label>--}}
+{{--                                            @enderror--}}
                                         </div>
                                     </span>
                                 </div>
                                 <div class="card-footer justify-content-center">
-                                    <button class="btn btn-rose btn-link btn-lg" type="submit">Lets Go</button>
+                                    <button class="btn btn-primary btn-link btn-lg" type="submit">Lets Go</button>
                                 </div>
                             </div>
                         </form>

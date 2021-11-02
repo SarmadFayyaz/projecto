@@ -75,7 +75,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
                         <a class="dropdown-item" href="{{ route('profile.index') }}"> {{ __('header.profile') }} </a>
                         @if(Session('locale')=="en")
-                            <a class="dropdown-item" href="{{url('language/de')}}">Spanish</a>
+                            <a class="dropdown-item" href="{{url('language/es')}}">Spanish</a>
                         @else
                             <a class="dropdown-item" href="{{url('language/en')}}">English</a>
                         @endif

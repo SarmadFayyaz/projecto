@@ -29,33 +29,34 @@
 
     <input type="hidden" class="form-control" id="task_id" name="task_id" value="{{ $task->id }}">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="row">
-                <div class="col-3">
-                    <span class="position-absolute bottom-0">
-                        Progress
-                    </span>
-                </div>
-                <div class="col-9">
+                <div class="col-12">
                     <div class="row justify-content-center">
                         <div class="col text-center">
+                            <span class="pull-left">
+                                Progress
+                            </span>
                             <small>{{ (int)$task->progress }}%</small>
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <div class="col text-center card pt-2 pb-2 m-0">
-                            <div class="progress m-0">
-                                <div class="progress-bar bg-{{$theme}}" id="new-blue-bg" role="progressbar" aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ (int)$task->progress }}%"></div>
+                        <div class="col text-center pl-2 pr-2">
+                            <div class="card p-2 m-0">
+                                <div class="progress m-0">
+                                    <div class="progress-bar bg-{{$theme}}" id="new-blue-bg" role="progressbar" aria-valuenow="{{ (int)$task->progress }}" aria-valuemin="0" aria-valuemax="100"
+                                         style="width:{{ (int)$task->progress }}%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            {{--            <p class="pb-0 mb-0" style="font-size:12px;line-height:16px">--}}
-            {{--                {{ $task->description }}--}}
-            {{--            </p>--}}
+        <div class="col-md-5">
+            <p class="pb-0 mb-0" style="font-size:12px;line-height:16px">
+                {{ $task->description }}
+            </p>
         </div>
         <div class="col-md-3">
             <div class="d-flex align-items-center justify-content-end flex-wrap mb-1 mt-3">
@@ -144,30 +145,14 @@
             <div class="card mb-0 mt-2">
                 <h6 class="text-center m-0 pt-2 pb-2 task_header font-weight-bold"><b>Action Notes</b></h6>
                 <div class="card-body p-2 m-0">
-                    <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex;">
-                        <span><b>1.</b></span>
-                        <span class=""> Ut sint cum eos hic dolores aperiam.
-
-                        </span>
-                    </p>
-                    <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex;">
-                        <span><b>1.</b></span>
-                        <span class=""> Ut sint cum eos hic dolores aperiam sint.
-
-                        </span>
-                    </p>
-                    <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex;">
-                        <span><b>1.</b></span>
-                        <span class=""> Ut sint cum eos hic dolores aperiam sint.
-
-                        </span>
-                    </p>
-                    <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex;">
-                        <span><b>1.</b></span>
-                        <span class=""> Ut sint cum eos hic dolores aperiam sint.
-
-                        </span>
-                    </p>
+                    @foreach($task->taskAction as $action)
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ ($loop->index+1) . '.' }}</span>
+                            </div>
+                            <textarea rows="1" class="form-control {{ ($loop->last && !$loop->first) ? '' : 'mb-3' }} action_note" data-id="{{ $action->id }}">{{ $action->note }}</textarea>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>

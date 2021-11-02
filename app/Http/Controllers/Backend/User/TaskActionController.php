@@ -58,41 +58,41 @@ class TaskActionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(TaskAction $task_action) {
-//        try {
-        DB::beginTransaction();
-        $task_action->status = 'completed';
-        $task_action->completed_by = Auth::user()->id;
-        $task_action->update();
+        try {
+            DB::beginTransaction();
+            $task_action->status = 'completed';
+            $task_action->completed_by = Auth::user()->id;
+            $task_action->update();
 
-        $task_actions = TaskAction::where('task_id', $task_action->task_id)->get();
-        $progress = (count($task_actions->where('status', 'completed')) / count($task_actions)) * 100;
-        $task_action = TaskAction::with('task.project')->where('id', $task_action->id)->first();
+            $task_actions = TaskAction::where('task_id', $task_action->task_id)->get();
+            $progress = (count($task_actions->where('status', 'completed')) / count($task_actions)) * 100;
+            $task_action = TaskAction::with('task.project')->where('id', $task_action->id)->first();
 
-        $task = Task::with('taskUser')->where('id', $task_action->task_id)->first();
-        $task->progress = $progress;
-        $task->update();
+            $task = Task::with('taskUser')->where('id', $task_action->task_id)->first();
+            $task->progress = $progress;
+            $task->update();
 
-        if (auth()->user()->hasRole('User')) {
-            $notification_data['project_id'] = $task->project_id;
-            $notification_data['user_id'] = auth()->user()->id;
-            $notification_data['type'] = 'action done';
-            $notification_data['notification'] = 'An action has been marked as done in ' . $task->name . ' Task';
-            $notification = Notification::create($notification_data);
+            if (auth()->user()->hasRole('User')) {
+                $notification_data['project_id'] = $task->project_id;
+                $notification_data['user_id'] = auth()->user()->id;
+                $notification_data['type'] = 'action done';
+                $notification_data['notification'] = 'An action has been marked as done in ' . $task->name . ' Task';
+                $notification = Notification::create($notification_data);
 
-            $notification_user = new NotificationUser();
-            $notification_user->user_id = $task->project->project_leader;
-            $notification_user->notification_id = $notification->id;
-            $notification_user->save();
+                $notification_user = new NotificationUser();
+                $notification_user->user_id = $task->project->project_leader;
+                $notification_user->notification_id = $notification->id;
+                $notification_user->save();
 
-            broadcast(new TaskActionNotification($task_action, $notification))->toOthers();
+                broadcast(new TaskActionNotification($task_action, $notification))->toOthers();
+            }
+
+            DB::commit();
+            return back()->with('success', 'Task Action Updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Something went wrong.');
         }
-
-        DB::commit();
-        return back()->with('success', 'Task Action Updated successfully.');
-//        } catch (\Exception $e) {
-//            DB::rollBack();
-//            return back()->with('error', 'Something went wrong.');
-//        }
     }
 
     /**
@@ -103,7 +103,8 @@ class TaskActionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, TaskAction $task_action) {
-        //
+        $data = $request->except('_token');
+        $task_action->update($data);
     }
 
     /**

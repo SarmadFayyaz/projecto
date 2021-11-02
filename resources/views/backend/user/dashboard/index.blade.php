@@ -84,7 +84,7 @@
                                     <h4 class="m-0 p-0 font-weight-bold ml-1 mb-1">{{ __('header.active_projects') }}</h4>
                                 </div>
                                 <div class="col-6 text-right pl-2 pr-2 mb-2 mb-md-3">
-                                    <button class="btn btn-{{ $theme }} btn-sm py-0" id="collapsall">Collapse All</button>
+                                    <button class="btn btn-{{ $theme }} btn-sm py-0" id="collapsall">{{ __('header.collapse_all') }}</button>
                                 </div>
                                 @foreach($user_projects as $project)
                                     <div class="col-md-6 pl-2 pr-2 mb-2">
@@ -158,7 +158,7 @@
                                                                             <h6 class="accordion-header">
                                                                                 <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#project_urgent_{{ $project->id }}"
                                                                                         aria-expanded="true">
-                                                                                    Urgent Tasks
+                                                                                    {{ __('header.urgent_task') }}
                                                                                 </button>
                                                                             </h6>
                                                                             <div id="project_urgent_{{ $project->id }}" class="accordion-collapse collapse show table-responsive" style="max-height: 10vh; min-height: 10vh">
@@ -190,7 +190,7 @@
                                                                             <h6 class="accordion-header">
                                                                                 <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#project_cross_{{ $project->id }}"
                                                                                         aria-expanded="true">
-                                                                                    Cross Task
+                                                                                    {{ __('header.cross_task') }}
                                                                                 </button>
                                                                             </h6>
                                                                             <div id="project_cross_{{ $project->id }}" class="accordion-collapse collapse table-responsive" style="max-height: 10vh;">
@@ -222,7 +222,7 @@
                                                                             <h6 class="accordion-header">
                                                                                 <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
                                                                                         data-bs-target="#project_pending_{{ $project->id }}" aria-expanded="true">
-                                                                                    Pending Tasks
+                                                                                    {{ __('header.pending_task') }}
                                                                                 </button>
                                                                             </h6>
                                                                             <div id="project_pending_{{ $project->id }}" class="accordion-collapse collapse table-responsive" style="max-height: 10vh;">
@@ -254,7 +254,7 @@
                                                                             <h6 class="accordion-header">
                                                                                 <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
                                                                                         data-bs-target="#project_fulfillment_{{ $project->id }}" aria-expanded="true" style="max-height: 10vh;">
-                                                                                    Fulfillment Tasks
+                                                                                    {{ __('header.fulfillment_task') }}
                                                                                 </button>
                                                                             </h6>
                                                                             <div id="project_fulfillment_{{ $project->id }}" class="accordion-collapse collapse show" style="max-height: 10vh;">
@@ -306,7 +306,7 @@
                     <div class="card mb-0 mt-2 scroll-bar" style="overflow: auto;max-height: 38vh; min-height: 38vh;">
                         <div class="card-header mb-0 pb-0">
 
-                            <h4 class="card-title mb-0 pb-0 font-weight-bold">Notes Finder</h4>
+                            <h4 class="card-title mb-0 pb-0 font-weight-bold">{{ __('header.notes_finder') }}</h4>
                         </div>
                         <div class="card-body pt-0 mt-0">
                             <div class="row">
@@ -399,10 +399,10 @@
 
             $('#collapsall').on('click', function () {
                 if ($('.colla_ps').hasClass('show')) {
-                    $(this).text('EXPAND ALL');
+                    $(this).text('{{ __('header.expand_all') }}');
                     $('.colla_ps').removeClass("show");
                 } else {
-                    $(this).text('COLLAPSE ALL');
+                    $(this).text('{{ __('header.collapse_all') }}');
                     $('.colla_ps').addClass("show");
                 }
             });
@@ -448,6 +448,7 @@
                 selectHelper: true,
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
+                locale: '{{ (isset(auth()->user()->language) && auth()->user()->language != null ) ? auth()->user()->language : 'en' }}',
                 // views: {
                 //     month: { // name of view
                 //         titleFormat: 'MMMM YYYY'

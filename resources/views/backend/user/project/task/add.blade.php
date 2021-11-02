@@ -91,13 +91,18 @@
                                 <span class="pull-right"><i class="fa fa-plus text-success cursor-pointer add_action"></i></span>
                             </p>
 
-                            <div class="input-group added_action mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text action_counter">1</span>
+                            <div class="added_action mb-3">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text action_counter">1</span>
+                                    </div>
+                                    <input type="text" class="form-control text-capitalize" required name="action[]" placeholder="{{ __('header.add_action') }}">
                                 </div>
-                                <input type="text" class="form-control" required name="action[]" placeholder="Add Action">
-                                <div class="input-group-append">
-{{--                                    <span class="input-group-text"><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>--}}
+                                <div class="input-group">
+                                    <div class="input-group-prepend pr-2">
+                                        <span class="input-group-text"></span>
+                                    </div>
+                                    <input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">
                                 </div>
                             </div>
                             @error('action')

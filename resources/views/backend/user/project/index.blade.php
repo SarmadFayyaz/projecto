@@ -354,7 +354,7 @@
                                 </p>
                                 @foreach($project->task as $task)
                                     @foreach($task->taskNote as $note)
-                                        <div class="card p-0 m-0 mb-2 task_note task_note_{{$task->id}}">
+                                        <div class="card p-0 m-0 mb-2 task_note task_note_{{$task->id}}" hidden>
                                             <div class="card-body p-0 m-0 pl-3 pr-1">
                                                 <a class="task_note_edit text-dark" id="task_note_{{$note->id}}" href="{{ route('task-note.edit', $note->id)}}">
                                                     <span class="mb-0 pb-0">{{ $note->notes }}</span>
@@ -468,7 +468,7 @@
                                                         <div class="col-md-4 pl-2 pr-2">
                                                             <div class="card m-0">
                                                                 <h5 class="task_header font-weight-bold p-2">
-                                                                    {{ __('header.to_perform') }}
+                                                                    {{ __('header.to_do') }}
                                                                 </h5>
                                                                 <div class="card-body scroll-bar p-0" style="height:45vh;">
                                                                     @foreach($project->task as $task)
@@ -670,7 +670,7 @@
                                                         <div class="col-md-4 pl-2 pr-2">
                                                             <div class="card m-0 ">
                                                                 <h5 class="task_header font-weight-bold p-2">
-                                                                    {{ __('header.revision') }}
+                                                                    {{ __('header.review') }}
                                                                 </h5>
                                                                 <div class="card-body scroll-bar p-0" style="height:45vh;">
                                                                     @foreach($project->task as $task)
@@ -861,7 +861,7 @@
         <!--  End Modal -->
 
         <!-- Platform Information Modal -->
-        <div class="modal" id="platformInformationModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal text-transform-none" id="platformInformationModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="card card-signup card-plain">
@@ -1067,13 +1067,21 @@
                 let count = $('#actions .added_action').length;
                 if (count < 5) {
                     let content = '';
-                    content += '<div class="input-group added_action mb-3">';
+                    content += '<div class="added_action mb-3">';
+                    content += '<div class="input-group">';
                     content += '<div class="input-group-prepend">';
                     content += '<span class="input-group-text action_counter"></span>';
                     content += '</div>';
-                    content += '<input type="text" class="form-control" required name="action[]" placeholder="Add Action">';
+                    content += '<input type="text" class="form-control text-capitalize" required name="action[]" placeholder="{{ __('header.add_action') }}">';
                     content += '<div class="input-group-append">';
                     content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
+                    content += '</div>';
+                    content += '</div>';
+                    content += '<div class="input-group">';
+                    content += '<div class="input-group-prepend pr-2">';
+                    content += '<span class="input-group-text"></span>';
+                    content += '</div>';
+                    content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';
                     content += '</div>';
                     content += '</div>';
                     $('#actions').append(content);
@@ -1089,6 +1097,29 @@
             function actionCounter() {
                 $('.added_action').each(function (i) {
                     $(this).closest('.added_action').find('.action_counter').text(i + 1);
+                });
+            }
+
+            var timer = null;
+            $(document).on('keyup', '.action_note', function () {
+                let id = $(this).data('id');
+                let note = $(this).val();
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    updateActionNote(id, note);
+                }, 1000); //Waits for 1 seconds after last keypress to execute the above lines of code
+            });
+
+            function updateActionNote(id, note) {
+                $.ajax({
+                    url: APP_URL + '/task-action/' + id,
+                    type: "PUT",
+                    data: {'note': note, "_token": "{{ csrf_token() }}"},
+                    success: function (result) {
+                    },
+                    error: function () {
+                        toastr.error('in error');
+                    }
                 });
             }
 

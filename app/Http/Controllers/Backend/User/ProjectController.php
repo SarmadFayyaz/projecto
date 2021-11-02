@@ -28,7 +28,7 @@ class ProjectController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index($id) {
-        $project = Project::with(
+        $data = Project::with(
             'projectLeader',
             'projectUser.user',
             'task.taskUser.user',
@@ -36,7 +36,14 @@ class ProjectController extends Controller {
             'task.taskAction',
             'task.taskNote',
             'groupConversation.user'
-        )->whereId($id)->first();
+        );
+        $data->with(['task' => function($query){
+            $query->where('added_by', auth()->user()->id)
+            ->orWhereHas('taskUser', function ($q){
+                $q->where('user_id', auth()->user()->id);
+            });
+        }]);
+        $project = $data->whereId($id)->first();
         $page = $project->id;
         return view('backend.user.project.index', compact('page', 'project'));
     }
