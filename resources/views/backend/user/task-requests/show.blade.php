@@ -35,7 +35,7 @@
                     <div class="row justify-content-center">
                         <div class="col text-center">
                             <span class="pull-left">
-                                Progress
+                                {{ __('header.progress') }}
                             </span>
                             <small>{{ (int)$task->progress }}%</small>
                         </div>
@@ -71,7 +71,7 @@
                                 <img width="25" height="25" class="rounded-circle"
                                      src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                             @endif
-                            <span class="logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
+                            <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
                         </span>
                     @else
                         <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ __('header.user_deleted') }}">
@@ -93,7 +93,7 @@
                                     <img width="25" height="25" class="rounded-circle"
                                          src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                 @endif
-                                <span class="logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
+                                <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
                             </span>
                         @else
                             <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ __('header.user_deleted') }}">

@@ -106,7 +106,8 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            width: 95px;
+            /*width: 95px;*/
+            width: auto;
         }
 
         .doc_name {
@@ -176,16 +177,6 @@
             bottom: 23px;
             right: 28px;
             width: 280px;
-        }
-
-        /* The popup chat - hidden by default */
-        .chat-popup {
-            display: none;
-            position: fixed;
-            bottom: 5vw;
-            right: 1.7vw;
-            border: 3px solid #f1f1f1;
-            z-index: 9;
         }
 
         /* Add styles to the form container */
@@ -440,7 +431,7 @@
 
                                 <div class="col-12">
 
-                                    <div class="card scroll-bar m-0" style="height:61vh;">
+                                    <div class="card scroll-bar m-0" style="height:58vh;">
                                         <!-- <div class="card-header card-header-success card-header-icon">
                                             <div class="card-icon">
                                                 <i class="material-icons"></i>
@@ -449,12 +440,17 @@
                                         </div> -->
                                         <div class="card-body mb-0 pb-0 ">
                                             <div class="row">
-                                                <div class="col-9 pl-2 pr-2">
+                                                <div class="col-4 pl-2 pr-2">
                                                     <a href="javascript:void(0)" class="btn btn-{{ $theme }} btn-sm text-white" rel="tooltip" title="{{ __('header.add_new_task') }}" style=" margin-right: 20px;margin-top: 5px;"
                                                        data-toggle="modal" data-target="#addNewTaskModal"><i class="fa fa-plus mr-2" style="font-size:12px !important"></i> {{ __('header.add_new_task') }}
                                                     </a>
                                                 </div>
-                                                <div class="col-3 text-right pl-2 pr-2">
+                                                <div class="col-4 text-center pl-2 pr-2">
+                                                    <a href="javascript:void(0)" data-url="{{ route('project.show', $project->id) }}" class="project_details">
+                                                        <i class="fas fa-info-circle ml-2 text-warning cursor-pointer" rel="tooltip" title="{{ __('header.view_project_details') }}" style="font-size: 1.624vw;"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="col-4 text-right pl-2 pr-2">
                                                     <a class="btn btn-{{ $theme }} btn-sm text-white" data-toggle="modal" data-target="#completedTaskModal" role="tablist"> {{ __('header.completed_tasks') }} </a>
                                                 </div>
 
@@ -473,7 +469,7 @@
                                                                 <div class="card-body scroll-bar p-0" style="height:45vh;">
                                                                     @foreach($project->task as $task)
                                                                         @if($task->progress == 0 || $task->status == 'pending')
-                                                                            <div class="bg-light p-2 mb-3{{($task->status == 'pending') ? 'bg-pending' : ''}}">
+                                                                            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}}">
                                                                                 <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                 <a class="task_details" href="{{ route('task.show',$task->id) }}">
                                                                                     <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
@@ -491,7 +487,7 @@
                                                                                                         <img width="25" height="25" class="rounded-circle"
                                                                                                              src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                                                                     @endif
-                                                                                                    <span class="logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
+                                                                                                    <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
                                                                                                 </span>
                                                                                             @else
                                                                                                 <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
@@ -516,7 +512,7 @@
                                                                                                                 <img width="25" height="25" class="rounded-circle"
                                                                                                                      src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                                                                             @endif
-                                                                                                            <span class="logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
+                                                                                                            <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
                                                                                                         </span>
                                                                                                     @endif
                                                                                                 @else
@@ -535,7 +531,7 @@
                                                                                     </div>
                                                                                 </a>
 
-                                                                                <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
+                                                                                <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="{{ __('header.progress') }} {{ (int)$task->progress }}%">
                                                                                     <div class="progress m-0">
                                                                                         <div class="progress-bar bg-{{ $theme }}" role="progressbar" style="width: {{ (int)$task->progress }}%" aria-valuenow="{{ (int)$task->progress }}"
                                                                                              aria-valuemin="0" aria-valuemax="100"></div>
@@ -574,7 +570,7 @@
                                                                 <div class="card-body scroll-bar p-0" style="height:45vh;">
                                                                     @foreach($project->task as $task)
                                                                         @if($task->progress > 0 && $task->progress < 100 && $task->status == 'approved')
-                                                                            <div class="bg-light p-2 mb-3{{($task->status == 'pending') ? 'bg-pending' : ''}}">
+                                                                            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}}">
                                                                                 <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                 <a class="task_details" href="{{ route('task.show',$task->id) }}">
                                                                                     <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
@@ -592,7 +588,7 @@
                                                                                                         <img width="25" height="25" class="rounded-circle"
                                                                                                              src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                                                                     @endif
-                                                                                                    <span class="logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
+                                                                                                    <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
                                                                                                 </span>
                                                                                             @else
                                                                                                 <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
@@ -617,7 +613,7 @@
                                                                                                                 <img width="25" height="25" class="rounded-circle"
                                                                                                                      src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                                                                             @endif
-                                                                                                            <span class="logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
+                                                                                                            <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
                                                                                                         </span>
                                                                                                     @endif
                                                                                                 @else
@@ -636,7 +632,7 @@
                                                                                     </div>
                                                                                 </a>
 
-                                                                                <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
+                                                                                <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="{{ __('header.progress') }} {{ (int)$task->progress }}%">
                                                                                     <div class="progress m-0">
                                                                                         <div class="progress-bar bg-{{ $theme }}" role="progressbar" style="width: {{ (int)$task->progress }}%" aria-valuenow="{{ (int)$task->progress }}"
                                                                                              aria-valuemin="0" aria-valuemax="100"></div>
@@ -675,7 +671,7 @@
                                                                 <div class="card-body scroll-bar p-0" style="height:45vh;">
                                                                     @foreach($project->task as $task)
                                                                         @if($task->progress == 100 && $task->status == 'approved')
-                                                                            <div class="bg-light p-2 mb-3{{($task->status == 'pending') ? 'bg-pending' : ''}}">
+                                                                            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}}">
                                                                                 <!-- <h6 class="h6css" >Lorem</h6> -->
                                                                                 <a class="task_details" href="{{ route('task.show',$task->id) }}">
                                                                                     <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
@@ -693,7 +689,7 @@
                                                                                                         <img width="25" height="25" class="rounded-circle"
                                                                                                              src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                                                                     @endif
-                                                                                                    <span class="logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
+                                                                                                    <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
                                                                                                 </span>
                                                                                             @else
                                                                                                 <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
@@ -718,7 +714,7 @@
                                                                                                                 <img width="25" height="25" class="rounded-circle"
                                                                                                                      src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                                                                             @endif
-                                                                                                            <span class="logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
+                                                                                                            <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
                                                                                                         </span>
                                                                                                     @endif
                                                                                                 @else
@@ -737,7 +733,7 @@
                                                                                     </div>
                                                                                 </a>
 
-                                                                                <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
+                                                                                <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="{{ __('header.progress') }} {{ (int)$task->progress }}%">
                                                                                     <div class="progress m-0">
                                                                                         <div class="progress-bar bg-{{ $theme }}" role="progressbar" style="width: {{ (int)$task->progress }}%" aria-valuenow="{{ (int)$task->progress }}"
                                                                                              aria-valuemin="0" aria-valuemax="100"></div>
@@ -958,6 +954,13 @@
         </div>
         <!--  End Modal -->
 
+        {{--<!-- Show Project Details Modal -->--}}
+        <div class="modal fade" id="showProjectDetailModal" tab index="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+        {{--<!--  End Modal -->--}}
     </div>
 
 @endsection
@@ -1001,6 +1004,7 @@
                 $('#editTaskNotesModal').modal('hide');
                 $('#taskDetailsModal').find('.modal-content').load($(this).attr('href'), function () {
                     $('#taskDetailsModal').modal('show');
+                    update_member_status();
                 });
             });
 
@@ -1059,9 +1063,9 @@
                     }
                 });
             });
-            $(document).on('click', '.close_modal', function () {
-                $('#editTaskNotesModal').modal('hide');
-            });
+            // $(document).on('click', '.close_modal', function () {
+            //     $('#editTaskNotesModal').modal('hide');
+            // });
 
             $(document).on('click', '.add_action', function () {
                 let count = $('#actions .added_action').length;
@@ -1077,12 +1081,12 @@
                     content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
                     content += '</div>';
                     content += '</div>';
-                    content += '<div class="input-group">';
-                    content += '<div class="input-group-prepend pr-2">';
-                    content += '<span class="input-group-text"></span>';
-                    content += '</div>';
-                    content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';
-                    content += '</div>';
+                    {{--content += '<div class="input-group">';--}}
+                    {{--content += '<div class="input-group-prepend pr-2">';--}}
+                    {{--content += '<span class="input-group-text"></span>';--}}
+                    {{--content += '</div>';--}}
+                    {{--content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';--}}
+                    {{--content += '</div>';--}}
                     content += '</div>';
                     $('#actions').append(content);
                     actionCounter();
@@ -1093,6 +1097,33 @@
                 $(this).closest('.added_action').remove();
                 actionCounter();
             });
+
+            $('#addNewTaskForm').submit(function (e){
+                e.preventDefault();
+                $.ajax({
+                    url: '{{ route('task.store') }}',
+                    type: "post",
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        let content = '';
+                        content += '';
+                        content += '';
+                        content += '';
+                    },
+                    error: function (result) {
+                        if (result.status == 422) { // when status code is 422, it's a validation issue
+                            $.each(result.responseJSON.errors, function (i, error) {
+                                toastr.error(error);
+                            });
+                        } else
+                            toastr.error(result.error);
+                        // toastr.error('in error');
+                    }
+                });
+            })
 
             function actionCounter() {
                 $('.added_action').each(function (i) {
@@ -1313,7 +1344,7 @@
         function participantConnected(participant) {
             console.log('Participant "%s" connected', participant.identity);
             $('a.call_to_user').each(function () {
-                $(this).text('Leave Call').removeClass('call_to_user').addClass('leave_call');
+                $(this).text('{{ __('header.leave_call') }}').removeClass('call_to_user').addClass('leave_call');
             });
 
             if ({{ Auth::user()->id }} != participant.identity)
@@ -1361,7 +1392,7 @@
             room.disconnect();
             $('.vide_mirror').html('');
             $('a.leave_call').each(function () {
-                $(this).text('Join Call').removeClass('leave_call').addClass('call_to_user');
+                $(this).text('{{ __('header.join_call') }}').removeClass('leave_call').addClass('call_to_user');
             });
         });
 
@@ -1385,10 +1416,10 @@
             room.localParticipant.audioTracks.forEach((publication) => {
                 if (publication.isEnabled) {
                     publication.disable();
-                    $('.btnMic').html('<i class="fas fa-microphone-slash"></i>').attr('title', 'Unmute mic').attr('data-original-title', 'Unmute mic');
+                    $('.btnMic').html('<i class="fas fa-microphone-slash"></i>').attr('title', '{{ __('header.unmute_mic') }}').attr('data-original-title', '{{ __('header.unmute_mic') }}');
                 } else {
                     publication.enable();
-                    $('.btnMic').html('<i class="fas fa-microphone"></i>').attr('title', 'Mute mic').attr('data-original-title', 'Mute mic');
+                    $('.btnMic').html('<i class="fas fa-microphone"></i>').attr('title', '{{ __('header.mute_mic') }}').attr('data-original-title', '{{ __('header.mute_mic') }}');
                 }
 
             });
@@ -1441,10 +1472,10 @@
                     console.log(publication);
                     if (publication.isEnabled) {
                         publication.disable();
-                        $('.btnCam').html('<i class="fas fa-video-slash"></i>').attr('title', 'Turn on camera').attr('data-original-title', 'Turn on camera');
+                        $('.btnCam').html('<i class="fas fa-video-slash"></i>').attr('title', '{{ __('header.turn_on_camera') }}').attr('data-original-title', '{{ __('header.turn_on_camera') }}');
                     } else {
                         publication.enable();
-                        $('.btnCam').html('<i class="fas fa-video"></i>').attr('title', 'Turn off camera').attr('data-original-title', 'Turn off camera');
+                        $('.btnCam').html('<i class="fas fa-video"></i>').attr('title', '{{ __('header.turn_off_camera') }}').attr('data-original-title', '{{ __('header.turn_off_camera') }}');
                     }
                 });
             }
@@ -1470,7 +1501,7 @@
                     screenTrack.mediaStreamTrack.onended = () => {
                         shareScreen()
                     };
-                    $('.btnScreen').html('<i class="fas fa-slash text-white"></i>').attr('title', 'Stop sharing screen').attr('data-original-title', 'Stop sharing screen');
+                    $('.btnScreen').html('<i class="fas fa-slash text-white"></i>').attr('title', '{{ __('header.stop_sharing') }}').attr('data-original-title', '{{ __('header.stop_sharing') }}');
                     $.ajax({
                         url: APP_URL + '/screen-shared',
                         type: 'post',
@@ -1493,7 +1524,7 @@
                 room.localParticipant.unpublishTrack(screenTrack);
                 screenTrack.stop();
                 screenTrack = null
-                $('.btnScreen').html('<i class="fab fa-slideshare"></i>').attr('title', 'Share screen').attr('data-original-title', 'Share screen');
+                $('.btnScreen').html('<i class="fab fa-slideshare"></i>').attr('title', '{{ __('header.share_screen') }}').attr('data-original-title', '{{ __('header.share_screen') }}');
                 $.ajax({
                     url: APP_URL + '/screen-shared',
                     type: 'post',
@@ -1922,7 +1953,6 @@
         });
 
         $(document).on('change', '#document_upload', function (e) {
-            alert(123);
             event.preventDefault();
             let upload_file = this;
             let file = e.target.files;
@@ -1953,6 +1983,12 @@
 
     <script>
         $(document).ready(function () {
+            $(document).on('click', '.project_details', function () {
+                $('#showProjectDetailModal').find('.modal-content').load($(this).data('url'), function () {
+                    $('#showProjectDetailModal').modal('show');
+                    // new PerfectScrollbar('.scroll-bar-appended');
+                });
+            });
             @php
                 $days = 15;
                 $today = strtotime(date('Y-m-d'));

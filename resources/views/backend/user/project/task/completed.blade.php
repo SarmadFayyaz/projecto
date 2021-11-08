@@ -32,7 +32,7 @@
                                                             <img width="25" height="25" class="rounded-circle"
                                                                  src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                         @endif
-                                                        <span class="logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
+                                                        <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
                                                     </span>
                                                 @else
                                                     <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ __('header.user_deleted') }}">
@@ -56,7 +56,7 @@
                                                                     <img width="25" height="25" class="rounded-circle"
                                                                          src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                                                 @endif
-                                                                <span class="logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
+                                                                <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
                                                             </span>
                                                         @endif
                                                     @else
@@ -75,7 +75,7 @@
                                         </div>
                                     </a>
 
-                                    <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="Progress {{ (int)$task->progress }}%">
+                                    <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="{{ __('header.progress') }} {{ (int)$task->progress }}%">
                                         <div class="progress m-0">
                                             <div class="progress-bar bg-{{ $theme }}" role="progressbar" style="width: {{ (int)$task->progress }}%" aria-valuenow="{{ (int)$task->progress }}"
                                                  aria-valuemin="0" aria-valuemax="100"></div>

@@ -10,6 +10,8 @@ use App;
 use App\Models\Admin;
 use App\Models\Company;
 use App\Models\User;
+use Log;
+use Pusher\Pusher;
 
 class LanguageController extends Controller {
     public function language($lang) {

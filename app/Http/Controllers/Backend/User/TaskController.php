@@ -61,7 +61,7 @@ class TaskController extends Controller {
             $task_user = new TaskAction();
             $task_user->task_id = $task->id;
             $task_user->name = $action;
-            $task_user->note = (isset($data['action_notes'][$key])) ? $data['action_notes'][$key] : null;
+//            $task_user->note = (isset($data['action_notes'][$key])) ? $data['action_notes'][$key] : null;
             $task_user->status = 'pending';
             $task_user->save();
         }
@@ -76,6 +76,11 @@ class TaskController extends Controller {
             $notification_user->user_id = $task->project->project_leader;
             $notification_user->notification_id = $notification->id;
             $notification_user->save();
+
+            $task_user = new TaskUser();
+            $task_user->task_id = $task->id;
+            $task_user->user_id = $task->project->project_leader;
+            $task_user->save();
         }
         if (isset($request->team_members)) {
             foreach ($request->team_members as $member) {
@@ -92,10 +97,13 @@ class TaskController extends Controller {
         }
         broadcast(new TaskNotification($task, $notification))->toOthers();
         DB::commit();
-        return back()->with('success', 'Task added successfully.');
+        $task = Task::with('taskUser', 'taskAction')->whereId($task->id)->first();
+        return response()->json(['success' => 'Task added successfully.', 'data', $data]);
+//        return back()->with('success', 'Task added successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return response()->json(['error' => 'Something went wrong.', 'data', $data]);
+//            return back()->with('error', 'Something went wrong.');
         }
     }
 

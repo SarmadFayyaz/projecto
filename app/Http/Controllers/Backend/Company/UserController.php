@@ -77,14 +77,14 @@ class UserController extends Controller {
             'image' => ['sometimes', 'image', 'max:2048'],
         ]);
         try {
-            DB::beginTransaction();
-            $data = $request->all();
-            $data['image'] = null;
-            if ($request->hasFile('image')) {
-                $image = Storage::disk('public')->put('user/profile/', $request->image);
-                $image = basename($image);
-                $data['image'] = '/user/profile/' . $image;
-            }
+                DB::beginTransaction();
+                $data = $request->all();
+                $data['image'] = null;
+                if ($request->hasFile('image')) {
+                    $image = Storage::disk('public')->put('user/profile/', $request->image);
+                    $image = basename($image);
+                    $data['image'] = '/user/profile/' . $image;
+                }
             $data['password'] = Hash::make($data['password']);
             $data['company_id'] = Auth::guard('company')->user()->id;
             $role = $request->input('role') ? $request->input('role') : [];

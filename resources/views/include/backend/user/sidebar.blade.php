@@ -77,7 +77,7 @@
                     <li class="nav-item  <?php echo($page == $user_project->id ? "active" : "")?>">
                         <a class="nav-link" href="{{ route('project', $user_project->id) }}" style="background: {{getProjectBackground($user_project->color)}}">
                             <i>{{ ucfirst($user_project->name[0]) }}</i>
-                            <p class="text-white"> {{ $user_project->name }} </p>
+                            <p class="text-white text-truncate"> {{ $user_project->name }} </p>
                         </a>
                     </li>
                 @endforeach

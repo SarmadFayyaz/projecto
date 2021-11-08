@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Language\LanguageController;
+use App\Http\Controllers\Pusher\PusherController;
 use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLogin;
@@ -83,10 +84,13 @@ Route::get('/meeting-mode', function () {
     return view('backend.backup.meeting-mode', compact('page'));
 });
 
+
 // Auth
 Auth::routes(['register' => false, 'verify' => false]);
 
 // Language Routes
+Route::post('private/auth', [PusherController::class, 'privateChannel']);
+Route::post('presence/auth', [PusherController::class, 'presenceChannel']);
 Route::get('language/{lang}', [LanguageController::class, 'language'])->middleware('language');
 
 // Admin Routes
@@ -138,12 +142,13 @@ Route::group(['middleware' => ['company', 'language'], 'prefix' => 'company', 'a
 });
 
 // User Routes
-Route::group(['middleware' => ['auth', 'language', 'onlineStatus']], function () {
+Route::group(['middleware' => ['auth', 'language']], function () {
 
     Route::get('/', [UserHome::class, 'index'])->name('index');
     Route::post('/setting', [UserHome::class, 'setting'])->name('setting');
 
     Route::get('/project/{id}', [UserProject::class, 'index'])->name('project');
+    Route::get('/project-show/{id}', [UserProject::class, 'show'])->name('project.show');
     Route::get('/projects', [UserProject::class, 'projects'])->name('projects');
     Route::get('/projects/get', [UserProject::class, 'get'])->name('projects.get');
     Route::get('/project/{id}/edit', [UserProject::class, 'edit'])->name('project.edit');

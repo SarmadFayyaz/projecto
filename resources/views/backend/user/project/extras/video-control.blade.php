@@ -7,13 +7,13 @@
             </button>
         </div>
         <div class="navbar-nav-btns">
-            <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnMic" rel="tooltip" title="Mute mic" onclick="muteMic()"><i class="fas fa-microphone text-white"></i></button>
-            <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnCam" rel="tooltip" title="Turn off camera" onclick="muteVideo()"><i class="fas fa-video text-white"></i></button>
-            <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnScreen" rel="tooltip" title="Share screen" onclick="shareScreen()"><i class="fab fa-slideshare text-white"></i></button>
+            <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnMic" rel="tooltip" title="{{ __('header.mute_mic') }}" onclick="muteMic()"><i class="fas fa-microphone text-white"></i></button>
+            <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnCam" rel="tooltip" title="{{ __('header.turn_off_camera') }}" onclick="muteVideo()"><i class="fas fa-video text-white"></i></button>
+            <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnScreen" rel="tooltip" title="{{ __('header.share_screen') }}" onclick="shareScreen()"><i class="fab fa-slideshare text-white"></i></button>
             <button class="btn btn-{{ $theme }} btn-sm mr-md-1" onclick="ChangeVolume()"><i class="fas fa-volume-up text-white"></i>
             </button>
             <a href="javascript:void(0)" class="btn btn-{{ $theme }} btn-sm call_to_user">
-                Join Call
+                {{ __('header.join_call') }}
             </a>
         </div>
     </div>
@@ -26,13 +26,13 @@
     </div>
 
     <div class="navbar-nav-btns d-none d-sm-block d-md-none d-lg-none d-xl-none">
-        <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnMic" rel="tooltip" title="Mute mic" onclick="muteMic()"><i class="fas fa-microphone text-white"></i></button>
-        <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnCam" rel="tooltip" title="Turn off camera" onclick="muteVideo()"><i class="fas fa-video text-white"></i></button>
-        <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnScreen" rel="tooltip" title="Share screen" onclick="shareScreen()"><i class="fab fa-slideshare text-white"></i></button>
+        <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnMic" rel="tooltip" title="{{ __('header.mute_mic') }}" onclick="muteMic()"><i class="fas fa-microphone text-white"></i></button>
+        <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnCam" rel="tooltip" title="{{ __('header.turn_off_camera') }}" onclick="muteVideo()"><i class="fas fa-video text-white"></i></button>
+        <button class="btn btn-{{ $theme }} btn-sm mr-md-1 btnScreen" rel="tooltip" title="{{ __('header.share_screen') }}" onclick="shareScreen()"><i class="fab fa-slideshare text-white"></i></button>
         <button class="btn btn-{{ $theme }} btn-sm mr-md-1"><i class="fas fa-volume-up text-white"></i>
         </button>
         <a href="javascript:void(0)" class="btn btn-{{ $theme }} btn-sm call_to_user">
-            Join Call
+            {{ __('header.join_call') }}
         </a>
     </div>
 @endpush

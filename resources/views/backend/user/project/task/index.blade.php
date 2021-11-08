@@ -35,7 +35,7 @@
                     <div class="row justify-content-center">
                         <div class="col text-center">
                             <span class="pull-left">
-                                Progress
+                                {{ __('header.progress') }}
                             </span>
                             <small>{{ (int)$task->progress }}%</small>
                         </div>
@@ -72,7 +72,7 @@
                                 <img width="25" height="25" class="rounded-circle"
                                      src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                             @endif
-                            <span class="logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
+                            <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
                         </span>
                     @else
                         <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ __('header.user_deleted') }}">
@@ -94,7 +94,7 @@
                                     <img width="25" height="25" class="rounded-circle"
                                          src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                 @endif
-                                <span class="logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
+                                <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
                             </span>
                         @else
                             <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ __('header.user_deleted') }}">
@@ -144,7 +144,7 @@
         </div>
         <div class="col-md-4 pl-2 pr-2">
             <div class="card mb-0 mt-2">
-                <h6 class="text-center m-0 pt-2 pb-2 task_header font-weight-bold"><b>Action Notes</b></h6>
+                <h6 class="text-center m-0 pt-2 pb-2 task_header font-weight-bold"><b>{{ __('header.action_notes') }}</b></h6>
                 <div class="card-body p-2 m-0">
                     @foreach($task->taskAction as $action)
                         <div class="input-group">
@@ -173,7 +173,7 @@
         @if($task->project->project_leader == Auth::user()->id)
             <div class="col-12 text-right">
                 @if($task->status == 'pending')
-                    <a href="{{ route('task.edit', $task->id) }}" clas s="btn btn-success"> {{ __('header.approve') }} </a>
+                    <a href="{{ route('task.edit', $task->id) }}" class="btn btn-success"> {{ __('header.approve') }} </a>
                 @elseif($task->progress == 100 && $task->status == 'approved')
                     <a href="{{ route('task.completed', $task->id) }}" class="btn btn-success"> {{ __('header.completed') }} </a>
                 @endif

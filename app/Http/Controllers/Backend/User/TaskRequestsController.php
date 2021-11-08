@@ -115,7 +115,7 @@ class TaskRequestsController extends Controller {
             }
             $task_user_stored = TaskUser::where('task_id', $data['task_id'])->get()->pluck('user_id')->toArray();
             foreach ($task_user_stored as $row) {
-                if (!in_array($row, (isset($request->team_members)) ? $request->team_members : []))
+                if ((!in_array($row, (isset($request->team_members)) ? $request->team_members : [])) && $row != $task->project->project_leader)
                     TaskUser::where('task_id', $data['task_id'])->where('user_id', $row)->delete();
             }
             //            foreach ($request->action as $action) {

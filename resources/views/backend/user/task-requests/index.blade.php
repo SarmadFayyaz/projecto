@@ -226,7 +226,9 @@
 
             $(document).on('click', '.view', function () {
                 event.preventDefault();
-                $('#showModal').find('.modal-content').load($(this).attr('href'));
+                $('#showModal').find('.modal-content').load($(this).attr('href'), function () {
+                    update_member_status(123);
+                });;
             });
 
             let _token = $('meta[name="csrf-token"]').attr('content');
@@ -320,12 +322,12 @@
                                 content += '</div>';
                             }
                             content += '</div>';
-                            content += '<div class="input-group">';
-                            content += '<div class="input-group-prepend pr-2">';
-                            content += '<span class="input-group-text"></span>';
-                            content += '</div>';
-                            content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}" value="' + result.task_action[i].note + '">';
-                            content += '</div>';
+                            {{--content += '<div class="input-group">';--}}
+                            {{--content += '<div class="input-group-prepend pr-2">';--}}
+                            {{--content += '<span class="input-group-text"></span>';--}}
+                            {{--content += '</div>';--}}
+                            {{--content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}" value="' + result.task_action[i].note + '">';--}}
+                            {{--content += '</div>';--}}
                             content += '</div>';
                         }
                         $('#actions').append(content);
@@ -353,12 +355,12 @@
                     content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
                     content += '</div>';
                     content += '</div>';
-                    content += '<div class="input-group">';
-                    content += '<div class="input-group-prepend pr-2">';
-                    content += '<span class="input-group-text"></span>';
-                    content += '</div>';
-                    content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';
-                    content += '</div>';
+                    {{--content += '<div class="input-group">';--}}
+                    {{--content += '<div class="input-group-prepend pr-2">';--}}
+                    {{--content += '<span class="input-group-text"></span>';--}}
+                    {{--content += '</div>';--}}
+                    {{--content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';--}}
+                    {{--content += '</div>';--}}
                     content += '</div>';
                     $('#actions').append(content);
                     actionCounter();

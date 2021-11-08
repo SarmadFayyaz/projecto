@@ -14,20 +14,22 @@ use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index($id) {
+        $project = $this->getProject($id);
+        $page = $project->id;
+        return view('backend.user.project.index', compact('page', 'project'));
+    }
+
+    public function show($id) {
+        $project = $this->getProject($id);
+        return view('backend.user.project.view', compact('project'));
+    }
+
+    function getProject($id) {
         $data = Project::with(
             'projectLeader',
             'projectUser.user',
@@ -37,15 +39,15 @@ class ProjectController extends Controller {
             'task.taskNote',
             'groupConversation.user'
         );
-        $data->with(['task' => function($query){
-            $query->where('added_by', auth()->user()->id)
-            ->orWhereHas('taskUser', function ($q){
-                $q->where('user_id', auth()->user()->id);
-            });
-        }]);
-        $project = $data->whereId($id)->first();
-        $page = $project->id;
-        return view('backend.user.project.index', compact('page', 'project'));
+        if (auth()->user()->hasRole('User')) {
+            $data->with(['task' => function ($query) {
+                $query->where('added_by', auth()->user()->id)
+                    ->orWhereHas('taskUser', function ($q) {
+                        $q->where('user_id', auth()->user()->id);
+                    });
+            }]);
+        }
+        return $data->whereId($id)->first();
     }
 
     public function projects() {

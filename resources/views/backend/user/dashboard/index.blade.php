@@ -14,10 +14,11 @@
         /*    border-radius: 9px;*/
         /*    margin-left: 12px;*/
         /*}*/
-        .rounded-top{
+        .rounded-top {
             border-top-left-radius: 0.5rem !important;
             border-top-right-radius: 0.5rem !important;
         }
+
         .accordion-button:not(.collapsed) {
             color: #000000;
             background-color: #eeeeee;
@@ -91,22 +92,23 @@
                                         <div class="accordion rounded">
                                             <div class="accordion-item rounded card m-0 mb-4">
                                                 <h2 class="accordion-header">
-                                                    <button class="accordion-button rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#project_{{ $project->id }}" aria-expanded="true">
+                                                    {{--                                                    <button class="accordion-button rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#project_{{ $project->id }}" aria-expanded="true">--}}
+                                                    <a href="{{ route('project', $project->id) }}" class="accordion-button rounded-top" type="button" aria-expanded="true">
                                                         <div class="col-12">
                                                             <div class="row">
                                                                 <div class="col-6 pl-2 pr-2"><h5 class="mb-0 font-weight-bold text-truncate">{{ $project->name }}</h5></div>
-{{--                                                                <div class="col-6 text-right pl-2 pr-2">--}}
-{{--                                                                    <span><i class="fas fa-clock mr-1"></i>--}}
-{{--                                                                        @php--}}
-{{--                                                                            $startTime = Carbon\Carbon::parse($project->start_date);--}}
-{{--                                                                            $endTime = Carbon\Carbon::parse($project->end_date);--}}
-{{--                                                                            echo $endTime->diffForHumans($startTime,true).' left';--}}
-{{--                                                                        @endphp--}}
-{{--                                                                    </span>--}}
-{{--                                                                </div>--}}
+                                                                <div class="col-6 text-right pl-2 pr-2 pt-1">
+                                                                    <span><i class="fas fa-clock mr-1"></i>
+                                                                        @php
+                                                                            $startTime = Carbon\Carbon::parse($project->start_date);
+                                                                            $endTime = Carbon\Carbon::parse($project->end_date);
+                                                                            echo $endTime->diffForHumans($startTime,true).' left';
+                                                                        @endphp
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </button>
+                                                    </a>
                                                 </h2>
 
                                                 <div id="project_{{ $project->id }}" class="collapse accordion-collapse collapse show colla_ps">
@@ -143,8 +145,8 @@
                                                                             @endif
                                                                         @endif
                                                                     @endforeach
-                                                                    <a href="{{ route('project', $project->id) }}">
-                                                                        <i class="fas fa-info-circle ml-2 text-warning pull-right cursor-pointer" title="View Task Details" style="font-size: 1.624vw;"></i>
+                                                                    <a href="javascript:void(0)" data-url="{{ route('project.show', $project->id) }}" class="project_details">
+                                                                        <i class="fas fa-info-circle ml-2 text-warning pull-right cursor-pointer" rel="tooltip" title="{{ __('header.view_project_details') }}" style="font-size: 1.624vw;"></i>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -156,12 +158,12 @@
                                                                     <div class="accordion">
                                                                         <div class="accordion-item rounded card m-0">
                                                                             <h6 class="accordion-header">
-                                                                                <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#project_urgent_{{ $project->id }}"
-                                                                                        aria-expanded="true">
+                                                                                <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
+                                                                                        data-bs-target="#project_urgent_{{ $project->id }}" aria-expanded="true">
                                                                                     {{ __('header.urgent_task') }}
                                                                                 </button>
                                                                             </h6>
-                                                                            <div id="project_urgent_{{ $project->id }}" class="accordion-collapse collapse show table-responsive" style="max-height: 10vh; min-height: 10vh">
+                                                                            <div id="project_urgent_{{ $project->id }}" class="accordion-collapse collapse show table-responsive scroll-bar" style="max-height: 10vh; min-height: 10vh">
                                                                                 <div class="accordion-body">
                                                                                     <ul class="list-group pl-2 pr-2 pt-2">
                                                                                         @php $counter = 1; @endphp
@@ -188,12 +190,12 @@
                                                                     <div class="accordion">
                                                                         <div class="accordion-item rounded card m-0">
                                                                             <h6 class="accordion-header">
-                                                                                <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#project_cross_{{ $project->id }}"
-                                                                                        aria-expanded="true">
+                                                                                <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
+                                                                                        data-bs-target="#project_cross_{{ $project->id }}" aria-expanded="true">
                                                                                     {{ __('header.cross_task') }}
                                                                                 </button>
                                                                             </h6>
-                                                                            <div id="project_cross_{{ $project->id }}" class="accordion-collapse collapse table-responsive" style="max-height: 10vh;">
+                                                                            <div id="project_cross_{{ $project->id }}" class="accordion-collapse collapse table-responsive scroll-bar" style="max-height: 10vh;">
                                                                                 <div class="accordion-body">
                                                                                     <ul class="list-group pl-2 pr-2 pt-2">
                                                                                         @php $counter = 1; @endphp
@@ -225,7 +227,7 @@
                                                                                     {{ __('header.pending_task') }}
                                                                                 </button>
                                                                             </h6>
-                                                                            <div id="project_pending_{{ $project->id }}" class="accordion-collapse collapse table-responsive" style="max-height: 10vh;">
+                                                                            <div id="project_pending_{{ $project->id }}" class="accordion-collapse collapse table-responsive scroll-bar" style="max-height: 10vh;">
                                                                                 <div class="accordion-body">
                                                                                     <ul class="list-group pl-2 pr-2 pt-2">
                                                                                         @php $counter = 1; @endphp
@@ -333,21 +335,21 @@
                                     @foreach($user_projects as $project)
                                         @foreach($project->task as $task)
                                             @foreach($task->taskNote as $note)
-                                                    <div class="card m-0 mb-3 mb-2">
-                                                <div class="row m-0 text-secondary notes_finder project_note_{{$project->id}} task_note_{{$task->id}}">
-                                                    <div class="col-12 font-weight-bold pl-2 pr-2">
-                                                        {{ $project->name .' / '. $task->name }}
-                                                    </div>
-                                                    <div class="col-12 pl-2 pr-2">
-                                                        <span style="font-size: 13px;">{{ $note->notes }}</span>
-                                                    </div>
-                                                    <div class="col-12 text-right pl-2 pr-2">
-                                                        @if($note->user->deleted_at == null)
-                                                            {{ $note->user->first_name . ' ' .  $note->user->last_name }}
-                                                        @else
-                                                            {{ __('header.user_deleted') }}
-                                                        @endif
-                                                    </div>
+                                                <div class="card m-0 mb-3 mb-2">
+                                                    <div class="row m-0 text-secondary notes_finder project_note_{{$project->id}} task_note_{{$task->id}}">
+                                                        <div class="col-12 font-weight-bold pl-2 pr-2">
+                                                            {{ $project->name .' / '. $task->name }}
+                                                        </div>
+                                                        <div class="col-12 pl-2 pr-2">
+                                                            <span style="font-size: 13px;">{{ $note->notes }}</span>
+                                                        </div>
+                                                        <div class="col-12 text-right pl-2 pr-2">
+                                                            @if($note->user->deleted_at == null)
+                                                                {{ $note->user->first_name . ' ' .  $note->user->last_name }}
+                                                            @else
+                                                                {{ __('header.user_deleted') }}
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -378,6 +380,14 @@
 
                 <div class="modal-body card-body scroll-bar"></div>
             </div>
+        </div>
+    </div>
+    {{--<!--  End Modal -->--}}
+
+    {{--<!-- Show Project Details Modal -->--}}
+    <div class="modal fade" id="showProjectDetailModal" tab index="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content"></div>
         </div>
     </div>
     {{--<!--  End Modal -->--}}
@@ -663,7 +673,6 @@
 
         });
     </script>
-
     <script>
         $(document).ready(function () {
             $('.date_time_picker').datetimepicker({
@@ -679,6 +688,12 @@
                     clear: 'fa fa-trash',
                     close: 'fa fa-remove'
                 }
+            });
+            $(document).on('click', '.project_details', function () {
+                $('#showProjectDetailModal').find('.modal-content').load($(this).data('url'), function () {
+                    $('#showProjectDetailModal').modal('show');
+                    // new PerfectScrollbar('.scroll-bar-appended');
+                });
             });
         });
     </script>

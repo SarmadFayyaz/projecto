@@ -10,7 +10,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('task.store') }}" method="post">
+            <form action="" method="post" id="addNewTaskForm">
                 @csrf
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
                 <div class="modal-body card-body scroll-bar" style="height: 63vh;overflow: auto;">
@@ -98,12 +98,12 @@
                                     </div>
                                     <input type="text" class="form-control text-capitalize" required name="action[]" placeholder="{{ __('header.add_action') }}">
                                 </div>
-                                <div class="input-group">
-                                    <div class="input-group-prepend pr-2">
-                                        <span class="input-group-text"></span>
-                                    </div>
-                                    <input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">
-                                </div>
+{{--                                <div class="input-group">--}}
+{{--                                    <div class="input-group-prepend pr-2">--}}
+{{--                                        <span class="input-group-text"></span>--}}
+{{--                                    </div>--}}
+{{--                                    <input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">--}}
+{{--                                </div>--}}
                             </div>
                             @error('action')
                             <label class="error">

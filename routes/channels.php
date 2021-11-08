@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
-});
+//Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+//    return (int) $user->id === (int) $id;
+//});
+//
+//Broadcast::channel('private-my-channel.{userId}', function (\App\Models\User $user, $userId) {
+//    return $user->id === $userId;
+//});
+
+//Broadcast::channel('presence-channel.{userId}', function ($user, $userId) {
+//    if ($user->id === $userId) {
+//        return array('name' => $user->first_name);
+//    }
+//});
