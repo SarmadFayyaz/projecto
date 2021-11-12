@@ -76,10 +76,10 @@ class RoleController extends Controller {
             $permissions = $request->input('permission') ? $request->input('permission') : [];
             $role->givePermissionTo($permissions);
             DB::commit();
-            return redirect(route('admin.role.index'))->with('success', 'Role added successfully.');
+            return redirect(route('admin.role.index'))->with('success', __('header.added_successfully', ['name' => __('header.role')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -125,10 +125,10 @@ class RoleController extends Controller {
             $permissions = $request->input('permission') ? $request->input('permission') : [];
             $role->syncPermissions($permissions);
             DB::commit();
-            return redirect(route('admin.role.index'))->with('success', 'Role updated successfully.');
+            return redirect(route('admin.role.index'))->with('success', __('header.updated_successfully', ['name' => __('header.role')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -143,10 +143,10 @@ class RoleController extends Controller {
             DB::beginTransaction();
             $role->delete();
             DB::commit();
-            return back()->with('success', 'Role Deleted successfully.');
+            return back()->with('success', __('header.deleted_successfully', ['name' => __('header.role')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 }

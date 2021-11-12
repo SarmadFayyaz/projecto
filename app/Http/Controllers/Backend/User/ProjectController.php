@@ -57,7 +57,7 @@ class ProjectController extends Controller {
             $users = User::where('company_id', $user->company_id)->get();
             return view('backend.user.projects', compact('page', 'users'));
         } else {
-            return back()->with('error', 'You are not authorized.');
+            return back()->with('error', __('header.you_are_not_authorized'));
         }
     }
 
@@ -134,10 +134,10 @@ class ProjectController extends Controller {
                 $project_user->save();
             }
             DB::commit();
-            return back()->with('success', 'Project updated successfully.');
+            return back()->with('success', __('header.updated_successfully', ['name' => __('header.project')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 }

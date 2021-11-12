@@ -162,8 +162,10 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::get('task/requests/{id}/delete', [UserTaskRequests::class, 'delete'])->name('task.requests.delete');
 
     Route::get('task/completed/{id}', [UserTask::class, 'completed'])->name('task.completed');
+    Route::get('task/load/{project_id}/{type}/', [UserTask::class, 'load'])->name('task.load');
     Route::resource('task', UserTask::class);
     Route::resource('task-action', UserTaskAction::class);
+    Route::get('task-note/load/{project_id}/', [UserTaskNote::class, 'load'])->name('task-note.load');
     Route::resource('task-note', UserTaskNote::class);
 
     Route::post('join-call', [UserVideo::class, 'joinCall']);
@@ -174,6 +176,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::resource('individual-conversation', UserIndividualConversation::class);
     Route::get('get-document/{section}/{project_id}', [UserDocument::class, 'index'])->name('get-document');
     Route::post('important-document', [UserDocument::class, 'important'])->name('important-document');
+    Route::post('delete-document', [UserDocument::class, 'delete'])->name('delete-document');
     Route::post('upload-document', [UserDocument::class, 'upload'])->name('upload-document');
     //    Route::get('download-document/{id}', [UserDocument::class, 'download'])->name('download-document');
 

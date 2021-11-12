@@ -78,10 +78,10 @@ class CompanyController extends Controller {
             $data['admin_id'] = Auth::guard('admin')->user()->id;
             Company::create($data);
             DB::commit();
-            return redirect(route('admin.company.index'))->with('success', 'Company added successfully.');
+            return redirect(route('admin.company.index'))->with('success', __('header.added_successfully', ['name' => __('header.company')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -134,10 +134,10 @@ class CompanyController extends Controller {
             $data['password'] = ($data['password']) ? Hash::make($data['password']) : $company->password;
             $company->update($data);
             DB::commit();
-            return redirect(route('admin.company.index'))->with('success', 'Company Updated successfully.');
+            return redirect(route('admin.company.index'))->with('success', __('header.updated_successfully', ['name' => __('header.company')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -153,10 +153,10 @@ class CompanyController extends Controller {
             Storage::disk('public')->delete($company->image);
             $company->delete();
             DB::commit();
-            return back()->with('success', 'Company Deleted successfully.');
+            return back()->with('success', __('header.deleted_successfully', ['name' => __('header.company')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 }

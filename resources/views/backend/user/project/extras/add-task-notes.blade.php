@@ -11,7 +11,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('task-note.store') }}" method="post">
+            <form method="post" id="taskNotesForm" data-action="{{ route('task-note.store') }}" data-name="taskNotes">
                 @csrf
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
                 <div class="modal-body card-body scroll-bar">

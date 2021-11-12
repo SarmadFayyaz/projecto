@@ -242,17 +242,17 @@
         .MultiCarousel .MultiCarousel-inner .item {
             float: left;
             text-align: center;
-            max-height: 21vh;
+            /*max-height: 21vh;*/
         }
 
         .MultiCarousel .MultiCarousel-inner .item > div {
             text-align: center;
-            padding: 5px;
+            /*padding: 5px;*/
             margin: 1px 2px;
             background: #000000;
             color: #ffffff;
-            height: auto;
-            min-height: 20vh;
+            height: 21vh;
+            min-height: 21vh;
         }
 
         .MultiCarousel .leftLst, .MultiCarousel .rightLst {
@@ -277,12 +277,12 @@
 
         .meeting_mode .item {
             text-align: center;
-            padding: 5px;
+            /*padding: 5px;*/
             margin: 1px;
             background: #000000;
             color: #ffffff;
-            height: auto;
-            min-height: 250px;
+            height: 32.7vh;
+            min-height: 32.7vh;
         }
     </style>
 @endsection
@@ -290,78 +290,81 @@
 @section('right-panel')
     <div class="card m-0 table-responsive h-100">
         <div class="card-body mt-0 pb-1 pt-0 pl-2 pr-2">
-            <div class="accordion" id="accordionPanelsStayOpenExample1">
-                <div class="accordion-item border-0">
-                    <h2 class="accordion-header text-center  mt-0" id="panelsStayOpen-headingFive">
-                        <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-{{ $theme }} btn-block mt-2" data-bs-target="#panelsStayOpen-collapsemethod" aria-expanded="true"
-                                aria-controls="panelsStayOpen-collapsemethod">
-                            {{ __('header.method_o') }}
-                        </button>
-                    </h2>
+            <div id="right_panel" role="tablist">
+                <div class="accordion">
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header text-center mt-0" role="tab" id="method_o_heading">
+                            <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-{{ $theme }} btn-block mt-2" data-bs-target="#method_o_div" aria-controls="method_o_div" aria-expanded="false"
+                                    aria-controls="panelsStayOpen-collapsemethod">
+                                {{ __('header.method_o') }}
+                            </button>
+                        </h2>
 
-                    <div id="panelsStayOpen-collapsemethod" class="accordion-collapse  collapse" aria-labelledby="panelsStayOpen-headingmethod">
-                        <div class="accordion-body border">
-                            <div class="p-2 text-left ">
-                                <div class="r justify-content-center">
-                                    <div class="col-md-9">
-                                        <p class="mb-1">
-                                            <a href="{{ route('form.show', 1) }}" class="text-dark method_o"> {{ __('header.initial_project_meeting') }} </a>
-                                        </p>
-                                        <p class="mb-1">
-                                            <a href="{{ route('form.show', 2) }}" class="text-dark method_o"> {{ __('header.work_rules') }} </a>
-                                        </p>
-                                        <p class="mb-1">
-                                            <a href="{{ route('form.show', 3) }}" class="text-dark method_o"> {{ __('header.description_of_meeting') }} </a>
-                                        </p>
-                                        <p class="mb-1">
-                                            <a href="{{ route('form.show', 4) }}" class="text-dark method_o"> {{ __('header.facilitators') }} </a>
-                                        </p>
+                        <div id="method_o_div" class="accordion-collapse collapse" role="tabpanel" data-parent="#right_panel" aria-labelledby="method_o_heading">
+                            <div class="accordion-body border">
+                                <div class="p-2 text-left ">
+                                    <div class="r justify-content-center">
+                                        <div class="col-md-9">
+                                            <p class="mb-1">
+                                                <a href="{{ route('form.show', 1) }}" class="text-dark method_o"> {{ __('header.initial_project_meeting') }} </a>
+                                            </p>
+                                            <p class="mb-1">
+                                                <a href="{{ route('form.show', 2) }}" class="text-dark method_o"> {{ __('header.work_rules') }} </a>
+                                            </p>
+                                            <p class="mb-1">
+                                                <a href="{{ route('form.show', 3) }}" class="text-dark method_o"> {{ __('header.description_of_meeting') }} </a>
+                                            </p>
+                                            <p class="mb-1">
+                                                <a href="{{ route('form.show', 4) }}" class="text-dark method_o"> {{ __('header.facilitators') }} </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header text-center " id="panelsStayOpen-headingFive">
+                            <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-{{ $theme }} btn-block text-center  mt-0" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseFive">
+                                {{ __('header.project_notes') }}
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse table-responsive" role="tabpanel" data-parent="#right_panel" aria-labelledby="panelsStayOpen-headingFive" style="max-height: 30vh;">
+                            <div class="accordion-body border">
+                                <div class="p-2 text-left" style="border-top: 1px solid #f0f0f0;">
+                                    <p class="mb-1 ">
+                                        <select class="selectpicker col-10 task_note_finder" data-size="7" data-style="select-with-transition" data-container="body" title="{{ __('header.select_task') }}">
+                                            @foreach($project->task as $task)
+                                                <option value="{{ $task->id }}"> {{ $task->name }} </option>
+                                            @endforeach
+                                        </select>
+                                        <a href="javascript:;" class="text-dark pull-right mt-2 open_modal" data-modal-id="#taskNotesModal"><i class="fa fa-plus"></i></a>
+                                    </p>
+                                    <div class="task_note_div">
+                                        @foreach($project->task as $task)
+                                            @foreach($task->taskNote as $note)
+                                                <div class="card p-0 m-0 mb-2 task_note task_note_{{$task->id}}" hidden>
+                                                    <div class="card-body p-0 m-0 pl-3 pr-1">
+                                                        <a class="task_note_edit text-dark" id="task_note_{{$note->id}}" href="{{ route('task-note.edit', $note->id)}}">
+                                                            <span class="mb-0 pb-0">{{ $note->notes }}</span>
+                                                            <br>
+                                                            <span class="mb-0 pb-0 pull-right"><small> {{ $note->created_at }} </small></span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="accordion" id="accordionPanelsStayOpenExample">
-                <div class="accordion-item border-0">
-                    <h2 class="accordion-header text-center " id="panelsStayOpen-headingFive">
-                        <button href="javascript:void(0)" data-bs-toggle="collapse" class="btn btn-{{ $theme }} btn-block text-center  mt-0" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true"
-                                aria-controls="panelsStayOpen-collapseFive">
-                            {{ __('header.project_notes') }}
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse table-responsive" aria-labelledby="panelsStayOpen-headingFive" style="max-height: 30vh;">
-                        <div class="accordion-body border">
-                            <div class="p-2 text-left" style="border-top: 1px solid #f0f0f0;">
-                                <p class="mb-1 ">
-                                    <select class="selectpicker col-10 task_note_finder" data-size="7" data-style="select-with-transition" data-container="body" title="{{ __('header.select_task') }}">
-                                        @foreach($project->task as $task)
-                                            <option value="{{ $task->id }}"> {{ $task->name }} </option>
-                                        @endforeach
-                                    </select>
-                                    <a href="javascript:vod(0);" class="text-dark pull-right mt-2" data-toggle="modal" data-target="#taskNotesModal"><i class="fa fa-plus"></i></a>
-                                </p>
-                                @foreach($project->task as $task)
-                                    @foreach($task->taskNote as $note)
-                                        <div class="card p-0 m-0 mb-2 task_note task_note_{{$task->id}}" hidden>
-                                            <div class="card-body p-0 m-0 pl-3 pr-1">
-                                                <a class="task_note_edit text-dark" id="task_note_{{$note->id}}" href="{{ route('task-note.edit', $note->id)}}">
-                                                    <span class="mb-0 pb-0">{{ $note->notes }}</span>
-                                                    <br>
-                                                    <span class="mb-0 pb-0 pull-right"><small> {{ $note->created_at }} </small></span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @endforeach
-                            </div>
-                        </div>
 
-                    </div>
                 </div>
-
             </div>
             <div class="accordion mb-5" id="accordionPanelsStayOpenExample2">
                 <div class="accordion-item border-0">
@@ -372,7 +375,6 @@
                     </h2>
                 </div>
             </div>
-
             <div class="col-12 text-center position-absolute bottom-0" style="left: 0">
                 <button class="btn btn-{{ $theme }} p-2 pull-left" onclick="openChat()" style="width: 40%"><i class="material-icons">chat</i> {{ __('header.chat') }}</button>
                 <button class="btn btn-{{ $theme }} p-2 pull-right" onclick="openBinance()" style="width: 40%"><i class="material-icons">textsms</i> {{ __('header.binnacle') }}</button>
@@ -391,38 +393,34 @@
                 <div class="tab-pane active show" id="link1">
                     <div class="row">
                         <div class="col-12 ">
-                            <div class="scroll-bar mb-0" style="height:27vh;">
-                                <div class="pt-4" style="max-height: 27vh">
 
-                                    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="5" id="MultiCarousel" data-interval="1000">
-                                        <div class="MultiCarousel-inner">
+                            <div class="MultiCarousel" data-items="1,3,5,6" data-slide="5" id="MultiCarousel" data-interval="1000">
+                                <div class="MultiCarousel-inner">
+                                    <div class="item">
+                                        <div id="" class="vide_mirror div{{$project->project_leader}} rounded" data-user-name="{{$project->projectLeader->first_name . ' ' . $project->projectLeader->last_name}}"></div>
+                                        <a href="javascript:void(0)" class="vide_mirror_name">
+                                            {{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}
+                                        </a>
+                                    </div>
+                                    @foreach($project->projectUser as $user)
+                                        @if($user->user->deleted_at == null)
                                             <div class="item">
-                                                <div id="" class="vide_mirror div{{$project->project_leader}} rounded" data-user-name="{{$project->projectLeader->first_name . ' ' . $project->projectLeader->last_name}}"></div>
+                                                <div id="" class="vide_mirror div{{$user->user->id}} rounded" data-user-name="{{ $user->user->first_name . ' ' . $user->user->last_name }}"></div>
                                                 <a href="javascript:void(0)" class="vide_mirror_name">
-                                                    {{ $project->projectLeader->first_name . ' ' . $project->projectLeader->last_name }}
+                                                    {{ $user->user->first_name . ' ' . $user->user->last_name }}
                                                 </a>
                                             </div>
-                                            @foreach($project->projectUser as $user)
-                                                @if($user->user->deleted_at == null)
-                                                    <div class="item">
-                                                        <div id="" class="vide_mirror div{{$user->user->id}} rounded" data-user-name="{{ $user->user->first_name . ' ' . $user->user->last_name }}"></div>
-                                                        <a href="javascript:void(0)" class="vide_mirror_name">
-                                                            {{ $user->user->first_name . ' ' . $user->user->last_name }}
-                                                        </a>
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                        <button class="btn btn-{{ $theme }} leftLst" id="new-blue-bg">
-                                            <span class="material-icons m-0">arrow_back</span>
-                                        </button>
-                                        <button class="btn btn-{{ $theme }} rightLst" id="new-blue-bg">
-                                            <span class="material-icons m-0">arrow_forward</span>
-                                        </button>
-                                    </div>
-
+                                        @endif
+                                    @endforeach
                                 </div>
+                                <button class="btn btn-{{ $theme }} leftLst" id="new-blue-bg">
+                                    <span class="material-icons m-0">arrow_back</span>
+                                </button>
+                                <button class="btn btn-{{ $theme }} rightLst" id="new-blue-bg">
+                                    <span class="material-icons m-0">arrow_forward</span>
+                                </button>
                             </div>
+
                         </div>
 
                         <div class="col-md-9 pr-md-1">
@@ -431,7 +429,7 @@
 
                                 <div class="col-12">
 
-                                    <div class="card scroll-bar m-0" style="height:58vh;">
+                                    <div class="card scroll-bar m-0" style="height:61vh;">
                                         <!-- <div class="card-header card-header-success card-header-icon">
                                             <div class="card-icon">
                                                 <i class="material-icons"></i>
@@ -441,16 +439,18 @@
                                         <div class="card-body mb-0 pb-0 ">
                                             <div class="row">
                                                 <div class="col-4 pl-2 pr-2">
-                                                    <a href="javascript:void(0)" class="btn btn-{{ $theme }} btn-sm text-white" rel="tooltip" title="{{ __('header.add_new_task') }}" style=" margin-right: 20px;margin-top: 5px;"
-                                                       data-toggle="modal" data-target="#addNewTaskModal"><i class="fa fa-plus mr-2" style="font-size:12px !important"></i> {{ __('header.add_new_task') }}
+                                                    <a href="javascript:void(0)" class="btn btn-{{ $theme }} btn-sm text-white open_modal" rel="tooltip" title="{{ __('header.add_new_task') }}" style=" margin-right: 20px;margin-top: 5px;"
+                                                       data-modal-id="#addNewTaskModal"><i class="fa fa-plus mr-2" style="font-size:12px !important"></i> {{ __('header.add_new_task') }}
                                                     </a>
                                                 </div>
-                                                <div class="col-4 text-center pl-2 pr-2">
-                                                    <a href="javascript:void(0)" data-url="{{ route('project.show', $project->id) }}" class="project_details">
-                                                        <i class="fas fa-info-circle ml-2 text-warning cursor-pointer" rel="tooltip" title="{{ __('header.view_project_details') }}" style="font-size: 1.624vw;"></i>
+                                                <div class="col-8 text-right pl-2 pr-2">
+{{--                                                    <select id="" class="form-control selectpicker w-25">--}}
+{{--                                                        <option value="0">{{ __('header.all_tasks') }}</option>--}}
+{{--                                                        <option value="1">{{ __('header.my_tasks') }}</option>--}}
+{{--                                                    </select>--}}
+                                                    <a href="javascript:void(0)" data-url="{{ route('project.show', $project->id) }}" class="project_details btn p-0 bg-transparent btn-link">
+                                                        <i class="fas fa-info-circle text-warning cursor-pointer" rel="tooltip" title="{{ __('header.view_project_details') }}" style="font-size: 1.624vw;"></i>
                                                     </a>
-                                                </div>
-                                                <div class="col-4 text-right pl-2 pr-2">
                                                     <a class="btn btn-{{ $theme }} btn-sm text-white" data-toggle="modal" data-target="#completedTaskModal" role="tablist"> {{ __('header.completed_tasks') }} </a>
                                                 </div>
 
@@ -466,100 +466,7 @@
                                                                 <h5 class="task_header font-weight-bold p-2">
                                                                     {{ __('header.to_do') }}
                                                                 </h5>
-                                                                <div class="card-body scroll-bar p-0" style="height:45vh;">
-                                                                    @foreach($project->task as $task)
-                                                                        @if($task->progress == 0 || $task->status == 'pending')
-                                                                            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}}">
-                                                                                <!-- <h6 class="h6css" >Lorem</h6> -->
-                                                                                <a class="task_details" href="{{ route('task.show',$task->id) }}">
-                                                                                    <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                                                        <span class="bg-light rounded mr-1 p-1 h6css mr-auto text-dark" title="{{{ __('header.task_name') }}}"><b>{{ $task->name  }}</b></span>
-                                                                                        @php $counter = 0; @endphp
-                                                                                        @if(Auth::user()->id != $task->addedBy->id)
-                                                                                            @php $counter++; @endphp
-                                                                                            @if($task->addedBy->deleted_at == null)
-                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
-                                                                                                    @if($task->addedBy->image == null)
-                                                                                                        <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
-                                                                                                            {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
-                                                                                                        </span>
-                                                                                                    @else
-                                                                                                        <img width="25" height="25" class="rounded-circle"
-                                                                                                             src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                    @endif
-                                                                                                    <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
-                                                                                                </span>
-                                                                                            @else
-                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                    <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
-                                                                                                        <i class="fas fa-user-slash"></i>
-                                                                                                    </span>
-                                                                                                    <span class="logged-out">●</span>
-                                                                                                </span>
-                                                                                            @endif
-                                                                                        @endif
-                                                                                        @foreach($task->taskUser as $user)
-                                                                                            @if(Auth::user()->id != $user->user->id)
-                                                                                                @php $counter++; @endphp
-                                                                                                @if($user->user->deleted_at == null)
-                                                                                                    @if($counter <= 3)
-                                                                                                        <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                              title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                                            @if($user->user->image == null)
-                                                                                                                <span
-                                                                                                                    class="p-1 rounded-circle bg-{{ $theme }} text-white"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
-                                                                                                            @else
-                                                                                                                <img width="25" height="25" class="rounded-circle"
-                                                                                                                     src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                            @endif
-                                                                                                            <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
-                                                                                                        </span>
-                                                                                                    @endif
-                                                                                                @else
-                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                        <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
-                                                                                                            <i class="fas fa-user-slash"></i>
-                                                                                                        </span>
-                                                                                                        <span class="logged-out">●</span>
-                                                                                                    </span>
-                                                                                                @endif
-                                                                                            @endif
-                                                                                        @endforeach
-                                                                                        @if($counter > 3)
-                                                                                            <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-                                                                                        @endif
-                                                                                    </div>
-                                                                                </a>
-
-                                                                                <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="{{ __('header.progress') }} {{ (int)$task->progress }}%">
-                                                                                    <div class="progress m-0">
-                                                                                        <div class="progress-bar bg-{{ $theme }}" role="progressbar" style="width: {{ (int)$task->progress }}%" aria-valuenow="{{ (int)$task->progress }}"
-                                                                                             aria-valuemin="0" aria-valuemax="100"></div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="d-flex align-items-center justify-content-between mt-2">
-                                                                                    <span class="fs-12">{{ __('header.actions') }}</span>
-                                                                                    <span class="fs-12">
-                                                                                        @if($task->taskAction!=null && $task->taskAction->count()>0)
-                                                                                            {{$task->taskAction->where('status','completed')->count()}}
-                                                                                            / {{$task->taskAction->count()}}
-                                                                                        @else 0/0
-                                                                                        @endif
-                                                                                    </span>
-                                                                                    <span class="fs-12"><i class="fas fa-clock"></i>
-                                                                                        @php
-                                                                                            $startTime = Carbon\Carbon::parse($task->start_date);
-                                                                                            $endTime = Carbon\Carbon::parse($task->end_date);
-                                                                                            echo   $endTime->diffForHumans($startTime,true).' left';
-                                                                                        @endphp
-                                                                                    </span>
-                                                                                </div>
-
-                                                                            </div>
-                                                                        @endif
-                                                                    @endforeach
-                                                                </div>
+                                                                <div class="card-body scroll-bar p-0 " id="to_do_task_div" style="height:45vh;"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 pl-2 pr-2">
@@ -567,97 +474,9 @@
                                                                 <h5 class="task_header font-weight-bold p-2">
                                                                     {{ __('header.in_progress') }}
                                                                 </h5>
-                                                                <div class="card-body scroll-bar p-0" style="height:45vh;">
+                                                                <div class="card-body scroll-bar p-0" id="in_progress_task_div" style="height:45vh;">
                                                                     @foreach($project->task as $task)
                                                                         @if($task->progress > 0 && $task->progress < 100 && $task->status == 'approved')
-                                                                            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}}">
-                                                                                <!-- <h6 class="h6css" >Lorem</h6> -->
-                                                                                <a class="task_details" href="{{ route('task.show',$task->id) }}">
-                                                                                    <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                                                        <span class="bg-light rounded mr-1 p-1 h6css mr-auto text-dark" title="{{{ __('header.task_name') }}}"><b>{{ $task->name  }}</b></span>
-                                                                                        @php $counter = 0; @endphp
-                                                                                        @if(Auth::user()->id != $task->addedBy->id)
-                                                                                            @php $counter++; @endphp
-                                                                                            @if($task->addedBy->deleted_at == null)
-                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
-                                                                                                    @if($task->addedBy->image == null)
-                                                                                                        <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
-                                                                                                            {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
-                                                                                                        </span>
-                                                                                                    @else
-                                                                                                        <img width="25" height="25" class="rounded-circle"
-                                                                                                             src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                    @endif
-                                                                                                    <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
-                                                                                                </span>
-                                                                                            @else
-                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                    <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
-                                                                                                        <i class="fas fa-user-slash"></i>
-                                                                                                    </span>
-                                                                                                    <span class="logged-out">●</span>
-                                                                                                </span>
-                                                                                            @endif
-                                                                                        @endif
-                                                                                        @foreach($task->taskUser as $user)
-                                                                                            @if(Auth::user()->id != $user->user->id)
-                                                                                                @php $counter++; @endphp
-                                                                                                @if($user->user->deleted_at == null)
-                                                                                                    @if($counter <= 3)
-                                                                                                        <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                              title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                                            @if($user->user->image == null)
-                                                                                                                <span
-                                                                                                                    class="p-1 rounded-circle bg-{{ $theme }} text-white"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
-                                                                                                            @else
-                                                                                                                <img width="25" height="25" class="rounded-circle"
-                                                                                                                     src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                            @endif
-                                                                                                            <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
-                                                                                                        </span>
-                                                                                                    @endif
-                                                                                                @else
-                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                        <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
-                                                                                                            <i class="fas fa-user-slash"></i>
-                                                                                                        </span>
-                                                                                                        <span class="logged-out">●</span>
-                                                                                                    </span>
-                                                                                                @endif
-                                                                                            @endif
-                                                                                        @endforeach
-                                                                                        @if($counter > 3)
-                                                                                            <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-                                                                                        @endif
-                                                                                    </div>
-                                                                                </a>
-
-                                                                                <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="{{ __('header.progress') }} {{ (int)$task->progress }}%">
-                                                                                    <div class="progress m-0">
-                                                                                        <div class="progress-bar bg-{{ $theme }}" role="progressbar" style="width: {{ (int)$task->progress }}%" aria-valuenow="{{ (int)$task->progress }}"
-                                                                                             aria-valuemin="0" aria-valuemax="100"></div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="d-flex align-items-center justify-content-between mt-2">
-                                                                                    <span class="fs-12">{{ __('header.actions') }}</span>
-                                                                                    <span class="fs-12">
-                                                                                        @if($task->taskAction!=null && $task->taskAction->count()>0)
-                                                                                            {{$task->taskAction->where('status','completed')->count()}}
-                                                                                            / {{$task->taskAction->count()}}
-                                                                                        @else 0/0
-                                                                                        @endif
-                                                                                    </span>
-                                                                                    <span class="fs-12"><i class="fas fa-clock"></i>
-                                                                                        @php
-                                                                                            $startTime = Carbon\Carbon::parse($task->start_date);
-                                                                                            $endTime = Carbon\Carbon::parse($task->end_date);
-                                                                                            echo   $endTime->diffForHumans($startTime,true).' left';
-                                                                                        @endphp
-                                                                                    </span>
-                                                                                </div>
-
-                                                                            </div>
                                                                         @endif
                                                                     @endforeach
                                                                 </div>
@@ -668,97 +487,9 @@
                                                                 <h5 class="task_header font-weight-bold p-2">
                                                                     {{ __('header.review') }}
                                                                 </h5>
-                                                                <div class="card-body scroll-bar p-0" style="height:45vh;">
+                                                                <div class="card-body scroll-bar p-0" id="review_task_div" style="height:45vh;">
                                                                     @foreach($project->task as $task)
                                                                         @if($task->progress == 100 && $task->status == 'approved')
-                                                                            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}}">
-                                                                                <!-- <h6 class="h6css" >Lorem</h6> -->
-                                                                                <a class="task_details" href="{{ route('task.show',$task->id) }}">
-                                                                                    <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
-                                                                                        <span class="bg-light rounded mr-1 p-1 h6css mr-auto text-dark" title="{{{ __('header.task_name') }}}"><b>{{ $task->name  }}</b></span>
-                                                                                        @php $counter = 0; @endphp
-                                                                                        @if(Auth::user()->id != $task->addedBy->id)
-                                                                                            @php $counter++; @endphp
-                                                                                            @if($task->addedBy->deleted_at == null)
-                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
-                                                                                                    @if($task->addedBy->image == null)
-                                                                                                        <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
-                                                                                                            {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
-                                                                                                        </span>
-                                                                                                    @else
-                                                                                                        <img width="25" height="25" class="rounded-circle"
-                                                                                                             src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                    @endif
-                                                                                                    <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
-                                                                                                </span>
-                                                                                            @else
-                                                                                                <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                    <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
-                                                                                                        <i class="fas fa-user-slash"></i>
-                                                                                                    </span>
-                                                                                                    <span class="logged-out">●</span>
-                                                                                                </span>
-                                                                                            @endif
-                                                                                        @endif
-                                                                                        @foreach($task->taskUser as $user)
-                                                                                            @if(Auth::user()->id != $user->user->id)
-                                                                                                @php $counter++; @endphp
-                                                                                                @if($user->user->deleted_at == null)
-                                                                                                    @if($counter <= 3)
-                                                                                                        <span class="bg-light rounded mr-2 position-relative" rel="tooltip"
-                                                                                                              title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
-                                                                                                            @if($user->user->image == null)
-                                                                                                                <span
-                                                                                                                    class="p-1 rounded-circle bg-{{ $theme }} text-white"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
-                                                                                                            @else
-                                                                                                                <img width="25" height="25" class="rounded-circle"
-                                                                                                                     src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
-                                                                                                            @endif
-                                                                                                            <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>
-                                                                                                        </span>
-                                                                                                    @endif
-                                                                                                @else
-                                                                                                    <span class="bg-light rounded mr-2 position-relative" rel="tooltip" title="{{ __('header.user_deleted') }}">
-                                                                                                        <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
-                                                                                                            <i class="fas fa-user-slash"></i>
-                                                                                                        </span>
-                                                                                                        <span class="logged-out">●</span>
-                                                                                                    </span>
-                                                                                                @endif
-                                                                                            @endif
-                                                                                        @endforeach
-                                                                                        @if($counter > 3)
-                                                                                            <span class="bg-light rounded mr-1 p-1"><i class="fa fa-plus"></i></span>
-                                                                                        @endif
-                                                                                    </div>
-                                                                                </a>
-
-                                                                                <div class="card pl-2 pr-2 pt-1 pb-1 m-0 rounded bg-light" rel="tooltip" title="{{ __('header.progress') }} {{ (int)$task->progress }}%">
-                                                                                    <div class="progress m-0">
-                                                                                        <div class="progress-bar bg-{{ $theme }}" role="progressbar" style="width: {{ (int)$task->progress }}%" aria-valuenow="{{ (int)$task->progress }}"
-                                                                                             aria-valuemin="0" aria-valuemax="100"></div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="d-flex align-items-center justify-content-between mt-2">
-                                                                                    <span class="fs-12">{{ __('header.actions') }}</span>
-                                                                                    <span class="fs-12">
-                                                                                        @if($task->taskAction!=null && $task->taskAction->count()>0)
-                                                                                            {{$task->taskAction->where('status','completed')->count()}}
-                                                                                            / {{$task->taskAction->count()}}
-                                                                                        @else 0/0
-                                                                                        @endif
-                                                                                    </span>
-                                                                                    <span class="fs-12"><i class="fas fa-clock"></i>
-                                                                                        @php
-                                                                                            $startTime = Carbon\Carbon::parse($task->start_date);
-                                                                                            $endTime = Carbon\Carbon::parse($task->end_date);
-                                                                                            echo   $endTime->diffForHumans($startTime,true).' left';
-                                                                                        @endphp
-                                                                                    </span>
-                                                                                </div>
-
-                                                                            </div>
                                                                         @endif
                                                                     @endforeach
                                                                 </div>
@@ -973,8 +704,18 @@
     <script>
         $(document).ready(function () {
 
-            $(document).on('click', '.done_task', function (event) {
-                event.preventDefault();
+            var timer = null;
+            loadTasks({{ $project->id }});
+            $(document).on('click', '.project_details', function () {
+                $('.spinner-overlay').removeAttr('hidden');
+                $('#showProjectDetailModal').find('.modal-content').load($(this).data('url'), function () {
+                    $('#showProjectDetailModal').modal('show');
+                    $('.spinner-overlay').attr('hidden', true);
+                    // new PerfectScrollbar('.scroll-bar-appended');
+                });
+            });
+            $(document).on('click', '.done_task, .complete_task, .approve_task', function (e) {
+                e.preventDefault();
                 swal({
                     title: 'Are you sure?',
                     type: 'info',
@@ -989,28 +730,40 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                        window.location.href = $(this).attr('href');
+                        $('.spinner-overlay').removeAttr('hidden');
+                        $.ajax({
+                            url: $(this).attr('href'),
+                            type: "get",
+                            success: function (result) {
+                                $('#taskDetailsModal').find('.modal-content').load(APP_URL + '/task/' + result.task_id, function () {
+                                    loadTasks(result.project_id);
+                                });
+                            },
+                            error: function (result) {
+                                toastr.error(result.error);
+                                $('.spinner-overlay').attr('hidden', true);
+                            }
+                        });
                     }
                 });
             });
-
             $(document).on('change', 'select.task_note_finder', function () {
                 $('.task_note').attr('hidden', true);
                 $('.task_note_' + $(this).val()).removeAttr('hidden');
             });
-
-            $(document).on('click', '.task_details', function () {
-                event.preventDefault();
+            $(document).on('click', '.task_details', function (e) {
+                e.preventDefault();
+                $('.spinner-overlay').removeAttr('hidden');
                 $('#editTaskNotesModal').modal('hide');
                 $('#taskDetailsModal').find('.modal-content').load($(this).attr('href'), function () {
                     $('#taskDetailsModal').modal('show');
                     update_member_status();
+                    $('.spinner-overlay').attr('hidden', true);
                 });
             });
-
-
-            $(document).on('click', '.method_o', function () {
-                event.preventDefault();
+            $(document).on('click', '.method_o', function (e) {
+                e.preventDefault();
+                $('.spinner-overlay').removeAttr('hidden');
                 $('#methodOModal').find('.modal-content').load($(this).attr('href'), function () {
                     let form_data_div = document.getElementById('form_data_div'),
                         form_data = JSON.parse($('#form_data').text()),
@@ -1021,17 +774,18 @@
                     console.log(form_data);
                     $(form_data_div).formRender(form_render_options);
                     $('#methodOModal').modal('show');
+                    $('.spinner-overlay').attr('hidden', true);
                 });
             });
-
-            $(document).on('click', '.task_note_edit', function () {
-                event.preventDefault();
+            $(document).on('click', '.task_note_edit', function (e) {
+                e.preventDefault();
+                $('.spinner-overlay').removeAttr('hidden');
                 $('#editTaskNotesModal').find('.modal-content').load($(this).attr('href'), function () {
                     $('#editTaskNotesModal').find('.selectpicker').selectpicker('refresh');
                     $('#editTaskNotesModal').modal('show');
+                    $('.spinner-overlay').attr('hidden', true);
                 });
             });
-
             $(document).on('click', 'a[data-task-note=delete]', function (e) {
                 e.preventDefault();
                 let $this = $(this);
@@ -1049,6 +803,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
+                        $('.spinner-overlay').removeAttr('hidden');
                         $.post({
                             data: {
                                 "_token": " {{ csrf_token()  }} ",
@@ -1059,14 +814,11 @@
                             $('#task_note_' + data.task_note_id).remove();
                             $('#editTaskNotesModal').modal('hide');
                             toastr.success(data.success);
+                            $('.spinner-overlay').attr('hidden', true);
                         });
                     }
                 });
             });
-            // $(document).on('click', '.close_modal', function () {
-            //     $('#editTaskNotesModal').modal('hide');
-            // });
-
             $(document).on('click', '.add_action', function () {
                 let count = $('#actions .added_action').length;
                 if (count < 5) {
@@ -1082,24 +834,23 @@
                     content += '</div>';
                     content += '</div>';
                     {{--content += '<div class="input-group">';--}}
-                    {{--content += '<div class="input-group-prepend pr-2">';--}}
-                    {{--content += '<span class="input-group-text"></span>';--}}
-                    {{--content += '</div>';--}}
-                    {{--content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';--}}
-                    {{--content += '</div>';--}}
-                    content += '</div>';
+                        {{--content += '<div class="input-group-prepend pr-2">';--}}
+                        {{--content += '<span class="input-group-text"></span>';--}}
+                        {{--content += '</div>';--}}
+                        {{--content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';--}}
+                        {{--content += '</div>';--}}
+                        content += '</div>';
                     $('#actions').append(content);
                     actionCounter();
                 }
             });
-
             $(document).on('click', '.remove_action', function () {
                 $(this).closest('.added_action').remove();
                 actionCounter();
             });
-
-            $('#addNewTaskForm').submit(function (e){
+            $(document).on('submit', '#addNewTaskForm', function (e) {
                 e.preventDefault();
+                $('.spinner-overlay').removeAttr('hidden');
                 $.ajax({
                     url: '{{ route('task.store') }}',
                     type: "post",
@@ -1108,10 +859,12 @@
                     contentType: false,
                     dataType: 'json',
                     success: function (result) {
-                        let content = '';
-                        content += '';
-                        content += '';
-                        content += '';
+                        $('#to_do_task_div').load('{{ route('task.load', [$project->id, 1]) }}', function () {
+                            update_member_status();
+                            $('#addNewTaskForm')[0].reset();
+                            $('#addNewTaskModal').modal('hide');
+                            $('.spinner-overlay').attr('hidden', true);
+                        });
                     },
                     error: function (result) {
                         if (result.status == 422) { // when status code is 422, it's a validation issue
@@ -1120,18 +873,41 @@
                             });
                         } else
                             toastr.error(result.error);
-                        // toastr.error('in error');
+                        $('.spinner-overlay').attr('hidden', true);
                     }
                 });
-            })
-
-            function actionCounter() {
-                $('.added_action').each(function (i) {
-                    $(this).closest('.added_action').find('.action_counter').text(i + 1);
+            });
+            $(document).on('submit', '#taskNotesForm, #editTaskNotesForm', function (e) {
+                e.preventDefault();
+                $('.spinner-overlay').removeAttr('hidden');
+                let url = $(this).data('action');
+                let name = $(this).data('name');
+                $.ajax({
+                    url: url,
+                    type: "post",
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        toastr.success(result.success);
+                        $('.task_note_div').load('{{ route('task-note.load', $project->id) }}', function () {
+                            $('#' + name + 'Form')[0].reset();
+                            $('#' + name + 'Modal').modal('hide');
+                            $('.spinner-overlay').attr('hidden', true);
+                        });
+                    },
+                    error: function (result) {
+                        if (result.status == 422) { // when status code is 422, it's a validation issue
+                            $.each(result.responseJSON.errors, function (i, error) {
+                                toastr.error(error);
+                            });
+                        } else
+                            toastr.error(result.error);
+                        $('.spinner-overlay').attr('hidden', true);
+                    }
                 });
-            }
-
-            var timer = null;
+            });
             $(document).on('keyup', '.action_note', function () {
                 let id = $(this).data('id');
                 let note = $(this).val();
@@ -1140,30 +916,111 @@
                     updateActionNote(id, note);
                 }, 1000); //Waits for 1 seconds after last keypress to execute the above lines of code
             });
-
-            function updateActionNote(id, note) {
+            // Document JS Start
+            $(document).on('click', '.get_documents', function (e) {
+                e.preventDefault();
+                $('.spinner-overlay').removeAttr('hidden');
+                $('#documentModal').find('.doc_div').load($(this).attr('href'), function () {
+                    $('.spinner-overlay').attr('hidden', true);
+                });
+                $('.doc_div').animate({
+                    scrollTop: $(".doc_div").offset().top
+                }, 2000);
+            });
+            $(document).on('click', '.important_document', function (e) {
+                e.preventDefault();
+                $('.spinner-overlay').removeAttr('hidden');
+                let id = $(this).data('id');
                 $.ajax({
-                    url: APP_URL + '/task-action/' + id,
-                    type: "PUT",
-                    data: {'note': note, "_token": "{{ csrf_token() }}"},
+                    url: APP_URL + '/important-document',
+                    type: "post",
+                    data: {'id': id, "_token": "{{ csrf_token() }}"},
                     success: function (result) {
+                        toastr.success(result.success);
+                        $('.get_documents').removeClass('active');
+                        $('.doc_imp_nav').addClass('active');
+                        $('#documentModal').find('.doc_div').load(APP_URL + '/get-document/3/' + {{ $project->id }});
+                        $('.spinner-overlay').attr('hidden', true);
                     },
                     error: function () {
                         toastr.error('in error');
+                        $('.spinner-overlay').attr('hidden', true);
                     }
                 });
-            }
-
-            // active thumbnail
+            });
+            $(document).on('click', '.delete_document', function (e) {
+                e.preventDefault();
+                let $this = $(this);
+                swal({
+                    title: 'Are you sure?',
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonClass: 'btn btn-success ml-1',
+                    cancelButtonClass: 'btn btn-danger mr-1',
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $('.spinner-overlay').removeAttr('hidden');
+                        let id = $(this).data('id');
+                        $.ajax({
+                            url: APP_URL + '/delete-document',
+                            type: "post",
+                            data: {'id': id, "_token": "{{ csrf_token() }}"},
+                            success: function (result) {
+                                toastr.success(result.success);
+                                $('#document_' + id).remove();
+                                $('.spinner-overlay').attr('hidden', true);
+                            },
+                            error: function () {
+                                toastr.error('in error');
+                                $('.spinner-overlay').attr('hidden', true);
+                            }
+                        });
+                    }
+                });
+            });
+            $(document).on('change', '#document_upload', function (e) {
+                e.preventDefault();
+                $('.spinner-overlay').removeAttr('hidden');
+                let upload_file = this;
+                let file = e.target.files;
+                let form_data = new FormData();
+                form_data.append('file', file[0]);
+                form_data.append('project_id', '{{ $project->id }}');
+                form_data.append('_token', '{{ csrf_token() }}');
+                $.ajax({
+                    url: APP_URL + '/upload-document',
+                    type: "post",
+                    data: form_data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        toastr.success(result.success);
+                        $('.get_documents').removeClass('active');
+                        $('.doc_all_nav').addClass('active');
+                        $('#documentModal').find('.doc_div').load(APP_URL + '/get-document/all/' + {{ $project->id }});
+                        $('.spinner-overlay').attr('hidden', true);
+                    },
+                    error: function () {
+                        toastr.error('in error');
+                        $('.spinner-overlay').attr('hidden', true);
+                    }
+                });
+            });
+            // Document JS End
             $("#thumbSlider .thumb").on("click", function () {
                 $(this).addClass("active");
                 $(this).siblings().removeClass("active");
-
             });
             $('.ulitm').removeAttr("hidden");
             $('#ulitm').css("display", "block");
             $('#general').css("display", "block");
-
             $('.start_date').on('dp.change', function (e) {
                 $('.end_date').data('DateTimePicker').minDate($('#start_date').val());
                 $(this).data("DateTimePicker").hide();
@@ -1189,15 +1046,11 @@
                     close: 'fa fa-remove'
                 }
             });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
+
             // MultiCarousel JS Start
             var itemsMainDiv = ('.MultiCarousel');
             var itemsDiv = ('.MultiCarousel-inner');
             var itemWidth = "";
-
             $('.leftLst, .rightLst').click(function () {
                 var condition = $(this).hasClass("leftLst");
                 if (condition)
@@ -1205,9 +1058,7 @@
                 else
                     click(1, this)
             });
-
             ResCarouselSize();
-
             $(window).resize(function () {
                 ResCarouselSize();
             });
@@ -1295,13 +1146,26 @@
             }
 
             // MultiCarousel JS End
-        })
-    </script>
-    <script>
+
+            @php
+                $days = 15;
+                $today = strtotime(date('Y-m-d'));
+                $end_date = strtotime($project->end_date);
+                if($end_date > $today){
+                    $secs = $end_date - $today;
+                    $days = $secs / 86400;
+                }
+            @endphp
+            @if ($days <= 14)
+            let message = 'Project end date is ' + '{{ $project->end_date }}';
+            toastr.warning(message);
+            @endif
+        });
+
         // Video Call JS Start
         var room;
-        $(document).on('click', 'a.call_to_user', function (event) {
-            event.preventDefault();
+        $(document).on('click', 'a.call_to_user', function (e) {
+            e.preventDefault();
             $.ajax({
                 url: APP_URL + "/join-call",
                 type: "POST",
@@ -1340,6 +1204,16 @@
                 }
             });
         });
+        $(document).on('click', 'a.leave_call', function () {
+            room.on('disconnected', room => {
+                participantDisconnected(room.localParticipant);
+            });
+            room.disconnect();
+            $('.vide_mirror').html('');
+            $('a.leave_call').each(function () {
+                $(this).text('{{ __('header.join_call') }}').removeClass('leave_call').addClass('call_to_user');
+            });
+        });
 
         function participantConnected(participant) {
             console.log('Participant "%s" connected', participant.identity);
@@ -1373,28 +1247,16 @@
             var video = div.getElementsByTagName("video")[0];
             if (video) {
                 // if (div.classList.contains('meeting_video')) {
-                video.setAttribute("style", "max-width: 90%");
+                video.setAttribute("style", "max-width: 100%; border-radius:5px;");
                 // } else {
                 //     video.setAttribute("style", "max-width: " + ($(video).parent().parent().width() - 40) + "px;");
                 // }
             }
             var video1 = div.getElementsByTagName("video")[1];
             if (video1) {
-                console.log(video1);
                 video1.classList.add("share_screen", "cursor-pointer");
             }
         }
-
-        $(document).on('click', 'a.leave_call', function () {
-            room.on('disconnected', room => {
-                participantDisconnected(room.localParticipant);
-            });
-            room.disconnect();
-            $('.vide_mirror').html('');
-            $('a.leave_call').each(function () {
-                $(this).text('{{ __('header.join_call') }}').removeClass('leave_call').addClass('call_to_user');
-            });
-        });
 
         function participantDisconnected(participant) {
             console.log('Participant "%s" disconnected', participant.identity);
@@ -1411,7 +1273,7 @@
             });
         }
 
-        // mute & unmute mic
+        // mute mic
         function muteMic() {
             room.localParticipant.audioTracks.forEach((publication) => {
                 if (publication.isEnabled) {
@@ -1421,12 +1283,10 @@
                     publication.enable();
                     $('.btnMic').html('<i class="fas fa-microphone"></i>').attr('title', '{{ __('header.mute_mic') }}').attr('data-original-title', '{{ __('header.mute_mic') }}');
                 }
-
             });
-
-
         }
 
+        // unmute mic
         function muteVideo() {
             if (typeof room === 'undefined') {
                 $.ajax({
@@ -1482,6 +1342,7 @@
 
         }
 
+        // change volume
         function ChangeVolume() {
             $('audio,video').each(function () {
                 $(this).volume = 0.0;
@@ -1491,6 +1352,7 @@
 
         // screen share
         var screenTrack;
+        let share_screen_div = null;
 
         function shareScreen() {
             event.preventDefault();
@@ -1543,7 +1405,6 @@
             }
         };
 
-        let share_screen_div = null;
         $(document).on('click', '.share_screen', function () {
             share_screen_div = $(this).parent();
             $('#shareScreenModal .modal-body').append($(this).removeClass('share_screen cursor-pointer').css({'width': '100%', 'margin-top': 0}));
@@ -1561,8 +1422,6 @@
             share_screen_div.append($('#shareScreenModal video').addClass('share_screen cursor-pointer').removeAttr("style"));
         });
         // Video Call JS End
-    </script>
-    <script>
         //Chat JS Start
         function openChat() {
             $('#binancePopupModal').hide();
@@ -1594,15 +1453,8 @@
             document.getElementById("binancePopupModal").style.display = "none";
         }
 
-        Pusher.logToConsole = true;
-
-        var pusher1 = new Pusher('452e3e06689718ba121f', {
-            cluster: 'ap2',
-            useTLS: true
-        });
-
         // group message event
-        var channel1 = pusher1.subscribe('groups.{{ $project->id }}');
+        var channel1 = pusher.subscribe('groups.{{ $project->id }}');
         channel1.bind('GroupMessage', function (data) {
             let content = '';
             content += '<div class="row mb-2">';
@@ -1677,9 +1529,8 @@
                 messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
             }
         });
-
         // single message event
-        var channel2 = pusher1.subscribe('receiver.{{Auth::user()->id}}');
+        var channel2 = pusher.subscribe('receiver.{{Auth::user()->id}}');
         channel2.bind('IndividualMessage', function (data) {
             let content = '';
             content += '<div class="row mb-2">';
@@ -1749,7 +1600,7 @@
             messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
         });
         // screen shared event
-        var channel3 = pusher1.subscribe('screen-shared.{{Auth::user()->id}}');
+        var channel3 = pusher.subscribe('screen-shared.{{Auth::user()->id}}');
         channel3.bind('ScreenShared', function (data) {
                 if (data.status == "true") {
                     $('#btnScreen').prop('disabled', true)
@@ -1767,7 +1618,6 @@
                 });
             }
         );
-
         $("#chat_form, #binance_form").submit(function (e) {
             e.preventDefault();
             let chat_type = $(this).find('.receiver_id').val();
@@ -1805,12 +1655,10 @@
                 }
             });
         });
-
         $('#chat_file, #binance_file').on('change', function (e) {
             var filename = e.target.files[0].name;
             $(this).closest('label').attr('data-original-title', filename).attr('title', filename);
         });
-
         $(document).on('change', '#chat_type', function () {
             let chat_type = $(this).val();
             $('#chatPopupModal .receiver_id').val(chat_type);
@@ -1891,8 +1739,12 @@
 
                                 if (message.message != null && message.message != '')
                                     content += '<br>'
-                                content += '<a href="' + APP_URL + '/storage' + message.document.file + '" class="btn btn-link bg-transparent text-dark p-1 mt-0 mb-0 0 ml-0 mr-0 w-auto appended_tooltip"';
-                                content += ' target="_blank" rel="tooltip" title="' + message.document.name + '" data-original-title="' + message.document.name + '" >' + icon + '</a>'
+                                if (message.document.deleted_at == null) {
+                                    content += '<a href="' + APP_URL + '/storage' + message.document.file + '" class="btn btn-link bg-transparent text-dark p-1 mt-0 mb-0 0 ml-0 mr-0 w-auto appended_tooltip"';
+                                    content += ' target="_blank" rel="tooltip" title="' + message.document.name + '" data-original-title="' + message.document.name + '" >' + icon + '</a>'
+                                } else {
+                                    content += '{{ __('header.file_deleted') }}';
+                                }
                             }
                             content += '<p>';
                             content += '</div>';
@@ -1922,86 +1774,49 @@
         }
 
         // Chat Js End
-    </script>
-    <script>
-        // Document JS Start
-        $(document).on('click', '.get_documents', function () {
-            event.preventDefault();
-            $('#documentModal').find('.doc_div').load($(this).attr('href'));
-            $('.doc_div').animate({
-                scrollTop: $(".doc_div").offset().top
-            }, 2000);
-        });
 
-        $(document).on('click', '.important_document', function () {
-            event.preventDefault();
-            let id = $(this).data('id');
-            $.ajax({
-                url: APP_URL + '/important-document',
-                type: "post",
-                data: {'id': id, "_token": "{{ csrf_token() }}"},
-                success: function (result) {
-                    toastr.success(result.success);
-                    $('.get_documents').removeClass('active');
-                    $('.doc_imp_nav').addClass('active');
-                    $('#documentModal').find('.doc_div').load(APP_URL + '/get-document/3/' + {{ $project->id }});
-                },
-                error: function () {
-                    toastr.error('in error');
-                }
+        channel.bind('TaskActionEvent', function (data) {
+            if (data.task.project_id == {{ $project->id }})
+            $('#taskDetailsModal').find('.modal-content').load(APP_URL + '/task/' + data.task.id, function () {
+                loadTasks(data.task.project_id);
             });
         });
-
-        $(document).on('change', '#document_upload', function (e) {
-            event.preventDefault();
-            let upload_file = this;
-            let file = e.target.files;
-            let form_data = new FormData();
-            form_data.append('file', file[0]);
-            form_data.append('project_id', '{{ $project->id }}');
-            form_data.append('_token', '{{ csrf_token() }}');
-            $.ajax({
-                url: APP_URL + '/upload-document',
-                type: "post",
-                data: form_data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (result) {
-                    toastr.success(result.success);
-                    $('.get_documents').removeClass('active');
-                    $('.doc_all_nav').addClass('active');
-                    $('#documentModal').find('.doc_div').load(APP_URL + '/get-document/all/' + {{ $project->id }});
-                },
-                error: function () {
-                    toastr.error('in error');
-                }
-            });
+        channel.bind('LoadTask', function (data) {
+            if (data.task.project_id == {{ $project->id }})
+                loadTasks({{ $project->id }});
         });
-        // Document JS End
-    </script>
 
-    <script>
-        $(document).ready(function () {
-            $(document).on('click', '.project_details', function () {
-                $('#showProjectDetailModal').find('.modal-content').load($(this).data('url'), function () {
-                    $('#showProjectDetailModal').modal('show');
-                    // new PerfectScrollbar('.scroll-bar-appended');
+        function loadTasks() {
+            $('.spinner-overlay').removeAttr('hidden');
+            $('#to_do_task_div').load('{{ route('task.load', [$project->id, 1]) }}', function () {
+                $('#in_progress_task_div').load('{{ route('task.load', [$project->id, 2]) }}', function () {
+                    $('#review_task_div').load('{{ route('task.load', [$project->id, 3]) }}', function () {
+                        $('#complete_task_div').load('{{ route('task.load', [$project->id, 4]) }}', function () {
+                            update_member_status();
+                            $('.spinner-overlay').attr('hidden', true);
+                        });
+                    });
                 });
             });
-            @php
-                $days = 15;
-                $today = strtotime(date('Y-m-d'));
-                $end_date = strtotime($project->end_date);
-                if($end_date > $today){
-                    $secs = $end_date - $today;
-                    $days = $secs / 86400;
+        }
+
+        function actionCounter() {
+            $('.added_action').each(function (i) {
+                $(this).closest('.added_action').find('.action_counter').text(i + 1);
+            });
+        }
+
+        function updateActionNote(id, note) {
+            $.ajax({
+                url: APP_URL + '/task-action/' + id,
+                type: "PUT",
+                data: {'note': note, "_token": "{{ csrf_token() }}"},
+                success: function (result) {
+                },
+                error: function () {
+                    toastr.error('in error');
                 }
-            @endphp
-            @if ($days <= 14)
-            let message = 'Project end date is ' + '{{ $project->end_date }}';
-            toastr.warning(message);
-            @endif
-        });
+            });
+        }
     </script>
 @endsection

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Backend\User;
 
+use App\Events\LoadTask;
+use App\Events\TaskActionEvent;
 use App\Events\TaskNotification;
 use App\Http\Controllers\Controller;
 
@@ -52,58 +54,58 @@ class TaskController extends Controller {
             'action.*' => 'required',
         ]);
         try {
-        DB::beginTransaction();
-        $data = $request->except('_token', 'team_members', 'action');
-        $data['added_by'] = Auth::user()->id;
-        $data['status'] = Auth::user()->hasRole('Boss') ? 'approved' : 'pending';
-        $task = Task::create($data);
-        foreach ($request->action as $key => $action) {
-            $task_user = new TaskAction();
-            $task_user->task_id = $task->id;
-            $task_user->name = $action;
-//            $task_user->note = (isset($data['action_notes'][$key])) ? $data['action_notes'][$key] : null;
-            $task_user->status = 'pending';
-            $task_user->save();
-        }
-        $notification_data['project_id'] = $data['project_id'];
-        $notification_data['user_id'] = auth()->user()->id;
-        $notification_data['type'] = 'task added';
-        $notification_data['notification'] = 'A new task added in ' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
-        $notification = Notification::create($notification_data);
-
-        if (auth()->user()->hasRole('User')) {
-            $notification_user = new NotificationUser();
-            $notification_user->user_id = $task->project->project_leader;
-            $notification_user->notification_id = $notification->id;
-            $notification_user->save();
-
-            $task_user = new TaskUser();
-            $task_user->task_id = $task->id;
-            $task_user->user_id = $task->project->project_leader;
-            $task_user->save();
-        }
-        if (isset($request->team_members)) {
-            foreach ($request->team_members as $member) {
-                $task_user = new TaskUser();
+            DB::beginTransaction();
+            $data = $request->except('_token', 'team_members', 'action');
+            $data['added_by'] = Auth::user()->id;
+            $data['status'] = Auth::user()->hasRole('Boss') ? 'approved' : 'pending';
+            $task = Task::create($data);
+            foreach ($request->action as $key => $action) {
+                $task_user = new TaskAction();
                 $task_user->task_id = $task->id;
-                $task_user->user_id = $member;
+                $task_user->name = $action;
+//            $task_user->note = (isset($data['action_notes'][$key])) ? $data['action_notes'][$key] : null;
+                $task_user->status = 'pending';
                 $task_user->save();
+            }
+            $notification_data['project_id'] = $data['project_id'];
+            $notification_data['user_id'] = auth()->user()->id;
+            $notification_data['type'] = 'task added';
+            $notification_data['notification'] = 'A new task added in ' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
+            $notification = Notification::create($notification_data);
 
+            if (auth()->user()->hasRole('User')) {
                 $notification_user = new NotificationUser();
-                $notification_user->user_id = $member;
+                $notification_user->user_id = $task->project->project_leader;
                 $notification_user->notification_id = $notification->id;
                 $notification_user->save();
+
+                $task_user = new TaskUser();
+                $task_user->task_id = $task->id;
+                $task_user->user_id = $task->project->project_leader;
+                $task_user->save();
             }
-        }
-        broadcast(new TaskNotification($task, $notification))->toOthers();
-        DB::commit();
-        $task = Task::with('taskUser', 'taskAction')->whereId($task->id)->first();
-        return response()->json(['success' => 'Task added successfully.', 'data', $data]);
+            if (isset($request->team_members)) {
+                foreach ($request->team_members as $member) {
+                    $task_user = new TaskUser();
+                    $task_user->task_id = $task->id;
+                    $task_user->user_id = $member;
+                    $task_user->save();
+
+                    $notification_user = new NotificationUser();
+                    $notification_user->user_id = $member;
+                    $notification_user->notification_id = $notification->id;
+                    $notification_user->save();
+                }
+            }
+            broadcast(new TaskNotification($task, $notification))->toOthers();
+            broadcast(new LoadTask($task))->toOthers();
+            DB::commit();
+            return response()->json(['success' => __('header.added_successfully', ['name' => __('header.task')])]);
 //        return back()->with('success', 'Task added successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Something went wrong.', 'data', $data]);
-//            return back()->with('error', 'Something went wrong.');
+            return response()->json(['error' => __('header.something_went_wrong')]);
+//            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -151,15 +153,20 @@ class TaskController extends Controller {
                 }
 
                 broadcast(new TaskNotification($task, $notification))->toOthers();
+                broadcast(new LoadTask($task))->toOthers();
+                broadcast(new TaskActionEvent($task))->toOthers();
 
                 DB::commit();
-                return back()->with('success', 'Task approved successfully.');
+                return response()->json(['success' => __('header.approved_successfully', ['name' => __('header.task')]), 'task_id' => $task->id, 'project_id' => $task->project_id]);
+//                return back()->with('success', 'Task approved successfully.');
             } else {
-                return back()->with('error', 'You are not authorized to perform this action.');
+                return response()->json(['error' => __('header.you_are_not_authorized')]);
+//                return back()->with('error', 'You are not authorized to perform this action.');
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return response()->json(['error' => __('header.something_went_wrong')]);
+//            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -190,14 +197,19 @@ class TaskController extends Controller {
                     $notification_user->save();
                 }
                 broadcast(new TaskNotification($task, $notification))->toOthers();
+                broadcast(new LoadTask($task))->toOthers();
+                broadcast(new TaskActionEvent($task))->toOthers();
                 DB::commit();
-                return back()->with('success', 'Task completed successfully.');
+                return response()->json(['success' => __('header.completed_successfully', ['name' => __('header.task')]), 'task_id' => $task->id, 'project_id' => $task->project_id]);
+//                return back()->with('success', 'Task completed successfully.');
             } else {
-                return back()->with('error', 'You are not authorized to perform this action.');
+                return response()->json(['error' => __('header.you_are_not_authorised')]);
+//                return back()->with('error', 'You are not authorized to perform this action.');
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return response()->json(['error' => __('header.something_went_wrong')]);
+//            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -220,5 +232,23 @@ class TaskController extends Controller {
      */
     public function destroy(Task $task) {
         //
+    }
+
+    public function load($project_id, $type) {
+        $data = Task::with('project', 'taskUser', 'taskAction')->where('project_id', $project_id);
+        if ($type == 1)
+            $data->where(function ($query) {
+                $query->orWhere('progress', 0)->orWhere('status', 'pending');
+            });
+        if ($type == 2)
+            $data->whereBetween('progress', [1, 99])->where('status', 'approved');
+        if ($type == 3)
+            $data->where('progress', 100)->where('status', 'approved');
+        if ($type == 4)
+            $data->where('progress', 100)->where('status', 'completed');
+        $tasks = $data->get();
+        $view = view('backend.user.project.task.load', compact('tasks'));
+        $view = $view->render();
+        return $view;
     }
 }

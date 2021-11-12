@@ -141,10 +141,10 @@ class ProjectController extends Controller {
             broadcast(new ProjectNotification($project, $notification))->toOthers();
 
             DB::commit();
-            return back()->with('success', 'Project added successfully.');
+            return back()->with('success', __('header.added_successfully', ['name' => __('header.project')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -211,10 +211,10 @@ class ProjectController extends Controller {
                 $project_user->save();
             }
             DB::commit();
-            return back()->with('success', 'Project updated successfully.');
+            return back()->with('success', __('header.updated_successfully', ['name' => __('header.project')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -230,10 +230,10 @@ class ProjectController extends Controller {
             ProjectUser::where('project_id', $project->id)->delete();
             $project->delete();
             DB::commit();
-            return back()->with('success', 'Project Deleted successfully.');
+            return back()->with('success', __('header.deleted_successfully', ['name' => __('header.project')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 }

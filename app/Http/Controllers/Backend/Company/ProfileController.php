@@ -46,10 +46,10 @@ class ProfileController extends Controller {
             $data['password'] = ($data['password']) ? Hash::make($data['password']) : $company->password;
             $company->update($data);
             DB::commit();
-            return back()->with('success', 'Profile updated successfully.');
+            return back()->with('success', __('header.updated_successfully', ['name' => __('header.profile')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 }

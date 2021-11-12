@@ -64,10 +64,10 @@ class PermissionController extends Controller {
             $data = $request->all();
             Permission::create($data);
             DB::commit();
-            return redirect(route('admin.permission.index'))->with('success', 'Permission added successfully.');
+            return redirect(route('admin.permission.index'))->with('success', __('header.added_successfully', ['name' => __('header.permission')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -109,10 +109,10 @@ class PermissionController extends Controller {
             $data = $request->all();
             $permission->update($data);
             DB::commit();
-            return redirect(route('admin.permission.index'))->with('success', 'Permission updated successfully.');
+            return redirect(route('admin.permission.index'))->with('success', __('header.updated_successfully', ['name' => __('header.permission')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -127,10 +127,10 @@ class PermissionController extends Controller {
             DB::beginTransaction();
             $permission->delete();
             DB::commit();
-            return back()->with('success', 'Permission Deleted successfully.');
+            return back()->with('success', __('header.deleted_successfully', ['name' => __('header.permission')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 }

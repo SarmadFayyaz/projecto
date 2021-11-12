@@ -91,10 +91,10 @@ class UserController extends Controller {
             $user = User::create($data);
             $user->assignRole($role);
             DB::commit();
-            return redirect(route('company.user.index'))->with('success', 'User added successfully.');
+            return redirect(route('company.user.index'))->with('success', __('header.added_successfully', ['name' => __('header.user')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -152,10 +152,10 @@ class UserController extends Controller {
             $role = $request->input('role') ? $request->input('role') : [];
             $user->syncRoles($role);
             DB::commit();
-            return redirect(route('company.user.index'))->with('success', 'User updated successfully.');
+            return redirect(route('company.user.index'))->with('success', __('header.updated_successfully', ['name' => __('header.user')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -171,10 +171,10 @@ class UserController extends Controller {
             Storage::disk('public')->delete($user->image);
             $user->delete();
             DB::commit();
-            return back()->with('success', 'User Deleted successfully.');
+            return back()->with('success', __('header.deleted_successfully', ['name' => __('header.user')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 }

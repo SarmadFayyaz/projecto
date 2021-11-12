@@ -1,6 +1,6 @@
 <div class="row">
     @foreach($documents as $document)
-        <div class="col-md-4">
+        <div class="col-md-4" id="document_{{ $document->id }}">
             <div class="shadow card">
                 <div class="text-center card-body text-danger">
                     {!! getIcon($document->type) !!}
@@ -20,6 +20,9 @@
                                     {{ ($document->important == 0) ? __('header.mark_important') : __('unmark_important')}}
                                 </a>
                                 <a class="dropdown-item" href="{{Storage::disk('public')->exists($document->file) ? Storage::disk('public')->url($document->file) : '#'}}" download target="_blank">{{ __('header.download') }}</a>
+                                <a class="dropdown-item delete_document" data-id="{{ $document->id }}" href="javascript:;">
+                                    {{ __('header.delete') }}
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -55,9 +55,9 @@
                                     </tr>
                                     </tfoot>
                                 </table>
-                                <form action="#" method="post" id="delete_form">
+                                <form action="#" method="POST" id="delete_form">
                                     @csrf
-                                    @method('delete')
+                                    @method('DELETE')
                                 </form>
                             </div>
                         </div>
@@ -110,8 +110,9 @@
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
+                    console.log(result);
                     if (result.value) {
-                        $('#delete_form').attr('action', APP_URL + '/admin/' + id);
+                        $('#delete_form').attr('action', APP_URL + '/admin/admins/' + id);
                         $('#delete_form').submit();
                     }
                 })

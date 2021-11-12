@@ -8,7 +8,7 @@
                         @php
                             $startTime = Carbon\Carbon::parse($task->start_date);
                             $endTime = Carbon\Carbon::parse($task->end_date);
-                            echo   $endTime->diffForHumans($startTime,true).' left';
+                            echo   $endTime->diffForHumans($startTime,true).' ' . __('header.left');
                         @endphp
                     </p>
                 </div>

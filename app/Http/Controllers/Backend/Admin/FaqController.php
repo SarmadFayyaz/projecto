@@ -45,10 +45,10 @@ class FaqController extends Controller {
             $data['admin_id'] = auth()->guard('admin')->user()->id;
             Faq::create($data);
             DB::commit();
-            return back()->with('success', 'Faq added successfully.');
+            return back()->with('success', __('header.added_successfully', ['name' => __('header.faq')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -95,10 +95,10 @@ class FaqController extends Controller {
             $id = $faq->id;
             $faq->delete();
             DB::commit();
-            return response()->json(['success' => 'Faq deleted successfully', 'type' => 'faq', 'id' => $id]);
+            return response()->json(['success' => __('header.deleted_successfully', ['name' => __('header.faq')]), 'type' => 'faq', 'id' => $id]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Something went wrong.']);
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 }

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Illuminate\Support\Facades\Storage;
 use Response;
+use function GuzzleHttp\Promise\all;
 
 class DocumentController extends Controller {
     public function index($section, $project_id) {
@@ -37,7 +38,14 @@ class DocumentController extends Controller {
         else
             $document->important = 0;
         $document->update();
-        return response()->json(['success' => 'Document marked important.']);
+        return response()->json(['success' => __('header.document_marked_important')]);
+    }
+
+    public function delete(Request $request) {
+        $document = Document::find($request->id);
+        Storage::disk('public')->delete($document->file);
+        $document->delete();
+        return response()->json(['success' =>  __('header.deleted_successfully', ['name' => __('header.document')])]);
     }
 
     public function upload(Request $request) {
@@ -52,7 +60,7 @@ class DocumentController extends Controller {
             $data['file'] = '/project/' . $data['project_id'] . '/documents/' . $file;
             $doc_id = Document::create($data)->id;
             $data['document_id'] = $doc_id;
-            return response()->json(['success' => 'Document uploaded.']);
+            return response()->json(['success' => __('header.document_uploaded_successfully')]);
         }
 
     }

@@ -102,7 +102,7 @@
                                                                         @php
                                                                             $startTime = Carbon\Carbon::parse($project->start_date);
                                                                             $endTime = Carbon\Carbon::parse($project->end_date);
-                                                                            echo $endTime->diffForHumans($startTime,true).' left';
+                                                                            echo $endTime->diffForHumans($startTime,true).' ' . __('header.left');
                                                                         @endphp
                                                                     </span>
                                                                 </div>
@@ -159,7 +159,7 @@
                                                                         <div class="accordion-item rounded card m-0">
                                                                             <h6 class="accordion-header">
                                                                                 <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
-                                                                                        data-bs-target="#project_urgent_{{ $project->id }}" aria-expanded="true">
+                                                                                         aria-expanded="true">
                                                                                     {{ __('header.urgent_task') }}
                                                                                 </button>
                                                                             </h6>
@@ -191,11 +191,11 @@
                                                                         <div class="accordion-item rounded card m-0">
                                                                             <h6 class="accordion-header">
                                                                                 <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
-                                                                                        data-bs-target="#project_cross_{{ $project->id }}" aria-expanded="true">
+                                                                                        aria-expanded="true">
                                                                                     {{ __('header.cross_task') }}
                                                                                 </button>
                                                                             </h6>
-                                                                            <div id="project_cross_{{ $project->id }}" class="accordion-collapse collapse table-responsive scroll-bar" style="max-height: 10vh;">
+                                                                            <div id="project_cross_{{ $project->id }}" class="accordion-collapse collapse table-responsive scroll-bar show" style="max-height: 10vh;">
                                                                                 <div class="accordion-body">
                                                                                     <ul class="list-group pl-2 pr-2 pt-2">
                                                                                         @php $counter = 1; @endphp
@@ -223,11 +223,11 @@
                                                                         <div class="accordion-item rounded card m-0">
                                                                             <h6 class="accordion-header">
                                                                                 <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
-                                                                                        data-bs-target="#project_pending_{{ $project->id }}" aria-expanded="true">
+                                                                                        aria-expanded="true">
                                                                                     {{ __('header.pending_task') }}
                                                                                 </button>
                                                                             </h6>
-                                                                            <div id="project_pending_{{ $project->id }}" class="accordion-collapse collapse table-responsive scroll-bar" style="max-height: 10vh;">
+                                                                            <div id="project_pending_{{ $project->id }}" class="accordion-collapse collapse table-responsive scroll-bar show" style="max-height: 10vh;">
                                                                                 <div class="accordion-body">
                                                                                     <ul class="list-group pl-2 pr-2 pt-2">
                                                                                         @php $counter = 1; @endphp
@@ -255,7 +255,7 @@
                                                                         <div class="accordion-item rounded card m-0">
                                                                             <h6 class="accordion-header">
                                                                                 <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
-                                                                                        data-bs-target="#project_fulfillment_{{ $project->id }}" aria-expanded="true" style="max-height: 10vh;">
+                                                                                        aria-expanded="true" style="max-height: 10vh;">
                                                                                     {{ __('header.fulfillment_task') }}
                                                                                 </button>
                                                                             </h6>

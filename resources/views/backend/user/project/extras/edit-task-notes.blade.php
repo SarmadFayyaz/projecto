@@ -5,7 +5,7 @@
     </div>
 </div>
 
-<form action="{{ route('task-note.update', $task_note->id) }}" method="POST">
+<form method="POST" id="editTaskNotesForm" data-action="{{ route('task-note.update', $task_note->id) }}" data-name="editTaskNotes">
     @csrf
     @method('PUT')
     <input type="hidden" name="project_id" value="{{ $task_note->task->project_id }}">

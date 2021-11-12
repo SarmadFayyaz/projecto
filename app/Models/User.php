@@ -47,8 +47,11 @@ class User extends Authenticatable {
         'email_verified_at' => 'datetime',
     ];
 
-    public function isOnline()
-    {
+    public function isOnline() {
         return Cache::has('user-is-online-' . $this->id);
+    }
+
+    public function company() {
+        return $this->belongsTo(Company::class);
     }
 }

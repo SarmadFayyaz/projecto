@@ -68,7 +68,7 @@ class IndividualConversationController extends Controller {
             return response()->json('success');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 

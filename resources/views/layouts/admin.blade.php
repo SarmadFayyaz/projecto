@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('include.head')
+    @include('include.backend.head')
     @yield('style')
 </head>
 <body class="text-capitalize {{(Auth::guard('admin')->user()->sidebar_size == 1) ? 'sidebar-mini' : ''}}">
+    <div class="text-center spinner-overlay">
+        <div class="spinner-grow spinner text-{{ $theme }}" role="status" >
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
 <div class="wrapper ">
     @include('include.backend.admin.sidebar')
     <div class="main-panel">
@@ -21,11 +26,12 @@
             }
         </style>
         @yield('content')
-        @include('include.footer')
+        @include('include.backend.footer')
     </div>
 </div>
-@include('include.backend.admin.side-plugin')
+{{--@include('include.backend.admin.side-plugin')--}}
 
+    @include('include.backend.script')
 @include('include.backend.admin.script')
 
 @yield('script')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\User;
 
+use App\Events\TaskActionEvent;
 use App\Events\TaskActionNotification;
 use App\Http\Controllers\Controller;
 
@@ -85,13 +86,21 @@ class TaskActionController extends Controller {
                 $notification_user->save();
 
                 broadcast(new TaskActionNotification($task_action, $notification))->toOthers();
+                broadcast(new TaskActionEvent($task))->toOthers();
             }
 
             DB::commit();
-            return back()->with('success', 'Task Action Updated successfully.');
+            return response()
+                ->json(
+                    [
+                        'success' => __('header.updated_successfully',
+                            ['name' => (__('header.task') . ' ' . __('header.action'))]),
+                        'task_id' => $task_action->task_id
+                    ]
+                );
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 

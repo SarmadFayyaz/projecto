@@ -48,10 +48,10 @@ class VideoController extends Controller {
             $data['admin_id'] = auth()->guard('admin')->user()->id;
             Video::create($data);
             DB::commit();
-            return back()->with('success', 'Video added successfully.');
+            return back()->with('success', __('header.added_successfully', ['name' => __('header.video')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -98,10 +98,10 @@ class VideoController extends Controller {
             $id = $video->id;
             $video->delete();
             DB::commit();
-            return response()->json(['success' => 'Video deleted successfully', 'type' => 'video', 'id' => $id]);
+            return response()->json(['success' => __('header.deleted_successfully', ['name' => __('header.video')]), 'type' => 'video', 'id' => $id]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Something went wrong.']);
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 }

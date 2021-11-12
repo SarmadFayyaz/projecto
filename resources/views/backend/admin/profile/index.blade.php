@@ -53,7 +53,8 @@
                                         <div class="form-group">
                                             <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail img-circle">
-                                                    <img src="{{( asset('assets/img/placeholder.jpg') )}}" alt="{{ __('header.profile_pic') }}">
+                                                    <img src="{{ Storage::disk('public')->exists($admin->image) ? Storage::disk('public')->url($admin->image) : asset('assets/img/placeholder.jpg') }}" alt="{{ __('header.profile_pic') }}"/>
+{{--                                                    <img src="{{( asset('assets/img/placeholder.jpg') )}}" alt="{{ __('header.profile_pic') }}">--}}
                                                 </div>
                                                 <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
                                                 <div>

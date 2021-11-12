@@ -99,10 +99,10 @@ class FormController extends Controller {
             $data['form'] = json_encode($data['form']);
             $form->update($data);
             DB::commit();
-            return response()->json(['success' => 'Form updated successfully.']);
+            return response()->json(['success' => __('header.updated_successfully', ['name' => __('header.company')])]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 

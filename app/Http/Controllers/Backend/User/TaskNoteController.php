@@ -48,10 +48,10 @@ class TaskNoteController extends Controller {
             $data['user_id'] = Auth::user()->id;
             TaskNote::create($data);
             DB::commit();
-            return back()->with('success', 'Note added successfully.');
+            return response()->json(['success' => __('header.added_successfully', ['name' => __('header.note')])]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 
@@ -92,10 +92,10 @@ class TaskNoteController extends Controller {
             $data = $request->except('_token');
             $task_note->update($data);
             DB::commit();
-            return back()->with('success', 'Note updated successfully.');
+            return response()->json(['success' =>  __('header.updated_successfully', ['name' => __('header.note')])]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 
@@ -113,10 +113,26 @@ class TaskNoteController extends Controller {
             $task_note->delete();
             DB::commit();
 //            return redirect()->route('project', $project_id);
-            return response()->json(['success' => 'Task Note deleted successfully', 'project_id' => $project_id, 'task_note_id' => $task_note_id]);
+            return response()->json(['success' =>  __('header.deleted_successfully', ['name' => __('header.note')]), 'project_id' => $project_id, 'task_note_id' => $task_note_id]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Something went wrong.']);
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
+    }
+
+    public function load($project_id) {
+        $data = Task::with('project', 'taskUser', 'taskAction')->where('project_id', $project_id);
+        if (auth()->user()->hasRole('User')) {
+            $data->where(function ($query) {
+                $query->where('added_by', auth()->user()->id)
+                    ->orWhereHas('taskUser', function ($q) {
+                        $q->where('user_id', auth()->user()->id);
+                    });
+            });
+        }
+        $tasks = $data->get();
+        $view = view('backend.user.project.extras.load-task-notes', compact('tasks'));
+        $view = $view->render();
+        return $view;
     }
 }

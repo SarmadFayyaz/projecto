@@ -52,10 +52,10 @@ class EventController extends Controller {
                 EventUser::create($event_user_data);
             }
             DB::commit();
-            return response()->json(['success' => 'Event created successfully', 'event' => $event]);
+            return response()->json(['success' => __('header.added_successfully', ['name' => __('header.event')]), 'event' => $event]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Something went wrong.']);
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 
@@ -108,10 +108,10 @@ class EventController extends Controller {
                 EventUser::create($event_user_data);
             }
             DB::commit();
-            return response()->json(['success' => 'Event Updated successfully', 'event' => $event]);
+            return response()->json(['success' => __('header.updated_successfully', ['name' => __('header.event')]), 'event' => $event]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Something went wrong.']);
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 
@@ -127,10 +127,10 @@ class EventController extends Controller {
             $event = Event::find($data['id']);
             $event->update($data);
             DB::commit();
-            return response()->json(['success' => 'Event Updated successfully']);
+            return response()->json(['success' => __('header.updated_successfully', ['name' => __('header.event')])]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Something went wrong.']);
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 
@@ -147,10 +147,10 @@ class EventController extends Controller {
             EventUser::where('event_id', $id)->delete();
             $event->delete();
             DB::commit();
-            return response()->json(['success' => 'Event deleted successfully', 'id' => $id]);
+            return response()->json(['success' => __('header.deleted_successfully', ['name' => __('header.event')]), 'id' => $id]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Something went wrong.']);
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 }

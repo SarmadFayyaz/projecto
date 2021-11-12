@@ -11,7 +11,11 @@
             MÖ
         </a>
         <a href="javascript:void(0)" class="simple-text logo-normal " id="minimizeSidebar">
-            {{__('header.project_title')}}
+            @if( isset(auth('company')->user()->logo) )
+                <img src="{{ Storage::disk('public')->exists(auth('company')->user()->logo) ? Storage::disk('public')->url(auth('company')->user()->logo) : asset('assets/img/faces/avatar.jpg') }}" width="35" height="35"/>
+            @else
+                {{__('header.project_title')}}
+            @endif
         </a>
     </div>
     <div class="sidebar-wrapper">

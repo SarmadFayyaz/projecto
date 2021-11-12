@@ -26,7 +26,7 @@ class TaskRequestsController extends Controller {
             $users = User::where('company_id', $user->company_id)->get();
             return view('backend.user.task-requests.index', compact('page', 'users'));
         } else {
-            return back()->with('error', 'You are not authorized.');
+            return back()->with('error', __('header.you_are_not_authorized'));
         }
     }
 
@@ -66,11 +66,11 @@ class TaskRequestsController extends Controller {
                 $task = Task::with('taskUser', 'taskAction')->where('id', $id)->first();
                 return response($task);
             } else {
-                return back()->with('error', 'You are not authorized to perform this action.');
+                return back()->with('error', __('header.you_are_not_authorized'));
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -128,10 +128,10 @@ class TaskRequestsController extends Controller {
 
             broadcast(new TaskNotification($task, $notification))->toOthers();
             DB::commit();
-            return back()->with('success', 'Task Updated successfully.');
+            return back()->with('success',  __('header.updated_successfully', ['name' => __('header.task')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -140,6 +140,6 @@ class TaskRequestsController extends Controller {
         TaskAction::where('task_id', $id)->delete();
         TaskNote::where('task_id', $id)->delete();
         Task::where('id', $id)->delete();
-        return back()->with('success', 'Task Deleted successfully.');
+        return back()->with('success',  __('header.deleted_successfully', ['name' => __('header.task')]));
     }
 }

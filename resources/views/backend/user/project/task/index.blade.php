@@ -8,7 +8,7 @@
                         @php
                             $startTime = Carbon\Carbon::parse($task->start_date);
                             $endTime = Carbon\Carbon::parse($task->end_date);
-                            echo   $endTime->diffForHumans($startTime,true).' left';
+                            echo   $endTime->diffForHumans($startTime,true).' ' . __('header.left');
                         @endphp
                     </p>
                 </div>
@@ -115,7 +115,7 @@
         <div class="col-md-4 pl-2 pr-2">
             <div class="card mb-0 mt-2">
                 <h6 class="text-center m-0 pt-2 pb-2 task_header font-weight-bold"><b> {{ __('header.action') }} </b></h6>
-                <div class="card-body p-2 m-0">
+                <div class="card-body p-2 m-0 overflow-auto scroll-bar" style="max-height: 33vh;">
                     @foreach($task->taskAction as $action)
                         <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex; background:#f5f3f3">
                             <span><b>{{ ($loop->index+1) . '.' }} </b></span>
@@ -145,7 +145,7 @@
         <div class="col-md-4 pl-2 pr-2">
             <div class="card mb-0 mt-2">
                 <h6 class="text-center m-0 pt-2 pb-2 task_header font-weight-bold"><b>{{ __('header.action_notes') }}</b></h6>
-                <div class="card-body p-2 m-0">
+                <div class="card-body p-2 m-0 overflow-auto scroll-bar" style="max-height: 33vh;">
                     @foreach($task->taskAction as $action)
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -160,22 +160,21 @@
         <div class="col-md-4 pl-2 pr-2">
             <div class="card mb-0 mt-2">
                 <h6 class="text-center m-0 pt-2 pb-2 task_header font-weight-bold"><b> {{ __('header.task_notes') }} </b></h6>
-                <div class="card-body p-2 m-0 bg-white">
+                <div class="card-body p-2 m-0 bg-white overflow-auto scroll-bar" style="max-height: 33vh;">
                     @foreach($task->taskNote as $note)
                         <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex;">
                             {{ $note->notes }}
                         </p>
                     @endforeach
-
                 </div>
             </div>
         </div>
         @if($task->project->project_leader == Auth::user()->id)
             <div class="col-12 text-right">
                 @if($task->status == 'pending')
-                    <a href="{{ route('task.edit', $task->id) }}" class="btn btn-success"> {{ __('header.approve') }} </a>
+                    <a href="{{ route('task.edit', $task->id) }}" class="btn btn-success approve_task"> {{ __('header.approve') }} </a>
                 @elseif($task->progress == 100 && $task->status == 'approved')
-                    <a href="{{ route('task.completed', $task->id) }}" class="btn btn-success"> {{ __('header.completed') }} </a>
+                    <a href="{{ route('task.completed', $task->id) }}" class="btn btn-success complete_task"> {{ __('header.completed') }} </a>
                 @endif
             </div>
         @endif

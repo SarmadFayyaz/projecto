@@ -2,9 +2,9 @@
     <div class="container-fluid">
         <div class="navbar-wrapper">
             <div class="navbar-minimize">
-                <button id="minimizeSidebar" class="btn btn-just-icon btn-white btn-fab btn-round btn-sm">
-                    <i class="fas fa-arrow-left text_align-center visible-on-sidebar-regular"></i> <i class="fas fa-arrow-left design_bullet-list-67 visible-on-sidebar-mini"></i>
-                </button>
+                <a href="{{ url()->previous() }}" id="minimizeSidebar" class="btn btn-just-icon btn-white btn-fab btn-round btn-sm">
+                    <i class="fas fa-arrow-left text_align-center visible-on-sidebar-regular mt-1"></i> <i class="fas fa-arrow-left design_bullet-list-67 visible-on-sidebar-mini mt-1"></i>
+                </a>
             </div>
             <a class="navbar-brand small-text" href="javascript:;">
                 @yield('title')
@@ -61,6 +61,57 @@
                 {{--                        <a class="dropdown-item" href="#">Another One</a>--}}
                 {{--                    </div>--}}
                 {{--                </li>--}}
+                <li class="nav-item">
+                    <div class="fixed-plugin">
+                        <div class="dropdown show-dropdown">
+                            <a href="#" data-toggle="dropdown" >
+                                <i class="fa fa-cog text-dark"> </i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header-title"> Sidebar Filters</li>
+                                <li class="adjustments-line">
+                                    <a href="javascript:void(0)" class="switch-trigger active-color">
+                                        <div class="badge-colors ml-auto mr-auto">
+                                            <span class="badge filter {{ (isset(Auth::guard('company')->user()->background) && Auth::guard('company')->user()->background == 'primary') ? 'active' : '' }} badge-purple" data-color="primary"></span>
+                                            <span class="badge filter {{ (isset(Auth::guard('company')->user()->background) && Auth::guard('company')->user()->background == 'info') ? 'active' : '' }} badge-azure" data-color="info"></span>
+                                            <span class="badge filter {{ (isset(Auth::guard('company')->user()->background) && Auth::guard('company')->user()->background == 'success') ? 'active' : '' }} badge-green" data-color="success"></span>
+                                            <span class="badge filter {{ (isset(Auth::guard('company')->user()->background) && Auth::guard('company')->user()->background == 'warning') ? 'active' : '' }} badge-warning" data-color="warning"></span>
+                                            <span class="badge filter {{ (isset(Auth::guard('company')->user()->background) && Auth::guard('company')->user()->background == 'danger') ? 'active' : '' }} badge-danger" data-color="danger"></span>
+                                            <span class="badge filter {{ (isset(Auth::guard('company')->user()->background) && Auth::guard('company')->user()->background == 'rose') ? 'active' : '' }} badge-rose" data-color="rose"></span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </li>
+                                <li class="header-title">Sidebar Background</li>
+                                <li class="adjustments-line">
+                                    <a href="javascript:void(0)" class="switch-trigger background-color">
+                                        <div class="ml-auto mr-auto">
+                                            <span class="badge filter {{ (isset(Auth::guard('company')->user()->sidebar_background) && Auth::guard('company')->user()->sidebar_background == 'black') ? 'active' : '' }} badge-black" data-background-color="black"></span>
+                                            <span class="badge filter {{ (isset(Auth::guard('company')->user()->sidebar_background) && Auth::guard('company')->user()->sidebar_background == 'white') ? 'active' : '' }} badge-white" data-background-color="white"></span>
+                                            <span class="badge filter {{ (isset(Auth::guard('company')->user()->sidebar_background) && Auth::guard('company')->user()->sidebar_background == 'red') ? 'active' : '' }} badge-red" data-background-color="red"></span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </li>
+                                <li class="adjustments-line">
+                                    <a href="javascript:void(0)" class="switch-trigger">
+                                        <p>Sidebar Mini</p>
+                                        <label class="ml-auto">
+                                            <div class="togglebutton switch-sidebar-mini">
+                                                <label>
+                                                    <input type="checkbox" {{ (isset(Auth::guard('company')->user()->sidebar_size) && Auth::guard('company')->user()->sidebar_size == '1') ? 'checked' : '' }}>
+                                                    <span class="toggle"></span>
+                                                </label>
+                                            </div>
+                                        </label>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">person</i>

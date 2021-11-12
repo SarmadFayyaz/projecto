@@ -1004,3 +1004,21 @@ Bounce
 .text-transform-none {
     text-transform: none !important;
 }
+
+.spinner-overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: #88888888;
+    z-index: 111111;
+}
+
+.spinner-overlay .spinner {
+    top: 46vh;
+    width: 4vw;
+    height: 4vw;
+    position: absolute;
+}
+.bottom-0{
+    bottom: 0!important;
+}

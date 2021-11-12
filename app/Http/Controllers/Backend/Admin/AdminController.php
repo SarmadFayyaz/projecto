@@ -73,10 +73,10 @@ class AdminController extends Controller {
             $data['password'] = Hash::make($data['password']);
             Admin::create($data);
             DB::commit();
-            return redirect(route('admin.admins.index'))->with('success', 'Admin added successfully.');
+            return redirect(route('admin.admins.index'))->with('success', __('header.added_successfully', ['name' => __('header.admin')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -129,10 +129,10 @@ class AdminController extends Controller {
             $data['password'] = ($data['password']) ? Hash::make($data['password']) : $admin->password;
             $admin->update($data);
             DB::commit();
-            return redirect(route('admin.admins.index'))->with('success', 'Admin updated successfully.');
+            return redirect(route('admin.admins.index'))->with('success', __('header.updated_successfully', ['name' => __('header.admin')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -148,10 +148,10 @@ class AdminController extends Controller {
             Storage::disk('public')->delete($admin->image);
             $admin->delete();
             DB::commit();
-            return back()->with('success', 'Admin Deleted successfully.');
+            return back()->with('success', __('header.deleted_successfully', ['name' => __('header.admin')]));
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Something went wrong.');
+            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 }

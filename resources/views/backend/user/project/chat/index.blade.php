@@ -1,6 +1,6 @@
 <!-- chat box -->
 <div class="row">
-    <div class="col-md-3 pl-md-1 position-absolute" style="z-index: 1;bottom: 6.5vh;right: 0.6vw;">
+    <div class="col-md-3 pl-md-1 position-absolute" style="z-index: 11;bottom: 6.5vh;right: 0.6vw;">
         <div class="chat-popup" id="chatPopupModal" style="border-radius:10px;">
             <div class="ml-auto mr-auto rounded p-2 bg-white">
                 <div class="row">
@@ -76,18 +76,22 @@
                                             @if($conversation->message)
                                                 <br>
                                             @endif
-                                            <a href="{{Storage::disk('public')->exists($conversation->document->file) ? Storage::disk('public')->url($conversation->document->file) : '#' }}" target="_blank" rel="tooltip"
-                                               title="{{ $conversation->document->name }}" class="btn btn-link bg-transparent text-dark p-1 mt-0 mb-0 0 ml-0 mr-0 w-auto">
-                                                {!! getIcon($conversation->document->type) !!}
-                                            </a>
-                                    @endif
+                                            @if($conversation->document->deleted_at == null)
+                                                <a href="{{Storage::disk('public')->exists($conversation->document->file) ? Storage::disk('public')->url($conversation->document->file) : '#' }}" target="_blank" rel="tooltip"
+                                                   title="{{ $conversation->document->name }}" class="btn btn-link bg-transparent text-dark p-1 mt-0 mb-0 0 ml-0 mr-0 w-auto">
+                                                    {!! getIcon($conversation->document->type) !!}
+                                                </a>
+                                            @else
+                                                {{ __('header.file_deleted') }}
+                                            @endif
+                                        @endif
                                     <p>
                                 </div>
                             </div>
                         @endif
                     @endforeach
                 </div>
-                <div class="col-12 table-responsive" id="individual_chat_body" style="max-height: 35vh;min-height: 35vh; display: none;"></div>
+                <div class="col-12 table-responsive" id="individual_chat_body" style="max-height: 41vh;min-height: 41vh; display: none;"></div>
 
                 <div class="box-footer">
                     <form id="chat_form" class="mb-0" method="post" enctype="multipart/form-data">
@@ -119,7 +123,7 @@
 
 <!-- binnecle box -->
 <div class="row">
-    <div class="col-md-3 pl-md-1 position-absolute" style="z-index: 1;bottom: 6.5vh;right: 0.6vw;">
+    <div class="col-md-3 pl-md-1 position-absolute" style="z-index: 11;bottom: 6.5vh;right: 0.6vw;">
         <div class="chat-popup" id="binancePopupModal" style="border-radius:10px;">
             <div class="ml-auto mr-auto rounded p-2 bg-white">
                 <div class="row">
@@ -173,11 +177,15 @@
                                             @if($conversation->message)
                                                 <br>
                                             @endif
-                                            <a href="{{Storage::disk('public')->exists($conversation->document->file) ? Storage::disk('public')->url($conversation->document->file) : '#' }}" target="_blank" rel="tooltip"
-                                               title="{{ $conversation->document->name }}" class="btn btn-link bg-transparent text-dark p-1 mt-0 mb-0 0 ml-0 mr-0 w-auto">
-                                                {!! getIcon($conversation->document->type) !!}
-                                            </a>
-                                    @endif
+                                            @if($conversation->document->deleted_at == null)
+                                                <a href="{{Storage::disk('public')->exists($conversation->document->file) ? Storage::disk('public')->url($conversation->document->file) : '#' }}" target="_blank" rel="tooltip"
+                                                   title="{{ $conversation->document->name }}" class="btn btn-link bg-transparent text-dark p-1 mt-0 mb-0 0 ml-0 mr-0 w-auto">
+                                                    {!! getIcon($conversation->document->type) !!}
+                                                </a>
+                                            @else
+                                                {{ __('header.file_deleted') }}
+                                            @endif
+                                        @endif
                                     <p>
                                 </div>
                             </div>
