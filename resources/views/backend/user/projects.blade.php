@@ -358,6 +358,28 @@
                     }
                 });
             });
+
+            $(document).on('click', '.finish', function (e) {
+                e.preventDefault();
+                swal({
+                    title: 'Are you sure?',
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonClass: 'btn btn-success ml-1',
+                    cancelButtonClass: 'btn btn-danger mr-1',
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $('.spinner-overlay').removeAttr('hidden');
+                        window.location = $(this).attr('href');
+                    }
+                });
+            });
         });
     </script>
 @endsection

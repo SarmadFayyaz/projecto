@@ -1019,6 +1019,43 @@ Bounce
     height: 4vw;
     position: absolute;
 }
-.bottom-0{
-    bottom: 0!important;
+
+.bottom-0 {
+    bottom: 0 !important;
+}
+
+.bg-green {
+    background: #28a745 !important;
+}
+
+.bg-yellow {
+    background: #ffc107 !important;
+}
+
+.bg-blue {
+    background: #007bff !important;
+}
+
+.bg-gray {
+    background: #6c757d !important;
+}
+
+.bg-red {
+    background: #dc3545 !important;
+}
+
+.bg-dark {
+    background: #343a40 !important;
+}
+
+.meeting_time {
+    width: fit-content;
+    position: absolute;
+    text-align: center;
+    top: 10px;
+    right: 10px;
+    margin-left: auto;
+    background: white;
+    border-radius: 8px;
+    padding: 4px;
 }

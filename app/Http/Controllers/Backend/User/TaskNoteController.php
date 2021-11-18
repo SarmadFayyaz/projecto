@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Backend\User;
 
+use App\Events\TaskNoteEvent;
 use App\Http\Controllers\Controller;
 
+use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskAction;
 use App\Models\TaskNote;
@@ -46,7 +48,9 @@ class TaskNoteController extends Controller {
             DB::beginTransaction();
             $data = $request->except('_token');
             $data['user_id'] = Auth::user()->id;
-            TaskNote::create($data);
+            $task_note = TaskNote::create($data);
+            $project = Project::find($task_note->task->project_id);
+            broadcast(new TaskNoteEvent($project))->toOthers();
             DB::commit();
             return response()->json(['success' => __('header.added_successfully', ['name' => __('header.note')])]);
         } catch (\Exception $e) {
@@ -89,10 +93,18 @@ class TaskNoteController extends Controller {
         ]);
         try {
             DB::beginTransaction();
+            $project_id = $task_note->task->project_id;
             $data = $request->except('_token');
             $task_note->update($data);
             DB::commit();
-            return response()->json(['success' =>  __('header.updated_successfully', ['name' => __('header.note')])]);
+            $project = Project::find($task_note->task->project_id);
+            broadcast(new TaskNoteEvent($project))->toOthers();
+            return response()->json(
+                [
+                    'success' => __('header.updated_successfully', ['name' => __('header.note')]),
+                    'project_id' => $project_id
+                ]
+            );
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => __('header.something_went_wrong')]);
@@ -112,8 +124,16 @@ class TaskNoteController extends Controller {
             DB::beginTransaction();
             $task_note->delete();
             DB::commit();
+            $project = Project::find($task_note->task->project_id);
+            broadcast(new TaskNoteEvent($project))->toOthers();
 //            return redirect()->route('project', $project_id);
-            return response()->json(['success' =>  __('header.deleted_successfully', ['name' => __('header.note')]), 'project_id' => $project_id, 'task_note_id' => $task_note_id]);
+            return response()->json(
+                [
+                    'success' => __('header.deleted_successfully', ['name' => __('header.note')]),
+                    'project_id' => $project_id,
+                    'task_note_id' => $task_note_id
+                ]
+            );
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => __('header.something_went_wrong')]);

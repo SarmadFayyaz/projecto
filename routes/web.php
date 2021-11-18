@@ -38,7 +38,8 @@ use App\Http\Controllers\Backend\User\EventController as UserEvent;
 use App\Http\Controllers\Backend\User\NotificationController as UserNotification;
 use App\Http\Controllers\Backend\User\ProfileController as UserProfile;
 use App\Http\Controllers\Backend\User\SupportController as UserSupport;
-use App\Http\Controllers\Backend\User\FormController as UserForm;
+use App\Http\Controllers\Backend\User\MethodOController as UserMethodO;
+//use App\Http\Controllers\Backend\User\FormController as UserForm;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,40 +51,6 @@ use App\Http\Controllers\Backend\User\FormController as UserForm;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/test', function () {
-    $page = 'Test 2';
-    return view('backend.backup.test', compact('page'));
-});
-Route::get('/task-requests', function () {
-    $page = 'Task Requests';
-    return view('backend.backup.task-requests', compact('page'));
-});
-Route::get('/projects', function () {
-    $page = 'Projects';
-    return view('backend.backup.projects', compact('page'));
-});
-Route::get('/profile', function () {
-    $page = 'Profile';
-    return view('backend.backup.profile.index', compact('page'));
-});
-Route::get('/edit-profile', function () {
-    $page = 'Edit Profile';
-    return view('backend.backup.profile.edit', compact('page'));
-});
-Route::get('/help', function () {
-    $page = 'Help';
-    return view('backend.backup.help', compact('page'));
-});
-Route::get('/metodo', function () {
-    $page = 'Me Todo';
-    return view('backend.backup.metodo', compact('page'));
-});
-Route::get('/meeting-mode', function () {
-    $page = 'Meeting Mode';
-    return view('backend.backup.meeting-mode', compact('page'));
-});
-
 
 // Auth
 Auth::routes(['register' => false, 'verify' => false]);
@@ -151,6 +118,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::get('/project-show/{id}', [UserProject::class, 'show'])->name('project.show');
     Route::get('/projects', [UserProject::class, 'projects'])->name('projects');
     Route::get('/projects/get', [UserProject::class, 'get'])->name('projects.get');
+    Route::get('/project/{id}/finish', [UserProject::class, 'finish'])->name('project.finish');
     Route::get('/project/{id}/edit', [UserProject::class, 'edit'])->name('project.edit');
     Route::post('/project/{id}', [UserProject::class, 'update'])->name('project.update');
 
@@ -190,5 +158,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
 
     Route::get('support', [UserSupport::class, 'index'])->name('support.index');
 
-    Route::resource('form', UserForm::class);
+    Route::get('method_o/{project_id}/{type}', [UserMethodO::class, 'index'])->name('method_o');
+
+//    Route::resource('form', UserForm::class);
 });

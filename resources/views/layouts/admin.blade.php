@@ -20,10 +20,6 @@
                 margin-bottom: 0px !important
 
             }
-
-            .fc-button-group button {
-                font-size: 11px !important;
-            }
         </style>
         @yield('content')
         @include('include.backend.footer')

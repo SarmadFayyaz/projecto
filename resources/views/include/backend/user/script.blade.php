@@ -34,7 +34,7 @@
     channel.bind('ProjectNotification', function (data) {
         toastr.info("You have been added to new project!");
         var str = ' <a class="dropdown-item" href="#"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
-        $('#my_notifications').append(str);
+        $('#my_notifications').prepend(str);
         var notification_counter = parseInt($('#notification_counter').text());
         $('#notification_counter').html(notification_counter + 1);
     });
@@ -48,14 +48,15 @@
         else if (data.notification.type == "task completed")
             toastr.info("Task Completed in " + data.task.project.name);
         var str = ' <a class="dropdown-item" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
-        $('#my_notifications').append(str);
+        $('#my_notifications').prepend(str);
         var notification_counter = parseInt($('#notification_counter').text());
         $('#notification_counter').html(notification_counter + 1)
     });
     channel.bind('TaskActionNotification', function (data) {
-        toastr.info("An action has been marked as done in " + data.task_action.task.name + " task");
-        var str = ' <a class="dropdown-item" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.body + '</a>';
-        $('#my_notifications').append(str);
+        console.log(data);
+        toastr.info("An action has been marked as done in " + data.task.name + " task");
+        var str = ' <a class="dropdown-item" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
+        $('#my_notifications').prepend(str);
         var notification_counter = parseInt($('#notification_counter').text());
         $('#notification_counter').html(notification_counter + 1);
     });
@@ -115,4 +116,21 @@
     {{--    console.log(data);--}}
     {{--    $('.online_status_' + data.user_id).removeClass('logged-out').addClass('logged-in');--}}
     {{--});--}}
+
+    function getProjectBackground(color) {
+        if (color == 'green')
+            return '#28a745';
+        else if (color == 'yellow')
+            return '#ffc107';
+        else if (color == 'blue')
+            return '#007bff';
+        else if (color == 'gray')
+            return '#6c757d';
+        else if (color == 'red')
+            return '#dc3545';
+        else if (color == 'dark')
+            return '#343a40';
+        else
+            return '#36baaf';
+    }
 </script>

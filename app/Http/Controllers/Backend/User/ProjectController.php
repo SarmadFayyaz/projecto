@@ -90,7 +90,10 @@ class ProjectController extends Controller {
                     return $sponsors;
                 })
                 ->addColumn('action', function ($row) {
-                    return '<a href="javascript:;" class="edit btn btn-success btn-sm" data-id="' . $row->id . '"><i class="material-icons">edit</i></a>';
+                    $action = '<a href="javascript:;" class="edit btn btn-success btn-sm" data-id="' . $row->id . '"><i class="material-icons">edit</i></a>';
+                    if ($row->status == 0)
+                        $action .= '<a href="' . route('project.finish', $row->id) . '" class="btn btn-primary btn-sm finish"><i class="material-icons">stop</i></a>';
+                    return $action;
                 })
                 ->rawColumns(['action', 'boss_leader', 'team_members', 'sponsors'])
                 ->make(true);
@@ -100,6 +103,13 @@ class ProjectController extends Controller {
     public function edit($id) {
         $project = Project::with('projectUser')->where('id', $id)->first();
         return response($project);
+    }
+
+    public function finish($id) {
+        $project = Project::find($id);
+        $project->status = 1;
+        $project->save();
+        return back()->with('success', __('header.project_finished'));
     }
 
     public function update(Request $request, $id) {

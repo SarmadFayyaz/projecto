@@ -29,19 +29,6 @@
             display: none;
         }
 
-        .fc-day-grid-container::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        .fc-day-grid-container::-webkit-scrollbar-track {
-            background-color: #d4d0d0;
-        }
-
-        .fc-day-grid-container::-webkit-scrollbar-thumb {
-            background-color: #36baaf;
-            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        }
-
         .activeproject .btn.btn-fab, .btn.btn-just-icon {
             margin: 0px;
             font-size: 12px;
@@ -60,19 +47,27 @@
             text-overflow: ellipsis;
         }
 
-        button.fc-button {
+        .fc-header-toolbar button {
+
             padding: 0.20500rem 0.5rem !important;
-            font-size: 0.3rem;
-            line-height: 1.0;
-            border-radius: 0.2rem;
-            background-color: {{ '#' . getThemeColor($theme) }};
+            font-size: 11px !important;
+            line-height: 1.0 !important;
+            border-radius: 0.2rem !important;
+            margin-right: 3px !important;
+            border: none !important;
+            background-color: {{ '#' . getThemeColor($theme) }}               !important;
+        }
+
+        .fc-header-toolbar button .fc-icon {
+            font-size: 11px !important;
         }
     </style>
 @endsection
 
-@include('backend.user.dashboard.calendar.create')@include('backend.user.dashboard.calendar.edit')
 
 @section('content')
+
+    @include('backend.user.dashboard.calendar.create')@include('backend.user.dashboard.calendar.edit')
 
     <div class="content">
         <div class="container-fluid">
@@ -159,7 +154,7 @@
                                                                         <div class="accordion-item rounded card m-0">
                                                                             <h6 class="accordion-header">
                                                                                 <button class="accordion-button no-arrow bg-{{ $theme }} text-white text-center d-block text-center d-block rounded-top" type="button" data-bs-toggle="collapse"
-                                                                                         aria-expanded="true">
+                                                                                        aria-expanded="true">
                                                                                     {{ __('header.urgent_task') }}
                                                                                 </button>
                                                                             </h6>
@@ -300,7 +295,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="card card-calendar mb-0 scroll-bar" style="max-height: 45vh;">
-                        <div class="card-body ">
+                        <div class="card-body">
                             <div id="fullCalendarEvents"></div>
                         </div>
                     </div>
@@ -368,7 +363,7 @@
 
     {{--<!-- Show Event Modal -->--}}
     <div class="modal fade" id="showEventModal" tab index="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-xl mr-md-2">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
 
                 <div class="card card-signup card-plain">
@@ -419,99 +414,121 @@
 
             $('.gauge .gauge-arrow').cmGauge();
 
+            $('.date_time_picker').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
+            $('.date_picker').datetimepicker({
+                format: 'YYYY-MM-DD',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
+            $('.time_picker').datetimepicker({
+                format: 'HH:mm',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
+            $(document).on('click', '.project_details', function () {
+                $('#showProjectDetailModal').find('.modal-content').load($(this).data('url'), function () {
+                    $('#showProjectDetailModal').modal('show');
+                    // new PerfectScrollbar('.scroll-bar-appended');
+                });
+            });
 
-            {{--let gauge;--}}
-            {{--@foreach($user_projects as $project)--}}
-            {{--    gauge = new Gauge($('.gauge{{ $project->id  }}'), {--}}
-            {{--    value: '{{$project->task->where('progress',100)->count()*10}}'--}}
-            {{--});--}}
-            {{--@endforeach--}}
-        });
-    </script>
+            var calendarEl = document.getElementById('fullCalendarEvents');
 
-    <script>
-        $(document).ready(function () {
-
-            $calendar = $('#fullCalendarEvents');
-
-            today = new Date();
-            y = today.getFullYear();
-            m = today.getMonth();
-            d = today.getDate();
-
-            $calendar.fullCalendar({
-                viewRender: function (view, element) {
-                    // We make sure that we activate the perfect scrollbar when the view isn't on Month
-                    // if (view.name != 'month') {
-                    //     $(element).find('.fc-scroller').perfectScrollbar();
-                    // }
-                },
-                header: {
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
                     left: 'title',
-                    center: 'month,agendaWeek,agendaDay',
-                    right: 'prev,next,today'
+                    center: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    right: 'prev,next today'
                 },
-                defaultDate: today,
-                defaultView: "month",
+                initialDate: '{{ Date('Y-m-d') }}',
                 navLinks: true, // can click day/week names to navigate views
                 selectable: true,
-                selectHelper: true,
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                locale: '{{ (isset(auth()->user()->language) && auth()->user()->language != null ) ? auth()->user()->language : 'en' }}',
-                // views: {
-                //     month: { // name of view
-                //         titleFormat: 'MMMM YYYY'
-                //         // other view-specific options here
-                //     },
-                //     week: {
-                //         titleFormat: " MMMM D YYYY"
-                //     },
-                //     day: {
-                //         titleFormat: 'D MMM, YYYY'
-                //     }
-                // },
-
-                events: 'calendarEvents',
-                select: function (start, end) {
-                    $('#createEventForm').find('.start').val($.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss")).closest('.form-group').addClass('is-filled');
-                    $('#createEventForm').find('.end').val($.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss")).closest('.form-group').addClass('is-filled');
-                    $('#createEventModal').modal('show');
-                },
-                eventClick: function (event) {
-                    let id = event.id;
-                    $('#showEventModal').modal('show');
-                    $('#showEventModal').find('.modal-body').load(APP_URL + '/event/' + id);
-                },
-                eventDrop: function (event) {
-                    updateEvent(event);
-                },
-                eventResize: function (event) {
-                    updateEvent(event);
-                },
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-
-
-                // color classes: [ event-blue | event-azure | event-green | event-orange | event-red ]
-                displayEventTime: true,
+                selectMirror: true,
+                dayMaxEvents: false, // allow "more" link when too many events
                 events: [
                         @foreach($user_projects as $project)
                         @foreach($project->event as $event)
                     {
                         id: {{ $event->id }},
                         title: '{!! $event->title !!}',
-                        start: '{{ $event->start }}',
-                        end: '{{ $event->end }}',
-                        daysOfWeek: ['4'],
-                        className: 'text-center',
+                        type: '{!! $event->type !!}',
+                        @if($event->type == 1)
+                        start: '{{ $event->start_date . 'T' . $event->start_time }}',
+                        end: '{{ $event->end_date . 'T' . $event->end_time }}',
+                        editable: true,
+                        startEditable: true,
+                        durationEditable: true,
+                        @else
+                        daysOfWeek: '{{ $event->days_of_week }}',
+                        groupId: {{ $event->id }},
+                        startTime: '{{ $event->start_time }}',
+                        endTime: '{{ $event->end_time }}',
+                        startRecur: '{{ $event->start_date }}',
+                        endRecur: '{{ $event->end_date }}',
+                        @endif
+                        classNames: 'text-center bg-{{ $project->color }}',
                         backgroundColor: '{{getProjectBackground($project->color)}}',
-                        allDay: false,
                     },
                     @endforeach
                     @endforeach
-                ]
+                ],
+                select: function (arg) {
+                    // $('#createEventForm').find('.start').val(moment(arg.start).format("YYYY-MM-DD HH:mm:ss")).closest('.form-group').addClass('is-filled');
+                    // $('#createEventForm').find('.end').val(moment(arg.end).format("YYYY-MM-DD HH:mm:ss")).closest('.form-group').addClass('is-filled');
+                    $('#createEventForm').find('.start_time').val(moment(arg.start).format("HH:mm")).closest('.form-group').addClass('is-filled');
+                    $('#createEventForm').find('.end_time').val(moment(arg.end).format("HH:mm")).closest('.form-group').addClass('is-filled');
+                    $('#createEventForm').find('.start_date').val(moment(arg.start).format("YYYY-MM-DD")).closest('.form-group').addClass('is-filled');
+                    $('#createEventForm').find('.end_date').val(moment(arg.end).format("YYYY-MM-DD")).closest('.form-group').addClass('is-filled');
+                    $('#createEventModal').modal('show');
+                },
+
+                eventClick: function (arg) {
+                    let id = arg.event.id;
+                    $('#showEventModal').modal('show');
+                    $('#showEventModal').find('.modal-body').load(APP_URL + '/event/' + id);
+                },
+                eventDrop: function (arg) {
+                    if (arg.event.extendedProps.type == 1)
+                        updateEvent(arg.event);
+                },
+                eventResize: function (arg) {
+                    if (arg.event.extendedProps.type == 1)
+                        updateEvent(arg.event);
+                },
             });
+
+            calendar.render();
 
             $("#createEventForm").submit(function (e) {
                 e.preventDefault();
@@ -524,14 +541,35 @@
                     contentType: false,
                     dataType: 'json',
                     success: function (result) {
-                        eventData = {
-                            id: result.event.id,
-                            title: result.event.title,
-                            start: result.event.start,
-                            end: result.event.end,
-                            className: 'text-center',
-                        };
-                        $calendar.fullCalendar('renderEvent', eventData, true); // stick? = true
+                        if (result.event.type == 1) {
+                            eventData = {
+                                id: result.event.id,
+                                title: result.event.title,
+                                type: result.event.type,
+                                start: result.event.start_date + 'T' + result.event.start_time,
+                                end: result.event.end_date + 'T' + result.event.end_time,
+                                editable: true,
+                                startEditable: true,
+                                durationEditable: true,
+                                classNames: 'text-center bg-' + result.event.project.color,
+                                backgroundColor: getProjectBackground(result.event.project.color),
+                            };
+                        } else {
+                            eventData = {
+                                id: result.event.id,
+                                title: result.event.title,
+                                type: result.event.type,
+                                daysOfWeek: JSON.parse(result.event.days_of_week),
+                                groupId: result.event.id,
+                                startTime: result.event.start_time,
+                                endTime: result.event.end_time,
+                                startRecur: result.event.start_date,
+                                endRecur: result.event.end_date,
+                                classNames: 'text-center bg-' + result.event.project.color,
+                                backgroundColor: getProjectBackground(result.event.project.color),
+                            };
+                        }
+                        calendar.addEvent(eventData);
                         toastr.success(result.success);
                         $('#createEventModal').modal('hide');
                     },
@@ -542,7 +580,6 @@
                             });
                         } else
                             toastr.error(result.error);
-                        // toastr.error('in error');
                     }
                 });
             });
@@ -550,14 +587,13 @@
             $(document).on('click', '.event_edit', function () {
                 event.preventDefault();
                 $('#showEventModal').modal('hide');
+                $('#editEventModal').modal('show');
                 let url = $(this).attr('href');
                 $.ajax({
                     url: url,
                     type: "get",
                     success: function (result) {
                         $('#editEventForm').find('.id').val(result.event.id);
-                        $('#editEventForm').find('.start').val(result.event.start).closest('.form-group').addClass('is-filled');
-                        $('#editEventForm').find('.end').val(result.event.end).closest('.form-group').addClass('is-filled');
                         $('#editEventForm').find('.project_id').val(result.event.project_id).selectpicker('refresh');
                         $('#editEventForm').find('.user_id').attr('selected', false);
                         for (let i = 0; i < result.event.event_user.length; i++) {
@@ -565,6 +601,24 @@
                         }
                         $('#editEventForm').find('.user_id').selectpicker('refresh');
                         $('#editEventForm').find('.title').val(result.event.title).closest('.form-group').addClass('is-filled');
+                        $('#editEventForm').find('.start_date').val(result.event.start_date).closest('.form-group').addClass('is-filled');
+                        $('#editEventForm').find('.end_date').val(result.event.end_date).closest('.form-group').addClass('is-filled');
+                        $('#editEventForm').find('.start_time').val(result.event.start_time).closest('.form-group').addClass('is-filled');
+                        $('#editEventForm').find('.end_time').val(result.event.end_time).closest('.form-group').addClass('is-filled');
+                        $('#editEventForm').find('.event_type').val(result.event.type).selectpicker('refresh');
+                        if (result.event.type == 1) {
+                            $('#editEventForm').find('.recur_event_div').attr('hidden', true);
+                            $('#editEventForm').find('.recur_event_div select').removeAttr('required');
+                        } else {
+                            $('#editEventForm').find('.recur_event_div').removeAttr('hidden');
+                            $('#editEventForm').find('.recur_event_div select').attr('required', true);
+                            let days_of_week = JSON.parse(result.event.days_of_week);
+                            for (let i = 0; i < days_of_week.length; i++) {
+                                $('#editEventForm .days_of_week option[value=' + days_of_week[i] + ']').attr('selected', true);
+                            }
+
+                            $('#editEventForm').find('.days_of_week').selectpicker('refresh');
+                        }
                     },
                     error: function (result) {
                         toastr.error(result.error);
@@ -584,14 +638,38 @@
                     contentType: false,
                     dataType: 'json',
                     success: function (result) {
-                        $calendar.fullCalendar('removeEvents', result.event.id);
-                        let eventData = {
-                            id: result.event.id,
-                            title: result.event.title,
-                            start: result.event.start,
-                            end: result.event.end
-                        };
-                        $calendar.fullCalendar('renderEvent', eventData, true); // stick? = true
+                        let previous_event = calendar.getEventById(result.event.id);
+                        previous_event.remove();
+
+                        if (result.event.type == 1) {
+                            eventData = {
+                                id: result.event.id,
+                                title: result.event.title,
+                                type: result.event.type,
+                                start: result.event.start_date + 'T' + result.event.start_time,
+                                end: result.event.end_date + 'T' + result.event.end_time,
+                                editable: true,
+                                startEditable: true,
+                                durationEditable: true,
+                                classNames: 'text-center bg-' + result.event.project.color,
+                                backgroundColor: getProjectBackground(result.event.project.color),
+                            };
+                        } else {
+                            eventData = {
+                                id: result.event.id,
+                                title: result.event.title,
+                                type: result.event.type,
+                                daysOfWeek: JSON.parse(result.event.days_of_week),
+                                groupId: result.event.id,
+                                startTime: result.event.start_time,
+                                endTime: result.event.end_time,
+                                startRecur: result.event.start_date,
+                                endRecur: result.event.end_date,
+                                classNames: 'text-center bg-' + result.event.project.color,
+                                backgroundColor: getProjectBackground(result.event.project.color),
+                            };
+                        }
+                        calendar.addEvent(eventData);
                         toastr.success(result.success);
                         $('#editEventModal').modal('hide');
                     },
@@ -602,20 +680,23 @@
                             });
                         } else
                             toastr.error(result.error);
-                        // toastr.error('in error');
                     }
                 });
             });
 
             function updateEvent(event) {
                 toastr.info('Please wait!');
-                let start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DD HH:mm:ss");
-                let end = $.fullCalendar.formatDate(event.end, "YYYY-MM-DD HH:mm:ss");
+                let start_date = moment(event.start).format("YYYY-MM-DD");
+                let end_date = moment(event.end).format("YYYY-MM-DD");
+                let start_time = moment(event.start).format("HH:mm");
+                let end_time = moment(event.end).format("HH:mm");
                 let id = event.id;
                 let form_data = new FormData();
                 form_data.append('id', id);
-                form_data.append('start', start);
-                form_data.append('end', end);
+                form_data.append('start_date', start_date);
+                form_data.append('end_date', end_date);
+                form_data.append('start_time', start_time);
+                form_data.append('end_time', end_time);
                 form_data.append('_token', '{{ csrf_token() }}');
                 $.ajax({
                     url: APP_URL + '/event-update',
@@ -662,7 +743,8 @@
                             type: 'delete',
                             url: $this.attr('href')
                         }).done(function (data) {
-                            $calendar.fullCalendar('removeEvents', data.id);
+                            let event = calendar.getEventById(data.id);
+                            event.remove();
                             toastr.success(data.success);
                             $this.closest('.modal').modal('hide');
                         });
@@ -670,30 +752,17 @@
                 });
             });
 
-
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('.date_time_picker').datetimepicker({
-                format: 'YYYY-MM-DD HH:mm:ss',
-                icons: {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up: "fa fa-chevron-up",
-                    down: "fa fa-chevron-down",
-                    previous: 'fa fa-chevron-left',
-                    next: 'fa fa-chevron-right',
-                    today: 'fa fa-screenshot',
-                    clear: 'fa fa-trash',
-                    close: 'fa fa-remove'
-                }
+            $('.date_picker').click(function () {
+                $(this).closest('.form-group').addClass('is-filled');
             });
-            $(document).on('click', '.project_details', function () {
-                $('#showProjectDetailModal').find('.modal-content').load($(this).data('url'), function () {
-                    $('#showProjectDetailModal').modal('show');
-                    // new PerfectScrollbar('.scroll-bar-appended');
-                });
+            $(document).on('change', 'select.event_type', function () {
+                if ($(this).val() == 1) {
+                    $('.recur_event_div').attr('hidden', true);
+                    $('.recur_event_div select').removeAttr('required');
+                } else {
+                    $('.recur_event_div').removeAttr('hidden');
+                    $('.recur_event_div select').attr('required', true);
+                }
             });
         });
     </script>

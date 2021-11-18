@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\User;
 
 use App\Events\TaskActionEvent;
+use App\Events\TaskActionNoteEvent;
 use App\Events\TaskActionNotification;
 use App\Http\Controllers\Controller;
 
@@ -73,21 +74,26 @@ class TaskActionController extends Controller {
             $task->progress = $progress;
             $task->update();
 
-            if (auth()->user()->hasRole('User')) {
-                $notification_data['project_id'] = $task->project_id;
-                $notification_data['user_id'] = auth()->user()->id;
-                $notification_data['type'] = 'action done';
-                $notification_data['notification'] = 'An action has been marked as done in ' . $task->name . ' Task';
-                $notification = Notification::create($notification_data);
+            $notification_data['project_id'] = $task->project_id;
+            $notification_data['user_id'] = auth()->user()->id;
+            $notification_data['type'] = 'action done';
+            $notification_data['notification'] = 'An action has been marked as done in ' . $task->name . ' Task';
+            $notification = Notification::create($notification_data);
 
+            $notification_user = new NotificationUser();
+            $notification_user->user_id = $task->added_by;
+            $notification_user->notification_id = $notification->id;
+            $notification_user->save();
+
+            foreach ($task->taskUser as $taskUser) {
                 $notification_user = new NotificationUser();
-                $notification_user->user_id = $task->project->project_leader;
+                $notification_user->user_id = $taskUser->user_id;
                 $notification_user->notification_id = $notification->id;
                 $notification_user->save();
-
-                broadcast(new TaskActionNotification($task_action, $notification))->toOthers();
-                broadcast(new TaskActionEvent($task))->toOthers();
             }
+
+            broadcast(new TaskActionNotification($task, $notification))->toOthers();
+            broadcast(new TaskActionEvent($task))->toOthers();
 
             DB::commit();
             return response()
@@ -114,6 +120,8 @@ class TaskActionController extends Controller {
     public function update(Request $request, TaskAction $task_action) {
         $data = $request->except('_token');
         $task_action->update($data);
+        $task = Task::find($task_action->task_id);
+        broadcast(new TaskActionNoteEvent($task))->toOthers();
     }
 
     /**

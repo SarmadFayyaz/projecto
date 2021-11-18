@@ -44,11 +44,6 @@
             <div class="main-panel" style="height: auto">
 
                 @include('include.backend.user.header')
-                <style>
-                    .fc-button-group button {
-                        font-size: 11px !important;
-                    }
-                </style>
                 <div class="content pt-0 pb-0">
                     @yield('content')
                     @include('include.backend.footer')

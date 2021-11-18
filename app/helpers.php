@@ -15,7 +15,7 @@ if (!function_exists('getProjects')) {
             $data->whereHas('projectUser', function ($query) {
                 $query->whereUserId(Auth::user()->id);
             });
-        $user_projects = $data->get();
+        $user_projects = $data->where('status', 0)->get();
         return $user_projects;
     }
 }
@@ -24,7 +24,7 @@ if (!function_exists('getNotifications')) {
     function getNotifications() {
         $notifications_user = NotificationUser::with('notification')
             ->where('user_id', auth()->user()->id)
-            ->get();
+            ->orderBy('created_at', 'desc')->take(10)->get();
         return $notifications_user;
     }
 }
@@ -77,6 +77,26 @@ if (!function_exists('getThemeColor')) {
             return 'e91e63';
         else
             return '36baaf';
+    }
+}
+if (!function_exists('getDay')) {
+    function getDay($day) {
+        if ($day == 0)
+            return 'Sunday';
+        else if ($day == 1)
+            return 'Monday ';
+        else if ($day == 2)
+            return 'Tuesday';
+        else if ($day == 3)
+            return 'Wednesday';
+        else if ($day == 4)
+            return 'Thursday';
+        else if ($day == 5)
+            return 'Friday';
+        else if ($day == 6)
+            return 'Saturday';
+        else
+            return 'Day';
     }
 }
 if (!function_exists('getTime')) {

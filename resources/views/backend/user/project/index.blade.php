@@ -5,6 +5,10 @@
 @section('style')
     <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/cupertino/jquery-ui.css"/>
     <style>
+        .modal-xxl {
+            max-width: 80%;
+        }
+
         .vide_mirror_name {
 
             color: #ffffff;
@@ -306,16 +310,19 @@
                                     <div class="r justify-content-center">
                                         <div class="col-md-9">
                                             <p class="mb-1">
-                                                <a href="{{ route('form.show', 1) }}" class="text-dark method_o"> {{ __('header.initial_project_meeting') }} </a>
+                                                <a href="{{ route('method_o', [$project->id, 1]) }}" class="text-dark method_o"> {{ __('header.initial_project_meeting') }} </a>
                                             </p>
                                             <p class="mb-1">
-                                                <a href="{{ route('form.show', 2) }}" class="text-dark method_o"> {{ __('header.work_rules') }} </a>
+                                                <a href="{{ route('method_o', [$project->id, 2]) }}" class="text-dark method_o"> {{ __('header.work_rules') }} </a>
                                             </p>
                                             <p class="mb-1">
-                                                <a href="{{ route('form.show', 3) }}" class="text-dark method_o"> {{ __('header.description_of_meeting') }} </a>
+                                                <a href="{{ route('method_o', [$project->id, 3]) }}" class="text-dark method_o"> {{ __('header.description_of_meeting') }} </a>
                                             </p>
                                             <p class="mb-1">
-                                                <a href="{{ route('form.show', 4) }}" class="text-dark method_o"> {{ __('header.facilitators') }} </a>
+                                                <a href="{{ route('method_o', [$project->id, 4]) }}" class="text-dark method_o"> {{ __('header.platform_roles') }} </a>
+                                            </p>
+                                            <p class="mb-1">
+                                                <a href="{{ route('method_o', [$project->id, 5]) }}" class="text-dark method_o"> {{ __('header.boss_view') }} </a>
                                             </p>
                                         </div>
                                     </div>
@@ -385,7 +392,7 @@
 
 @section('content')
 
-    @include('backend.user.project.task.add')@include('backend.user.project.task.completed')@include('backend.user.project.extras.video-control')@include('backend.user.project.extras.add-task-notes')@include('backend.user.project.document.index')@include('backend.user.project.extras.share-screen')@include('backend.user.project.chat.index')
+    @include('backend.user.project.task.add')@include('backend.user.project.task.completed')@include('backend.user.project.extras.video-control')@include('backend.user.project.extras.add-task-notes')@include('backend.user.project.document.index')@include('backend.user.project.extras.share-screen')@include('backend.user.project.calendar.create')@include('backend.user.project.chat.index')
 
     <div class="content">
         <div class="container-fluid">
@@ -443,11 +450,14 @@
                                                        data-modal-id="#addNewTaskModal"><i class="fa fa-plus mr-2" style="font-size:12px !important"></i> {{ __('header.add_new_task') }}
                                                     </a>
                                                 </div>
-                                                <div class="col-8 text-right pl-2 pr-2">
-{{--                                                    <select id="" class="form-control selectpicker w-25">--}}
-{{--                                                        <option value="0">{{ __('header.all_tasks') }}</option>--}}
-{{--                                                        <option value="1">{{ __('header.my_tasks') }}</option>--}}
-{{--                                                    </select>--}}
+                                                <div class="col-4 pl-2 pr-2 text-center">
+                                                    <h4 class="m-0 font-weight-bold">{{ __('header.task_dashboard') }}</h4>
+                                                </div>
+                                                <div class="col-4 text-right pl-2 pr-2">
+                                                    <select id="" class="task_filter" data-style="btn-{{ $theme }}" data-width="fit" data-title="{{ __('header.task_filter') }}">
+                                                        <option value="all_tasks">{{ __('header.all_tasks') }}</option>
+                                                        <option value="my_tasks">{{ __('header.my_tasks') }}</option>
+                                                    </select>
                                                     <a href="javascript:void(0)" data-url="{{ route('project.show', $project->id) }}" class="project_details btn p-0 bg-transparent btn-link">
                                                         <i class="fas fa-info-circle text-warning cursor-pointer" rel="tooltip" title="{{ __('header.view_project_details') }}" style="font-size: 1.624vw;"></i>
                                                     </a>
@@ -562,14 +572,12 @@
                 </div>
             </div>
         </div>
-
         <!-- Method O Modal -->
         <div class="modal fade" id="methodOModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-xxl">
                 <div class="modal-content"></div>
             </div>
-        </div>
-        <!--  End Modal -->
+        </div><!--  End Modal -->
 
         <!-- Task Details Modal -->
         <div class="modal fade" id="taskDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -685,27 +693,36 @@
         </div>
         <!--  End Modal -->
 
-        {{--<!-- Show Project Details Modal -->--}}
+        {{-- Show Project Details Modal --}}
         <div class="modal fade" id="showProjectDetailModal" tab index="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content"></div>
             </div>
         </div>
-        {{--<!--  End Modal -->--}}
+        {{--  End Modal --}}
     </div>
 
 @endsection
 
 @section('script')
     <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
-    <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>--}}
+    {{--    <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>--}}
+    {{--    <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>--}}
     <script>
+        var task_id = null;
         $(document).ready(function () {
 
             var timer = null;
             loadTasks({{ $project->id }});
+            $(".task_filter").selectpicker({
+                style: "btn-{{ $theme }} btn-sm"
+            });
+            $(document).on('change', 'select.task_filter', function () {
+                $('.other_tasks').removeAttr('hidden');
+                if ($(this).val() == 'my_tasks')
+                    $('.other_tasks').attr('hidden', true);
+            });
             $(document).on('click', '.project_details', function () {
                 $('.spinner-overlay').removeAttr('hidden');
                 $('#showProjectDetailModal').find('.modal-content').load($(this).data('url'), function () {
@@ -753,6 +770,7 @@
             });
             $(document).on('click', '.task_details', function (e) {
                 e.preventDefault();
+                task_id = $(this).data('id');
                 $('.spinner-overlay').removeAttr('hidden');
                 $('#editTaskNotesModal').modal('hide');
                 $('#taskDetailsModal').find('.modal-content').load($(this).attr('href'), function () {
@@ -763,18 +781,8 @@
             });
             $(document).on('click', '.method_o', function (e) {
                 e.preventDefault();
-                $('.spinner-overlay').removeAttr('hidden');
                 $('#methodOModal').find('.modal-content').load($(this).attr('href'), function () {
-                    let form_data_div = document.getElementById('form_data_div'),
-                        form_data = JSON.parse($('#form_data').text()),
-                        form_render_options = {
-                            form_data,
-                            dataType: 'json'
-                        };
-                    console.log(form_data);
-                    $(form_data_div).formRender(form_render_options);
                     $('#methodOModal').modal('show');
-                    $('.spinner-overlay').attr('hidden', true);
                 });
             });
             $(document).on('click', '.task_note_edit', function (e) {
@@ -811,10 +819,11 @@
                             type: 'delete',
                             url: $this.attr('href')
                         }).done(function (data) {
-                            $('#task_note_' + data.task_note_id).remove();
-                            $('#editTaskNotesModal').modal('hide');
                             toastr.success(data.success);
-                            $('.spinner-overlay').attr('hidden', true);
+                            $('.task_note_div').load(APP_URL + '/task-note/load/' + data.project_id, function () {
+                                $('#editTaskNotesModal').modal('hide');
+                                $('.spinner-overlay').attr('hidden', true);
+                            });
                         });
                     }
                 });
@@ -916,6 +925,32 @@
                     updateActionNote(id, note);
                 }, 1000); //Waits for 1 seconds after last keypress to execute the above lines of code
             });
+
+            $("#createEventForm").submit(function (e) {
+                e.preventDefault();
+                form_data = new FormData(this);
+                $.ajax({
+                    url: '{{ route('event.store') }}',
+                    type: "post",
+                    data: form_data,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        toastr.success(result.success);
+                        $('#createEventModal').modal('hide');
+                    },
+                    error: function (result) {
+                        if (result.status == 422) { // when status code is 422, it's a validation issue
+                            $.each(result.responseJSON.errors, function (i, error) {
+                                toastr.error(error);
+                            });
+                        } else
+                            toastr.error(result.error);
+                    }
+                });
+            });
+
             // Document JS Start
             $(document).on('click', '.get_documents', function (e) {
                 e.preventDefault();
@@ -1029,11 +1064,25 @@
                 $('.start_date').data('DateTimePicker').maxDate($('#end_date').val());
                 $(this).data("DateTimePicker").hide();
             });
-            $('.date_picker').click(function () {
+            $('.date_picker,.time_picker').click(function () {
                 $(this).closest('.form-group').addClass('is-filled');
             });
             $('.date_picker').datetimepicker({
                 format: 'YYYY-MM-DD',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
+            $('.time_picker').datetimepicker({
+                format: 'HH:mm',
                 icons: {
                     time: "fa fa-clock-o",
                     date: "fa fa-calendar",
@@ -1776,14 +1825,32 @@
         // Chat Js End
 
         channel.bind('TaskActionEvent', function (data) {
-            if (data.task.project_id == {{ $project->id }})
-            $('#taskDetailsModal').find('.modal-content').load(APP_URL + '/task/' + data.task.id, function () {
-                loadTasks(data.task.project_id);
-            });
+            if (data.task.project_id == {{ $project->id }}) {
+                if (task_id == data.task.id)
+                    $('#taskDetailsModal').find('.modal-content').load(APP_URL + '/task/' + data.task.id, function () {
+                        loadTasks(data.task.project_id);
+                    });
+                else
+                    loadTasks(data.task.project_id);
+            }
         });
         channel.bind('LoadTask', function (data) {
             if (data.task.project_id == {{ $project->id }})
                 loadTasks({{ $project->id }});
+        });
+        channel.bind('TaskNoteEvent', function (data) {
+            if (data.project.id == {{ $project->id }}) {
+                $('.spinner-overlay').removeAttr('hidden');
+                $('.task_note_div').load(APP_URL + '/task-note/load/' + data.project.id, function () {
+                    $('.spinner-overlay').attr('hidden', true);
+                });
+            }
+        });
+        channel.bind('TaskActionNoteEvent', function (data) {
+            if (data.task.project_id == {{ $project->id }}) {
+                if (task_id == data.task.id)
+                    $('#taskDetailsModal').find('.modal-content').load(APP_URL + '/task/' + data.task.id,);
+            }
         });
 
         function loadTasks() {

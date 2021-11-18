@@ -21,7 +21,8 @@
                             <option value="{{ $task->id }}"> {{ $task->name }} </option>
                         @endforeach
                     </select>
-                    <input type="text" name="notes" placeholder="{{ __('header.add_note') }}" required class="form-control mt-3">
+                    <textarea class="form-control mt-3" name="notes" cols="30" rows="3" aria-placeholder="{{ __('header.add_notes') }}" required></textarea>
+{{--                    <input type="text" name="notes" placeholder="{{ __('header.add_note') }}" required class="form-control mt-3">--}}
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success ml-auto">

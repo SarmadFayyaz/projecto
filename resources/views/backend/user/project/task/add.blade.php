@@ -1,5 +1,5 @@
 <!-- Add New TaskModal -->
-<div class="modal fade" id="addNewTaskModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="addNewTaskModal" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 11111111111111111;">
     <div class="modal-dialog modal-md pb-0 mb-0">
         <div class="modal-content">
 

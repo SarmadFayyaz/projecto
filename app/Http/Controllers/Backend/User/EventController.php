@@ -38,13 +38,21 @@ class EventController extends Controller {
             'title' => ['required', 'string', 'max:255'],
             'project_id' => 'required',
             'user_id' => 'required',
-            'start' => 'required',
-            'end' => 'required',
+            'type' => 'required',
+            'days_of_week' => 'required_if:type,2',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
         ]);
         try {
             DB::beginTransaction();
             $data = $request->except('_token', 'user_id');
             $data['user_id'] = auth()->user()->id;
+            if ($data['type'] == 2)
+                $data['days_of_week'] = json_encode($data['days_of_week']);
+            else
+                $data['days_of_week'] = null;
             $event = Event::create($data);
             foreach ($request->user_id as $user_id) {
                 $event_user_data['event_id'] = $event->id;
@@ -52,6 +60,7 @@ class EventController extends Controller {
                 EventUser::create($event_user_data);
             }
             DB::commit();
+            $event = Event::with('project')->where('id', $event->id)->first();
             return response()->json(['success' => __('header.added_successfully', ['name' => __('header.event')]), 'event' => $event]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -93,13 +102,20 @@ class EventController extends Controller {
             'title' => ['required', 'string', 'max:255'],
             'project_id' => 'required',
             'user_id' => 'required',
-            'start' => 'required',
-            'end' => 'required',
+            'type' => 'required',
+            'days_of_week' => 'required_if:type,2',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
         ]);
         try {
             DB::beginTransaction();
             $data = $request->except('_token', 'user_id');
-            $data['user_id'] = auth()->user()->id;
+            if ($data['type'] == 2)
+                $data['days_of_week'] = json_encode($data['days_of_week']);
+            else
+                $data['days_of_week'] = null;
             $event->update($data);
             EventUser::where('event_id', $event->id)->delete();
             foreach ($request->user_id as $user_id) {
@@ -108,6 +124,7 @@ class EventController extends Controller {
                 EventUser::create($event_user_data);
             }
             DB::commit();
+            $event = Event::with('project')->where('id', $event->id)->first();
             return response()->json(['success' => __('header.updated_successfully', ['name' => __('header.event')]), 'event' => $event]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -118,8 +135,10 @@ class EventController extends Controller {
     public function updateEvent(Request $request) {
         $this->validate($request, [
             'id' => 'required',
-            'start' => 'required',
-            'end' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
         ]);
         try {
             DB::beginTransaction();

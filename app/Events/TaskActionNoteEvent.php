@@ -10,28 +10,25 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskActionNotification implements ShouldBroadcast {
+class TaskActionNoteEvent implements ShouldBroadcast {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $task;
-    public $notification;
 
-    public function __construct($task, $notification) {
+    public function __construct($task) {
         $this->task = $task;
-        $this->notification = $notification;
     }
-
 
     public function broadcastOn() {
         $channels = [];
-            array_push($channels, 'my-channel.' . $this->task->added_by);
-            foreach ($this->task->taskUser as $task_user) {
-                array_push($channels, 'my-channel.' . $task_user->user_id);
-            }
+        array_push($channels, 'my-channel.' . $this->task->added_by);
+        foreach ($this->task->taskUser as $task_user) {
+            array_push($channels, 'my-channel.' . $task_user->user_id);
+        }
         return $channels;
     }
 
     public function broadcastAs() {
-        return 'TaskActionNotification';
+        return 'TaskActionNoteEvent';
     }
 }

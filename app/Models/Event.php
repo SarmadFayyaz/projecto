@@ -13,8 +13,12 @@ class Event extends Model {
         'project_id',
         'user_id',
         'title',
-        'start',
-        'end'
+        'type',
+        'days_of_week',
+        'start_date',
+        'end_date',
+        'start_time',
+        'end_time',
     ];
 
     public function project() {

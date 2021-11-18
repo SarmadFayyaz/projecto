@@ -2,9 +2,9 @@
     @if($task->status == 'completed')
         <div class="col-6">
             @endif
-            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}}">
+            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}} {{ (auth()->user()->id == $task->added_by) ? '' : 'other_tasks' }}">
                 <!-- <h6 class="h6css" >Lorem</h6> -->
-                <a class="task_details" href="{{ route('task.show',$task->id) }}">
+                <a class="task_details" href="{{ route('task.show',$task->id) }}" data-id="{{ $task->id }}">
                     <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">
                         <span class="bg-light rounded mr-1 p-1 h6css mr-auto text-dark" title="{{{ __('header.task_name') }}}"><b>{{ $task->name  }}</b></span>
                         @php $counter = 0; @endphp
@@ -79,11 +79,15 @@
                         @endif
                     </span>
                     <span class="fs-12"><i class="fas fa-clock"></i>
+                        @if($task->status == 'completed')
+                            {{ __('header.completed') }}
+                            @else
                         @php
                             $startTime = Carbon\Carbon::parse($task->start_date);
                             $endTime = Carbon\Carbon::parse($task->end_date);
                             echo   $endTime->diffForHumans($startTime,true).' ' . __('header.left');
                         @endphp
+                            @endif
                     </span>
                 </div>
 
