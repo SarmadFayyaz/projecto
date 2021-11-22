@@ -458,9 +458,6 @@
                                                         <option value="all_tasks">{{ __('header.all_tasks') }}</option>
                                                         <option value="my_tasks">{{ __('header.my_tasks') }}</option>
                                                     </select>
-                                                    <a href="javascript:void(0)" data-url="{{ route('project.show', $project->id) }}" class="project_details btn p-0 bg-transparent btn-link">
-                                                        <i class="fas fa-info-circle text-warning cursor-pointer" rel="tooltip" title="{{ __('header.view_project_details') }}" style="font-size: 1.624vw;"></i>
-                                                    </a>
                                                     <a class="btn btn-{{ $theme }} btn-sm text-white" data-toggle="modal" data-target="#completedTaskModal" role="tablist"> {{ __('header.completed_tasks') }} </a>
                                                 </div>
 
@@ -573,7 +570,7 @@
             </div>
         </div>
         <!-- Method O Modal -->
-        <div class="modal fade" id="methodOModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade text-transform-none" id="methodOModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-xxl">
                 <div class="modal-content"></div>
             </div>

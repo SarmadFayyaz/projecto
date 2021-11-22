@@ -2,6 +2,9 @@
 @push('desk-video-control')
     <div class="collapse navbar-collapse justify-content-end d-none d-md-block d-lg-block d-xl-block">
         <div class="navbar-btn">
+            <a href="javascript:void(0)" data-url="{{ route('project.show', $project->id) }}" class="project_details btn p-0 bg-transparent btn-link">
+                <i class="fas fa-info-circle text-warning cursor-pointer" rel="tooltip" title="{{ __('header.view_project_details') }}" style="font-size: 1.624vw;"></i>
+            </a>
             <button class="btn btn-{{ $theme }} btn-sm mr-md-4" data-toggle="modal" data-target="#platformInformationModal">
                 {{ __('header.platform_information') }}
             </button>
@@ -20,6 +23,9 @@
 @endpush
 @push('mob-video-control')
     <div class="navbar-btn d-none d-sm-block d-md-none d-lg-none d-xl-none">
+        <a href="javascript:void(0)" data-url="{{ route('project.show', $project->id) }}" class="project_details btn p-0 bg-transparent btn-link">
+            <i class="fas fa-info-circle text-warning cursor-pointer" rel="tooltip" title="{{ __('header.view_project_details') }}" style="font-size: 1.624vw;"></i>
+        </a>
         <button class="btn btn-{{ $theme }} btn-sm mr-md-1 " data-toggle="modal" data-target="#platformInformationModal">
             {{ __('header.platform_information') }}
         </button>

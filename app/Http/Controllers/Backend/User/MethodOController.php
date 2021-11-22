@@ -16,6 +16,8 @@ class MethodOController extends Controller {
             return view('backend.user.project.method-o.description-of-meetings');
         if ($type == 4)
             return view('backend.user.project.method-o.platform-roles');
+        if ($type == 5)
+            return view('backend.user.project.method-o.boss-view');
     }
 
 }

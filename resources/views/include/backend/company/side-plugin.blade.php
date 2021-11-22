@@ -5,7 +5,7 @@
             <i class="fa fa-cog fa-2x"> </i>
         </a>
         <ul class="dropdown-menu">
-            <li class="header-title"> Sidebar Filters</li>
+            <li class="header-title"> {{ __('header.sidebar_filter') }} </li>
             <li class="adjustments-line">
                 <a href="javascript:void(0)" class="switch-trigger active-color">
                     <div class="badge-colors ml-auto mr-auto">
@@ -19,7 +19,7 @@
                     <div class="clearfix"></div>
                 </a>
             </li>
-            <li class="header-title">Sidebar Background</li>
+            <li class="header-title"> {{ __('header.sidebar_background') }} </li>
             <li class="adjustments-line">
                 <a href="javascript:void(0)" class="switch-trigger background-color">
                     <div class="ml-auto mr-auto">
@@ -32,7 +32,7 @@
             </li>
             <li class="adjustments-line">
                 <a href="javascript:void(0)" class="switch-trigger">
-                    <p>Sidebar Mini</p>
+                    <p>{{ __('header.sidebar_mini') }} </p>
                     <label class="ml-auto">
                         <div class="togglebutton switch-sidebar-mini">
                             <label>

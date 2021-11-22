@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-10">
                     <h4 class="modal-title font-weight-bold">
-                        Description of Meetings </h4>
+                        {{ __('header.mo_dm_description_of_meetings') }} </h4>
                 </div>
                 <div class="col-2  text-right">
                     <a type="button" class="text-white pull-right" style="top:0" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></a>
@@ -21,17 +21,17 @@
         <ul class="nav nav-pills nav-pills-{{ $theme }} mb-3 p-0" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active show" data-toggle="tab" href="#daily_meeting" role="tablist" style="font-size: 15px !important; padding: 10px 20px !important;">
-                    DAILY MEETING
+                    {{ __('header.mo_daily_meeting') }}
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#retrospective_meeting" role="tablist" style="font-size: 15px !important; padding: 10px 20px !important;">
-                    RETROSPECTIVE MEETING
+                    {{ __('header.mo_retrospective_meeting') }}
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#follow_up_meeting" role="tablist" style="font-size: 15px !important; padding: 10px 20px !important;">
-                    FOLLOW-UP MEETING
+                    {{ __('header.mo_follow_up_meeting') }}
                 </a>
             </li>
         </ul>
@@ -41,19 +41,18 @@
                     <div class="col-8">
                         <div class="row justify-content-center">
                             <div class="col-8 mt-4 mb-4 p-5" style="border: 2px dashed; border-radius: 40px;">
-                                <p>
-                                    Round of conversation where each answer these 3 questions: </p>
+                                <p> {{ __('header.mo_dm_dm_round_of_conversation') }}</p>
                                 <ul class="mb-3">
-                                    <li>How am I progressing with my tasks?</li>
-                                    <li>What obstacles do I have to move forward and what are interfering with achieving our goal?</li>
-                                    <li>What do I need help with?</li>
+                                    <li> {{ __('header.mo_dm_dm_1') }} </li>
+                                    <li> {{ __('header.mo_dm_dm_2') }} </li>
+                                    <li> {{ __('header.mo_dm_dm_3') }} </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="meeting_time">
                         <i class="fas fa-history fa-4x"></i>
-                        <h3 class="m-0">15 minutes</h3>
+                        <h3 class="m-0"> {{ __('header.mo_15_min') }} </h3>
                     </div>
                 </div>
             </div>
@@ -62,34 +61,31 @@
                     <div class="col-8">
                         <div class="row justify-content-center">
                             <div class="col-12 mt-4 mb-4 p-4" style="border: 2px dashed; border-radius: 40px;">
-                                <p>
-                                    After this time of work, we are going to take a break to look at our internal dynamics as a team. </p>
-                                <h4 class="mb-0 font-weight-bold">
-                                    What would they say about…? </h4>
+                                <p> {{ __('header.mo_dm_rm_after_this_time') }} </p>
+                                <h4 class="mb-0 font-weight-bold"> {{ __('header.mo_dm_rm_what_would_they_say') }} </h4>
                                 <ul class="mb-3">
-                                    <li>What has gone well? (hits)</li>
-                                    <li>What has not gone well? (difficulties)</li>
-                                    <li>How are we following the rules or regulations that we agree on?</li>
-                                    <li>What do we do well and what is important to maintain?</li>
-                                    <li>What are the problems that could impede progress?</li>
-                                    <li>What have we learned?</li>
-                                    <li>What do we need to improve?</li>
-                                    <li>What new actions could we try?</li>
-                                    <li>What improvements are we going to implement to keep moving forward?</li>
-                                    <li>What do I commit to for the progress of the team and the project?</li>
-                                    <li>What new habits could we implement?</li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_1') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_2') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_3') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_4') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_5') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_6') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_7') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_8') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_9') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_10') }} </li>
+                                    <li> {{ __('header.mo_dm_rm_what_would_they_say_11') }} </li>
                                 </ul>
 
-                                <h4 class="mb-0 font-weight-bold">
-                                    Agreements / commitments </h4>
-                                <p class="mb-3">To improve the aspects that we discuss that allow us to make improvements in our dynamics:</p>
-                                <p><br>What agreements can we make?<br>What does each one commit to fulfill them?<br>How are we going to take care of the fulfillment of our agreements?</p>
+                                <h4 class="mb-0 font-weight-bold"> {{ __('header.mo_dm_rm_agreements') }} </h4>
+                                <p class="mb-3"> {{ __('header.mo_dm_rm_agreements_drf') }} </p>
+                                <p> {{ __('header.mo_dm_rm_agreements_1') }} <br> {{ __('header.mo_dm_rm_agreements_2') }} <br> {{ __('header.mo_dm_rm_agreements_3') }} </p>
                             </div>
                         </div>
                     </div>
                     <div class="meeting_time">
                         <i class="fas fa-history fa-4x"></i>
-                        <h3 class="m-0">60 minutes</h3>
+                        <h3 class="m-0"> {{ __('header.mo_60_min') }} </h3>
                     </div>
                 </div>
             </div>
@@ -98,32 +94,36 @@
                     <div class="col-8">
                         <div class="row justify-content-center">
                             <div class="col-12 mt-4 mb-4 p-4" style="border: 2px dashed; border-radius: 40px;">
-                                <h4 class="mb-0 font-weight-bold">
-                                    Follow-up meeting and to review the progress of the project in 2 dimensions:</h4>
+                                <h4 class="mb-0 font-weight-bold"> {{ __('header.mo_dm_fm_follow_up_meeting_and') }} </h4>
                                 <ol class="mb-3">
-                                    <li>TASKS: What are we doing?</li>
-                                    <li>DYNAMIC: How are we doing it?</li>
+                                    <li>{{ __('header.mo_dm_fm_follow_up_meeting_and_1') }}</li>
+                                    <li>{{ __('header.mo_dm_fm_follow_up_meeting_and_2') }}</li>
                                 </ol>
-                                <h4 class="font-weight-bold">
-                                    Context of the meeting - 5 minutes </h4>
-                                <h4 class="mb-0 font-weight-bold">Conversation about the general development of the project (task) - 20 minutes:</h4>
-                                <p>Share screen by projecting the monitoring board. <br>Conversation where each team member presents the status of their tasks and what their next commitments are.<br>The other members of the team listen and
-                                    take note of the contributions, ideas, questions and offers that can enrich the team's work.</p>
+                                <h4 class="font-weight-bold"> {{ __('header.mo_dm_fm_context_of_meeting') }} </h4>
+                                <h4 class="mb-0 font-weight-bold"> {{ __('header.mo_dm_fm_conversation_about_project') }} </h4>
+                                <p>
+                                    {{ __('header.mo_dm_fm_conversation_about_project_1') }} <br>
+                                    {{ __('header.mo_dm_fm_conversation_about_project_1') }} <br>
+                                    {{ __('header.mo_dm_fm_conversation_about_project_1') }}
+                                </p>
 
-                                <h4 class="mb-0 font-weight-bold">Conversation on team dynamics (dynamics) - 20 minutes:</h4>
+                                <h4 class="mb-0 font-weight-bold"> {{ __('header.mo_dm_fm_conversation_on_team') }} </h4>
                                 <p>
                                     <span class="font-italic">
-                                        In the start-up session we define norms and rules for teamwork. Project them with a shared screen and talk in light of these questions:
+                                        {{ __('header.mo_dm_fm_conversation_on_team_def') }}
                                     </span>
-                                    <br> How have we been complying with the norms / rules that we agreed on? In what behaviors have these been complied with or not? Is it necessary to adjust them?<br>What have been the difficulties we have
-                                    faced? They share both limitations among themselves and with other teams in the organization. <br>How could you help the team? Possible needs and contributions of each one for the collective work.
+                                </p>
+                                <p>
+                                    {{ __('header.mo_dm_fm_conversation_on_team_1') }} <br>
+                                    {{ __('header.mo_dm_fm_conversation_on_team_2') }} <br>
+                                    {{ __('header.mo_dm_fm_conversation_on_team_3') }}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="meeting_time">
                         <i class="fas fa-history fa-4x"></i>
-                        <h3 class="m-0">45 minutes</h3>
+                        <h3 class="m-0"> {{ __('header.mo_45_min') }} </h3>
                     </div>
                 </div>
             </div>
