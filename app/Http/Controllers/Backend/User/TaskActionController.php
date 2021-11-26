@@ -75,6 +75,7 @@ class TaskActionController extends Controller {
             $task->update();
 
             $notification_data['project_id'] = $task->project_id;
+            $notification_data['task_id'] = $task->id;
             $notification_data['user_id'] = auth()->user()->id;
             $notification_data['type'] = 'action done';
             $notification_data['notification'] = 'An action has been marked as done in ' . $task->name . ' Task';

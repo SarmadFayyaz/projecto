@@ -11,6 +11,7 @@ class Notification extends Model {
 
     protected $fillable = [
         'project_id',
+        'task_id',
         'user_id',
         'type',
         'notification',
@@ -18,6 +19,10 @@ class Notification extends Model {
 
     public function project() {
         return $this->belongsTo(Project::class);
+    }
+
+    public function task() {
+        return $this->belongsTo(Task::class);
     }
 
 

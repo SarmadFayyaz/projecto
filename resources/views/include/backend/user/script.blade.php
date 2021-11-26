@@ -2,6 +2,7 @@
     $(document).ready(function () {
         update_member_status();
     });
+
     function userSetting() {
         let background = $('.active-color').find('.active').data('color');
         let sidebar_background = $('.background-color').find('.active').data('background-color');
@@ -32,33 +33,13 @@
     });
     var channel = pusher.subscribe('my-channel.{{Auth::user()->id}}');
     channel.bind('ProjectNotification', function (data) {
-        toastr.info("You have been added to new project!");
-        var str = ' <a class="dropdown-item" href="#"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
-        $('#my_notifications').prepend(str);
-        var notification_counter = parseInt($('#notification_counter').text());
-        $('#notification_counter').html(notification_counter + 1);
+        getNotificationText(data.notification.id);
     });
     channel.bind('TaskNotification', function (data) {
-        if (data.notification.type == "task added")
-            toastr.info("A new task added in " + data.task.project.name);
-        else if (data.notification.type == "task approved")
-            toastr.info("Task Approved in " + data.task.project.name);
-        else if (data.notification.type == "task updated")
-            toastr.info("Task Updated in " + data.task.project.name);
-        else if (data.notification.type == "task completed")
-            toastr.info("Task Completed in " + data.task.project.name);
-        var str = ' <a class="dropdown-item" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
-        $('#my_notifications').prepend(str);
-        var notification_counter = parseInt($('#notification_counter').text());
-        $('#notification_counter').html(notification_counter + 1)
+        getNotificationText(data.notification.id);
     });
     channel.bind('TaskActionNotification', function (data) {
-        console.log(data);
-        toastr.info("An action has been marked as done in " + data.task.name + " task");
-        var str = ' <a class="dropdown-item" href="' + APP_URL + '/notification/' + data.notification.id + '/edit"> <span class="mr-2">●</span>' + data.notification.notification + '</a>';
-        $('#my_notifications').prepend(str);
-        var notification_counter = parseInt($('#notification_counter').text());
-        $('#notification_counter').html(notification_counter + 1);
+        getNotificationText(data.notification.id);
     });
 
     var presence = new Pusher("452e3e06689718ba121f", {
@@ -132,5 +113,22 @@
             return '#343a40';
         else
             return '#36baaf';
+    }
+
+    function getNotificationText(id) {
+        $.ajax({
+            url: APP_URL + "/notification/" + id,
+            type: 'GET',
+            success: function (result) {
+                toastr.info(result.notification_text);
+                var str = ' <a class="dropdown-item" href="' + APP_URL + '/notification/' + id + '/edit"> <span class="mr-2">●</span>' + result.notification_text + '</a>';
+                $('#my_notifications').prepend(str);
+                var notification_counter = parseInt($('#notification_counter').text());
+                $('#notification_counter').html(notification_counter + 1);
+            },
+            error: function (result) {
+                return result.error;
+            }
+        });
     }
 </script>

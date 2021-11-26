@@ -145,3 +145,37 @@ if (!function_exists('getFormType')) {
         }
     }
 }
+
+if (!function_exists('getNotificationText')) {
+    function getNotificationText($id) {
+        $notification = Notification::with('project', 'task', 'user')->where('id', $id)->first();
+        if ($notification->type == 'project added')
+            return __('header.project_added', ['project_name' => $notification->project->name]);
+        else if ($notification->type == 'task added')
+            return __('header.task_added',
+                ['project_name' => $notification->project->name,
+                    'user_name' => $notification->user->first_name . ' ' . $notification->user->last_name]);
+        else if ($notification->type == 'task approved')
+            return __('header.task_approved',
+                ['project_name' => $notification->project->name,
+                    'user_name' => $notification->user->first_name . ' ' . $notification->user->last_name,
+                    'task_name' => $notification->task->name
+                ]);
+        else if ($notification->type == 'task completed')
+            return __('header.task_completed',
+                ['project_name' => $notification->project->name,
+                    'user_name' => $notification->user->first_name . ' ' . $notification->user->last_name,
+                    'task_name' => $notification->task->name
+                ]);
+        else if ($notification->type == 'task updated')
+            return __('header.task_updated',
+                ['project_name' => $notification->project->name,
+                    'user_name' => $notification->user->first_name . ' ' . $notification->user->last_name,
+                    'task_name' => $notification->task->name
+                ]);
+        else if ($notification->type == 'action done')
+            return __('header.action_done', ['task_name' => $notification->task->name]);
+        else
+            return __('header.something_went_wrong');
+    }
+}

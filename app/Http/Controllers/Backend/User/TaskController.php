@@ -68,6 +68,7 @@ class TaskController extends Controller {
                 $task_user->save();
             }
             $notification_data['project_id'] = $data['project_id'];
+            $notification_data['task_id'] = $task->id;
             $notification_data['user_id'] = auth()->user()->id;
             $notification_data['type'] = 'task added';
             $notification_data['notification'] = 'A new task added in ' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
@@ -135,6 +136,7 @@ class TaskController extends Controller {
                 $task->update();
 
                 $notification_data['project_id'] = $task->project_id;
+                $notification_data['task_id'] = $task->id;
                 $notification_data['user_id'] = auth()->user()->id;
                 $notification_data['type'] = 'task approved';
                 $notification_data['notification'] = $task->name . ' approved by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name . ' in ' . $task->project->name;
@@ -180,6 +182,7 @@ class TaskController extends Controller {
                 $task->update();
 
                 $notification_data['project_id'] = $task->project_id;
+                $notification_data['task_id'] = $task->id;
                 $notification_data['user_id'] = auth()->user()->id;
                 $notification_data['type'] = 'task completed';
                 $notification_data['notification'] = $task->name . ' Completed by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name . ' in ' . $task->project->name;

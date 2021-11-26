@@ -95,7 +95,8 @@
 
 .btn.btn-sm, .btn-group-sm > .btn, .btn-group-sm .btn {
     padding: 0.30625rem 0.5rem !important;
-    font-size: 0.6rem;
+    /*font-size: 0.6rem;*/
+    font-size: 0.75rem;
     line-height: 1.5;
 }
 

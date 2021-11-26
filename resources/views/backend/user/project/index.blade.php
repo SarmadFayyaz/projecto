@@ -451,7 +451,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-4 pl-2 pr-2 text-center">
-                                                    <h4 class="m-0 font-weight-bold">{{ __('header.task_dashboard') }}</h4>
+                                                    <h4 class="m-0 font-weight-bold">{{ __('header.task_dashboard') }} </h4>
                                                 </div>
                                                 <div class="col-4 text-right pl-2 pr-2">
                                                     <select id="" class="task_filter" data-style="btn-{{ $theme }}" data-width="fit" data-title="{{ __('header.task_filter') }}">
@@ -702,8 +702,9 @@
 @endsection
 
 @section('script')
-    <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
-    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>--}}
+    <script src="//sdk.twilio.com/js/video/releases/2.17.1/twilio-video.min.js"></script>
+    {{--    <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     {{--    <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>--}}
     {{--    <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>--}}
     <script>
@@ -1209,7 +1210,9 @@
         });
 
         // Video Call JS Start
-        var room;
+
+        let room;
+        let localTracks;
         $(document).on('click', 'a.call_to_user', function (e) {
             e.preventDefault();
             $.ajax({
@@ -1217,45 +1220,60 @@
                 type: "POST",
                 data: {roomName: '{{'_meeting'.$project->id}}', "_token": "{{ csrf_token() }}"},
                 success: function (result) {
-                    Twilio.Video.createLocalTracks({
-                        audio: true,
-                        video: {width: 640, zoom: true}
-                    }).then(function (localTracks) {
-                        return Twilio.Video.connect(result.accessToken, {
+                    const Video = Twilio.Video;
+
+                    Video.connect(
+                        result.accessToken,
+                        {
                             name: result.roomName,
-                            tracks: localTracks,
-                        });
-                    }).then(function (room) {
-                        window.room = room
+                            video: true,
+                            audio: true,
+                        },
+                    ).then(room => {
+                        window.room = room;
+                        console.log('Connected to Room "%s"', room.name);
+                        console.log('Room = ' + window.room);
+                        room.participants.forEach(participantConnected);
+                        room.on('participantConnected', participantConnected);
 
-                        //local participants
-                        participantConnected(room.localParticipant);
-                        //connectected participants
-                        room.participants.forEach(participant => {
-                            participantConnected(participant)
-                        });
-                        room.on('participantConnected', function (participant) {
-                            console.log("Joining: ");
-                            participantConnected(participant);
-                        });
+                        room.on('participantDisconnected', participantDisconnected);
+                        room.once('disconnected', error => room.participants.forEach(participantDisconnected));
 
-                        room.on('participantDisconnected', function (participant) {
-                            console.log("Disconnected: ");
-                            participantDisconnected(participant);
+                        Video.createLocalTracks({
+                            video: true,
+                        }).then(function (localTracks) {
+                            window.localTracks = localTracks;
+                            localTracks.forEach(function (track) {
+                                trackSubscribed({{ auth()->user()->id }}, track);
+                            });
+                        });
+                        $('a.call_to_user').each(function () {
+                            $(this).text('{{ __('header.leave_call') }}').removeClass('call_to_user').addClass('leave_call');
                         });
                     });
+
                 },
                 error: function () {
                     toastr.error('in error');
                 }
             });
         });
+
         $(document).on('click', 'a.leave_call', function () {
-            room.on('disconnected', room => {
-                participantDisconnected(room.localParticipant);
+            console.log('Room = ' + window.room);
+            // Detach the local media elements
+            window.room.localParticipant.tracks.forEach(publication => {
+                publication.track.stop();
+                const attachedElements = publication.track.detach();
+                console.log("unsubscribed from: " + publication.track);
+                attachedElements.forEach(element => element.remove());
             });
-            room.disconnect();
-            $('.vide_mirror').html('');
+            window.localTracks.forEach(track => track.stop());
+            // To disconnect from a Room
+            window.room.disconnect();
+            $('.div{{auth()->user()->id}}').each(function () {
+                $(this).html('');
+            });
             $('a.leave_call').each(function () {
                 $(this).text('{{ __('header.join_call') }}').removeClass('leave_call').addClass('call_to_user');
             });
@@ -1263,129 +1281,69 @@
 
         function participantConnected(participant) {
             console.log('Participant "%s" connected', participant.identity);
-            $('a.call_to_user').each(function () {
-                $(this).text('{{ __('header.leave_call') }}').removeClass('call_to_user').addClass('leave_call');
-            });
-
+            $('.call_to_user').text('{{ __('header.leave_call') }}').removeClass('call_to_user').addClass('leave_call');
             if ({{ Auth::user()->id }} != participant.identity)
                 toastr.info($('.div' + participant.identity).data('user-name') + ' has joined session');
-            // else
-            //     toastr.info('You joined session');
-            const div = document.getElementsByClassName('div' + participant.identity);
-            participant.tracks.forEach(function (track) {
-                for (let i = 0; i < div.length; i++) {
-                    div[i].innerHTML = "<div style='clear:both'></div>";
-                    trackAdded(div[i], track)
+
+
+            participant.on('trackSubscribed', track => trackSubscribed(participant.identity, track));
+            participant.on('trackUnsubscribed', trackUnsubscribed);
+
+            participant.tracks.forEach(publication => {
+                if (publication.isSubscribed) {
+                    trackSubscribed(participant.identity, publication.track);
                 }
             });
-
-            participant.on('trackAdded', function (track) {
-                for (let i = 0; i < div.length; i++) {
-                    trackAdded(div[i], track)
-                }
-            });
-            participant.on('trackRemoved', trackRemoved);
-        }
-
-        function trackAdded(div, track) {
-            console.log('trake_added');
-            div.append(track.attach());
-            var video = div.getElementsByTagName("video")[0];
-            if (video) {
-                // if (div.classList.contains('meeting_video')) {
-                video.setAttribute("style", "max-width: 100%; border-radius:5px;");
-                // } else {
-                //     video.setAttribute("style", "max-width: " + ($(video).parent().parent().width() - 40) + "px;");
-                // }
-            }
-            var video1 = div.getElementsByTagName("video")[1];
-            if (video1) {
-                video1.classList.add("share_screen", "cursor-pointer");
-            }
         }
 
         function participantDisconnected(participant) {
             console.log('Participant "%s" disconnected', participant.identity);
-            participant.tracks.forEach(trackRemoved);
-            if ({{ Auth::user()->id }} != participant.identity)
-                toastr.info($('.div' + participant.identity).data('user-name') + ' has left session');
-            // else
-            //     toastr.info('You left session');
+            $('.div' + participant.identity).html('');
         }
 
-        function trackRemoved(track) {
-            track.detach().forEach(function (element) {
-                element.remove()
+        function trackSubscribed(participant_id, track) {
+            $('.div' + participant_id).each(function () {
+                $(this).append(track.attach());
+                $(this).find('video').eq(0).css({'max-width': ' 100%', 'border-radius': '5px'});
+                $(this).find('video').eq(1).addClass('share_screen', 'cursor-pointer');
             });
         }
 
-        // mute mic
-        function muteMic() {
-            room.localParticipant.audioTracks.forEach((publication) => {
-                if (publication.isEnabled) {
-                    publication.disable();
+        function trackUnsubscribed(track) {
+            track.detach().forEach(element => element.remove());
+        }
+
+
+        // mic Mute Unmute
+        function mic() {
+            window.room.localParticipant.audioTracks.forEach((publication) => {
+                if (publication.track.isEnabled) {
+                    publication.track.disable();
                     $('.btnMic').html('<i class="fas fa-microphone-slash"></i>').attr('title', '{{ __('header.unmute_mic') }}').attr('data-original-title', '{{ __('header.unmute_mic') }}');
                 } else {
-                    publication.enable();
+                    publication.track.enable();
                     $('.btnMic').html('<i class="fas fa-microphone"></i>').attr('title', '{{ __('header.mute_mic') }}').attr('data-original-title', '{{ __('header.mute_mic') }}');
                 }
             });
         }
 
-        // unmute mic
-        function muteVideo() {
-            if (typeof room === 'undefined') {
-                $.ajax({
-                    url: APP_URL + "/join-call",
-                    type: "POST",
-                    data: {roomName: '{{'_meeting'.$project->id}}', "_token": "{{ csrf_token() }}"},
-                    success: function (result) {
-                        Twilio.Video.createLocalTracks({
-                            audio: true,
-                            video: {width: 240, zoom: true}
-                        }).then(function (localTracks) {
-                            return Twilio.Video.connect(result.accessToken, {
-                                name: result.roomName,
-                                tracks: localTracks
-                            });
-                        }).then(function (room) {
-                            console.log('Successfully joined a Room: ', room.name);
-                            window.room = room
-                            //local participants
-                            participantConnected(room.localParticipant);
-
-                            //connectected participants
-                            room.participants.forEach(participant => {
-                                participantConnected(participant)
-                            });
-                            room.on('participantConnected', function (participant) {
-                                console.log("Joining: ");
-                                participantConnected(participant);
-                            });
-
-                            room.on('participantDisconnected', function (participant) {
-                                console.log("Disconnected: ");
-                                participantDisconnected(participant);
-                            });
-                        });
-                    },
-                    error: function () {
-                        toastr.error('in error');
-                    }
-                });
-            } else {
-                room.localParticipant.videoTracks.forEach(publication => {
-                    console.log(publication);
-                    if (publication.isEnabled) {
-                        publication.disable();
-                        $('.btnCam').html('<i class="fas fa-video-slash"></i>').attr('title', '{{ __('header.turn_on_camera') }}').attr('data-original-title', '{{ __('header.turn_on_camera') }}');
-                    } else {
-                        publication.enable();
-                        $('.btnCam').html('<i class="fas fa-video"></i>').attr('title', '{{ __('header.turn_off_camera') }}').attr('data-original-title', '{{ __('header.turn_off_camera') }}');
-                    }
-                });
-            }
-
+        // Camera On Off
+        function camera() {
+            window.room.localParticipant.videoTracks.forEach((publication) => {
+                if (publication.track.isEnabled) {
+                    publication.track.disable();
+                    $('.div{{auth()->user()->id}}').each(function () {
+                        $(this).find('video').eq(0).attr('hidden', true);
+                    });
+                    $('.btnCam').html('<i class="fas fa-video-slash"></i>').attr('title', '{{ __('header.turn_on_camera') }}').attr('data-original-title', '{{ __('header.turn_on_camera') }}');
+                } else {
+                    publication.track.enable();
+                    $('.div{{auth()->user()->id}}').each(function () {
+                        $(this).find('video').eq(0).removeAttr('hidden');
+                    });
+                    $('.btnCam').html('<i class="fas fa-video"></i>').attr('title', '{{ __('header.turn_off_camera') }}').attr('data-original-title', '{{ __('header.turn_off_camera') }}');
+                }
+            });
         }
 
         // change volume
@@ -1405,7 +1363,7 @@
             if (!screenTrack) {
                 navigator.mediaDevices.getDisplayMedia().then(stream => {
                     screenTrack = new Twilio.Video.LocalVideoTrack(stream.getTracks()[0]);
-                    room.localParticipant.publishTrack(screenTrack);
+                    window.room.localParticipant.publishTrack(screenTrack);
                     screenTrack.mediaStreamTrack.onended = () => {
                         shareScreen()
                     };
@@ -1429,7 +1387,7 @@
                     toastr.warning('Could not share the screen.');
                 });
             } else {
-                room.localParticipant.unpublishTrack(screenTrack);
+                window.room.localParticipant.unpublishTrack(screenTrack);
                 screenTrack.stop();
                 screenTrack = null
                 $('.btnScreen').html('<i class="fab fa-slideshare"></i>').attr('title', '{{ __('header.share_screen') }}').attr('data-original-title', '{{ __('header.share_screen') }}');

@@ -59,7 +59,7 @@
                                 @if($notification_user->status == 0)
                                     <span class="mr-2">●</span>
                                 @endif
-                                {{ $notification_user->notification->notification }}
+                                {{ getNotificationText($notification_user->notification->id) }}
                             </a>
                         @endforeach
                     </div>

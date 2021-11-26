@@ -96,6 +96,7 @@ class TaskRequestsController extends Controller {
             $task->update($data);
 
             $notification_data['project_id'] = $task->project_id;
+            $notification_data['task_id'] = $task->id;
             $notification_data['user_id'] = auth()->user()->id;
             $notification_data['type'] = 'task updated';
             $notification_data['notification'] = $task->name . ' updated in ' . $task->project->name . ' by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name;

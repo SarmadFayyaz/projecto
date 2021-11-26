@@ -43,7 +43,7 @@ class NotificationController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Notification $notification) {
-        //
+        return response()->json(['notification_text' => getNotificationText($notification->id)]);
     }
 
     /**

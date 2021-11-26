@@ -429,6 +429,7 @@
                 }
             });
             $('.date_picker').datetimepicker({
+                debug: true,
                 format: 'YYYY-MM-DD',
                 icons: {
                     time: "fa fa-clock-o",
