@@ -17,7 +17,7 @@
                                 <i class="fas fa-briefcase"></i>
                             </div>
                             <p class="card-category">{{__('header.total_companies')}}</p>
-                            <h3 class="card-title">184</h3>
+                            <h3 class="card-title"> {{ ($companies) ? $companies : 0 }} </h3>
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                                 <i class="fas fa-users"></i>
                             </div>
                             <p class="card-category">{{__('header.total_users')}}</p>
-                            <h3 class="card-title">184</h3>
+                            <h3 class="card-title"> {{ ($users) ? $users : 0 }} </h3>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                                 <i class="material-icons">work</i>
                             </div>
                             <p class="card-category">{{__('header.active_projects')}}</p>
-                            <h3 class="card-title">184</h3>
+                            <h3 class="card-title"> {{ ($active_projects) ? $active_projects : 0 }} </h3>
                         </div>
                     </div>
                 </div>
@@ -49,9 +49,9 @@
                             <div class="card-icon mb-2">
                                 <i class="material-icons">work_off</i>
                             </div>
-                            <p class="card-category">{{__('header.pending_projects')}}</p>
+                            <p class="card-category">{{__('header.finished_projects')}}</p>
 
-                            <h3 class="card-title">184</h3>
+                            <h3 class="card-title"> {{ ($finished_projects) ? $finished_projects : 0 }} </h3>
                         </div>
                     </div>
                 </div>

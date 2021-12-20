@@ -162,9 +162,11 @@
                 <h6 class="text-center m-0 pt-2 pb-2 task_header font-weight-bold"><b> {{ __('header.task_notes') }} </b></h6>
                 <div class="card-body p-2 m-0 bg-white overflow-auto scroll-bar" style="max-height: 33vh;">
                     @foreach($task->taskNote as $note)
-                        <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex;">
-                            {{ $note->notes }}
-                        </p>
+{{--                        <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex;">--}}
+{{--                            {{ $note->notes }}--}}
+{{--                        </p>--}}
+
+                        <textarea rows="1" class="form-control {{ ($loop->last && !$loop->first) ? '' : 'mb-3' }} task_note_edit_ajax" data-task-id="{{ $task->id }}" data-id="{{ $note->id }}">{{ $note->notes }}</textarea>
                     @endforeach
                 </div>
             </div>

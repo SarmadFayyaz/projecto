@@ -110,7 +110,7 @@
                         </div>
                         <div class="col-5 recur_event_div" hidden>
                             <div class="form-group @error('days_of_week') has-danger @enderror">
-                                <select class="selectpicker" data-style="select-with-transition" name="days_of_week[]" multiple title="{{ __('header.select_days') }}" data-size="4" data-container="body">
+                                <select class="selectpicker days_of_week" data-style="select-with-transition" name="days_of_week[]" multiple title="{{ __('header.select_days') }}" data-size="4" data-container="body">
                                     <option value="0"> {{ __('header.sunday') }} </option>
                                     <option value="1"> {{ __('header.monday') }} </option>
                                     <option value="2"> {{ __('header.tuesday') }} </option>

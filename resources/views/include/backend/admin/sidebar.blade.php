@@ -1,4 +1,4 @@
-<div class="sidebar {{(Auth::guard('admin')->user()->sidebar_size == 1) ? 'ps' : ''}}"
+<div class="sidebar {{(Auth::guard('admin')->user()->sidebar_size == 0) ? '' : 'ps'}}"
      data-color="{{ (Auth::guard('admin')->user()->background) ? getSidebarColor(Auth::guard('admin')->user()->background) : 'purple' }}"
      data-background-color="{{ (Auth::guard('admin')->user()->sidebar_background) ? Auth::guard('admin')->user()->sidebar_background : 'white' }}"
      data-image="{{ asset('assets/img/sidebar-1.jpg') }}">

@@ -96,13 +96,13 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text action_counter">1</span>
                                     </div>
-                                    <input type="text" class="form-control text-capitalize" required name="action[]" placeholder="{{ __('header.add_action') }}">
+                                    <input type="text" class="form-control" required name="action[]" placeholder="{{ __('header.add_action') }}">
                                 </div>
 {{--                                <div class="input-group">--}}
 {{--                                    <div class="input-group-prepend pr-2">--}}
 {{--                                        <span class="input-group-text"></span>--}}
 {{--                                    </div>--}}
-{{--                                    <input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">--}}
+{{--                                    <input type="text" class="form-control" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">--}}
 {{--                                </div>--}}
                             </div>
                             @error('action')
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success ml-auto mr-auto">
+                    <button type="submit" id="addNewTaskSubmitBtn" class="btn btn-success ml-auto mr-auto">
                         {{ __('header.add') }}
                     </button>
                 </div>

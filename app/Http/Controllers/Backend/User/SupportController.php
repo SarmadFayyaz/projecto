@@ -14,4 +14,8 @@ class SupportController extends Controller {
         return view('backend.user.support.index', compact('page','videos', 'faqs'));
     }
 
+    public function leaveComment(){
+        return back()->with('success', __('header.sent'));
+    }
+
 }

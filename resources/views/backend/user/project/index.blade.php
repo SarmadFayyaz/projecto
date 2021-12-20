@@ -309,9 +309,11 @@
                                 <div class="p-2 text-left ">
                                     <div class="r justify-content-center">
                                         <div class="col-md-9">
+                                            @if(auth()->user()->hasRole('Boss'))
                                             <p class="mb-1">
                                                 <a href="{{ route('method_o', [$project->id, 1]) }}" class="text-dark method_o"> {{ __('header.initial_project_meeting') }} </a>
                                             </p>
+                                            @endif
                                             <p class="mb-1">
                                                 <a href="{{ route('method_o', [$project->id, 2]) }}" class="text-dark method_o"> {{ __('header.work_rules') }} </a>
                                             </p>
@@ -321,9 +323,11 @@
                                             <p class="mb-1">
                                                 <a href="{{ route('method_o', [$project->id, 4]) }}" class="text-dark method_o"> {{ __('header.platform_roles') }} </a>
                                             </p>
+                                                @if(auth()->user()->hasRole('Boss'))
                                             <p class="mb-1">
                                                 <a href="{{ route('method_o', [$project->id, 5]) }}" class="text-dark method_o"> {{ __('header.boss_view') }} </a>
                                             </p>
+                                                @endif
                                         </div>
                                     </div>
                                 </div>
@@ -716,6 +720,15 @@
             $(".task_filter").selectpicker({
                 style: "btn-{{ $theme }} btn-sm"
             });
+            $(document).on('change', 'select.event_type', function () {
+                if ($(this).val() == 1) {
+                    $('.recur_event_div').attr('hidden', true);
+                    $('.recur_event_div select').removeAttr('required');
+                } else {
+                    $('.recur_event_div').removeAttr('hidden');
+                    $('.recur_event_div select').attr('required', true);
+                }
+            });
             $(document).on('change', 'select.task_filter', function () {
                 $('.other_tasks').removeAttr('hidden');
                 if ($(this).val() == 'my_tasks')
@@ -835,7 +848,7 @@
                     content += '<div class="input-group-prepend">';
                     content += '<span class="input-group-text action_counter"></span>';
                     content += '</div>';
-                    content += '<input type="text" class="form-control text-capitalize" required name="action[]" placeholder="{{ __('header.add_action') }}">';
+                    content += '<input type="text" class="form-control" required name="action[]" placeholder="{{ __('header.add_action') }}">';
                     content += '<div class="input-group-append">';
                     content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
                     content += '</div>';
@@ -844,7 +857,7 @@
                         {{--content += '<div class="input-group-prepend pr-2">';--}}
                         {{--content += '<span class="input-group-text"></span>';--}}
                         {{--content += '</div>';--}}
-                        {{--content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';--}}
+                        {{--content += '<input type="text" class="form-control" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';--}}
                         {{--content += '</div>';--}}
                         content += '</div>';
                     $('#actions').append(content);
@@ -858,6 +871,7 @@
             $(document).on('submit', '#addNewTaskForm', function (e) {
                 e.preventDefault();
                 $('.spinner-overlay').removeAttr('hidden');
+                $('#addNewTaskSubmitBtn').removeAttr("type").attr("type", "button");
                 $.ajax({
                     url: '{{ route('task.store') }}',
                     type: "post",
@@ -871,6 +885,7 @@
                             $('#addNewTaskForm')[0].reset();
                             $('#addNewTaskModal').modal('hide');
                             $('.spinner-overlay').attr('hidden', true);
+                            $('#addNewTaskSubmitBtn').removeAttr("type").attr("type", "submit");
                         });
                     },
                     error: function (result) {
@@ -921,6 +936,53 @@
                 clearTimeout(timer);
                 timer = setTimeout(function () {
                     updateActionNote(id, note);
+                }, 1000); //Waits for 1 seconds after last keypress to execute the above lines of code
+            });
+            $(document).on('keyup', '.task_note_edit_ajax', function () {
+                let id = $(this).data('id');
+                let task_id = $(this).data('task-id');
+                let notes = $(this).val();
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    updateTaskNote(id, task_id, notes);
+                }, 1000); //Waits for 1 seconds after last keypress to execute the above lines of code
+            });
+            $(document).on('change', '.wr', function () {
+                let project_id = {{ $project->id }};
+                let rule = $(this).val();
+                let status = 0;
+                if ($(this).is(':checked'))
+                    status = 1;
+                $.ajax({
+                    url: '{{ route('work-rule') }}',
+                    type: "post",
+                    data: {
+                        project_id: project_id,
+                        rule: rule,
+                        status: status,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function (result) {
+                        toastr.success(result.success);
+                        $('.spinner-overlay').attr('hidden', true);
+                    },
+                    error: function (result) {
+                        if (result.status == 422) { // when status code is 422, it's a validation issue
+                            $.each(result.responseJSON.errors, function (i, error) {
+                                toastr.error(error);
+                            });
+                        } else
+                            toastr.error(result.error);
+                        $('.spinner-overlay').attr('hidden', true);
+                    }
+                });
+            });
+            $(document).on('keyup', '.im_boss_notes', function () {
+                let project_id = {{ $project->id }};
+                let boss_notes = $(this).val();
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    updateBossNotes(project_id, boss_notes);
                 }, 1000); //Waits for 1 seconds after last keypress to execute the above lines of code
             });
 
@@ -1837,6 +1899,42 @@
                 },
                 error: function () {
                     toastr.error('in error');
+                }
+            });
+        }
+        function updateTaskNote(id, task_id, notes) {
+            $.ajax({
+                url: APP_URL + '/task-note/' + id,
+                type: "PUT",
+                data: {'task_id': task_id ,'notes': notes, "_token": "{{ csrf_token() }}"},
+                success: function (result) {
+                },
+                error: function () {
+                    toastr.error('in error');
+                }
+            });
+        }
+        function updateBossNotes(project_id, boss_notes) {
+            $.ajax({
+                url: '{{ route('project.boss-notes') }}',
+                type: "post",
+                data: {
+                    project_id: project_id,
+                    boss_notes: boss_notes,
+                    "_token": "{{ csrf_token() }}",
+                },
+                success: function (result) {
+                    toastr.success(result.success);
+                    $('.spinner-overlay').attr('hidden', true);
+                },
+                error: function (result) {
+                    if (result.status == 422) { // when status code is 422, it's a validation issue
+                        $.each(result.responseJSON.errors, function (i, error) {
+                            toastr.error(error);
+                        });
+                    } else
+                        toastr.error(result.error);
+                    $('.spinner-overlay').attr('hidden', true);
                 }
             });
         }

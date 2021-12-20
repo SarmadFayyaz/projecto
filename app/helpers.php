@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Project;
+use App\Models\WorkRule;
 use App\Models\ProjectUser;
 use App\Models\Notification;
 use App\Models\NotificationUser;
@@ -177,5 +178,15 @@ if (!function_exists('getNotificationText')) {
             return __('header.action_done', ['task_name' => $notification->task->name]);
         else
             return __('header.something_went_wrong');
+    }
+}
+
+if (!function_exists('checkWorkRule')) {
+    function checkWorkRule($project_id, $rule) {
+        $work_rule = WorkRule::where('project_id', $project_id)->where('rule', $rule)->where('status', 1)->first();
+        if ($work_rule)
+            return true;
+        else
+            return false;
     }
 }

@@ -18,19 +18,10 @@
 <div class="modal-body overflow-auto scroll-bar" style="max-height: 75vh;">
     <div class="pl-3 pr-3 pt-2 pb-2">
         <p> {{ __('header.mo_wr_these_are_the_agreements') }} </p>
-        <input type="checkbox" id="checkbox1" name="checkbox1" value="Lorem">
-        <label for="checkbox1"> Lorem Ipsum dolar sit amet.</label> <br>
-        <input type="checkbox" id="checkbox2" name="checkbox2" value="Lorem">
-        <label for="checkbox2"> Lorem Ipsum dolar sit amet.</label><br>
-        <input type="checkbox" id="checkbox3" name="checkbox3" value="Lorem">
-        <label for="checkbox3"> Lorem Ipsum dolar sit amet.</label><br>
-        <input type="checkbox" id="checkbox4" name="checkbox4" value="Lorem">
-        <label for="checkbox4"> Lorem Ipsum dolar sit amet.</label><br>
-        <input type="checkbox" id="checkbox5" name="checkbox5" value="Lorem">
-        <label for="checkbox5"> Lorem Ipsum dolar sit amet.</label><br>
-        <input type="checkbox" id="checkbox6" name="checkbox6" value="Lorem">
-        <label for="checkbox6"> Lorem Ipsum dolar sit amet.</label><br>
-        <input type="checkbox" id="checkbox7" name="checkbox7" value="Lorem">
-        <label for="checkbox7"> Lorem Ipsum dolar sit amet.</label>
+        @forelse($work_rules as $rule)
+            <label> {{ __('header.mo_im_wr_'. $rule->rule) }} </label> <br>
+        @empty
+            <label> {{ __('header.no_rules_added_yet') }} </label> <br>
+        @endforelse
     </div>
 </div>

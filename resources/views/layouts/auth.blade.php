@@ -3,7 +3,7 @@
     <head>
         @include('include.backend.auth.head')
     </head>
-    <body class="text-capitalize">
+    <body class="">
 
         @yield('content')
 

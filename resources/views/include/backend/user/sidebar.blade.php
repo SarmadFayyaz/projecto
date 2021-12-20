@@ -7,7 +7,7 @@
         list-style-type: none;
     }
 </style>
-<div class="sidebar {{(Auth::user()->sidebar_size == 1) ? 'ps' : ''}}" data-color="{{ (Auth::user()->background) ? getSidebarColor(Auth::user()->background) : 'purple' }}"
+<div class="sidebar {{(Auth::user()->sidebar_size == 0) ? '' : 'ps'}}" data-color="{{ (Auth::user()->background) ? getSidebarColor(Auth::user()->background) : 'purple' }}"
      data-background-color="{{ (Auth::user()->sidebar_background) ? Auth::user()->sidebar_background : 'white' }}" data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
     <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"

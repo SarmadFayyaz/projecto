@@ -41,4 +41,8 @@ class Project extends Model {
     public function event() {
         return $this->hasMany(Event::class);
     }
+
+    public function workRule() {
+        return $this->hasMany(WorkRule::class)->where('status', 1);
+    }
 }

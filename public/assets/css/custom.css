@@ -96,7 +96,8 @@
 .btn.btn-sm, .btn-group-sm > .btn, .btn-group-sm .btn {
     padding: 0.30625rem 0.5rem !important;
     /*font-size: 0.6rem;*/
-    font-size: 0.75rem;
+    /*font-size: 0.75rem;*/
+    font-size: 0.8rem;
     line-height: 1.5;
 }
 
@@ -1011,7 +1012,7 @@ Bounce
     width: 100vw;
     height: 100vh;
     background-color: #88888888;
-    z-index: 111111;
+    z-index: 111111111111111111111111;
 }
 
 .spinner-overlay .spinner {

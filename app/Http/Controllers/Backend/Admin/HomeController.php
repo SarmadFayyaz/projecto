@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Admin;
+use App\Models\Company;
+use App\Models\User;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +24,12 @@ class HomeController extends Controller {
         Session::put('locale', (Auth::guard('admin')->user()->language) ? Auth::guard('admin')->user()->language : 'en');
         App::setLocale((Auth::guard('admin')->user()->language) ? Auth::guard('admin')->user()->language : 'en');
         $page = 'Dashboard';
-        return view('backend.admin.dashboard.index', compact('page'));
+        $companies = Company::all()->count();
+        $users = User::all()->count();
+        $projects = Project::all();
+        $active_projects = count($projects->where('status', 0));
+        $finished_projects = count($projects->where('status', 1));
+        return view('backend.admin.dashboard.index', compact('page', 'companies', 'users', 'active_projects', 'finished_projects'));
     }
 
     public function setting(Request $request) {

@@ -315,7 +315,7 @@
                             content += '<div class="input-group-prepend">';
                             content += '<span class="input-group-text action_counter"></span>';
                             content += '</div>';
-                            content += '<input type="text" class="form-control text-capitalize" required name="action[]" placeholder="{{ __('header.add_action') }}" value="' + result.task_action[i].name + '">';
+                            content += '<input type="text" class="form-control" required name="action[]" placeholder="{{ __('header.add_action') }}" value="' + result.task_action[i].name + '">';
                             if (i != 0) {
                                 content += '<div class="input-group-append">';
                                 content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
@@ -326,7 +326,7 @@
                             {{--content += '<div class="input-group-prepend pr-2">';--}}
                             {{--content += '<span class="input-group-text"></span>';--}}
                             {{--content += '</div>';--}}
-                            {{--content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}" value="' + result.task_action[i].note + '">';--}}
+                            {{--content += '<input type="text" class="form-control" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}" value="' + result.task_action[i].note + '">';--}}
                             {{--content += '</div>';--}}
                             content += '</div>';
                         }
@@ -350,7 +350,7 @@
                     content += '<div class="input-group-prepend">';
                     content += '<span class="input-group-text action_counter"></span>';
                     content += '</div>';
-                    content += '<input type="text" class="form-control text-capitalize" required name="action[]" placeholder="{{ __('header.add_action') }}">';
+                    content += '<input type="text" class="form-control" required name="action[]" placeholder="{{ __('header.add_action') }}">';
                     content += '<div class="input-group-append">';
                     content += '<span class="input-group-text" ><i class="fa fa-minus text-danger cursor-pointer remove_action"></i></span>';
                     content += '</div>';
@@ -359,7 +359,7 @@
                     {{--content += '<div class="input-group-prepend pr-2">';--}}
                     {{--content += '<span class="input-group-text"></span>';--}}
                     {{--content += '</div>';--}}
-                    {{--content += '<input type="text" class="form-control text-capitalize" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';--}}
+                    {{--content += '<input type="text" class="form-control" name="action_notes[]" placeholder="{{ __('header.add_action_note') }}">';--}}
                     {{--content += '</div>';--}}
                     content += '</div>';
                     $('#actions').append(content);

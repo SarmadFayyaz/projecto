@@ -4,7 +4,7 @@
     @include('include.backend.head')
     @yield('style')
 </head>
-<body class="text-capitalize {{(Auth::guard('admin')->user()->sidebar_size == 1) ? 'sidebar-mini' : ''}}">
+<body class="{{(Auth::guard('admin')->user()->sidebar_size == 0) ? '' : 'sidebar-mini'}}">
     <div class="text-center spinner-overlay">
         <div class="spinner-grow spinner text-{{ $theme }}" role="status" >
             <span class="sr-only">Loading...</span>

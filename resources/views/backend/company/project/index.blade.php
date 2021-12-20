@@ -22,8 +22,7 @@
                                     <h4 class="card-title">{{__('header.projects')}}</h4>
                                 </div>
                                 <div class="col text-right">
-                                    <a class="btn btn-{{ $theme }} btn-sm card-title text-white"
-                                       href="javascript:;" data-toggle="modal" data-target="#add_project_modal">
+                                    <a class="btn btn-{{ $theme }} btn-sm card-title text-white" href="javascript:;" data-toggle="modal" data-target="#add_project_modal">
                                         <i class="material-icons">add_box</i>
                                         {{__('header.add_project')}}
                                     </a>
@@ -35,32 +34,30 @@
                                 <!--        Here you can write extra buttons/actions for the toolbar              -->
                             </div>
                             <div class="material-datatables">
-                                <table id="datatables"
-                                       class="table table-striped table-no-bordered table-hover yajra_datatable"
-                                       cellspacing="0" width="100%" style="width:100%">
+                                <table id="datatables" class="table table-striped table-no-bordered table-hover yajra_datatable" cellspacing="0" width="100%" style="width:100%">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{__('header.name')}}</th>
-                                        <th>{{__('header.boss_leader')}}</th>
-                                        <th>{{__('header.team_members')}}</th>
-                                        <th>{{__('header.sponsors')}}</th>
-                                        <th>{{__('header.start_date')}}</th>
-                                        <th>{{__('header.end_date')}}</th>
-                                        <th>{{__('header.action')}}</th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{__('header.name')}}</th>
+                                            <th>{{__('header.boss_leader')}}</th>
+                                            <th>{{__('header.team_members')}}</th>
+                                            <th>{{__('header.sponsors')}}</th>
+                                            <th>{{__('header.start_date')}}</th>
+                                            <th>{{__('header.end_date')}}</th>
+                                            <th>{{__('header.action')}}</th>
+                                        </tr>
                                     </thead>
                                     <tfoot>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{__('header.name')}}</th>
-                                        <th>{{__('header.boss_leader')}}</th>
-                                        <th>{{__('header.team_members')}}</th>
-                                        <th>{{__('header.sponsors')}}</th>
-                                        <th>{{__('header.start_date')}}</th>
-                                        <th>{{__('header.end_date')}}</th>
-                                        <th>{{__('header.action')}}</th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{__('header.name')}}</th>
+                                            <th>{{__('header.boss_leader')}}</th>
+                                            <th>{{__('header.team_members')}}</th>
+                                            <th>{{__('header.sponsors')}}</th>
+                                            <th>{{__('header.start_date')}}</th>
+                                            <th>{{__('header.end_date')}}</th>
+                                            <th>{{__('header.action')}}</th>
+                                        </tr>
                                     </tfoot>
                                 </table>
                                 <form action="#" method="post" id="delete_form">
@@ -102,8 +99,7 @@
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div class="form-group @error('name') has-danger @enderror">
                                     <label for="name" class="bmd-label-floating">{{__('header.name')}}</label>
-                                    <input type="text" class="form-control" name="name" required
-                                           value="{{ old('name') }}">
+                                    <input type="text" class="form-control" name="name" required value="{{ old('name') }}">
                                     @error('name')
                                     <label class="error">
                                         {{ $message }}
@@ -113,10 +109,8 @@
                             </div>
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div class="form-group @error('strategic_goal') has-danger @enderror">
-                                    <label for="strategic_goal"
-                                           class="bmd-label-floating">{{__('header.strategic_goal')}}</label>
-                                    <input type="text" class="form-control" name="strategic_goal" required
-                                           value="{{ old('strategic_goal') }}">
+                                    <label for="strategic_goal" class="bmd-label-floating">{{__('header.strategic_goal')}}</label>
+                                    <input type="text" class="form-control" name="strategic_goal" required value="{{ old('strategic_goal') }}">
                                     @error('strategic_goal')
                                     <label class="error">
                                         {{ $message }}
@@ -126,10 +120,8 @@
                             </div>
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div class="form-group @error('purpose') has-danger @enderror">
-                                    <label for="purpose"
-                                           class="bmd-label-floating">{{__('header.purpose')}}</label>
-                                    <input type="text" class="form-control" name="purpose" required
-                                           value="{{ old('purpose') }}">
+                                    <label for="purpose" class="bmd-label-floating">{{__('header.purpose')}}</label>
+                                    <input type="text" class="form-control" name="purpose" required value="{{ old('purpose') }}">
                                     @error('purpose')
                                     <label class="error">
                                         {{ $message }}
@@ -139,10 +131,8 @@
                             </div>
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div class="form-group @error('project_goal') has-danger @enderror">
-                                    <label for="project_goal"
-                                           class="bmd-label-floating">{{__('header.project_goal')}}</label>
-                                    <input type="text" class="form-control" name="project_goal" required
-                                           value="{{ old('project_goal') }}">
+                                    <label for="project_goal" class="bmd-label-floating">{{__('header.project_goal')}}</label>
+                                    <input type="text" class="form-control" name="project_goal" required value="{{ old('project_goal') }}">
                                     @error('project_goal')
                                     <label class="error">
                                         {{ $message }}
@@ -152,14 +142,11 @@
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
                                 <div class="form-group @error('project_leader') has-danger @enderror">
-                                    <select class="selectpicker" name="project_leader" required
-                                            data-style="select-with-transition" data-size="4" data-width="100%"
-                                            title="{{ __('header.select_boss_leader') }}">
+                                    <select class="selectpicker" name="project_leader" required data-style="select-with-transition" data-size="4" data-width="100%" title="{{ __('header.select_boss_leader') }}">
                                         <option disabled> {{ __('header.select_boss_leader') }} </option>
                                         @foreach($users as $user)
                                             @if($user->hasRole('Boss'))
-                                                <option
-                                                    value="{{ $user->id }}" {{ ($user->id == old('project_leader')) ? 'selected' : '' }}>
+                                                <option value="{{ $user->id }}" {{ ($user->id == old('project_leader')) ? 'selected' : '' }}>
                                                     {{ $user->first_name . ' ' . $user->last_name }}
                                                 </option>
                                             @endif
@@ -174,14 +161,11 @@
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
                                 <div class="form-group @error('team_members') has-danger @enderror">
-                                    <select class="selectpicker" name="team_members[]" multiple
-                                            data-style="select-with-transition" data-size="4" required
-                                            data-width="100%" title="{{ __('header.select_team_members') }}">
+                                    <select class="selectpicker" name="team_members[]" multiple data-style="select-with-transition" data-size="4" required data-width="100%" title="{{ __('header.select_team_members') }}">
                                         <option disabled> {{ __('header.select_team_members') }} </option>
                                         @foreach($users as $user)
                                             @if($user->hasRole('User'))
-                                                <option
-                                                    value="{{ $user->id }}" {{ (in_array($user->id, old('team_members', []))) ? 'selected' : '' }}>
+                                                <option value="{{ $user->id }}" {{ (in_array($user->id, old('team_members', []))) ? 'selected' : '' }}>
                                                     {{ $user->first_name . ' ' . $user->last_name }}
                                                 </option>
                                             @endif
@@ -196,14 +180,11 @@
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
                                 <div class="form-group @error('sponsors') has-danger @enderror">
-                                    <select class="selectpicker" name="sponsors[]" multiple required
-                                            data-style="select-with-transition" data-size="4"
-                                            data-width="100%" title="{{ __('header.select_sponsors') }}">
+                                    <select class="selectpicker" name="sponsors[]" multiple required data-style="select-with-transition" data-size="4" data-width="100%" title="{{ __('header.select_sponsors') }}">
                                         <option disabled> {{ __('header.select_sponsors') }} </option>
                                         @foreach($users as $user)
                                             @if($user->hasRole('Sponsor'))
-                                                <option
-                                                    value="{{ $user->id }}" {{ (in_array($user->id, old('sponsors', []))) ? 'selected' : '' }}>
+                                                <option value="{{ $user->id }}" {{ (in_array($user->id, old('sponsors', []))) ? 'selected' : '' }}>
                                                     {{ $user->first_name . ' ' . $user->last_name }}
                                                 </option>
                                             @endif
@@ -221,8 +202,7 @@
                                     <label for="start_date" class="bmd-label-floating">
                                         {{__('header.start_date')}}
                                     </label>
-                                    <input type="text" class="form-control date_picker" name="start_date" required
-                                           value="{{ old('start_date') }}">
+                                    <input type="text" class="form-control date_picker" name="start_date" required value="{{ old('start_date') }}">
                                     @error('start_date')
                                     <label class="error">
                                         {{ $message }}
@@ -235,8 +215,7 @@
                                     <label for="end_date" class="bmd-label-floating">
                                         {{__('header.end_date')}}
                                     </label>
-                                    <input type="text" class="form-control date_picker" name="end_date" required
-                                           value="{{ old('end_date') }}">
+                                    <input type="text" class="form-control date_picker" name="end_date" required value="{{ old('end_date') }}">
                                     @error('end_date')
                                     <label class="error">
                                         {{ $message }}
@@ -276,8 +255,7 @@
                             <div class="col-12 p-0">
                                 <div class="row form-group">
                                     <div class="col-12">
-                                        <label for="color"
-                                               class="bmd-label-floating">{{__('header.select_color')}}</label>
+                                        <label for="color" class="bmd-label-floating">{{__('header.select_color')}}</label>
                                     </div>
                                     <div class="col center">
                                         <label class="btn btn-sm btn-info rounded w-100">
@@ -319,10 +297,7 @@
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-group @error('description') has-danger @enderror">
-                                    <label for="description"
-                                           class="bmd-label-floating">{{__('header.description')}}</label>
-                                    <textarea class="form-control" name="description" cols="30"
-                                              rows="3">{{ old('description') }}</textarea>
+                                    <label for="description" class="bmd-label-floating">{{__('header.description')}}</label> <textarea class="form-control" name="description" cols="30" rows="3">{{ old('description') }}</textarea>
                                     @error('description')
                                     <label class="error">
                                         {{ $message }}
@@ -333,8 +308,7 @@
                         </div>
                     </div>
                     <div class="modal-footer ">
-                        <button type="submit"
-                                class="btn btn-fill btn-success ml-auto">{{__('header.add')}}</button>
+                        <button type="submit" class="btn btn-fill btn-success ml-auto">{{__('header.add')}}</button>
                     </div>
                 </form>
 
@@ -366,8 +340,7 @@
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div class="form-group @error('name') has-danger @enderror">
                                     <label for="name" class="bmd-label-floating">{{__('header.name')}}</label>
-                                    <input type="text" class="form-control" name="name" id="name" required
-                                           value="{{ old('name') }}">
+                                    <input type="text" class="form-control" name="name" id="name" required value="{{ old('name') }}">
                                     @error('name')
                                     <label class="error">
                                         {{ $message }}
@@ -377,11 +350,8 @@
                             </div>
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div class="form-group @error('strategic_goal') has-danger @enderror">
-                                    <label for="strategic_goal"
-                                           class="bmd-label-floating">{{__('header.strategic_goal')}}</label>
-                                    <input type="text" class="form-control" name="strategic_goal" id="strategic_goal"
-                                           required
-                                           value="{{ old('strategic_goal') }}">
+                                    <label for="strategic_goal" class="bmd-label-floating">{{__('header.strategic_goal')}}</label>
+                                    <input type="text" class="form-control" name="strategic_goal" id="strategic_goal" required value="{{ old('strategic_goal') }}">
                                     @error('strategic_goal')
                                     <label class="error">
                                         {{ $message }}
@@ -391,10 +361,8 @@
                             </div>
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div class="form-group @error('purpose') has-danger @enderror">
-                                    <label for="purpose"
-                                           class="bmd-label-floating">{{__('header.purpose')}}</label>
-                                    <input type="text" class="form-control" name="purpose" id="purpose" required
-                                           value="{{ old('purpose') }}">
+                                    <label for="purpose" class="bmd-label-floating">{{__('header.purpose')}}</label>
+                                    <input type="text" class="form-control" name="purpose" id="purpose" required value="{{ old('purpose') }}">
                                     @error('purpose')
                                     <label class="error">
                                         {{ $message }}
@@ -404,11 +372,8 @@
                             </div>
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div class="form-group @error('project_goal') has-danger @enderror">
-                                    <label for="project_goal"
-                                           class="bmd-label-floating">{{__('header.project_goal')}}</label>
-                                    <input type="text" class="form-control" name="project_goal" id="project_goal"
-                                           required
-                                           value="{{ old('project_goal') }}">
+                                    <label for="project_goal" class="bmd-label-floating">{{__('header.project_goal')}}</label>
+                                    <input type="text" class="form-control" name="project_goal" id="project_goal" required value="{{ old('project_goal') }}">
                                     @error('project_goal')
                                     <label class="error">
                                         {{ $message }}
@@ -418,14 +383,11 @@
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
                                 <div class="form-group @error('project_leader') has-danger @enderror">
-                                    <select class="selectpicker" name="project_leader" id="project_leader" required
-                                            data-style="select-with-transition" data-size="4" data-width="100%"
-                                            title="{{ __('header.select_boss_leader') }}">
+                                    <select class="selectpicker" name="project_leader" id="project_leader" required data-style="select-with-transition" data-size="4" data-width="100%" title="{{ __('header.select_boss_leader') }}">
                                         <option disabled> {{ __('header.select_boss_leader') }} </option>
                                         @foreach($users as $user)
                                             @if($user->hasRole('Boss'))
-                                                <option
-                                                    value="{{ $user->id }}" {{ ($user->id == old('project_leader')) ? 'selected' : '' }}>
+                                                <option value="{{ $user->id }}" {{ ($user->id == old('project_leader')) ? 'selected' : '' }}>
                                                     {{ $user->first_name . ' ' . $user->last_name }}
                                                 </option>
                                             @endif
@@ -440,14 +402,11 @@
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
                                 <div class="form-group @error('team_members') has-danger @enderror">
-                                    <select class="selectpicker" name="team_members[]" id="team_members"
-                                            multiple data-style="select-with-transition" data-size="4" required
-                                            data-width="100%" title="{{ __('header.select_team_members') }}">
+                                    <select class="selectpicker" name="team_members[]" id="team_members" multiple data-style="select-with-transition" data-size="4" required data-width="100%" title="{{ __('header.select_team_members') }}">
                                         <option disabled> {{ __('header.select_team_members') }} </option>
                                         @foreach($users as $user)
                                             @if($user->hasRole('User'))
-                                                <option
-                                                    value="{{ $user->id }}" {{ (in_array($user->id, old('team_members', []))) ? 'selected' : '' }}>
+                                                <option value="{{ $user->id }}" {{ (in_array($user->id, old('team_members', []))) ? 'selected' : '' }}>
                                                     {{ $user->first_name . ' ' . $user->last_name }}
                                                 </option>
                                             @endif
@@ -462,14 +421,11 @@
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
                                 <div class="form-group @error('sponsors') has-danger @enderror">
-                                    <select class="selectpicker" name="sponsors[]" id="sponsors" multiple required
-                                            data-style="select-with-transition" data-size="4"
-                                            data-width="100%" title="{{ __('header.select_sponsors') }}">
+                                    <select class="selectpicker" name="sponsors[]" id="sponsors" multiple required data-style="select-with-transition" data-size="4" data-width="100%" title="{{ __('header.select_sponsors') }}">
                                         <option disabled> {{ __('header.select_sponsors') }} </option>
                                         @foreach($users as $user)
                                             @if($user->hasRole('Sponsor'))
-                                                <option
-                                                    value="{{ $user->id }}" {{ (in_array($user->id, old('sponsors', []))) ? 'selected' : '' }}>
+                                                <option value="{{ $user->id }}" {{ (in_array($user->id, old('sponsors', []))) ? 'selected' : '' }}>
                                                     {{ $user->first_name . ' ' . $user->last_name }}
                                                 </option>
                                             @endif
@@ -487,9 +443,7 @@
                                     <label for="start_date" class="bmd-label-floating">
                                         {{__('header.start_date')}}
                                     </label>
-                                    <input type="text" class="form-control date_picker" name="start_date"
-                                           id="start_date" required
-                                           value="{{ old('start_date') }}">
+                                    <input type="text" class="form-control date_picker" name="start_date" id="start_date" required value="{{ old('start_date') }}">
                                     @error('start_date')
                                     <label class="error">
                                         {{ $message }}
@@ -502,9 +456,7 @@
                                     <label for="end_date" class="bmd-label-floating">
                                         {{__('header.end_date')}}
                                     </label>
-                                    <input type="text" class="form-control date_picker" name="end_date" id="end_date"
-                                           required
-                                           value="{{ old('end_date') }}">
+                                    <input type="text" class="form-control date_picker" name="end_date" id="end_date" required value="{{ old('end_date') }}">
                                     @error('end_date')
                                     <label class="error">
                                         {{ $message }}
@@ -559,10 +511,8 @@
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="form-group @error('description') has-danger @enderror">
-                                    <label for="description"
-                                           class="bmd-label-floating">{{__('header.description')}}</label>
-                                    <textarea class="form-control" name="description" id="description" cols="30"
-                                              rows="3">{{ old('description') }}</textarea>
+                                    <label for="description" class="bmd-label-floating">{{__('header.description')}}</label> <textarea class="form-control" name="description" id="description" cols="30"
+                                                                                                                                       rows="3">{{ old('description') }}</textarea>
                                     @error('description')
                                     <label class="error">
                                         {{ $message }}
@@ -573,8 +523,7 @@
                         </div>
                     </div>
                     <div class="modal-footer ">
-                        <button type="submit"
-                                class="btn btn-fill btn-success ml-auto">{{__('header.update')}}</button>
+                        <button type="submit" class="btn btn-fill btn-success ml-auto">{{__('header.update')}}</button>
                     </div>
                 </form>
 

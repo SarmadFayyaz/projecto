@@ -39,6 +39,7 @@ use App\Http\Controllers\Backend\User\NotificationController as UserNotification
 use App\Http\Controllers\Backend\User\ProfileController as UserProfile;
 use App\Http\Controllers\Backend\User\SupportController as UserSupport;
 use App\Http\Controllers\Backend\User\MethodOController as UserMethodO;
+use App\Http\Controllers\Backend\User\WorkRuleController as UserWorkRule;
 //use App\Http\Controllers\Backend\User\FormController as UserForm;
 
 /*
@@ -121,6 +122,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::get('/project/{id}/finish', [UserProject::class, 'finish'])->name('project.finish');
     Route::get('/project/{id}/edit', [UserProject::class, 'edit'])->name('project.edit');
     Route::post('/project/{id}', [UserProject::class, 'update'])->name('project.update');
+    Route::post('/project-boss-notes', [UserProject::class, 'bossNotes'])->name('project.boss-notes');
 
     Route::get('task/requests', [UserTaskRequests::class, 'index'])->name('task.requests');
     Route::get('task/requests/get', [UserTaskRequests::class, 'get'])->name('task.requests.get');
@@ -135,6 +137,8 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::resource('task-action', UserTaskAction::class);
     Route::get('task-note/load/{project_id}/', [UserTaskNote::class, 'load'])->name('task-note.load');
     Route::resource('task-note', UserTaskNote::class);
+
+    Route::post('work-rule', [UserWorkRule::class, 'workRule'])->name('work-rule');
 
     Route::post('join-call', [UserVideo::class, 'joinCall']);
     Route::get('screen-share', [UserVideo::class, 'screenShare']);
@@ -157,6 +161,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::post('profile', [UserProfile::class, 'update'])->name('profile.update');
 
     Route::get('support', [UserSupport::class, 'index'])->name('support.index');
+    Route::post('leave-comments', [UserSupport::class, 'leaveComment'])->name('support.leave-comments');
 
     Route::get('method_o/{project_id}/{type}', [UserMethodO::class, 'index'])->name('method_o');
 

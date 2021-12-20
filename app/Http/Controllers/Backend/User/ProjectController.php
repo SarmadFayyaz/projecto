@@ -37,7 +37,8 @@ class ProjectController extends Controller {
             'task.addedBy',
             'task.taskAction',
             'task.taskNote',
-            'groupConversation.user'
+            'groupConversation.user',
+            'workRule'
         );
         if (auth()->user()->hasRole('User')) {
             $data->with(['task' => function ($query) {
@@ -92,7 +93,8 @@ class ProjectController extends Controller {
                 ->addColumn('action', function ($row) {
                     $action = '<a href="javascript:;" class="edit btn btn-success btn-sm" data-id="' . $row->id . '"><i class="material-icons">edit</i></a>';
                     if ($row->status == 0)
-                        $action .= '<a href="' . route('project.finish', $row->id) . '" class="btn btn-primary btn-sm finish"><i class="material-icons">stop</i></a>';
+                        $action .= '<a href="' . route('project.finish',
+                                $row->id) . '" class="btn btn-primary btn-sm finish"><i class="material-icons">stop</i></a>';
                     return $action;
                 })
                 ->rawColumns(['action', 'boss_leader', 'team_members', 'sponsors'])
@@ -148,6 +150,20 @@ class ProjectController extends Controller {
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', __('header.something_went_wrong'));
+        }
+    }
+
+    public function bossNotes(Request $request) {
+        try {
+            DB::beginTransaction();
+            $project = Project::find($request->project_id);
+            $project->boss_notes = $request->boss_notes;
+            $project->save();
+            DB::commit();
+            return response()->json(['success' => __('header.notes_saved')]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => __('header.something_went_wrong')]);
         }
     }
 }

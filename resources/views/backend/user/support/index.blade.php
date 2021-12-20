@@ -15,6 +15,19 @@
 
     <div class="content mt-md-5">
         <div class="container-fluid">
+            <form action="{{ route('support.leave-comments') }}" method="POST">
+                @csrf
+                <div class="row justify-content-center">
+                    <div class="col-sm-10 col-md-6 text-center">
+                        <textarea class="form-control" name="leave_comments" cols="30" rows="2" placeholder="{{ __('header.leave_comments') }}" required></textarea>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-sm-10 col-md-6 text-right">
+                        <button class="btn btn-{{ $theme }} btn-sm"> {{ __('header.send') }} </button>
+                    </div>
+                </div>
+            </form>
             <div class="row justify-content-center">
                 <div class="col-sm-10 col-md-5">
                     <div class="card">

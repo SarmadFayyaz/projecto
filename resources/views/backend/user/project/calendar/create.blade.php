@@ -17,10 +17,12 @@
                     <div class="row justify-content-center">
 
                         <div class="col-5">
-                            <select class="selectpicker user_id" data-style="select-with-transition" name="user_id[]" required multiple title="{{ __('header.choose_members') }}" data-size="4" data-container="body">
+                            <select class="selectpicker user_id" data-style="select-with-transition" name="user_id[]" required multiple title="{{ __('header.choose_members') }}" data-size="4">
                                 <option disabled> {{ __('header.choose_members') }} </option>
                                 @foreach($project->projectUser as $project_user)
-                                    <option value="{{ $project_user->user_id }}">{{ $project_user->user->first_name . ' '  .$project_user->user->last_name }}</option>
+                                    @if($project_user->user->deleted_at == null)
+                                        <option value="{{ $project_user->user_id }}">{{ $project_user->user->first_name . ' '  .$project_user->user->last_name }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -84,7 +86,7 @@
 
                         <div class="col-5">
                             <div class="form-group @error('type') has-danger @enderror">
-                                <select class="selectpicker event_type" data-style="select-with-transition" name="type" required title="{{ __('header.select_event_type') }}" data-size="4" data-container="body">
+                                <select class="selectpicker event_type" data-style="select-with-transition" name="type" required title="{{ __('header.select_event_type') }}" data-size="4">
                                     <option value="1"> {{ __('header.occurring_once') }} </option>
                                     <option value="2"> {{ __('header.recurring_event') }} </option>
                                 </select>
@@ -97,7 +99,7 @@
                         </div>
                         <div class="col-5 recur_event_div" hidden>
                             <div class="form-group @error('days_of_week') has-danger @enderror">
-                                <select class="selectpicker" data-style="select-with-transition" name="days_of_week[]" multiple title="{{ __('header.select_days') }}" data-size="4" data-container="body">
+                                <select class="selectpicker" data-style="select-with-transition" name="days_of_week[]" multiple title="{{ __('header.select_days') }}" data-size="4">
                                     <option value="0"> {{ __('header.sunday') }} </option>
                                     <option value="1"> {{ __('header.monday') }} </option>
                                     <option value="2"> {{ __('header.tuesday') }} </option>
