@@ -2,7 +2,7 @@
     @if($task->status == 'completed')
         <div class="col-6">
             @endif
-            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}} {{ (auth()->user()->id == $task->added_by) ? '' : 'other_tasks' }}">
+            <div class="bg-light p-2 mb-3 {{($task->status == 'pending') ? 'bg-pending' : ''}} {{($task->status == 'pending_completion') ? 'bg-pending-completion' : ''}} {{ (auth()->user()->id == $task->added_by) ? '' : 'other_tasks' }}">
                 <!-- <h6 class="h6css" >Lorem</h6> -->
                 <a class="task_details" href="{{ route('task.show',$task->id) }}" data-id="{{ $task->id }}">
                     <div class="d-flex align-items-center justify-content-start flex-wrap mb-1">

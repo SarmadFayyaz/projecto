@@ -174,6 +174,12 @@ if (!function_exists('getNotificationText')) {
                     'user_name' => $notification->user->first_name . ' ' . $notification->user->last_name,
                     'task_name' => $notification->task->name
                 ]);
+        else if ($notification->type == 'task pending')
+            return __('header.task_pending',
+                ['project_name' => $notification->project->name,
+                    'user_name' => $notification->user->first_name . ' ' . $notification->user->last_name,
+                    'task_name' => $notification->task->name
+                ]);
         else if ($notification->type == 'action done')
             return __('header.action_done', ['task_name' => $notification->task->name]);
         else

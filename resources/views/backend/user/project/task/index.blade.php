@@ -161,10 +161,12 @@
             <div class="card mb-0 mt-2">
                 <h6 class="text-center m-0 pt-2 pb-2 task_header font-weight-bold"><b> {{ __('header.task_notes') }} </b></h6>
                 <div class="card-body p-2 m-0 bg-white overflow-auto scroll-bar" style="max-height: 33vh;">
+
+                    <textarea rows="1" class="form-control task_note_add_ajax mb-3" data-id="" data-task-id="{{ $task->id }}" placehoder="{{ __('header.add_note') }}"></textarea>
                     @foreach($task->taskNote as $note)
-{{--                        <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex;">--}}
-{{--                            {{ $note->notes }}--}}
-{{--                        </p>--}}
+                        {{--                        <p class="w-100 mb-2 pt-2 pb-2 pl-3 pr-3 rounded" style="line-height:16px; display: flex;">--}}
+                        {{--                            {{ $note->notes }}--}}
+                        {{--                        </p>--}}
 
                         <textarea rows="1" class="form-control {{ ($loop->last && !$loop->first) ? '' : 'mb-3' }} task_note_edit_ajax" data-task-id="{{ $task->id }}" data-id="{{ $note->id }}">{{ $note->notes }}</textarea>
                     @endforeach
@@ -176,6 +178,9 @@
                 @if($task->status == 'pending')
                     <a href="{{ route('task.edit', $task->id) }}" class="btn btn-success approve_task"> {{ __('header.approve') }} </a>
                 @elseif($task->progress == 100 && $task->status == 'approved')
+                    @if($task->status != 'pending')
+                        <a href="{{ route('task.pending', $task->id) }}" class="btn btn-primary pending_task"> {{ __('header.pending') }} </a>
+                    @endif
                     <a href="{{ route('task.completed', $task->id) }}" class="btn btn-success complete_task"> {{ __('header.completed') }} </a>
                 @endif
             </div>

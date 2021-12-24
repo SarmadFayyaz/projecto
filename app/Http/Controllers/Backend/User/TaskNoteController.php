@@ -52,7 +52,7 @@ class TaskNoteController extends Controller {
             $project = Project::find($task_note->task->project_id);
             broadcast(new TaskNoteEvent($project))->toOthers();
             DB::commit();
-            return response()->json(['success' => __('header.added_successfully', ['name' => __('header.note')])]);
+            return response()->json(['success' => __('header.added_successfully', ['name' => __('header.note')]), 'note_id' => $task_note->id]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => __('header.something_went_wrong')]);

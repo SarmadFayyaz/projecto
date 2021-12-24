@@ -132,6 +132,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::get('task/requests/{id}/delete', [UserTaskRequests::class, 'delete'])->name('task.requests.delete');
 
     Route::get('task/completed/{id}', [UserTask::class, 'completed'])->name('task.completed');
+    Route::get('task/pending/{id}', [UserTask::class, 'pending'])->name('task.pending');
     Route::get('task/load/{project_id}/{type}/', [UserTask::class, 'load'])->name('task.load');
     Route::resource('task', UserTask::class);
     Route::resource('task-action', UserTaskAction::class);

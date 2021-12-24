@@ -160,15 +160,12 @@ class TaskController extends Controller {
 
                 DB::commit();
                 return response()->json(['success' => __('header.approved_successfully', ['name' => __('header.task')]), 'task_id' => $task->id, 'project_id' => $task->project_id]);
-//                return back()->with('success', 'Task approved successfully.');
             } else {
                 return response()->json(['error' => __('header.you_are_not_authorized')]);
-//                return back()->with('error', 'You are not authorized to perform this action.');
             }
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => __('header.something_went_wrong')]);
-//            return back()->with('error', __('header.something_went_wrong'));
         }
     }
 
@@ -216,6 +213,47 @@ class TaskController extends Controller {
         }
     }
 
+    public function pending($id) {
+        try {
+            $user = Auth::user();
+            $task = Task::find($id);
+            if ($user->hasRole('Boss')) {
+                DB::beginTransaction();
+                $task->status = 'pending_completion';
+                $task->update();
+
+                $notification_data['project_id'] = $task->project_id;
+                $notification_data['task_id'] = $task->id;
+                $notification_data['user_id'] = auth()->user()->id;
+                $notification_data['type'] = 'task pending';
+                $notification_data['notification'] = $task->name . ' marked as pending by ' . auth()->user()->first_name . ' ' . auth()->user()->last_name . ' in ' . $task->project->name;
+                $notification = Notification::create($notification_data);
+
+                $notification_user = new NotificationUser();
+                $notification_user->user_id = $task->added_by;
+                $notification_user->notification_id = $notification->id;
+                $notification_user->save();
+
+                foreach ($task->taskUser as $taskUser) {
+                    $notification_user = new NotificationUser();
+                    $notification_user->user_id = $taskUser->user_id;
+                    $notification_user->notification_id = $notification->id;
+                    $notification_user->save();
+                }
+                broadcast(new TaskNotification($task, $notification))->toOthers();
+                broadcast(new LoadTask($task))->toOthers();
+                broadcast(new TaskActionEvent($task))->toOthers();
+                DB::commit();
+                return response()->json(['success' => __('header.completed_successfully', ['name' => __('header.task')]), 'task_id' => $task->id, 'project_id' => $task->project_id]);
+            } else {
+                return response()->json(['error' => __('header.you_are_not_authorised')]);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => __('header.something_went_wrong')]);
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -246,7 +284,7 @@ class TaskController extends Controller {
         if ($type == 2)
             $data->whereBetween('progress', [1, 99])->where('status', 'approved');
         if ($type == 3)
-            $data->where('progress', 100)->where('status', 'approved');
+            $data->where('progress', 100)->whereIn('status', ['approved', 'pending_completion']);;
         if ($type == 4)
             $data->where('progress', 100)->where('status', 'completed');
         $tasks = $data->get();

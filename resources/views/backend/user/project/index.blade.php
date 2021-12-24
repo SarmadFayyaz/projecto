@@ -128,7 +128,7 @@
         .nav-pills .nav-item .nav-link {
             line-height: 10px;
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 12px !important;
             font-weight: 500;
             min-width: 73px !important;
             text-align: center;
@@ -742,7 +742,7 @@
                     // new PerfectScrollbar('.scroll-bar-appended');
                 });
             });
-            $(document).on('click', '.done_task, .complete_task, .approve_task', function (e) {
+            $(document).on('click', '.done_task, .complete_task, .approve_task, .pending_task', function (e) {
                 e.preventDefault();
                 swal({
                     title: 'Are you sure?',
@@ -945,6 +945,14 @@
                 clearTimeout(timer);
                 timer = setTimeout(function () {
                     updateTaskNote(id, task_id, notes);
+                }, 1000); //Waits for 1 seconds after last keypress to execute the above lines of code
+            });
+            $(document).on('keyup', '.task_note_add_ajax', function () {
+                let task_id = $(this).data('task-id');
+                let notes = $(this).val();
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    addTaskNote(task_id, notes);
                 }, 1000); //Waits for 1 seconds after last keypress to execute the above lines of code
             });
             $(document).on('change', '.wr', function () {
@@ -1908,6 +1916,19 @@
                 type: "PUT",
                 data: {'task_id': task_id ,'notes': notes, "_token": "{{ csrf_token() }}"},
                 success: function (result) {
+                },
+                error: function () {
+                    toastr.error('in error');
+                }
+            });
+        }
+        function addTaskNote(task_id, notes) {
+            $.ajax({
+                url: APP_URL + '/task-note',
+                type: "POST",
+                data: {'task_id': task_id ,'notes': notes, "_token": "{{ csrf_token() }}"},
+                success: function (result) {
+                    $('.task_note_add_ajax').attr('data-id', result.note_id).removeClass('task_note_add_ajax').addClass('task_note_edit_ajax')
                 },
                 error: function () {
                     toastr.error('in error');
