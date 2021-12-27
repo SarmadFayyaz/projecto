@@ -10,14 +10,14 @@
                 </div>
             </div>
 
-            <div class="modal-body card-body scroll-bar">
+            <div class="modal-body card-body">
                 <form method="POST" id="createEventForm">
                     @csrf
                     <div class="row justify-content-center">
 
                         <div class="col-5">
                             <select class="selectpicker project_id" data-style="select-with-transition" name="project_id" required title="{{ __('header.select_project') }}" data-size="4" data-container="body">
-                                <option disabled> {{ __('header.select_project') }} </option>
+                                <option value="" disabled> {{ __('header.select_project') }} </option>
                                 @foreach($user_projects as $project)
                                     <option value="{{ $project->id }}">{{ $project->name }}</option>
                                 @endforeach

@@ -1065,3 +1065,9 @@ Bounce
     border-radius: 8px;
     padding: 4px;
 }
+
+.task_finish_date {
+    position: absolute;
+    right: 17px;
+    top: -26px;
+}

@@ -18,9 +18,9 @@
         <a href="javascript:void(0)" class="simple-text logo-mini">
             MÖ
         </a>
-        <a href="javascript:void(0)" class="simple-text logo-normal " id="minimizeSidebar">
+        <a href="javascript:void(0)" class="simple-text logo-normal text-center" id="minimizeSidebar">
             @if( isset(auth()->user()->company->logo) )
-                <img src="{{ Storage::disk('public')->exists(auth()->user()->company->logo) ? Storage::disk('public')->url(auth()->user()->company->logo) : asset('assets/img/faces/avatar.jpg') }}" width="35" height="35"/>
+                <img src="{{ Storage::disk('public')->exists(auth()->user()->company->logo) ? Storage::disk('public')->url(auth()->user()->company->logo) : asset('assets/img/faces/avatar.jpg') }}" width="50" height="50"/>
             @else
                 {{__('header.project_title')}}
             @endif

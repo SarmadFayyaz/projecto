@@ -440,7 +440,7 @@
 
                                 <div class="col-12">
 
-                                    <div class="card scroll-bar m-0" style="height:61vh;">
+                                    <div class="card scroll-bar m-0" style="height:57vh;">
                                         <!-- <div class="card-header card-header-success card-header-icon">
                                             <div class="card-icon">
                                                 <i class="material-icons"></i>
@@ -531,7 +531,7 @@
                     <div class="row mt-5">
 
                         <div class="col-md-9 pr-md-1">
-                            <div class="card scroll-bar mb-0 mt-3" style="height:86vh;">
+                            <div class="card scroll-bar mb-0 mt-3" style="height:76vh;">
                                 <!-- <div class="card-header card-header-success card-header-icon">
                                 <div class="card-icon">
                                     <i class="material-icons"></i>

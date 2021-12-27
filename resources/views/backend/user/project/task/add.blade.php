@@ -13,7 +13,7 @@
             <form action="" method="post" id="addNewTaskForm">
                 @csrf
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
-                <div class="modal-body card-body scroll-bar" style="height: 63vh;overflow: auto;">
+                <div class="modal-body card-body" style="height: 63vh;overflow: auto;">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group @error('name') has-danger @enderror">

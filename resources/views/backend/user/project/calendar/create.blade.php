@@ -10,7 +10,7 @@
                 </div>
             </div>
 
-            <div class="modal-body card-body scroll-bar">
+            <div class="modal-body card-body">
                 <form method="POST" id="createEventForm">
                     @csrf
                     <input type="hidden" name="project_id" value="{{ $project->id }}">

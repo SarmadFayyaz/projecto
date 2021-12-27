@@ -28,6 +28,9 @@
 <div class="modal-body pt-0">
 
     <input type="hidden" class="form-control" id="task_id" name="task_id" value="{{ $task->id }}">
+    <div class="task_finish_date">
+        {{ $task->end_date }}
+    </div>
     <div class="row">
         <div class="col-md-4">
             <div class="row">

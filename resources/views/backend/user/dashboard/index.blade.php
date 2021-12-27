@@ -466,6 +466,8 @@
             var calendarEl = document.getElementById('fullCalendarEvents');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
+
+                contentHeight: 'auto',
                 headerToolbar: {
                     left: 'title',
                     center: 'dayGridMonth,timeGridWeek,timeGridDay',
@@ -533,65 +535,66 @@
             $("#createEventForm").submit(function (e) {
                 e.preventDefault();
 
-                $('#createEventModal .selectpicker').selectpicker('refresh');
-                {{--form_data = new FormData(this);--}}
-                {{--$.ajax({--}}
-                {{--    url: '{{ route('event.store') }}',--}}
-                {{--    type: "post",--}}
-                {{--    data: form_data,--}}
-                {{--    processData: false,--}}
-                {{--    contentType: false,--}}
-                {{--    dataType: 'json',--}}
-                {{--    success: function (result) {--}}
-                {{--        if (result.event.type == 1) {--}}
-                {{--            eventData = {--}}
-                {{--                id: result.event.id,--}}
-                {{--                title: result.event.title,--}}
-                {{--                type: result.event.type,--}}
-                {{--                start: result.event.start_date + 'T' + result.event.start_time,--}}
-                {{--                end: result.event.end_date + 'T' + result.event.end_time,--}}
-                {{--                editable: true,--}}
-                {{--                startEditable: true,--}}
-                {{--                durationEditable: true,--}}
-                {{--                classNames: 'text-center bg-' + result.event.project.color,--}}
-                {{--                backgroundColor: getProjectBackground(result.event.project.color),--}}
-                {{--            };--}}
-                {{--        } else {--}}
-                {{--            eventData = {--}}
-                {{--                id: result.event.id,--}}
-                {{--                title: result.event.title,--}}
-                {{--                type: result.event.type,--}}
-                {{--                daysOfWeek: JSON.parse(result.event.days_of_week),--}}
-                {{--                groupId: result.event.id,--}}
-                {{--                startTime: result.event.start_time,--}}
-                {{--                endTime: result.event.end_time,--}}
-                {{--                startRecur: result.event.start_date,--}}
-                {{--                endRecur: result.event.end_date,--}}
-                {{--                classNames: 'text-center bg-' + result.event.project.color,--}}
-                {{--                backgroundColor: getProjectBackground(result.event.project.color),--}}
-                {{--            };--}}
-                {{--        }--}}
-                {{--        calendar.addEvent(eventData);--}}
-                {{--        toastr.success(result.success);--}}
-                {{--        $('#createEventModal .title').val('').closest('.form-group').removeClass('is-filled');--}}
+                form_data = new FormData(this);
+                $.ajax({
+                    url: '{{ route('event.store') }}',
+                    type: "post",
+                    data: form_data,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.event.type == 1) {
+                            eventData = {
+                                id: result.event.id,
+                                title: result.event.title,
+                                type: result.event.type,
+                                start: result.event.start_date + 'T' + result.event.start_time,
+                                end: result.event.end_date + 'T' + result.event.end_time,
+                                editable: true,
+                                startEditable: true,
+                                durationEditable: true,
+                                classNames: 'text-center bg-' + result.event.project.color,
+                                backgroundColor: getProjectBackground(result.event.project.color),
+                            };
+                        } else {
+                            eventData = {
+                                id: result.event.id,
+                                title: result.event.title,
+                                type: result.event.type,
+                                daysOfWeek: JSON.parse(result.event.days_of_week),
+                                groupId: result.event.id,
+                                startTime: result.event.start_time,
+                                endTime: result.event.end_time,
+                                startRecur: result.event.start_date,
+                                endRecur: result.event.end_date,
+                                classNames: 'text-center bg-' + result.event.project.color,
+                                backgroundColor: getProjectBackground(result.event.project.color),
+                            };
+                        }
+                        calendar.addEvent(eventData);
+                        toastr.success(result.success);
+                        $('#createEventModal .title').val('').closest('.form-group').removeClass('is-filled');
+                        // $('#createEventForm .project_id').selectpicker('deselectAll');
+                        $('#createEventForm .user_id').selectpicker('deselectAll');
+                        // $('#createEventForm .event_type').selectpicker('deselectAll');
+                        $('#createEventForm .days_of_week').selectpicker('deselectAll');
 
-                {{--        $('#createEventModal').find('.selectpicker').removeAttr('selected').selectpicker('refresh');--}}
-
-                {{--        // $('#createEventModal .project_id').val('').selectpicker('refresh');--}}
-                {{--        // $('#createEventModal .user_id').val('').selectpicker('refresh');--}}
-                {{--        // $('#createEventModal .event_type').val('').selectpicker('refresh');--}}
-                {{--        // $('#createEventModal .days_of_week').val('').selectpicker('refresh');--}}
-                {{--        $('#createEventModal').modal('hide');--}}
-                {{--    },--}}
-                {{--    error: function (result) {--}}
-                {{--        if (result.status == 422) { // when status code is 422, it's a validation issue--}}
-                {{--            $.each(result.responseJSON.errors, function (i, error) {--}}
-                {{--                toastr.error(error);--}}
-                {{--            });--}}
-                {{--        } else--}}
-                {{--            toastr.error(result.error);--}}
-                {{--    }--}}
-                {{--});--}}
+                        // $('#createEventModal .project_id').val('').selectpicker('refresh');
+                        // $('#createEventModal .user_id').val('').selectpicker('refresh');
+                        // $('#createEventModal .event_type').val('').selectpicker('refresh');
+                        // $('#createEventModal .days_of_week').val('').selectpicker('refresh');
+                        $('#createEventModal').modal('hide');
+                    },
+                    error: function (result) {
+                        if (result.status == 422) { // when status code is 422, it's a validation issue
+                            $.each(result.responseJSON.errors, function (i, error) {
+                                toastr.error(error);
+                            });
+                        } else
+                            toastr.error(result.error);
+                    }
+                });
             });
 
             $(document).on('click', '.event_edit', function () {
