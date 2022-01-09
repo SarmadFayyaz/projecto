@@ -14,7 +14,7 @@
                                 <i class="fas fa-ellipsis-v"> </i>
                                 <div class="ripple-container"></div>
                             </button>
-                            <div class="dropdown-menu " aria-labelledby="dropdownMenuButton" x-placement="top-start" style="position: absolute; top: -228px; left: 1px; will-change: top, left;" x-out-of-boundaries="">
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{Storage::disk('public')->exists($document->file) ? Storage::disk('public')->url($document->file) : '#' }}" target="_blank">{{ __('header.view_details') }}</a>
                                 <a class="dropdown-item important_document" data-id="{{ $document->id }}" href="javascript:;">
                                     {{ ($document->important == 0) ? __('header.mark_important') : __('unmark_important')}}

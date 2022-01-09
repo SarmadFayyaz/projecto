@@ -19,7 +19,7 @@
                 @csrf
                 <div class="row justify-content-center">
                     <div class="col-sm-10 col-md-6 text-center">
-                        <textarea class="form-control" name="leave_comments" cols="30" rows="2" placeholder="{{ __('header.leave_comments') }}" required></textarea>
+                        <textarea class="form-control" name="comment" cols="30" rows="2" placeholder="{{ __('header.leave_comments') }}" required></textarea>
                     </div>
                 </div>
                 <div class="row justify-content-center">

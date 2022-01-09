@@ -158,7 +158,7 @@
             #taskDetailsModal .modal-xl {
                 max-width: 1050px !important;
                 /*left: 130px;*/
-                top: 250px
+                top: 140px
             }
         }
 
@@ -309,11 +309,11 @@
                                 <div class="p-2 text-left ">
                                     <div class="r justify-content-center">
                                         <div class="col-md-9">
-                                            @if(auth()->user()->hasRole('Boss'))
+{{--                                            @if(auth()->user()->hasRole('Boss'))--}}
                                             <p class="mb-1">
                                                 <a href="{{ route('method_o', [$project->id, 1]) }}" class="text-dark method_o"> {{ __('header.initial_project_meeting') }} </a>
                                             </p>
-                                            @endif
+{{--                                            @endif--}}
                                             <p class="mb-1">
                                                 <a href="{{ route('method_o', [$project->id, 2]) }}" class="text-dark method_o"> {{ __('header.work_rules') }} </a>
                                             </p>
@@ -347,12 +347,12 @@
                             <div class="accordion-body border">
                                 <div class="p-2 text-left" style="border-top: 1px solid #f0f0f0;">
                                     <p class="mb-1 ">
-                                        <select class="selectpicker col-10 task_note_finder" data-size="7" data-style="select-with-transition" data-container="body" title="{{ __('header.select_task') }}">
+                                        <select class="selectpicker col task_note_finder" data-size="7" data-style="select-with-transition" data-container="body" title="{{ __('header.select_task') }}">
                                             @foreach($project->task as $task)
                                                 <option value="{{ $task->id }}"> {{ $task->name }} </option>
                                             @endforeach
                                         </select>
-                                        <a href="javascript:;" class="text-dark pull-right mt-2 open_modal" data-modal-id="#taskNotesModal"><i class="fa fa-plus"></i></a>
+{{--                                        <a href="javascript:;" class="text-dark pull-right mt-2 open_modal" data-modal-id="#taskNotesModal"><i class="fa fa-plus"></i></a>--}}
                                     </p>
                                     <div class="task_note_div">
                                         @foreach($project->task as $task)
@@ -745,13 +745,13 @@
             $(document).on('click', '.done_task, .complete_task, .approve_task, .pending_task', function (e) {
                 e.preventDefault();
                 swal({
-                    title: 'Are you sure?',
+                    title: '{{ __('header.are_you_sure') }}',
                     type: 'info',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Cancel',
+                    confirmButtonText: '{{ __('header.yes') }}',
+                    cancelButtonText: '{{ __('header.cancel') }}',
                     confirmButtonClass: 'btn btn-success ml-1',
                     cancelButtonClass: 'btn btn-danger mr-1',
                     buttonsStyling: false,
@@ -809,13 +809,13 @@
                 e.preventDefault();
                 let $this = $(this);
                 swal({
-                    title: 'Are you sure?',
+                    title: '{{ __('header.are_you_sure') }}',
                     type: 'info',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Cancel',
+                    confirmButtonText: '{{ __('header.yes') }}',
+                    cancelButtonText: '{{ __('header.cancel') }}',
                     confirmButtonClass: 'btn btn-success ml-1',
                     cancelButtonClass: 'btn btn-danger mr-1',
                     buttonsStyling: false,
@@ -1046,7 +1046,7 @@
                         $('.spinner-overlay').attr('hidden', true);
                     },
                     error: function () {
-                        toastr.error('in error');
+                        toastr.error('{{ __('header.something_went_wrong') }}');
                         $('.spinner-overlay').attr('hidden', true);
                     }
                 });
@@ -1055,13 +1055,13 @@
                 e.preventDefault();
                 let $this = $(this);
                 swal({
-                    title: 'Are you sure?',
+                    title: '{{ __('header.are_you_sure') }}',
                     type: 'info',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Cancel',
+                    confirmButtonText: '{{ __('header.yes') }}',
+                    cancelButtonText: '{{ __('header.cancel') }}',
                     confirmButtonClass: 'btn btn-success ml-1',
                     cancelButtonClass: 'btn btn-danger mr-1',
                     buttonsStyling: false,
@@ -1080,7 +1080,7 @@
                                 $('.spinner-overlay').attr('hidden', true);
                             },
                             error: function () {
-                                toastr.error('in error');
+                                toastr.error('{{ __('header.something_went_wrong') }}');
                                 $('.spinner-overlay').attr('hidden', true);
                             }
                         });
@@ -1111,7 +1111,7 @@
                         $('.spinner-overlay').attr('hidden', true);
                     },
                     error: function () {
-                        toastr.error('in error');
+                        toastr.error('{{ __('header.something_went_wrong') }}');
                         $('.spinner-overlay').attr('hidden', true);
                     }
                 });
@@ -1324,7 +1324,7 @@
 
                 },
                 error: function () {
-                    toastr.error('in error');
+                    toastr.error('{{ __('header.something_went_wrong') }}');
                 }
             });
         });
@@ -1450,7 +1450,7 @@
                         success: function (result) {
                         },
                         error: function () {
-                            toastr.error('in error..')
+                            toastr.error('{{ __('header.something_went_wrong') }}')
                         }
                     })
                 }).catch(() => {
@@ -1473,7 +1473,7 @@
                     success: function (result) {
                     },
                     error: function () {
-                        toastr.error('in error..')
+                        toastr.error('{{ __('header.something_went_wrong') }}')
                     }
                 })
             }
@@ -1725,7 +1725,7 @@
                         });
                     } else
                         toastr.error(result.error);
-                    // toastr.error('in error');
+                    // toastr.error('{{ __('header.something_went_wrong') }}');
                 }
             });
         });
@@ -1906,7 +1906,7 @@
                 success: function (result) {
                 },
                 error: function () {
-                    toastr.error('in error');
+                    toastr.error('{{ __('header.something_went_wrong') }}');
                 }
             });
         }
@@ -1918,7 +1918,7 @@
                 success: function (result) {
                 },
                 error: function () {
-                    toastr.error('in error');
+                    toastr.error('{{ __('header.something_went_wrong') }}');
                 }
             });
         }
@@ -1931,7 +1931,7 @@
                     $('.task_note_add_ajax').attr('data-id', result.note_id).removeClass('task_note_add_ajax').addClass('task_note_edit_ajax')
                 },
                 error: function () {
-                    toastr.error('in error');
+                    toastr.error('{{ __('header.something_went_wrong') }}');
                 }
             });
         }

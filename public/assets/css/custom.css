@@ -1007,6 +1007,10 @@ Bounce
     font-size: 12px !important;
 }
 
+.fs-20 {
+    font-size: 20px !important;
+}
+
 .text-transform-none {
     text-transform: none !important;
 }

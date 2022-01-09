@@ -17,7 +17,7 @@
             <div class="modal-body mb-0 pb-0 pt-0">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="card scroll-bar mb-0 pb-0" style="height:65vh">
+                        <div class="card mb-0 pb-0" style="height:65vh">
                             <div class="text-center card-header">
                                 <label for="document_upload" class="m-0 btn btn-{{ $theme }}"> {{ __('header.upload_files') }}
                                     <input type="file" id="document_upload" name="file" style="display:none">

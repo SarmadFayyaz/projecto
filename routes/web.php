@@ -82,6 +82,7 @@ Route::group(['middleware' => ['admin', 'language'], 'prefix' => 'admin', 'as' =
     Route::get('profile', [AdminProfile::class, 'index'])->name('profile.index');
     Route::post('profile', [AdminProfile::class, 'update'])->name('profile.update');
 
+    Route::get('/support/get', [AdminSupport::class, 'get'])->name('support.get');
     Route::get('support', [AdminSupport::class, 'index'])->name('support.index');
     Route::resource('video', AdminVideo::class);
     Route::resource('faq', AdminFaq::class);

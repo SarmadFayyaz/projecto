@@ -5,8 +5,8 @@
 @section('style')
     <style>
         iframe {
-            display:block;
-            width:100%;
+            display: block;
+            width: 100%;
         }
     </style>
 @endsection
@@ -16,6 +16,52 @@
     <div class="content mt-md-5">
         <div class="container-fluid">
             <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="card-header card-header-info card-header-icon">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card-icon">
+                                        <i class="far fa-comments"></i>
+                                    </div>
+                                    <h4 class="card-title">{{__('header.user_comments')}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="toolbar">
+                                <!--        Here you can write extra buttons/actions for the toolbar              -->
+                            </div>
+                            <div class="material-datatables">
+                                <table id="datatables"
+                                       class="table table-striped table-no-bordered table-hover yajra_datatable"
+                                       cellspacing="0" width="100%" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>{{__('header.name')}}</th>
+                                        <th>{{__('header.email')}}</th>
+                                        <th>{{__('header.comment')}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>{{__('header.name')}}</th>
+                                        <th>{{__('header.email')}}</th>
+                                        <th>{{__('header.comment')}}</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                                <form action="#" method="post" id="delete_form">
+                                    @csrf
+                                    @method('delete')
+                                </form>
+                            </div>
+                        </div>
+                        <!-- end content-->
+                    </div>
+                </div>
                 <div class="col-sm-10 col-md-5">
                     <div class="card">
                         <div class="card-header card-header-info card-header-icon">
@@ -40,16 +86,21 @@
                                     <div class="card-collapse" id="video_div_{{ $video->id }}">
                                         <div class="card-header" role="tab" id="video_heading_{{ $video->id }}">
                                             <h5 class="mb-0">
-                                                <a data-toggle="collapse" href="#video_{{ $video->id }}" aria-expanded="false" aria-controls="video_{{ $video->id }}" class="collapsed">
+                                                <a data-toggle="collapse" href="#video_{{ $video->id }}"
+                                                   aria-expanded="false" aria-controls="video_{{ $video->id }}"
+                                                   class="collapsed">
                                                     {{ $video->name }} <i class="material-icons">keyboard_arrow_down</i>
                                                 </a>
                                             </h5>
                                         </div>
-                                        <div id="video_{{ $video->id }}" class="collapse" role="tabpanel" aria-labelledby="video_heading_{{ $video->id }}" data-parent="#video_repository" style="">
+                                        <div id="video_{{ $video->id }}" class="collapse" role="tabpanel"
+                                             aria-labelledby="video_heading_{{ $video->id }}"
+                                             data-parent="#video_repository" style="">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col text-right">
-                                                        <a href="{{ route('admin.video.destroy', $video->id) }}" class="btn btn-sm btn-danger" data-delete="delete">
+                                                        <a href="{{ route('admin.video.destroy', $video->id) }}"
+                                                           class="btn btn-sm btn-danger" data-delete="delete">
                                                             {{ __('header.delete') }}
                                                         </a>
                                                     </div>
@@ -96,16 +147,21 @@
                                     <div class="card-collapse" id="faq_div_{{ $faq->id }}">
                                         <div class="card-header" role="tab" id="faq_heading_{{ $faq->id }}">
                                             <h5 class="mb-0">
-                                                <a data-toggle="collapse" href="#faq_{{ $faq->id }}" aria-expanded="false" aria-controls="faq_{{ $faq->id }}" class="collapsed">
-                                                    {{ $faq->question }} <i class="material-icons">keyboard_arrow_down</i>
+                                                <a data-toggle="collapse" href="#faq_{{ $faq->id }}"
+                                                   aria-expanded="false" aria-controls="faq_{{ $faq->id }}"
+                                                   class="collapsed">
+                                                    {{ $faq->question }} <i
+                                                        class="material-icons">keyboard_arrow_down</i>
                                                 </a>
                                             </h5>
                                         </div>
-                                        <div id="faq_{{ $faq->id }}" class="collapse" role="tabpanel" aria-labelledby="faq_heading_{{ $faq->id }}" data-parent="#faq" style="">
+                                        <div id="faq_{{ $faq->id }}" class="collapse" role="tabpanel"
+                                             aria-labelledby="faq_heading_{{ $faq->id }}" data-parent="#faq" style="">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col text-right">
-                                                        <a href="{{ route('admin.faq.destroy', $faq->id) }}" class="btn btn-sm btn-danger" data-delete="delete">
+                                                        <a href="{{ route('admin.faq.destroy', $faq->id) }}"
+                                                           class="btn btn-sm btn-danger" data-delete="delete">
                                                             {{ __('header.delete') }}
                                                         </a>
                                                     </div>
@@ -146,19 +202,22 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="form-group col-sm-12">
-                                        <input type="text" class="form-control" name="name" placeholder="{{ __('header.name') }}" required>
+                                        <input type="text" class="form-control" name="name"
+                                               placeholder="{{ __('header.name') }}" required>
                                         <br>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-sm-12">
-                                        <input type="text" class="form-control" name="description" placeholder="{{ __('header.description') }}">
+                                        <input type="text" class="form-control" name="description"
+                                               placeholder="{{ __('header.description') }}">
                                         <br>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-sm-12">
-                                        <input type="text" class="form-control" name="link" placeholder="{{ __('header.embedded_link') }}" required>
+                                        <input type="text" class="form-control" name="link"
+                                               placeholder="{{ __('header.embedded_link') }}" required>
                                         <br>
                                     </div>
                                 </div>
@@ -175,7 +234,9 @@
                             </div>
 
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" id="creat-pre-text-btn" class="btn btn-primary btn-wd" value="Save" style="background: #36baaf;">Save</button>
+                                <button type="submit" id="creat-pre-text-btn" class="btn btn-primary btn-wd"
+                                        value="Save" style="background: #36baaf;">Save
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -203,13 +264,15 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="form-group col-sm-12">
-                                        <input type="text" class="form-control" name="question" placeholder="{{ __('header.question') }}" required>
+                                        <input type="text" class="form-control" name="question"
+                                               placeholder="{{ __('header.question') }}" required>
                                         <br>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-sm-12">
-                                        <input type="text" class="form-control" name="answer" placeholder="{{ __('header.answer') }}">
+                                        <input type="text" class="form-control" name="answer"
+                                               placeholder="{{ __('header.answer') }}">
                                         <br>
                                     </div>
                                 </div>
@@ -226,7 +289,9 @@
                             </div>
 
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" id="creat-pre-text-btn" class="btn btn-primary btn-wd" value="Save" style="background: #36baaf;">Save</button>
+                                <button type="submit" id="creat-pre-text-btn" class="btn btn-primary btn-wd"
+                                        value="Save" style="background: #36baaf;">Save
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -252,13 +317,13 @@
                 e.preventDefault();
                 let $this = $(this);
                 swal({
-                    title: 'Are you sure?',
+                    title: '{{ __('header.are_you_sure') }}',
                     type: 'info',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Cancel',
+                    confirmButtonText: '{{ __('header.yes') }}',
+                    cancelButtonText: '{{ __('header.cancel') }}',
                     confirmButtonClass: 'btn btn-success ml-1',
                     cancelButtonClass: 'btn btn-danger mr-1',
                     buttonsStyling: false,
@@ -277,6 +342,44 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('.yajra_datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                order: [],
+
+                destroy: true,
+
+                ajax: "{{ route('admin.support.get') }}",
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {data: 'comment', name: 'comment'},
+                ]
+            });
+
+            $(document).on('click', '.remove', function () {
+                let id = $(this).data('id');
+                Swal.fire({
+                    title: '{{ __('header.are_you_sure') }}',
+                    text: "{!! __('header.you_wont_be_able_to_revert_this_action') !!}",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: '{{ __('header.cancel') }}',
+                    confirmButtonText: '{{ __('header.yes') }}'
+                }).then((result) => {
+                    if (result.value) {
+                        $('#delete_form').attr('action', APP_URL + '/admin/company/' + id);
+                        $('#delete_form').submit();
+                    }
+                })
             });
         });
     </script>

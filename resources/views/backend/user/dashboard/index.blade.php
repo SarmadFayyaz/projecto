@@ -294,13 +294,13 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card card-calendar mb-0 scroll-bar" style="max-height: 45vh;">
+                    <div class="card card-calendar mb-0 scroll-bar" style="max-height: 60vh;">
                         <div class="card-body">
                             <div id="fullCalendarEvents"></div>
                         </div>
                     </div>
 
-                    <div class="card mb-0 mt-2 scroll-bar" style="overflow: auto;max-height: 38vh; min-height: 38vh;">
+                    <div class="card mb-0 mt-2 scroll-bar" style="overflow: auto;max-height: 23vh; min-height: 23vh;">
                         <div class="card-header mb-0 pb-0">
 
                             <h4 class="card-title mb-0 pb-0 font-weight-bold">{{ __('header.notes_finder') }}</h4>
@@ -736,13 +736,13 @@
                 e.preventDefault();
                 let $this = $(this);
                 swal({
-                    title: 'Are you sure?',
+                    title: '{{ __('header.are_you_sure') }}',
                     type: 'info',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Cancel',
+                    confirmButtonText: '{{ __('header.yes') }}',
+                    cancelButtonText: '{{ __('header.cancel') }}',
                     confirmButtonClass: 'btn btn-success ml-1',
                     cancelButtonClass: 'btn btn-danger mr-1',
                     buttonsStyling: false,

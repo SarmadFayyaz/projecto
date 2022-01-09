@@ -31,7 +31,7 @@ class Task extends Model {
         return $this->hasMany(TaskAction::class);
     }
     public function taskNote() {
-        return $this->hasMany(TaskNote::class);
+        return $this->hasMany(TaskNote::class)->where('user_id', auth()->user()->id);
     }
 
     public function addedBy() {

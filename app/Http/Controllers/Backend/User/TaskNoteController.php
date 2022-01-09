@@ -48,9 +48,12 @@ class TaskNoteController extends Controller {
             DB::beginTransaction();
             $data = $request->except('_token');
             $data['user_id'] = Auth::user()->id;
-            $task_note = TaskNote::create($data);
-            $project = Project::find($task_note->task->project_id);
-            broadcast(new TaskNoteEvent($project))->toOthers();
+            $task_note = TaskNote::updateOrCreate(
+                ['task_id' => $data['task_id'], 'user_id' => $data['user_id']],
+                ['notes' => $data['notes']]
+            );
+//            $project = Project::find($task_note->task->project_id);
+//            broadcast(new TaskNoteEvent($project))->toOthers();
             DB::commit();
             return response()->json(['success' => __('header.added_successfully', ['name' => __('header.note')]), 'note_id' => $task_note->id]);
         } catch (\Exception $e) {
@@ -98,7 +101,7 @@ class TaskNoteController extends Controller {
             $task_note->update($data);
             DB::commit();
             $project = Project::find($task_note->task->project_id);
-            broadcast(new TaskNoteEvent($project))->toOthers();
+//            broadcast(new TaskNoteEvent($project))->toOthers();
             return response()->json(
                 [
                     'success' => __('header.updated_successfully', ['name' => __('header.note')]),

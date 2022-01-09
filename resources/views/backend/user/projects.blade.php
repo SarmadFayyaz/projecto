@@ -362,13 +362,13 @@
             $(document).on('click', '.finish', function (e) {
                 e.preventDefault();
                 swal({
-                    title: 'Are you sure?',
+                    title: '{{ __('header.finish_project') }}',
                     type: 'info',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Cancel',
+                    confirmButtonText: '{{ __('header.yes') }}',
+                    cancelButtonText: '{{ __('header.cancel') }}',
                     confirmButtonClass: 'btn btn-success ml-1',
                     cancelButtonClass: 'btn btn-danger mr-1',
                     buttonsStyling: false,

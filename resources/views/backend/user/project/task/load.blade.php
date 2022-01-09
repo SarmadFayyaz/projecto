@@ -13,11 +13,11 @@
                             @if($task->addedBy->deleted_at == null)
                                 <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ $task->addedBy->first_name . ' ' . $task->addedBy->last_name }}">
                                     @if($task->addedBy->image == null)
-                                        <span class="p-1 rounded-circle bg-{{ $theme }} text-white">
+                                        <span class="p-2 rounded-circle bg-{{ $theme }} text-white fs-20">
                                             {{ucfirst(isset($task->addedBy->first_name[0]) ? $task->addedBy->first_name[0] : '') . ucfirst(isset($task->addedBy->last_name[0]) ? $task->addedBy->last_name[0] : '')}}
                                         </span>
                                     @else
-                                        <img width="25" height="25" class="rounded-circle"
+                                        <img width="40" height="40" class="rounded-circle"
                                              src="{{ Storage::disk('public')->exists($task->addedBy->image) ? Storage::disk('public')->url($task->addedBy->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                     @endif
                                     <span class="online_status_{{ $task->addedBy->id }} logged-{{ ($task->addedBy->isOnline()) ? 'in' : 'out' }}">●</span>
@@ -39,9 +39,9 @@
                                         <span class="bg-light rounded mr-2 position-relative appended_tooltip" rel="tooltip" title="{{ $user->user->first_name . ' ' . $user->user->last_name }}">
                                             @if($user->user->image == null)
                                                 <span
-                                                    class="p-1 rounded-circle bg-{{ $theme }} text-white"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
+                                                    class="p-2 rounded-circle bg-{{ $theme }} text-white fs-20"> {{ucfirst(isset($user->user->first_name[0]) ? $user->user->first_name[0] : '') . ucfirst(isset($user->user->last_name[0]) ? $user->user->last_name[0] : '')}} </span>
                                             @else
-                                                <img width="25" height="25" class="rounded-circle"
+                                                <img width="40" height="40" class="rounded-circle"
                                                      src="{{ Storage::disk('public')->exists($user->user->image) ? Storage::disk('public')->url($user->user->image) : asset('assets/img/faces/avatar.jpg') }}"/>
                                             @endif
                                             <span class="online_status_{{ $user->user->id }} logged-{{ ($user->user->isOnline()) ? 'in' : 'out' }}">●</span>

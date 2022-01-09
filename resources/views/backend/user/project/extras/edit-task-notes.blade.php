@@ -9,13 +9,14 @@
     @csrf
     @method('PUT')
     <input type="hidden" name="project_id" value="{{ $task_note->task->project_id }}">
+    <input type="hidden" name="task_id"  value="{{ $task_note->task_id }}">
     <div class="modal-body card-body scroll-bar">
-        <select class="selectpicker" data-size="7" data-style="select-with-transition" title="{{ __('header.select_task') }}" data-container="body" name="task_id" required>
-            <option disabled>{{ __('header.select_task') }}}</option>
-            @foreach($tasks as $task)
-                <option value="{{ $task->id }}" {{ ($task_note->task_id == $task->id) ? 'selected' : '' }}> {{ $task->name }} </option>
-            @endforeach
-        </select>
+{{--        <select class="selectpicker" data-size="7" data-style="select-with-transition" title="{{ __('header.select_task') }}" data-container="body" name="task_id" required>--}}
+{{--            <option disabled>{{ __('header.select_task') }}}</option>--}}
+{{--            @foreach($tasks as $task)--}}
+{{--                <option value="{{ $task->id }}" {{ ($task_note->task_id == $task->id) ? 'selected' : '' }}> {{ $task->name }} </option>--}}
+{{--            @endforeach--}}
+{{--        </select>--}}
         <textarea class="form-control mt-3" name="notes" cols="30" rows="3" aria-placeholder="{{ __('header.add_notes') }}" required>{{ $task_note->notes }}</textarea>
 {{--        <input type="text" name="notes" placeholder="{{ __('header.edit_note') }}" required class="form-control mt-3" value="{{ $task_note->notes }}">--}}
     </div>

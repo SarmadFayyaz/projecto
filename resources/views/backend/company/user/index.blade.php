@@ -100,13 +100,14 @@
             $(document).on('click', '.remove', function () {
                 let id = $(this).data('id');
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: '{{ __('header.are_you_sure') }}',
+                    text: "{!! __('header.you_wont_be_able_to_revert_this_action') !!}",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    cancelButtonText: '{{ __('header.cancel') }}',
+                    confirmButtonText: '{{ __('header.yes') }}'
                 }).then((result) => {
                     if (result.value) {
                         $('#delete_form').attr('action', APP_URL + '/company/user/' + id);
